@@ -22,10 +22,10 @@ const CLICKBANK_OFFERS: ClickBankOffer[] = [
   {
     name: 'Numerologist',
     nickname: 'numerology',
-    url: 'https://video.numerologist.com/mesl_v1.5/aff-dt.php?utm_source=YOUR_AFFILIATE_ID&utm_medium=affiliate&cbhopvendor=numerology&hop=YOUR_AFFILIATE_ID',
-    apv: 10.34,
-    epc: 0.12,
-    conversionRate: 1.19,
+    url: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff',
+    apv: 12.06,
+    epc: 0.21,
+    conversionRate: 1.79,
     description: 'Get your personalized numerology reading with dynamically-generated VSL',
     category: 'numerology'
   },

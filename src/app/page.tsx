@@ -31,7 +31,9 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md mx-auto sm:max-w-none">
               <Link
-                href="/calculator"
+                href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-10 rounded-full font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/20 text-center"
               >
                 Get Your Reading
@@ -104,10 +106,12 @@ export default function HomePage() {
             Get personalized readings based on your angel numbers and life path
           </p>
           <Link
-            href="/calculator"
+            href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-8 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/10"
           >
-            Calculate Your Life Path →
+            Get Full Personalized Reading →
           </Link>
         </div>
       </section>

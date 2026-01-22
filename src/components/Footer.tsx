@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Logo } from './Logo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -18,7 +19,7 @@ export default function Footer() {
       links: [
         { name: 'Life Path Calculator', href: '/calculator' },
         { name: 'Daily Predictions', href: '/' },
-        { name: 'Personalized Reading', href: '/calculator' },
+          { name: 'Personalized Reading', href: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff' },
       ],
     },
     {
@@ -38,9 +39,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-                <span className="text-zinc-950 font-bold text-xl">S</span>
-              </div>
+              <Logo size={40} />
               <span className="text-xl font-bold bg-gradient-to-r from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tight">
                 Spirit Numeral
               </span>
