@@ -90,10 +90,10 @@ export default function Footer() {
           <p className="text-zinc-500 text-xs text-center md:text-left">
             © {currentYear} Spirit Numeral. All rights reserved.
           </p>
-          <div className="flex space-x-6">
-            <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
-              Privacy
-            </Link>
+            <div className="flex space-x-6">
+              <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
+                Privacy
+              </Link>
             <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
               Terms
             </Link>
