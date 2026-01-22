@@ -1,0 +1,144 @@
+import { getPSEOData, getAllAngelNumberSlugs, generateAngelNumberTitle, generateAngelNumberDescription } from '@/lib/utils/pseo';
+import { generateAllSchemas } from '@/lib/utils/schema';
+import FAQ from '@/components/FAQ';
+import { Metadata } from 'next';
+
+export async function generateStaticParams() {
+  const numbers = getAllAngelNumberSlugs();
+  return numbers.map((number) => ({
+    number: number,
+  }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+  const { number } = await params;
+  const data = getPSEOData('angel-number', number);
+  
+  if (!data) {
+    return { title: 'Angel Number Not Found' };
+  }
+
+  const title = generateAngelNumberTitle(parseInt(number), 'why-seeing');
+  const description = generateAngelNumberDescription(parseInt(number), data, 'why-seeing');
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+    },
+  };
+}
+
+export default async function WhyAmISeeingPage({ params }: { params: Promise<{ number: string }> }) {
+  const { number } = await params;
+  const data = getPSEOData('angel-number', number) as any;
+
+  if (!data || !('number' in data)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-zinc-400">
+        Angel number not found.
+      </div>
+    );
+  }
+
+  const schemas = generateAllSchemas(data);
+  const faqs = [
+    {
+      question: `Why do I keep seeing ${number}?`,
+      answer: data.why_seeing || `Angel number ${number} appears when your angels want to send you a specific message about your current life path and spiritual journey.`
+    },
+    {
+      question: `What should I do when I see ${number}?`,
+      answer: data.what_to_do || `When you see ${number}, take a moment to reflect on your thoughts and intentions. Your angels are guiding you.`
+    },
+    {
+      question: `Is ${number} a good sign?`,
+      answer: `Yes! Angel number ${number} is a positive message from your angels. ${data.meaning}`
+    },
+    {
+      question: `What does ${number} mean for my relationships?`,
+      answer: data.love || `Angel number ${number} has significant meaning for your love life and relationships.`
+    },
+    {
+      question: `How often do people see ${number}?`,
+      answer: `Many people report seeing angel number ${number} during times of spiritual growth and life transitions. You're not alone in this experience.`
+    }
+  ];
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.faq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+      />
+      
+      <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
+        <div className="max-w-4xl mx-auto space-y-12">
+          <header className="text-center space-y-4">
+            <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-sm font-medium mb-4">
+              Why Am I Seeing This Number?
+            </div>
+            <h1 className="text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter">
+              Why Do I Keep Seeing {number}?
+            </h1>
+            <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+              {data.why_seeing || `You're seeing ${number} because your angels are trying to communicate with you.`}
+            </p>
+          </header>
+
+          <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20 shadow-2xl">
+            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">The Spiritual Meaning</h2>
+            <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
+              {data.meaning}
+            </p>
+            
+            {data.misconception && (
+              <div className="mt-6 p-6 rounded-xl bg-zinc-900/50 border border-zinc-800">
+                <h3 className="text-xl font-semibold text-amber-400 mb-3">Important to Know</h3>
+                <p className="text-zinc-300 leading-relaxed">{data.misconception}</p>
+              </div>
+            )}
+          </section>
+
+          <section className="grid gap-6 md:grid-cols-2">
+            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
+              <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                What You Should Do
+              </h2>
+              <p className="text-zinc-300 leading-relaxed">{data.what_to_do || `When you see ${number}, take it as a sign to focus on your spiritual growth and trust the process.`}</p>
+            </div>
+            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
+              <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                Love & Relationships
+              </h2>
+              <p className="text-zinc-300 leading-relaxed">{data.love || `Angel number ${number} has special significance for your love life and relationships.`}</p>
+            </div>
+          </section>
+
+          <FAQ faqs={faqs} title="Common Questions About Seeing This Number" />
+
+          <footer className="pt-8 pb-16">
+            <div className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02]">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+              <a
+                href={`/meaning/angel-number/${number}`}
+                className="block w-full bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black"
+              >
+                Read Full Meaning of {number} →
+              </a>
+            </div>
+          </footer>
+        </div>
+      </main>
+    </>
+  );
+}

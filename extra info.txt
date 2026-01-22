@@ -1,0 +1,21 @@
+do i need supabase for this, yet?
+
+Called 2 tools
+Short answer: No.
+
+For a programmatic SEO (pSEO) site of this size (under 200 pages), using the local spirituality-dataset.json file is actually better than using Supabase.
+
+Why you don't need it yet:
+Speed: Next.js can read that JSON file in milliseconds during the build process. This makes your pages "static," meaning they load almost instantly for users and Google.
+Zero Maintenance: You don't have to worry about database connections, migrations, or API latency.
+SEO Advantage: Static pages are generally easier for Google to crawl and index quickly compared to pages that have to "fetch" data from a database every time they load.
+When should you add Supabase?
+Only consider Supabase if you want to add "interactive" features later, such as:
+
+User Accounts: Allowing people to "Save" their reading.
+Dynamic Comments: A section where people can discuss their life paths.
+Personalization: If you ask for a user's name and birthday and want to store it to show them a custom dashboard.
+Current Path:
+You are currently set up for Static Site Generation (SSG). This is the "gold standard" for pSEO because it creates 183 ultra-fast HTML files.
+
+Ready to start building the dynamic page templates that use this JSON data? Switch to Agent mode using the dropdown at the bottom left.

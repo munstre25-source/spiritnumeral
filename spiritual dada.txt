@@ -1,0 +1,188 @@
+{
+  "angel_numbers": [
+    {
+      "number": 111,
+      "meaning": "New beginnings and manifestation. Your thoughts are manifesting rapidly.",
+      "love": "Twin flame awakening. Focus your intentions on the love you want to attract.",
+      "career": "New opportunities are arriving. Launch your ideas now.",
+      "twin_flame": "Soulmate alignment and spiritual union.",
+      "2026_prediction": "A year of radical self-initiation and leadership in your spiritual community.",
+      "lucky_color": "Gold",
+      "chakra": "Crown"
+    },
+    {
+      "number": 222,
+      "meaning": "Balance, trust, and harmony. Everything is working out as it should.",
+      "love": "Relationships are stabilizing. Have patience with your partner or twin flame.",
+      "career": "Partnerships and teamwork are key to your success right now.",
+      "twin_flame": "Harmony and union. Trust the divine timing of your connection.",
+      "2026_prediction": "Deepening of emotional bonds and collaborative financial ventures.",
+      "lucky_color": "White",
+      "chakra": "Sacral"
+    },
+    {
+      "number": 333,
+      "meaning": "Creativity, growth, and divine protection. Your spirit guides are near.",
+      "love": "Twin flame support is abundant. Express your soul's mission through love.",
+      "career": "Pursue your creative purpose. Your unique voice is your greatest asset.",
+      "twin_flame": "Soul mission alignment. You are supported in your joint purpose.",
+      "2026_prediction": "Expansion of creative projects and public recognition for your spiritual work.",
+      "lucky_color": "Yellow",
+      "chakra": "Solar Plexus"
+    },
+    {
+      "number": 444,
+      "meaning": "Protection, stability, and being on the right path. You are surrounded by angels.",
+      "love": "Secure and stable bonds. Your twin flame connection has a strong foundation.",
+      "career": "Build steadily. Your hard work is being supported by the universe.",
+      "twin_flame": "Strong foundation and mutual protection.",
+      "2026_prediction": "Financial security and establishing long-term roots in your career.",
+      "lucky_color": "Green",
+      "chakra": "Heart"
+    },
+    {
+      "number": 555,
+      "meaning": "Significant change and transformation. Huge shifts are coming your way.",
+      "love": "Twin flame shifts. Release old patterns to make room for new love dynamics.",
+      "career": "Major career pivots. Embrace the change as it leads to greater freedom.",
+      "twin_flame": "Major shifts and releasing the old to welcome the new.",
+      "2026_prediction": "Travel and adventure related to your spiritual calling.",
+      "lucky_color": "Blue",
+      "chakra": "Throat"
+    },
+    {
+      "number": 666,
+      "meaning": "Rebalance and focus on self-care. Shift your focus from material to spiritual.",
+      "love": "Reflect on your attachments and ensure you are nurturing your own soul.",
+      "career": "Shift focus away from obsessive material goals. Seek purpose over profit.",
+      "twin_flame": "Inner healing and self-love are required before union.",
+      "2026_prediction": "A period of deep internal healing and family reconciliation.",
+      "lucky_color": "Indigo",
+      "chakra": "Third Eye"
+    },
+    {
+      "number": 777,
+      "meaning": "Spiritual awakening and divine luck. You are in perfect alignment.",
+      "love": "Use your inner wisdom to guide your heart. Love is evolving spiritually.",
+      "career": "Divine timing is at play. Your spiritual growth is leading to career success.",
+      "twin_flame": "Spiritual evolution and deep intuitive connection.",
+      "2026_prediction": "Mystical experiences and mastery of spiritual practices.",
+      "lucky_color": "Violet",
+      "chakra": "Crown"
+    },
+    {
+      "number": 888,
+      "meaning": "Abundance and karmic rewards. Financial and spiritual flow is increasing.",
+      "love": "Deeper commitments and karmic rewards in your relationships.",
+      "career": "Financial abundance is due. Your past efforts are paying off now.",
+      "twin_flame": "Abundance in connection and shared material success.",
+      "2026_prediction": "Manifesting significant wealth and influence through spiritual alignment.",
+      "lucky_color": "Rose",
+      "chakra": "Root"
+    },
+    {
+      "number": 999,
+      "meaning": "Completion and release. A major chapter of your life is closing.",
+      "love": "Ending cycles to make room for new, higher-frequency love.",
+      "career": "A career chapter is ending. Prepare to evolve into your next soul mission.",
+      "twin_flame": "Completion of a karmic cycle and transition to a new level of union.",
+      "2026_prediction": "Finalizing major life goals and starting a brand new 9-year cycle.",
+      "lucky_color": "Gold",
+      "chakra": "All"
+    }
+  ],
+  "life_paths": [
+    {
+      "path": 1,
+      "title": "The Leader",
+      "traits": "Independent, innovative, and pioneering.",
+      "love": "Needs space and independence. Attracts strong, admiring partners.",
+      "career": "Natural entrepreneur or pioneer. Excels in leadership roles.",
+      "challenge": "Stubbornness and potential isolation.",
+      "2026_outlook": "A year for starting new solo ventures and taking full control of your destiny."
+    },
+    {
+      "path": 2,
+      "title": "The Diplomat",
+      "traits": "Empathetic, harmonious, and cooperative.",
+      "love": "Nurturing and supportive partner. Seeks deep emotional connection.",
+      "career": "Excellent mediator, counselor, or diplomat. Thrives in partnerships.",
+      "challenge": "Self-doubt and over-pleasing others.",
+      "2026_outlook": "Focus on strengthening partnerships and resolving long-standing conflicts."
+    },
+    {
+      "path": 3,
+      "title": "The Creative",
+      "traits": "Joyful, expressive, and imaginative.",
+      "love": "Playful and social. Needs a partner who appreciates creativity.",
+      "career": "Artist, communicator, or entertainer. Success through expression.",
+      "challenge": "Distraction and tendency toward superficiality.",
+      "2026_outlook": "A massive year for creative breakthroughs and public self-expression."
+    },
+    {
+      "path": 4,
+      "title": "The Builder",
+      "traits": "Stable, disciplined, and practical.",
+      "love": "Loyal and reliable. Builds relationships on a solid foundation.",
+      "career": "Manager, builder, or organizer. Excels in structured environments.",
+      "challenge": "Rigidity and workaholism.",
+      "2026_outlook": "Year of financial consolidation and building a permanent home/base."
+    },
+    {
+      "path": 5,
+      "title": "The Adventurer",
+      "traits": "Adaptable, free-spirited, and curious.",
+      "love": "Exciting and passionate, but can be restless. Needs variety.",
+      "career": "Traveler, marketer, or freelancer. Thrives in changing environments.",
+      "challenge": "Commitment issues and impulsivity.",
+      "2026_outlook": "High energy for travel, exploration, and radical lifestyle changes."
+    },
+    {
+      "path": 6,
+      "title": "The Nurturer",
+      "traits": "Responsible, compassionate, and family-oriented.",
+      "love": "Deeply devoted and protective. The 'parent' of the group.",
+      "career": "Teacher, healer, or community leader. Success through service.",
+      "challenge": "Lack of boundaries and over-giving.",
+      "2026_outlook": "Focus on domestic harmony, community building, and healing others."
+    },
+    {
+      "path": 7,
+      "title": "The Seeker",
+      "traits": "Intuitive, analytical, and spiritual.",
+      "love": "Seeks deep, spiritual bonds. Can be private and reserved.",
+      "career": "Researcher, philosopher, or spiritual teacher. Needs quiet focus.",
+      "challenge": "Isolation and cynicism.",
+      "2026_outlook": "A year of profound spiritual realizations and solitude for study."
+    },
+    {
+      "path": 8,
+      "title": "The Achiever",
+      "traits": "Ambitious, powerful, and authoritative.",
+      "love": "Attracted to power and success. Wants a 'power couple' dynamic.",
+      "career": "CEO, investor, or entrepreneur. Focused on material success.",
+      "challenge": "Ego and materialism.",
+      "2026_outlook": "Massive financial expansion and assuming positions of high authority."
+    },
+    {
+      "path": 9,
+      "title": "The Humanitarian",
+      "traits": "Wise, selfless, and compassionate.",
+      "love": "Loves universally. Needs a partner who shares their ideals.",
+      "career": "Activist, artist, or spiritual guide. Focused on global impact.",
+      "challenge": "Difficulty letting go and feelings of martyrdom.",
+      "2026_outlook": "Completing major humanitarian projects and preparing for a new life phase."
+    }
+  ],
+  "pSEO_modifiers": [
+    "meaning",
+    "love",
+    "career",
+    "twin-flame",
+    "2026",
+    "birth-month",
+    "zodiac",
+    "compatibility",
+    "spirit-guides"
+  ]
+}
