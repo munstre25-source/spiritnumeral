@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function CalculatorPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 px-6 md:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
