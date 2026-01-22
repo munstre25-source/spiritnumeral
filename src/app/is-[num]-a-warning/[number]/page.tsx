@@ -6,11 +6,12 @@ import { Metadata } from 'next';
 export async function generateStaticParams() {
   const numbers = getAllAngelNumberSlugs();
   return numbers.map((number) => ({
+    num: number,
     number: number,
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ num: string; number: string }> }): Promise<Metadata> {
   const { number } = await params;
   const data = getPSEOData('angel-number', number);
   
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
   };
 }
 
-export default async function IsWarningPage({ params }: { params: Promise<{ number: string }> }) {
+export default async function IsWarningPage({ params }: { params: Promise<{ num: string; number: string }> }) {
   const { number } = await params;
   const data = getPSEOData('angel-number', number) as any;
 
