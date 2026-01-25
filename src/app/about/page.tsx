@@ -1,14 +1,92 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
 
-export const metadata = {
-  title: 'About Spirit Numeral - Our Mission & Expertise',
-  description: 'Learn about the experts behind Spirit Numeral and our mission to provide accurate, spiritual guidance through numerology.',
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const pageUrl = `${siteUrl}/about`;
+const pageTitle = 'About Spirit Numeral - Our Mission & Expertise';
+const pageDescription = 'Learn about the experts behind Spirit Numeral and our mission to provide accurate, spiritual guidance through numerology.';
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: pageUrl,
+  },
 };
 
 export default function AboutPage() {
+  const faqItems = [
+    {
+      question: 'Who runs Spirit Numeral?',
+      answer: 'A team of numerologists and spiritual researchers who combine traditional wisdom with data-backed insights.',
+    },
+    {
+      question: 'How do you research number meanings?',
+      answer: 'We cross-reference classical numerology, historical symbolism, and community feedback before publishing guides.',
+    },
+    {
+      question: 'Are the readings personalized?',
+      answer: 'Yes. Our calculator uses your birth date to surface tailored life path insights and connects you to relevant guides.',
+    },
+  ];
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: pageTitle,
+        description: pageDescription,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}#website`,
+          url: siteUrl,
+          name: 'Spirit Numeral',
+        },
+        breadcrumb: {
+          '@id': `${pageUrl}#breadcrumb`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: siteUrl,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'About',
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+        url: pageUrl,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
+        <StructuredData id="about-structured-data" data={structuredData} />
         <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
           Our Spiritual Mission
         </h1>
@@ -56,6 +134,18 @@ export default function AboutPage() {
           >
             Contact Our Team
           </Link>
+        </div>
+
+        <div className="mt-16 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+          <dl className="space-y-6">
+            {faqItems.map((item) => (
+              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
+                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </main>

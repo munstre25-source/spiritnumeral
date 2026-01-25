@@ -1,5 +1,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
 
 // Dynamically import Calculator to avoid SSR issues
 const Calculator = dynamic(() => import('@/components/Calculator'), {
@@ -7,14 +9,85 @@ const Calculator = dynamic(() => import('@/components/Calculator'), {
   loading: () => <div className="text-zinc-400 text-center py-10">Loading calculator...</div>
 });
 
-export const metadata = {
-  title: 'Spiritual Numerology Guide - Angel Numbers & Life Path Meanings',
-  description: 'Discover the hidden meanings of angel numbers and your life path number. Get personalized predictions for love, career, and twin flame connections.',
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const pageTitle = 'Spiritual Numerology Guide - Angel Numbers & Life Path Meanings';
+const pageDescription = 'Discover the hidden meanings of angel numbers and your life path number. Get personalized predictions for love, career, and twin flame connections.';
+const homepageUrl = siteUrl;
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: homepageUrl,
+  },
 };
 
 export default function HomePage() {
+  const faqItems = [
+    {
+      question: 'How do I find my life path number?',
+      answer: 'Enter your full birth date in the calculator to reduce it to a single digit or master number (11, 22, 33) that describes your core path.',
+    },
+    {
+      question: 'What are angel numbers?',
+      answer: 'Angel numbers are repeating number sequences like 111 or 222 that carry spiritual messages about your next steps.',
+    },
+    {
+      question: 'Can numerology help relationships?',
+      answer: 'Yes. Understanding your life path and recurring angel numbers can reveal patterns that improve communication and timing in love.',
+    },
+  ];
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${homepageUrl}#webpage`,
+        url: homepageUrl,
+        name: pageTitle,
+        description: pageDescription,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}#website`,
+          url: siteUrl,
+          name: 'Spirit Numeral',
+        },
+        breadcrumb: {
+          '@id': `${homepageUrl}#breadcrumb`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${homepageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: homepageUrl,
+          },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+        url: homepageUrl,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <StructuredData id="home-structured-data" data={structuredData} />
+
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/50 via-zinc-900 to-zinc-950"></div>
@@ -113,6 +186,20 @@ export default function HomePage() {
           >
             Get Full Personalized Reading →
           </Link>
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 pb-20">
+        <div className="p-8 md:p-12 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+          <h2 className="text-3xl font-bold mb-8 text-amber-300 text-center">Frequently Asked Questions</h2>
+          <dl className="space-y-6">
+            {faqItems.map((faq) => (
+              <div key={faq.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-xl font-semibold text-zinc-100">{faq.question}</dt>
+                <dd className="text-zinc-300 leading-relaxed mt-2">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
     </main>

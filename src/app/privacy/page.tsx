@@ -1,12 +1,91 @@
-export const metadata = {
-  title: 'Privacy Policy - Spirit Numeral',
-  description: 'Learn how Spirit Numeral protects your data and privacy.',
+import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const pageUrl = `${siteUrl}/privacy`;
+const pageTitle = 'Privacy Policy - Spirit Numeral';
+const pageDescription = 'Learn how Spirit Numeral protects your data and privacy.';
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: pageUrl,
+  },
 };
 
 export default function PrivacyPage() {
+  const faqItems = [
+    {
+      question: 'Do you store my birth date?',
+      answer: 'Birth dates are used for calculations and are not stored unless you opt in to an account or newsletter.',
+    },
+    {
+      question: 'Do you sell personal data?',
+      answer: 'No. We do not sell your data to third parties.',
+    },
+    {
+      question: 'How can I contact you about privacy?',
+      answer: 'Reach us via guidance@spiritnumeral.com for any privacy-related questions.',
+    },
+  ];
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: pageTitle,
+        description: pageDescription,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}#website`,
+          url: siteUrl,
+          name: 'Spirit Numeral',
+        },
+        breadcrumb: {
+          '@id': `${pageUrl}#breadcrumb`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: siteUrl,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Privacy Policy',
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+        url: pageUrl,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">
       <div className="max-w-3xl mx-auto prose prose-invert prose-amber">
+        <StructuredData id="privacy-structured-data" data={structuredData} />
         <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
           Privacy Policy
         </h1>
@@ -37,6 +116,18 @@ export default function PrivacyPage() {
           <p>
             We use cookies to improve your experience on our site, analyze traffic, and remember your preferences.
           </p>
+        </section>
+
+        <section className="mt-12 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800 not-prose">
+          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+          <dl className="space-y-6">
+            {faqItems.map((item) => (
+              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
+                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </div>
     </main>

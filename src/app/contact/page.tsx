@@ -1,12 +1,91 @@
-export const metadata = {
-  title: 'Contact Spirit Numeral - Connect with Our Spiritual Experts',
-  description: 'Have a question about an angel number or your life path? Contact the Spirit Numeral team for guidance.',
+import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const pageUrl = `${siteUrl}/contact`;
+const pageTitle = 'Contact Spirit Numeral - Connect with Our Spiritual Experts';
+const pageDescription = 'Have a question about an angel number or your life path? Contact the Spirit Numeral team for guidance.';
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: pageUrl,
+  },
 };
 
 export default function ContactPage() {
+  const faqItems = [
+    {
+      question: 'How long until I hear back?',
+      answer: 'We typically respond within 24-48 hours, Monday through Friday.',
+    },
+    {
+      question: 'Can you interpret a specific angel number?',
+      answer: 'Yes. Share the number and context, and we will point you to the best guidance or create a personalized reply.',
+    },
+    {
+      question: 'Do you store my birth date?',
+      answer: 'Birth dates entered in the calculator are used for calculations only and are not stored unless you opt into messaging.',
+    },
+  ];
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ContactPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: pageTitle,
+        description: pageDescription,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}#website`,
+          url: siteUrl,
+          name: 'Spirit Numeral',
+        },
+        breadcrumb: {
+          '@id': `${pageUrl}#breadcrumb`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: siteUrl,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Contact',
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+        url: pageUrl,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
+        <StructuredData id="contact-structured-data" data={structuredData} />
         <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
           Connect With Us
         </h1>
@@ -65,6 +144,18 @@ export default function ContactPage() {
               Send Message
             </button>
           </form>
+        </div>
+
+        <div className="mt-16 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+          <dl className="space-y-6">
+            {faqItems.map((item) => (
+              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
+                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </main>
