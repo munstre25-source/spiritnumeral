@@ -63,7 +63,7 @@ node generate-dataset.js
 4. Set up environment variables:
 ```bash
 # .env.local
-NEXT_PUBLIC_SITE_URL=https://yoursite.com
+NEXT_PUBLIC_SITE_URL=https://spiritnumeral.com
 NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
 ```
 

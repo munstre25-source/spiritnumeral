@@ -11,7 +11,7 @@ export const dynamic = 'force-static';
  * - All life path pages
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
   const now = new Date();
   
   const sitemap: MetadataRoute.Sitemap = [];

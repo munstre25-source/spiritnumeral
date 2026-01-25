@@ -110,10 +110,10 @@ Each includes:
 ## Next Steps for Deployment
 
 1. **Environment Setup**:
-   ```bash
-   NEXT_PUBLIC_SITE_URL=https://yoursite.com
-   NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
-   ```
+```bash
+NEXT_PUBLIC_SITE_URL=https://spiritnumeral.com
+NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
+```
 
 2. **Generate Dataset** (if needed):
    ```bash
@@ -133,8 +133,8 @@ Each includes:
 5. **Deploy to Vercel** (or preferred platform)
 
 6. **Submit Sitemap**:
-   - Go to Google Search Console
-   - Submit: `https://yoursite.com/sitemap.xml`
+- Go to Google Search Console
+- Submit: `https://spiritnumeral.com/sitemap.xml`
 
 ## Key Features Implemented
 
