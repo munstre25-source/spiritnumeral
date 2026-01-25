@@ -45,7 +45,6 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
     );
   }
 
-  const schemas = generateAllSchemas(data);
   const faqs = [
     {
       question: `What does ${number} mean for twin flames?`,
@@ -68,6 +67,20 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
       answer: `During twin flame separation, ${number} often appears as a message of hope, healing, and the importance of inner work before reunion.`
     }
   ];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const pagePath = `/${number}-twin-flame/${number}`;
+  const schemas = generateAllSchemas(data, {
+    baseUrl: siteUrl,
+    path: pagePath,
+    breadcrumbTrail: [
+      { name: 'Home', url: siteUrl },
+      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
+      { name: `${number} Twin Flame Meaning`, url: `${siteUrl}${pagePath}` },
+    ],
+    title: `Angel Number ${number} Twin Flame Meaning & 2026 Reunion Signs`,
+    description: data.twin_flame || data.meaning || `Discover what angel number ${number} means for your twin flame connection.`,
+    faqOverride: faqs,
+  });
 
   return (
     <>
@@ -78,6 +91,10 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
       
       <main className="min-h-screen bg-zinc-950 text-zinc-100 p-8 font-sans">

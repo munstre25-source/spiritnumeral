@@ -3,6 +3,9 @@
  * Generates FAQ and Article schema for better Google search visibility
  */
 
+const DEFAULT_SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+
 interface FAQItem {
   question: string;
   answer: string;
@@ -15,11 +18,15 @@ interface ArticleData {
   datePublished?: string;
   dateModified?: string;
   image?: string;
+  mainEntityOfPage?: string;
 }
 
 interface AngelNumberData {
-  number: number;
-  meaning: string;
+  number?: number;
+  path?: number | string;
+  title?: string;
+  traits?: string;
+  meaning?: string;
   love?: string;
   career?: string;
   twin_flame?: string;
@@ -62,6 +69,7 @@ export function generateArticleSchema(data: ArticleData): object {
     },
     "datePublished": data.datePublished || new Date().toISOString(),
     "dateModified": data.dateModified || new Date().toISOString(),
+    ...(data.mainEntityOfPage && { "mainEntityOfPage": data.mainEntityOfPage }),
     ...(data.image && {
       "image": {
         "@type": "ImageObject",
@@ -147,28 +155,56 @@ export function generateDefaultFAQs(data: AngelNumberData): FAQItem[] {
  */
 export function generateAllSchemas(
   data: AngelNumberData,
-  baseUrl: string = "https://yoursite.com"
+  options: {
+    baseUrl?: string;
+    path?: string;
+    breadcrumbTrail?: Array<{ name: string; url?: string }>;
+    title?: string;
+    description?: string;
+    faqOverride?: FAQItem[];
+    image?: string;
+  } = {}
 ): {
   faq: object;
   article: object;
   breadcrumb: object;
 } {
-  const pageUrl = `${baseUrl}/meaning/angel-number/${data.number}`;
-  const faqs = generateDefaultFAQs(data);
+  const baseUrl = (options.baseUrl || DEFAULT_SITE_URL).replace(/\/$/, "");
+  const identifier = data.number ?? data.path ?? 'page';
+  const path = options.path || `/meaning/angel-number/${identifier}`;
+  const pageUrl = `${baseUrl}${path}`;
+  const faqs = options.faqOverride || generateDefaultFAQs(data as any);
+
+  const articleTitle =
+    options.title ||
+    `Angel Number ${identifier} Meaning: 2026 Predictions for Love & Career`;
+
+  const articleDescription =
+    options.description ||
+    `Discover the hidden spiritual meaning of angel number ${identifier}. ${data.meaning || data.traits || ''} Learn how it affects your twin flame union and career in 2026.`;
+
+  const defaultTrail: Array<{ name: string; url: string }> = [
+    { name: "Home", url: baseUrl },
+    { name: "Angel Numbers", url: `${baseUrl}/meaning/angel-number` },
+    { name: `Angel Number ${identifier}`, url: pageUrl }
+  ];
+
+  const breadcrumb = options.breadcrumbTrail?.map((item, index, arr) => ({
+    name: item.name,
+    url: item.url || `${baseUrl}${index === arr.length - 1 ? path : ""}`
+  })) || defaultTrail;
 
   return {
     faq: generateFAQSchema(faqs),
     article: generateArticleSchema({
-      title: `Angel Number ${data.number} Meaning: 2026 Predictions for Love & Career`,
-      description: `Discover the hidden spiritual meaning of angel number ${data.number}. ${data.meaning} Learn how it affects your twin flame union and career in 2026.`,
+      title: articleTitle,
+      description: articleDescription,
       datePublished: new Date().toISOString(),
-      dateModified: new Date().toISOString()
+      dateModified: new Date().toISOString(),
+      image: options.image,
+      mainEntityOfPage: pageUrl
     }),
-    breadcrumb: generateBreadcrumbSchema([
-      { name: "Home", url: baseUrl },
-      { name: "Angel Numbers", url: `${baseUrl}/angel-numbers` },
-      { name: `Angel Number ${data.number}`, url: pageUrl }
-    ])
+    breadcrumb: generateBreadcrumbSchema(breadcrumb)
   };
 }
 

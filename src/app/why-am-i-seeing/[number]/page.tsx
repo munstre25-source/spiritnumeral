@@ -44,7 +44,6 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
     );
   }
 
-  const schemas = generateAllSchemas(data);
   const faqs = [
     {
       question: `Why do I keep seeing ${number}?`,
@@ -67,6 +66,20 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
       answer: `Many people report seeing angel number ${number} during times of spiritual growth and life transitions. You're not alone in this experience.`
     }
   ];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const pagePath = `/why-am-i-seeing/${number}`;
+  const schemas = generateAllSchemas(data, {
+    baseUrl: siteUrl,
+    path: pagePath,
+    breadcrumbTrail: [
+      { name: 'Home', url: siteUrl },
+      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
+      { name: `Why am I seeing ${number}?`, url: `${siteUrl}${pagePath}` },
+    ],
+    title: `Why Do I Keep Seeing ${number}? Angel Number Meaning`,
+    description: data.meaning || data.why_seeing || `Discover why angel number ${number} keeps appearing and what it means for you.`,
+    faqOverride: faqs,
+  });
 
   return (
     <>
@@ -77,6 +90,10 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
       
       <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">

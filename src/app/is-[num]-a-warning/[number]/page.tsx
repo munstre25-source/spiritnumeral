@@ -45,7 +45,6 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
     );
   }
 
-  const schemas = generateAllSchemas(data);
   const isActuallyWarning = parseInt(number) === 666; // Only 666 might be perceived as warning
   
   const faqs = [
@@ -72,6 +71,20 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
       answer: `Angel number ${number} is always a positive message. Your angels only send loving, supportive guidance through these numbers.`
     }
   ];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const pagePath = `/is-${number}-a-warning/${number}`;
+  const schemas = generateAllSchemas(data, {
+    baseUrl: siteUrl,
+    path: pagePath,
+    breadcrumbTrail: [
+      { name: 'Home', url: siteUrl },
+      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
+      { name: `${number} Warning Meaning`, url: `${siteUrl}${pagePath}` },
+    ],
+    title: `Is ${number} a Warning? True Angel Number Meaning`,
+    description: data.meaning || `Understand why angel number ${number} is not a warning and what it really means.`,
+    faqOverride: faqs,
+  });
 
   return (
     <>
@@ -82,6 +95,10 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
       
       <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">

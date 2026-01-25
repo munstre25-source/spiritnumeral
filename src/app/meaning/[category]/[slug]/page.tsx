@@ -23,6 +23,14 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     ? `Discover the hidden spiritual meaning of ${data.title || `Life Path ${data.path}`}. ${data.traits || ''} Learn how it affects your relationships and career path.`
     : `Discover the hidden spiritual meaning of angel number ${data.number}. ${data.meaning || ''} Learn how it affects your twin flame union and career path.`;
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const pagePath = `/meaning/${category}/${slug}`;
+  const breadcrumbTrail = [
+    { name: 'Home', url: siteUrl },
+    { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: `${siteUrl}/meaning/${category}` },
+    { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: `${siteUrl}${pagePath}` },
+  ];
+
   return {
     title,
     description,
@@ -30,6 +38,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       title,
       description,
       type: 'article',
+    },
+    alternates: {
+      canonical: `${siteUrl}${pagePath}`,
     },
   };
 }
@@ -47,7 +58,6 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
   }
 
   const isLifePath = category === 'life-path';
-  const schemas = isLifePath ? null : generateAllSchemas(data);
   const faqs = isLifePath 
     ? [
         {
@@ -72,6 +82,24 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
         }
       ]
     : generateDefaultFAQs(data);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const pagePath = `/meaning/${category}/${slug}`;
+  const schemas = generateAllSchemas(data, {
+    baseUrl: siteUrl,
+    path: pagePath,
+    breadcrumbTrail: [
+      { name: 'Home', url: siteUrl },
+      { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: `${siteUrl}/meaning/${category}` },
+      { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: `${siteUrl}${pagePath}` },
+    ],
+    title: isLifePath 
+      ? `${data.title || `Life Path ${data.path}`} Meaning: Personalized Predictions for Love & Career`
+      : `Angel Number ${data.number} Meaning: Personalized Predictions for Love & Career`,
+    description: isLifePath
+      ? `Discover the hidden spiritual meaning of ${data.title || `Life Path ${data.path}`}. ${data.traits || ''} Learn how it affects your relationships and career path.`
+      : `Discover the hidden spiritual meaning of angel number ${data.number}. ${data.meaning || ''} Learn how it affects your twin flame union and career path.`,
+    faqOverride: faqs,
+  });
 
   // Determine ClickBank category
   const clickbankCategory = isLifePath ? 'life-path' : 'numerology';
@@ -79,7 +107,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
 
   return (
     <>
-      {!isLifePath && schemas && (
+      {schemas && (
         <>
           <script
             type="application/ld+json"
@@ -88,6 +116,10 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
           />
         </>
       )}
