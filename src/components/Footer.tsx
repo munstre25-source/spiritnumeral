@@ -8,8 +8,8 @@ export default function Footer() {
     {
       title: 'Meanings',
       links: [
-        { name: 'Angel Numbers', href: '/meaning/angel-number/111' },
-        { name: 'Life Path Numbers', href: '/meaning/life-path/life-path-1' },
+        { name: 'Angel Numbers', href: '/meaning/angel-number' },
+        { name: 'Life Path Numbers', href: '/meaning/life-path' },
         { name: 'Twin Flame Numbers', href: '/111-twin-flame' },
         { name: 'Spiritual Warnings', href: '/is-111-a-warning' },
       ],

@@ -31,6 +31,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   });
 
+  sitemap.push({
+    url: `${baseUrl}/meaning/life-path`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.9,
+  });
+  sitemap.push({
+    url: `${baseUrl}/meaning/angel-number`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.9,
+  });
+
   // Get all angel numbers and life paths
   const allSlugs = getAllPSEOSlugs();
   const allAngelNumbers = getAllAngelNumberSlugs();
