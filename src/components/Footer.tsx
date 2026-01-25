@@ -8,6 +8,7 @@ export default function Footer() {
     {
       title: 'Meanings',
       links: [
+        { name: 'Meaning Hub', href: '/meaning' },
         { name: 'Angel Numbers', href: '/meaning/angel-number' },
         { name: 'Life Path Numbers', href: '/meaning/life-path' },
         { name: 'Twin Flame Numbers', href: '/111-twin-flame' },

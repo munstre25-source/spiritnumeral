@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   });
   sitemap.push({
+    url: `${baseUrl}/meaning`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.9,
+  });
+  sitemap.push({
     url: `${baseUrl}/meaning/angel-number`,
     lastModified: now,
     changeFrequency: 'weekly',

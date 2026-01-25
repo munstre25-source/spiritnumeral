@@ -112,7 +112,7 @@ Each includes:
 1. **Environment Setup**:
 ```bash
 NEXT_PUBLIC_SITE_URL=https://spiritnumeral.com
-NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
+NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=
 ```
 
 2. **Generate Dataset** (if needed):

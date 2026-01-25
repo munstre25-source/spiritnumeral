@@ -38,6 +38,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Calculator', href: '/calculator' },
+    { name: 'Meanings', href: '/meaning' },
     { name: 'Angel Numbers', href: '/meaning/angel-number' },
     { name: 'Life Path', href: '/meaning/life-path' },
   ];
