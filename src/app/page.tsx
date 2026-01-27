@@ -10,8 +10,8 @@ const Calculator = dynamic(() => import('@/components/Calculator'), {
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageTitle = 'Spiritual Numerology Guide - Angel Numbers & Life Path Meanings';
-const pageDescription = 'Discover the hidden meanings of angel numbers and your life path number. Get personalized predictions for love, career, and twin flame connections.';
+const pageTitle = 'Reveal Your Life Path Number - Personalized Numerology Reading';
+const pageDescription = 'Discover the exact number influencing your love, career, and spiritual growth — based on your birth date.';
 const homepageUrl = siteUrl;
 
 export const metadata: Metadata = {
@@ -93,10 +93,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/50 via-zinc-900 to-zinc-950"></div>
         <div className="relative max-w-7xl mx-auto px-6 pt-24 md:pt-48 pb-20 text-center">
           <h1 className="text-5xl md:text-8xl font-bold mb-6 bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter leading-tight">
-            Unlock Your Spiritual Path
+            Unlock the Hidden Number Behind Your Spiritual Path
           </h1>
           <p className="text-lg md:text-3xl text-zinc-400 mb-10 max-w-3xl mx-auto leading-relaxed px-4">
-            Discover the hidden meanings of angel numbers and your life path. Get personalized predictions for love, career, and spiritual growth.
+            Discover the exact number influencing your love, career, and spiritual growth — based on your birth date.
           </p>
           <div className="flex flex-col items-center gap-8">
             <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-amber-500/80 font-medium">
@@ -109,13 +109,13 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-10 rounded-full font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/20 text-center"
               >
-                Get Your Reading
+                Reveal Your Life Path Number
               </Link>
               <Link
                 href="#popular-numbers"
-                className="bg-zinc-900/50 border border-zinc-800 text-zinc-300 py-4 px-10 rounded-full font-bold text-lg hover:bg-zinc-800 transition-all text-center"
+                className="bg-zinc-950/60 border border-zinc-900 text-zinc-500 py-3.5 px-8 rounded-full font-semibold text-base hover:bg-zinc-900/70 transition-all text-center"
               >
-                Explore Angel Numbers
+                Browse Angel Numbers
               </Link>
             </div>
           </div>
@@ -173,10 +173,10 @@ export default function HomePage() {
       <section className="max-w-4xl mx-auto px-6 py-16 text-center">
         <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
-            Ready to Discover Your Predictions?
+            Ready to Reveal Your Life Path Number?
           </h2>
           <p className="text-lg md:text-xl text-zinc-400 mb-8">
-            Get personalized readings based on your angel numbers and life path
+            Get a personalized reading based on your birth date and hidden number.
           </p>
           <Link
             href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
@@ -184,7 +184,7 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="inline-block bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-8 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/10"
           >
-            Get Full Personalized Reading →
+            Reveal My Life Path Reading →
           </Link>
         </div>
       </section>

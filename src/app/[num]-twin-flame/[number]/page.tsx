@@ -77,7 +77,7 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
       { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
       { name: `${number} Twin Flame Meaning`, url: `${siteUrl}${pagePath}` },
     ],
-    title: `Angel Number ${number} Twin Flame Meaning & 2026 Reunion Signs`,
+    title: `Angel Number ${number} Twin Flame Meaning`,
     description: data.twin_flame || data.meaning || `Discover what angel number ${number} means for your twin flame connection.`,
     faqOverride: faqs,
   });
@@ -104,10 +104,13 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
               Twin Flame Guidance
             </div>
             <h1 className="text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter">
-              {number} Twin Flame Meaning
+              Angel Number {number} Twin Flame Meaning
             </h1>
+            <p className="text-sm uppercase tracking-[0.2em] text-amber-400/80">
+              Angel number {number} meaning for twin flames
+            </p>
             <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
-              Discover what angel number {number} means for your twin flame connection and 2026 reunion predictions
+              Discover what angel number {number} means for your twin flame connection.
             </p>
           </header>
 
@@ -129,14 +132,16 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
             <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
               <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                2026 Predictions
+                Reunion & Timing
               </h2>
-              <p className="text-zinc-300 leading-relaxed">{data["2026_prediction"] || `2026 holds significant developments for your twin flame journey.`}</p>
+              <p className="text-zinc-300 leading-relaxed">{data["2026_prediction"] || `Major developments are unfolding in your twin flame journey.`}</p>
             </div>
           </section>
 
           <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-            <h2 className="text-2xl font-bold mb-4 text-amber-400">The Core Meaning</h2>
+            <h2 className="text-2xl font-bold mb-4 text-amber-400">
+              Angel Number {number} Meaning
+            </h2>
             <p className="text-lg text-zinc-300 leading-relaxed mb-4">{data.meaning}</p>
             {data.love && (
               <div className="mt-4 p-4 rounded-xl bg-zinc-900/30 border border-zinc-800">
@@ -155,7 +160,7 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ num:
                 href={`/meaning/angel-number/${number}`}
                 className="block w-full bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black"
               >
-                Read Full Meaning of {number} →
+                Angel Number {number} Meaning →
               </a>
             </div>
           </footer>

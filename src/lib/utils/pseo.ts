@@ -53,16 +53,16 @@ export function generateAngelNumberTitle(number: number, modifier?: string): str
   const base = `Angel Number ${number} Meaning`;
   
   if (modifier === 'warning') {
-    return `Is ${number} a Warning? 2026 Meaning for Love & Career`;
+    return `Is Angel Number ${number} a Warning? Meaning for Love & Career`;
   }
   if (modifier === 'twin-flame') {
-    return `${number} Twin Flame Meaning: 2026 Reunion Predictions`;
+    return `Angel Number ${number} Twin Flame Meaning`;
   }
   if (modifier === 'why-seeing') {
-    return `Why Do I Keep Seeing ${number}? Spiritual Meaning Explained`;
+    return `Why Do I Keep Seeing ${number}? Meaning Explained`;
   }
   
-  return `${base}: 2026 Predictions for Love & Career`;
+  return `${base}: Love & Career Insights`;
 }
 
 /**
@@ -70,14 +70,14 @@ export function generateAngelNumberTitle(number: number, modifier?: string): str
  */
 export function generateAngelNumberDescription(number: number, data: any, modifier?: string): string {
   if (modifier === 'warning') {
-    return `Is angel number ${number} a warning sign? Discover the true spiritual meaning and what your angels are trying to tell you about love, career, and your twin flame connection in 2026.`;
+    return `Is angel number ${number} a warning sign? Discover the meaning and what it says about love, career, and your next steps.`;
   }
   if (modifier === 'twin-flame') {
-    return `What does angel number ${number} mean for twin flames? Learn about reunion signs, spiritual connection, and 2026 predictions for your twin flame journey.`;
+    return `What does angel number ${number} mean for twin flames? Learn about reunion signs and your connection.`;
   }
   if (modifier === 'why-seeing') {
-    return `Why do you keep seeing ${number}? Discover the hidden spiritual message your angels are sending and what it means for your life path, relationships, and 2026 journey.`;
+    return `Why do you keep seeing ${number}? Discover the message and what it means for your life path and relationships.`;
   }
   
-  return `Discover the hidden spiritual meaning of angel number ${number}. ${data?.meaning || ''} Learn how it affects your twin flame union and career in 2026.`;
+  return `Discover the meaning of angel number ${number}. ${data?.meaning || ''} Learn how it affects love, career, and twin flame energy.`;
 }

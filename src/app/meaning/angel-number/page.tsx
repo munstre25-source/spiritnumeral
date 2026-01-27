@@ -4,7 +4,7 @@ import dataset from '@/lib/data/spirituality-dataset.json';
 
 export const metadata: Metadata = {
   title: 'Angel Number Meanings | Spirit Numeral',
-  description: 'Browse the complete library of angel numbers with meanings for love, career, twin flames, and 2026 outlooks. Jump into any number for a detailed reading.',
+  description: 'Browse the complete library of angel numbers with meanings for love, career, twin flames, and year-ahead outlooks. Jump into any number for a detailed reading.',
 };
 
 const angelNumbers = dataset.angel_numbers;
@@ -53,7 +53,7 @@ export default function AngelNumberIndexPage() {
           Angel Number Library
         </div>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent">
-          Decode Any Angel Number
+          Angel Number Meanings (111-999)
         </h1>
         <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
           Explore every angel number from 111-999. Each card gives you the core guidance plus quick links to deep-dive meanings, “why am I seeing”, warnings, and twin flame insights.
@@ -89,8 +89,11 @@ export default function AngelNumberIndexPage() {
               </span>
             </div>
             <h2 className="text-lg md:text-xl font-semibold text-amber-50 leading-tight">
-              {item.meaning}
+              Angel Number {item.number} Meaning
             </h2>
+            <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
+              {item.meaning}
+            </p>
             <p className="text-sm text-zinc-300 leading-relaxed line-clamp-3">
               Love: {item.love}
             </p>
@@ -98,32 +101,32 @@ export default function AngelNumberIndexPage() {
               Career: {item.career}
             </p>
             <div className="text-xs text-zinc-400">
-              2026 Outlook: {item['2026_prediction']}
+              Outlook: {item['2026_prediction']}
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
               <Link
                 href={`/meaning/angel-number/${item.number}`}
                 className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
               >
-                Full meaning <span aria-hidden>→</span>
+                Angel {item.number} meaning <span aria-hidden>→</span>
               </Link>
               <Link
                 href={`/why-am-i-seeing/${item.number}`}
                 className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
               >
-                Why I&rsquo;m seeing
+                Why I&rsquo;m seeing {item.number}
               </Link>
               <Link
                 href={`/is-${item.number}-a-warning/${item.number}`}
                 className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
               >
-                Warning?
+                Is {item.number} a warning?
               </Link>
               <Link
                 href={`/${item.number}-twin-flame/${item.number}`}
                 className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
               >
-                Twin flame
+                {item.number} twin flame
               </Link>
             </div>
           </article>

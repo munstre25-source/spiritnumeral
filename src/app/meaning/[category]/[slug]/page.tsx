@@ -15,13 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   if (!data) return { title: 'Meaning Not Found' };
 
   const isLifePath = category === 'life-path';
-  const title = isLifePath 
-    ? `${data.title || `Life Path ${data.path}`} Meaning: Personalized Predictions for Love & Career`
-    : `Angel Number ${data.number} Meaning: Personalized Predictions for Love & Career`;
+  const subject = isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`;
+  const title = isLifePath
+    ? `${subject} Meaning: Personality, Love & Career Insights`
+    : `${subject} Meaning: Love, Twin Flame & Career`;
   
   const description = isLifePath
-    ? `Discover the hidden spiritual meaning of ${data.title || `Life Path ${data.path}`}. ${data.traits || ''} Learn how it affects your relationships and career path.`
-    : `Discover the hidden spiritual meaning of angel number ${data.number}. ${data.meaning || ''} Learn how it affects your twin flame union and career path.`;
+    ? `Discover the meaning of ${subject} for personality, love, and career. ${data.traits || ''}`
+    : `Discover the meaning of ${subject} for love, twin flame, and career. ${data.meaning || ''}`;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
   const pagePath = `/meaning/${category}/${slug}`;
@@ -58,6 +59,8 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
   }
 
   const isLifePath = category === 'life-path';
+  const subject = isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`;
+  const h1Text = `${subject} Meaning`;
   const faqs = isLifePath 
     ? [
         {
@@ -92,12 +95,12 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
       { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: `${siteUrl}/meaning/${category}` },
       { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: `${siteUrl}${pagePath}` },
     ],
-    title: isLifePath 
-      ? `${data.title || `Life Path ${data.path}`} Meaning: Personalized Predictions for Love & Career`
-      : `Angel Number ${data.number} Meaning: Personalized Predictions for Love & Career`,
+    title: isLifePath
+      ? `${subject} Meaning: Personality, Love & Career Insights`
+      : `${subject} Meaning: Love, Twin Flame & Career`,
     description: isLifePath
-      ? `Discover the hidden spiritual meaning of ${data.title || `Life Path ${data.path}`}. ${data.traits || ''} Learn how it affects your relationships and career path.`
-      : `Discover the hidden spiritual meaning of angel number ${data.number}. ${data.meaning || ''} Learn how it affects your twin flame union and career path.`,
+      ? `Discover the meaning of ${subject} for personality, love, and career. ${data.traits || ''}`
+      : `Discover the meaning of ${subject} for love, twin flame, and career. ${data.meaning || ''}`,
     faqOverride: faqs,
   });
 
@@ -131,7 +134,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
               {isLifePath ? 'Life Path Wisdom' : 'Angel Number Guidance'}
             </div>
             <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter leading-tight">
-              {data.number || data.title || `Life Path ${data.path}`}
+              {h1Text}
             </h1>
             <p className="text-lg md:text-2xl text-zinc-400 font-light max-w-xl mx-auto leading-relaxed">
               {data.meaning || data.traits}

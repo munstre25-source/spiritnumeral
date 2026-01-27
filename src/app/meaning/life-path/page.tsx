@@ -4,7 +4,7 @@ import dataset from '@/lib/data/spirituality-dataset.json';
 
 export const metadata: Metadata = {
   title: 'Life Path Meanings | Spirit Numeral',
-  description: 'Explore Life Path numbers 1-9 with meanings for love, career, and 2026 outlooks. Find your number and dive deeper into your spiritual blueprint.',
+  description: 'Explore Life Path numbers 1-9 with meanings for love, career, and year-ahead outlooks. Find your number and dive deeper into your spiritual blueprint.',
 };
 
 const lifePaths = dataset.life_paths;
@@ -53,7 +53,7 @@ export default function LifePathIndexPage() {
           Life Path Library
         </div>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent">
-          Decode Your Life Path Number
+          Life Path Meanings (1-9)
         </h1>
         <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
           Browse all nine Life Path numbers to understand your core traits, relationship style, career flow, challenges, and 2026 forecast. Click through for the full, personalized breakdown.
@@ -100,14 +100,14 @@ export default function LifePathIndexPage() {
               </div>
             </div>
             <p className="mt-4 text-zinc-400 text-sm leading-relaxed">
-              2026 Outlook: {path['2026_outlook']}
+              Outlook: {path['2026_outlook']}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href={`/meaning/life-path/life-path-${path.path}`}
                 className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-black font-semibold hover:bg-amber-400 transition"
               >
-                Read full meaning
+                Life Path {path.path} meaning
                 <span aria-hidden>→</span>
               </Link>
               <Link

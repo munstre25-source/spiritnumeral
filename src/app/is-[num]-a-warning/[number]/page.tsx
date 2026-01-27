@@ -81,8 +81,8 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
       { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
       { name: `${number} Warning Meaning`, url: `${siteUrl}${pagePath}` },
     ],
-    title: `Is ${number} a Warning? True Angel Number Meaning`,
-    description: data.meaning || `Understand why angel number ${number} is not a warning and what it really means.`,
+    title: `Is Angel Number ${number} a Warning? Meaning`,
+    description: data.misconception || data.meaning || `Understand what angel number ${number} means and why it is not a warning.`,
     faqOverride: faqs,
   });
 
@@ -108,8 +108,11 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
               Understanding Angel Numbers
             </div>
             <h1 className="text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter">
-              Is {number} a Warning?
+              Is Angel Number {number} a Warning?
             </h1>
+            <p className="text-sm uppercase tracking-[0.2em] text-amber-400/80">
+              Angel number {number} meaning explained
+            </p>
             <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
               {isActuallyWarning 
                 ? `No, ${number} is not a warning. Here's what it really means...`
@@ -126,7 +129,9 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
               </p>
             </div>
 
-            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">The True Meaning</h2>
+            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+              Angel Number {number} Meaning
+            </h2>
             <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
               {data.meaning}
             </p>
@@ -158,7 +163,7 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
                 href={`/meaning/angel-number/${number}`}
                 className="block w-full bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black"
               >
-                Read Full Meaning of {number} →
+                Angel Number {number} Meaning →
               </a>
             </div>
           </footer>

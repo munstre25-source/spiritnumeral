@@ -76,8 +76,8 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
       { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
       { name: `Why am I seeing ${number}?`, url: `${siteUrl}${pagePath}` },
     ],
-    title: `Why Do I Keep Seeing ${number}? Angel Number Meaning`,
-    description: data.meaning || data.why_seeing || `Discover why angel number ${number} keeps appearing and what it means for you.`,
+    title: `Why Do I Keep Seeing ${number}? Meaning & Message`,
+    description: data.why_seeing || data.meaning || `Discover why angel number ${number} keeps appearing and what it means for you.`,
     faqOverride: faqs,
   });
 
@@ -103,15 +103,20 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
               Why Am I Seeing This Number?
             </div>
             <h1 className="text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter">
-              Why Do I Keep Seeing {number}?
+              Why Do I Keep Seeing {number}? Meaning & Message
             </h1>
+            <p className="text-sm uppercase tracking-[0.2em] text-amber-400/80">
+              Angel number {number} meaning at a glance
+            </p>
             <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
               {data.why_seeing || `You're seeing ${number} because your angels are trying to communicate with you.`}
             </p>
           </header>
 
           <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20 shadow-2xl">
-            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">The Spiritual Meaning</h2>
+            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+              Angel Number {number} Meaning
+            </h2>
             <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
               {data.meaning}
             </p>
@@ -150,7 +155,7 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
                 href={`/meaning/angel-number/${number}`}
                 className="block w-full bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black"
               >
-                Read Full Meaning of {number} →
+                Angel Number {number} Meaning →
               </a>
             </div>
           </footer>

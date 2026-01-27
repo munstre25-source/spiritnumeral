@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     'Jump to any angel number or life path meaning. See top searched numbers, popular picks, and shortcuts to detailed meanings, why-you-keep-seeing pages, and twin flame insights.',
 };
 
-// Pulled from Google Search Console screenshot. We surface them prominently to catch existing demand.
-const gscTopQueries = [351, 186, 510, 599, 376, 725, 254];
+// Pulled from Google Search Console data export. We surface them prominently to catch existing demand.
+const gscTopQueries = [579, 532, 183, 480, 665, 774, 768, 610, 527, 371];
 // Evergreen popular numbers to round out the grid and avoid a thin list.
 const popularAnchors = [111, 222, 333, 444, 555, 777];
 
@@ -66,9 +66,9 @@ export default function MeaningHubPage() {
           <div className="text-sm uppercase tracking-[0.2em] text-amber-400 font-semibold mb-3">
             Angel Numbers
           </div>
-          <h2 className="text-2xl font-bold text-amber-50 mb-2">Full library (111-999)</h2>
+          <h2 className="text-2xl font-bold text-amber-50 mb-2">Angel number meanings (111-999)</h2>
           <p className="text-zinc-300 leading-relaxed mb-4">
-            Meanings, love, career, 2026 outlooks, warnings, and twin flame insights for every triple
+            Meanings, love, career, outlooks, warnings, and twin flame insights for every triple
             digit.
           </p>
           <div className="flex flex-wrap gap-2">
@@ -137,36 +137,41 @@ export default function MeaningHubPage() {
                     Angel Number
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-amber-50 leading-tight">{item.meaning}</h3>
+                <h3 className="text-lg font-semibold text-amber-50 leading-tight">
+                  Angel Number {item.number} Meaning
+                </h3>
+                <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
+                  {item.meaning}
+                </p>
                 <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">Love: {item.love}</p>
                 <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
                   Career: {item.career}
                 </p>
-                <div className="text-xs text-zinc-400">2026 Outlook: {item['2026_prediction']}</div>
+                <div className="text-xs text-zinc-400">Outlook: {item['2026_prediction']}</div>
                 <div className="flex flex-wrap gap-2 pt-1">
                   <Link
                     href={`/meaning/angel-number/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
                   >
-                    Full meaning <span aria-hidden>→</span>
+                    Angel {item.number} meaning <span aria-hidden>→</span>
                   </Link>
                   <Link
                     href={`/why-am-i-seeing/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Why I&apos;m seeing
+                    Why I&apos;m seeing {item.number}
                   </Link>
                   <Link
                     href={`/is-${item.number}-a-warning/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Warning?
+                    Is {item.number} a warning?
                   </Link>
                   <Link
                     href={`/${item.number}-twin-flame/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Twin flame
+                    {item.number} twin flame
                   </Link>
                 </div>
               </article>
@@ -195,36 +200,41 @@ export default function MeaningHubPage() {
                     Angel Number
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-amber-50 leading-tight">{item?.meaning}</h3>
+                <h3 className="text-lg font-semibold text-amber-50 leading-tight">
+                  Angel Number {item?.number} Meaning
+                </h3>
+                <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
+                  {item?.meaning}
+                </p>
                 <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">Love: {item?.love}</p>
                 <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
                   Career: {item?.career}
                 </p>
-                <div className="text-xs text-zinc-400">2026 Outlook: {item?.['2026_prediction']}</div>
+                <div className="text-xs text-zinc-400">Outlook: {item?.['2026_prediction']}</div>
                 <div className="flex flex-wrap gap-2 pt-1">
                   <Link
                     href={`/meaning/angel-number/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
                   >
-                    Full meaning <span aria-hidden>→</span>
+                    Angel {item?.number} meaning <span aria-hidden>→</span>
                   </Link>
                   <Link
                     href={`/why-am-i-seeing/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Why I&apos;m seeing
+                    Why I&apos;m seeing {item?.number}
                   </Link>
                   <Link
                     href={`/is-${item?.number}-a-warning/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Warning?
+                    Is {item?.number} a warning?
                   </Link>
                   <Link
                     href={`/${item?.number}-twin-flame/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
                   >
-                    Twin flame
+                    {item?.number} twin flame
                   </Link>
                 </div>
               </article>
