@@ -95,16 +95,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   });
 
-  // Blog posts
+  // Blog posts - get all from generated data
   const blogSlugs = [
-    'what-are-angel-numbers',
-    'seeing-1111-everywhere',
-    'calculate-life-path-number',
-    'master-numbers-11-22-33',
-    'angel-numbers-love',
-    'numerology-2026-predictions',
-    'difference-between-angel-numbers-life-path',
-    'why-seeing-same-number',
+    'angel-number-444-complete-guide',
+    'angel-number-111-manifestation',
+    'angel-number-222-balance-partnership',
+    'angel-number-333-creativity-ascended-masters',
+    'angel-number-555-change-transformation',
+    'angel-number-666-balance-not-evil',
+    'angel-number-777-spiritual-awakening',
+    'angel-number-888-abundance-infinity',
+    'angel-number-999-completion-ending',
+    'life-path-number-1-leader',
+    'life-path-number-7-seeker',
+    'how-to-calculate-life-path-number',
+    'numerology-compatibility-love-match',
+    'personal-year-number-2026',
+    'karmic-debt-numbers-13-14-16-19',
+    'twin-flame-numbers-signs',
+    'numerology-money-number',
+    'numerology-name-meaning',
+    'soul-urge-number-hearts-desire',
+    'repeating-numbers-what-they-mean',
+    'birthday-numerology-meaning',
+    'numerology-manifestation-techniques',
+    'numerology-career-guidance',
+    'numerology-health-wellness',
   ];
   blogSlugs.forEach(slug => {
     sitemapEntries.push({

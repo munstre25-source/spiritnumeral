@@ -2,94 +2,18 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { BLOG_POSTS, BLOG_CATEGORIES, getBlogPostsByCategory } from '@/lib/blog-data';
 
-// Blog posts - can be moved to CMS or database later
-const BLOG_POSTS = [
-    {
-        slug: 'what-are-angel-numbers',
-        title: 'What Are Angel Numbers? A Complete Beginner\'s Guide',
-        excerpt: 'Discover the mystical world of angel numbers and learn how the universe communicates with you through numerical patterns.',
-        category: 'Basics',
-        readTime: '8 min read',
-        date: '2026-01-15',
-        featured: true,
-    },
-    {
-        slug: 'seeing-1111-everywhere',
-        title: 'Why You Keep Seeing 1111 Everywhere',
-        excerpt: 'The spiritual significance of 1111 and what it means when this powerful number keeps appearing in your life.',
-        category: 'Angel Numbers',
-        readTime: '6 min read',
-        date: '2026-01-12',
-        featured: true,
-    },
-    {
-        slug: 'calculate-life-path-number',
-        title: 'How to Calculate Your Life Path Number (Step by Step)',
-        excerpt: 'Learn the exact method to calculate your life path number and understand what it reveals about your destiny.',
-        category: 'Life Path',
-        readTime: '5 min read',
-        date: '2026-01-10',
-        featured: false,
-    },
-    {
-        slug: 'master-numbers-11-22-33',
-        title: 'Master Numbers 11, 22, and 33: The Rare Life Paths',
-        excerpt: 'Explore the powerful meaning of master numbers and discover if you\'re one of the rare souls born with these paths.',
-        category: 'Life Path',
-        readTime: '10 min read',
-        date: '2026-01-08',
-        featured: true,
-    },
-    {
-        slug: 'angel-numbers-love',
-        title: 'Angel Numbers for Love: What They Mean for Your Relationships',
-        excerpt: 'From 222 to 666, learn which angel numbers carry messages about love, soulmates, and twin flames.',
-        category: 'Love',
-        readTime: '7 min read',
-        date: '2026-01-05',
-        featured: false,
-    },
-    {
-        slug: 'numerology-2026-predictions',
-        title: 'Numerology Predictions for 2026: Universal Year 1',
-        excerpt: '2026 is a Universal Year 1 in numerology. Discover what this fresh start energy means for you.',
-        category: 'Predictions',
-        readTime: '9 min read',
-        date: '2026-01-01',
-        featured: true,
-    },
-    {
-        slug: 'difference-between-angel-numbers-life-path',
-        title: 'Angel Numbers vs Life Path Numbers: What\'s the Difference?',
-        excerpt: 'Understanding the key differences between these two numerological concepts and how they work together.',
-        category: 'Basics',
-        readTime: '5 min read',
-        date: '2025-12-28',
-        featured: false,
-    },
-    {
-        slug: 'why-seeing-same-number',
-        title: 'Why Do I Keep Seeing the Same Number? 5 Spiritual Reasons',
-        excerpt: 'When numbers follow you everywhere, here\'s what the universe might be trying to tell you.',
-        category: 'Spirituality',
-        readTime: '6 min read',
-        date: '2025-12-25',
-        featured: false,
-    },
-];
-
-const CATEGORIES = ['All', 'Basics', 'Angel Numbers', 'Life Path', 'Love', 'Predictions', 'Spirituality'];
-
-// Generate ItemList schema for blog
+// Generate schemas
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+
 const blogListSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'Spirit Numeral Numerology Blog',
-    description: 'Learn about numerology, angel numbers, life paths, and spiritual guidance.',
+    description: 'Expert guides on angel numbers, life path numbers, numerology compatibility, manifestation, and spiritual guidance.',
     url: `${baseUrl}/blog`,
-    blogPost: BLOG_POSTS.map((post, index) => ({
+    blogPost: BLOG_POSTS.slice(0, 20).map((post) => ({
         '@type': 'BlogPosting',
         headline: post.title,
         description: post.excerpt,
@@ -106,18 +30,8 @@ const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-        {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: baseUrl,
-        },
-        {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Blog',
-            item: `${baseUrl}/blog`,
-        },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
     ],
 };
 
@@ -127,53 +41,37 @@ const collectionSchema = {
     name: 'Numerology Blog - Spirit Numeral',
     description: 'Expert articles about angel numbers, life path numbers, and spiritual numerology.',
     url: `${baseUrl}/blog`,
-    breadcrumb: {
-        '@id': `${baseUrl}/blog#breadcrumb`,
-    },
 };
 
 export default function BlogPage() {
     const [selectedCategory, setSelectedCategory] = useState('All');
-
-    // Filter posts based on selected category
-    const filteredPosts = selectedCategory === 'All'
-        ? BLOG_POSTS
-        : BLOG_POSTS.filter(p => p.category === selectedCategory);
-
+    const filteredPosts = getBlogPostsByCategory(selectedCategory);
     const featuredPosts = filteredPosts.filter(p => p.featured).slice(0, 3);
     const recentPosts = filteredPosts.filter(p => !p.featured);
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
+
             <main className="min-h-screen pt-32 pb-20 px-6">
                 <div className="max-w-6xl mx-auto">
                     <header className="text-center mb-16">
                         <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
-                            Spiritual Insights
+                            {BLOG_POSTS.length} Expert Articles
                         </div>
                         <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-emerald-100 to-emerald-400 bg-clip-text text-transparent tracking-tighter mb-4">
                             Numerology Blog
                         </h1>
                         <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-                            Guides, insights, and deep dives into the world of numerology and angel numbers.
+                            Deep dive into angel numbers, life path meanings, manifestation, and spiritual guidance.
                         </p>
                     </header>
 
                     {/* Categories */}
                     <div className="flex flex-wrap justify-center gap-2 mb-12">
-                        {CATEGORIES.map(cat => (
+                        {BLOG_CATEGORIES.map(cat => (
                             <button
                                 key={cat}
                                 onClick={() => setSelectedCategory(cat)}
@@ -187,94 +85,112 @@ export default function BlogPage() {
                         ))}
                     </div>
 
-                    {/* Featured Posts */}
-                    <section className="mb-16">
-                        <h2 className="text-2xl font-bold text-white mb-6">Featured Articles</h2>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {featuredPosts.map((post, i) => (
-                                <Link
-                                    key={post.slug}
-                                    href={`/blog/${post.slug}`}
-                                    className={`group relative overflow-hidden rounded-3xl border border-zinc-800 hover:border-emerald-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                                        }`}
-                                >
-                                    <div className={`bg-gradient-to-br from-zinc-900 to-zinc-950 ${i === 0 ? 'p-8 md:p-12' : 'p-6'}`}>
-                                        <div className="flex items-center gap-2 mb-4">
-                                            <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
-                                                {post.category}
-                                            </span>
-                                            <span className="text-zinc-600 text-xs">{post.readTime}</span>
-                                        </div>
-                                        <h3 className={`font-bold text-white group-hover:text-emerald-400 transition-colors ${i === 0 ? 'text-2xl md:text-3xl mb-4' : 'text-lg mb-2'
-                                            }`}>
-                                            {post.title}
-                                        </h3>
-                                        <p className={`text-zinc-400 ${i === 0 ? 'text-base' : 'text-sm line-clamp-2'}`}>
-                                            {post.excerpt}
-                                        </p>
-                                        {i === 0 && (
-                                            <div className="mt-6 text-emerald-400 font-medium group-hover:translate-x-2 transition-transform">
-                                                Read Article →
-                                            </div>
-                                        )}
-                                    </div>
-                                </Link>
-                            ))}
+                    {/* Stats Bar */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
+                            <div className="text-2xl font-bold text-amber-400">{BLOG_POSTS.filter(p => p.category === 'Angel Numbers').length}</div>
+                            <div className="text-xs text-zinc-500">Angel Numbers</div>
                         </div>
-                    </section>
-
-                    {/* Recent Posts */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-white mb-6">Recent Articles</h2>
-                        <div className="space-y-4">
-                            {recentPosts.map(post => (
-                                <Link
-                                    key={post.slug}
-                                    href={`/blog/${post.slug}`}
-                                    className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-emerald-500/50 transition-all"
-                                >
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs">
-                                                {post.category}
-                                            </span>
-                                            <span className="text-zinc-600 text-xs">{post.readTime}</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                                            {post.title}
-                                        </h3>
-                                        <p className="text-zinc-500 text-sm mt-1 line-clamp-1">{post.excerpt}</p>
-                                    </div>
-                                    <div className="text-zinc-600 text-sm md:text-right">
-                                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                    </div>
-                                </Link>
-                            ))}
+                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
+                            <div className="text-2xl font-bold text-purple-400">{BLOG_POSTS.filter(p => p.category === 'Life Path').length}</div>
+                            <div className="text-xs text-zinc-500">Life Paths</div>
                         </div>
-                    </section>
+                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
+                            <div className="text-2xl font-bold text-pink-400">{BLOG_POSTS.filter(p => p.category === 'Love').length}</div>
+                            <div className="text-xs text-zinc-500">Love & Relationships</div>
+                        </div>
+                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
+                            <div className="text-2xl font-bold text-emerald-400">{BLOG_POSTS.length}</div>
+                            <div className="text-xs text-zinc-500">Total Articles</div>
+                        </div>
+                    </div>
 
-                    {/* Newsletter CTA */}
-                    <section className="mt-20 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-emerald-950/30 to-zinc-900 border border-emerald-500/20 text-center">
-                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                            Get Weekly Numerology Insights
-                        </h2>
-                        <p className="text-zinc-400 mb-6 max-w-lg mx-auto">
-                            Join thousands of spiritual seekers receiving our weekly angel number
-                            interpretations and numerology guides.
-                        </p>
-                        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="your@email.com"
-                                className="flex-1 bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-500"
-                            />
-                            <button
-                                type="submit"
-                                className="px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors"
+                    {/* Featured CTA */}
+                    <div className="mb-12 p-6 rounded-2xl bg-gradient-to-r from-amber-950/30 to-zinc-900 border border-amber-500/20">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h2 className="text-xl font-bold text-white mb-1">Discover Your Life Path Number</h2>
+                                <p className="text-zinc-400 text-sm">Get your personalized numerology reading based on your birth date</p>
+                            </div>
+                            <Link
+                                href="/calculator"
+                                className="shrink-0 px-6 py-3 rounded-full bg-amber-500 text-black font-bold hover:bg-amber-400 transition-colors"
                             >
-                                Subscribe
-                            </button>
-                        </form>
+                                Calculate Free →
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Featured Posts */}
+                    {featuredPosts.length > 0 && (
+                        <section className="mb-16">
+                            <h2 className="text-2xl font-bold text-white mb-6">Featured Articles</h2>
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {featuredPosts.map((post, i) => (
+                                    <Link key={post.slug} href={`/blog/${post.slug}`}
+                                        className={`group relative overflow-hidden rounded-3xl border border-zinc-800 hover:border-emerald-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
+                                    >
+                                        <div className={`p-6 ${i === 0 ? 'md:p-10' : ''} bg-gradient-to-br from-emerald-950/30 to-zinc-900`}>
+                                            <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+                                                {post.category}
+                                            </span>
+                                            <h3 className={`font-bold text-white group-hover:text-emerald-400 transition-colors mb-3 ${i === 0 ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+                                                {post.title}
+                                            </h3>
+                                            <p className="text-zinc-400 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                                            <div className="flex items-center text-xs text-zinc-500 gap-4">
+                                                <span>{post.readTime}</span>
+                                                <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* All Posts */}
+                    <section>
+                        <h2 className="text-2xl font-bold text-white mb-6">
+                            {selectedCategory === 'All' ? 'All Articles' : selectedCategory}
+                            <span className="text-zinc-500 font-normal ml-2">({filteredPosts.length})</span>
+                        </h2>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {(selectedCategory === 'All' ? recentPosts : filteredPosts).map(post => (
+                                <Link key={post.slug} href={`/blog/${post.slug}`}
+                                    className="group p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/50 transition-all"
+                                >
+                                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs font-medium mb-3">
+                                        {post.category}
+                                    </span>
+                                    <h3 className="font-bold text-white group-hover:text-emerald-400 transition-colors mb-2 line-clamp-2">
+                                        {post.title}
+                                    </h3>
+                                    <p className="text-zinc-500 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                                    <div className="flex items-center text-xs text-zinc-600 gap-3">
+                                        <span>{post.readTime}</span>
+                                        <span>•</span>
+                                        <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Bottom CTA */}
+                    <section className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-indigo-950/30 to-zinc-900 border border-indigo-500/20 text-center">
+                        <h2 className="text-2xl font-bold text-white mb-3">Get Your Complete Numerology Reading</h2>
+                        <p className="text-zinc-400 mb-6 max-w-xl mx-auto">
+                            Discover your life path, destiny number, soul urge, and more with a personalized numerology analysis.
+                        </p>
+                        <a
+                            href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
+                            target="_blank"
+                            rel="noopener noreferrer sponsored"
+                            className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold hover:from-amber-400 hover:to-yellow-400 transition-all"
+                        >
+                            Get My Full Reading →
+                        </a>
                     </section>
                 </div>
             </main>
