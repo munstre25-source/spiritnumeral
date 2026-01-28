@@ -29,12 +29,23 @@ export function getPSEOData(category: string, slug: string) {
 
 export function getAllPSEOSlugs() {
   const paths: { category: string; slug: string }[] = [];
-  
+
   dataset.life_paths.forEach(p => {
     paths.push({ category: 'life-path', slug: `life-path-${p.path}` });
   });
-  
+
   return paths;
+}
+
+/**
+ * Get all angel numbers in range 0-2222 for sitemap
+ */
+export function getAngelNumberRange(): number[] {
+  const numbers: number[] = [];
+  for (let i = 0; i <= 2222; i++) {
+    numbers.push(i);
+  }
+  return numbers;
 }
 
 export function getAllAngelNumberSlugs(): string[] {
@@ -50,7 +61,7 @@ export function getAllLifePathSlugs(): string[] {
  */
 export function generateAngelNumberTitle(number: number, modifier?: string): string {
   const base = `Angel Number ${number} Meaning`;
-  
+
   if (modifier === 'warning') {
     return `Is Angel Number ${number} a Warning? Meaning for Love & Career`;
   }
@@ -60,7 +71,7 @@ export function generateAngelNumberTitle(number: number, modifier?: string): str
   if (modifier === 'why-seeing') {
     return `Why Do I Keep Seeing ${number}? Meaning Explained`;
   }
-  
+
   return `${base}: Love & Career Insights`;
 }
 
@@ -77,6 +88,6 @@ export function generateAngelNumberDescription(number: number, data: any, modifi
   if (modifier === 'why-seeing') {
     return `Why do you keep seeing ${number}? Discover the message and what it means for your life path and relationships.`;
   }
-  
+
   return `Discover the meaning of angel number ${number}. ${data?.meaning || ''} Learn how it affects love, career, and twin flame energy.`;
 }
