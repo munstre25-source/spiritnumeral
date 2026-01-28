@@ -95,6 +95,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   });
 
+  // Category landing pages
+  [
+    '/twin-flame',
+    '/warning',
+    '/dreams',
+    '/breakup',
+    '/pregnancy',
+    '/soulmate',
+    '/money',
+  ].forEach((path) => {
+    sitemapEntries.push({
+      url: `${baseUrl}${path}`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    });
+  });
+
   // Blog posts - get all from generated data
   const blogSlugs = [
     'angel-number-444-complete-guide',
