@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
+import { DailyAngelNumber, AffirmationGenerator, CompatibilityTeaser } from '@/components/EngagementFeatures';
 
 // Dynamically import Calculator to avoid SSR issues
 const Calculator = dynamic(() => import('@/components/Calculator'), {
@@ -134,6 +135,17 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-6 py-12">
         <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-1 md:p-8 backdrop-blur-sm">
           <Calculator />
+        </div>
+      </section>
+
+      {/* Daily Angel Number & Engagement Section */}
+      <section className="max-w-6xl mx-auto px-6 py-12">
+        <div className="grid md:grid-cols-2 gap-6">
+          <DailyAngelNumber />
+          <div className="space-y-6">
+            <AffirmationGenerator />
+            <CompatibilityTeaser />
+          </div>
         </div>
       </section>
 

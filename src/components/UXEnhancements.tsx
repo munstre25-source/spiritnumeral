@@ -71,7 +71,30 @@ export function QuickActions({
     showNavigation?: boolean;
 }) {
     const [copied, setCopied] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     const pathname = usePathname();
+
+    useEffect(() => {
+        const stored = localStorage.getItem('savedAngelNumbers');
+        if (stored) {
+            const saved = JSON.parse(stored);
+            setIsSaved(saved.includes(number));
+        }
+    }, [number]);
+
+    const toggleSave = () => {
+        const stored = localStorage.getItem('savedAngelNumbers');
+        let saved: number[] = stored ? JSON.parse(stored) : [];
+
+        if (isSaved) {
+            saved = saved.filter(n => n !== number);
+        } else {
+            saved = [...saved, number].slice(-20); // Keep last 20
+        }
+
+        localStorage.setItem('savedAngelNumbers', JSON.stringify(saved));
+        setIsSaved(!isSaved);
+    };
 
     const shareUrl = typeof window !== 'undefined'
         ? window.location.href
@@ -95,7 +118,7 @@ export function QuickActions({
                     text: `Discover the spiritual meaning of angel number ${number}`,
                     url: shareUrl,
                 });
-            } catch (err) {
+            } catch {
                 handleCopy();
             }
         } else {
@@ -139,8 +162,23 @@ export function QuickActions({
                 </div>
             )}
 
-            {/* Share Actions */}
+            {/* Action Buttons */}
             <div className="flex items-center gap-2">
+                {/* Save Button */}
+                <button
+                    onClick={toggleSave}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all text-sm ${isSaved
+                            ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
+                            : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50'
+                        }`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    <span>{isSaved ? 'Saved' : 'Save'}</span>
+                </button>
+
+                {/* Share Button */}
                 <button
                     onClick={handleShare}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50 transition-all text-sm"
@@ -422,8 +460,8 @@ export function TableOfContents({
                         <a
                             href={`#${id}`}
                             className={`block text-sm transition-colors ${activeSection === id
-                                    ? 'text-amber-500 font-medium'
-                                    : 'text-zinc-500 hover:text-zinc-300'
+                                ? 'text-amber-500 font-medium'
+                                : 'text-zinc-500 hover:text-zinc-300'
                                 }`}
                         >
                             {title}
