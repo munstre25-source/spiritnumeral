@@ -610,6 +610,65 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     const cta = getClickBankCTA('numerology');
 
+    // Generate Article schema for rich results
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+    const articleUrl = `${baseUrl}/blog/${slug}`;
+
+    const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.excerpt,
+        image: `${baseUrl}/opengraph-image`,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: {
+            '@type': 'Organization',
+            name: 'Spirit Numeral',
+            url: baseUrl,
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Spirit Numeral',
+            url: baseUrl,
+            logo: {
+                '@type': 'ImageObject',
+                url: `${baseUrl}/opengraph-image`,
+            },
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': articleUrl,
+        },
+        articleSection: post.category,
+        keywords: post.relatedNumbers?.join(', ') || '',
+    };
+
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: baseUrl,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Blog',
+                item: `${baseUrl}/blog`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: post.title,
+                item: articleUrl,
+            },
+        ],
+    };
+
     // Simple markdown-like parsing
     const formatContent = (content: string) => {
         return content
@@ -635,68 +694,78 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     };
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
-            <article className="max-w-3xl mx-auto">
-                {/* Header */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Link href="/blog" className="text-zinc-500 hover:text-zinc-300 text-sm">
-                            ← Back to Blog
-                        </Link>
-                    </div>
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-medium">
-                            {post.category}
-                        </span>
-                        <span className="text-zinc-500 text-sm">{post.readTime}</span>
-                        <span className="text-zinc-600 text-sm">
-                            {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                        </span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
-                        {post.title}
-                    </h1>
-                    <p className="text-xl text-zinc-400">
-                        {post.excerpt}
-                    </p>
-                </header>
-
-                {/* Content */}
-                <div className="prose prose-invert max-w-none">
-                    {formatContent(post.content)}
-                </div>
-
-                {/* Related Numbers */}
-                {post.relatedNumbers && post.relatedNumbers.length > 0 && (
-                    <section className="mt-12 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                        <h3 className="text-lg font-bold text-white mb-4">Related Angel Numbers</h3>
-                        <div className="flex flex-wrap gap-3">
-                            {post.relatedNumbers.map(num => (
-                                <Link
-                                    key={num}
-                                    href={`/meaning/angel-number/${num}`}
-                                    className="px-4 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-amber-400 font-medium hover:border-amber-500/50 transition-colors"
-                                >
-                                    {num}
-                                </Link>
-                            ))}
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            <main className="min-h-screen pt-32 pb-20 px-6">
+                <article className="max-w-3xl mx-auto">
+                    {/* Header */}
+                    <header className="mb-12">
+                        <div className="flex items-center gap-3 mb-6">
+                            <Link href="/blog" className="text-zinc-500 hover:text-zinc-300 text-sm">
+                                ← Back to Blog
+                            </Link>
                         </div>
-                    </section>
-                )}
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-medium">
+                                {post.category}
+                            </span>
+                            <span className="text-zinc-500 text-sm">{post.readTime}</span>
+                            <span className="text-zinc-600 text-sm">
+                                {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                            </span>
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+                            {post.title}
+                        </h1>
+                        <p className="text-xl text-zinc-400">
+                            {post.excerpt}
+                        </p>
+                    </header>
 
-                {/* CTA */}
-                <section className="mt-12">
-                    <a
-                        href={cta.url}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored"
-                        className="group block p-8 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all text-center"
-                    >
-                        <div className="text-amber-400 font-bold text-xl mb-2">{cta.text}</div>
-                        <p className="text-zinc-500">{cta.secondaryText}</p>
-                    </a>
-                </section>
-            </article>
-        </main>
+                    {/* Content */}
+                    <div className="prose prose-invert max-w-none">
+                        {formatContent(post.content)}
+                    </div>
+
+                    {/* Related Numbers */}
+                    {post.relatedNumbers && post.relatedNumbers.length > 0 && (
+                        <section className="mt-12 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                            <h3 className="text-lg font-bold text-white mb-4">Related Angel Numbers</h3>
+                            <div className="flex flex-wrap gap-3">
+                                {post.relatedNumbers.map(num => (
+                                    <Link
+                                        key={num}
+                                        href={`/meaning/angel-number/${num}`}
+                                        className="px-4 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-amber-400 font-medium hover:border-amber-500/50 transition-colors"
+                                    >
+                                        {num}
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* CTA */}
+                    <section className="mt-12">
+                        <a
+                            href={cta.url}
+                            target="_blank"
+                            rel="noopener noreferrer sponsored"
+                            className="group block p-8 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all text-center"
+                        >
+                            <div className="text-amber-400 font-bold text-xl mb-2">{cta.text}</div>
+                            <p className="text-zinc-500">{cta.secondaryText}</p>
+                        </a>
+                    </section>
+                </article>
+            </main>
+        </>
     );
 }
