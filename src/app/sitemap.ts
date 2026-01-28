@@ -96,7 +96,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // Blog posts
-  const blogSlugs = ['what-are-angel-numbers', 'seeing-1111-everywhere'];
+  const blogSlugs = [
+    'what-are-angel-numbers',
+    'seeing-1111-everywhere',
+    'calculate-life-path-number',
+    'master-numbers-11-22-33',
+    'angel-numbers-love',
+    'numerology-2026-predictions',
+    'difference-between-angel-numbers-life-path',
+    'why-seeing-same-number',
+  ];
   blogSlugs.forEach(slug => {
     sitemapEntries.push({
       url: `${baseUrl}/blog/${slug}`,
