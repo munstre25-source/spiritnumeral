@@ -52,6 +52,60 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   });
 
+  // New tool pages
+  sitemapEntries.push({
+    url: `${baseUrl}/compatibility`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
+
+  sitemapEntries.push({
+    url: `${baseUrl}/compare`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
+
+  sitemapEntries.push({
+    url: `${baseUrl}/quiz`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
+
+  sitemapEntries.push({
+    url: `${baseUrl}/celebrity-numerology`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  });
+
+  sitemapEntries.push({
+    url: `${baseUrl}/profile`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  });
+
+  sitemapEntries.push({
+    url: `${baseUrl}/blog`,
+    lastModified: now,
+    changeFrequency: 'daily',
+    priority: 0.8,
+  });
+
+  // Blog posts
+  const blogSlugs = ['what-are-angel-numbers', 'seeing-1111-everywhere'];
+  blogSlugs.forEach(slug => {
+    sitemapEntries.push({
+      url: `${baseUrl}/blog/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+  });
+
   // Life path pages from static data
   const allSlugs = getAllPSEOSlugs();
   allSlugs.forEach(({ category, slug }) => {

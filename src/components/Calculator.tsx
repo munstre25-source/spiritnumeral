@@ -21,25 +21,25 @@ export default function NumerologyCalculator() {
   function calculateLifePath(dateString: string): number {
     // Remove dashes and slashes
     const cleaned = dateString.replace(/[-\/]/g, '');
-    
+
     // Sum all digits
     let sum = 0;
     for (const digit of cleaned) {
       sum += parseInt(digit, 10);
     }
-    
+
     // Reduce to single digit, but preserve master numbers
     while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
       sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
-    
+
     return sum;
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    
+
     if (!birthdate) {
       setError('Please enter your birthdate');
       return;
@@ -55,7 +55,7 @@ export default function NumerologyCalculator() {
     try {
       const calculatedPath = calculateLifePath(birthdate);
       setLifePath(calculatedPath);
-      
+
       // Redirect to life path page after a brief moment
       setTimeout(() => {
         router.push(`/meaning/life-path/life-path-${calculatedPath}`);
@@ -70,7 +70,7 @@ export default function NumerologyCalculator() {
       <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
         Discover Your Life Path Number
       </h2>
-      
+
       <p className="text-sm md:text-base text-zinc-400 text-center mb-8">
         Enter your birthdate to reveal your numerological life path and unlock your personalized predictions.
       </p>
@@ -119,6 +119,14 @@ export default function NumerologyCalculator() {
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
               Generating your personalized reading...
             </p>
+            <a
+              href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="mt-4 inline-block px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-300 text-sm hover:bg-amber-500/30 transition-colors"
+            >
+              Get Your Full Numerology Reading →
+            </a>
           </div>
         )}
 
