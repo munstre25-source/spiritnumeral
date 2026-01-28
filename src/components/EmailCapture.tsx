@@ -1,0 +1,208 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
+// Email capture popup that appears after scroll or before exit
+export function EmailCapture() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [hasShown, setHasShown] = useState(false);
+
+    useEffect(() => {
+        // Check if already shown in this session
+        const shown = sessionStorage.getItem('emailPopupShown');
+        if (shown) {
+            setHasShown(true);
+            return;
+        }
+
+        // Show after 60% scroll
+        const handleScroll = () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > 60 && !hasShown) {
+                setIsOpen(true);
+                setHasShown(true);
+                sessionStorage.setItem('emailPopupShown', 'true');
+            }
+        };
+
+        // Exit intent detection (desktop only)
+        const handleMouseLeave = (e: MouseEvent) => {
+            if (e.clientY <= 0 && !hasShown) {
+                setIsOpen(true);
+                setHasShown(true);
+                sessionStorage.setItem('emailPopupShown', 'true');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, [hasShown]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            const res = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, source: 'popup' })
+            });
+
+            if (!res.ok) throw new Error('Failed to subscribe');
+
+            setStatus('success');
+            localStorage.setItem('emailSubscribed', 'true');
+            setTimeout(() => setIsOpen(false), 2000);
+        } catch {
+            setStatus('error');
+        }
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+            <div className="relative max-w-md w-full bg-zinc-900 rounded-3xl p-8 border border-zinc-800 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                {/* Close button */}
+                <button
+                    onClick={() => setIsOpen(false)}
+                    className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 transition-colors"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+                    </svg>
+                </button>
+
+                {status === 'success' ? (
+                    <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-2">You're In! ✨</h3>
+                        <p className="text-zinc-400">Check your inbox for your free numerology guide.</p>
+                    </div>
+                ) : (
+                    <>
+                        {/* Icon */}
+                        <div className="w-16 h-16 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" />
+                            </svg>
+                        </div>
+
+                        {/* Content */}
+                        <h3 className="text-2xl font-bold text-white text-center mb-2">
+                            Unlock Your Numerology Secrets
+                        </h3>
+                        <p className="text-zinc-400 text-center mb-6">
+                            Get a <span className="text-amber-400 font-semibold">FREE</span> personalized numerology guide + weekly angel number insights delivered to your inbox.
+                        </p>
+
+                        {/* Form */}
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email..."
+                                required
+                                className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-4 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
+                            />
+                            <button
+                                type="submit"
+                                disabled={status === 'loading'}
+                                className="w-full bg-amber-500 text-black py-4 rounded-xl font-bold text-lg hover:bg-amber-400 transition-colors disabled:opacity-50"
+                            >
+                                {status === 'loading' ? 'Sending...' : 'Get My Free Guide →'}
+                            </button>
+                        </form>
+
+                        {status === 'error' && (
+                            <p className="text-red-400 text-center mt-4 text-sm">
+                                Something went wrong. Please try again.
+                            </p>
+                        )}
+
+                        {/* Trust signals */}
+                        <p className="text-zinc-600 text-xs text-center mt-4">
+                            🔒 No spam. Unsubscribe anytime. Join 10,000+ spiritual seekers.
+                        </p>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}
+
+// Inline newsletter signup for footer/pages
+export function NewsletterSignup({ className = '' }: { className?: string }) {
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            const res = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, source: 'footer' })
+            });
+
+            if (!res.ok) throw new Error('Failed to subscribe');
+
+            setStatus('success');
+            setEmail('');
+        } catch {
+            setStatus('error');
+        }
+    };
+
+    if (status === 'success') {
+        return (
+            <div className={`p-6 rounded-2xl bg-green-500/10 border border-green-500/30 text-center ${className}`}>
+                <p className="text-green-400 font-semibold">✓ You're subscribed!</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className={`p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 ${className}`}>
+            <h4 className="text-lg font-bold text-white mb-2">Stay Connected</h4>
+            <p className="text-zinc-400 text-sm mb-4">
+                Weekly angel number insights & spiritual guidance.
+            </p>
+            <form onSubmit={handleSubmit} className="flex gap-2">
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email..."
+                    required
+                    className="flex-1 bg-zinc-800 border border-zinc-700 text-white px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-500"
+                />
+                <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="px-6 py-3 bg-amber-500 text-black rounded-xl font-semibold text-sm hover:bg-amber-400 transition-colors disabled:opacity-50"
+                >
+                    {status === 'loading' ? '...' : 'Join'}
+                </button>
+            </form>
+            {status === 'error' && (
+                <p className="text-red-400 text-xs mt-2">Failed to subscribe. Try again.</p>
+            )}
+        </div>
+    );
+}

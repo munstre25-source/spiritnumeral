@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { ReadingProgress, ScrollToTop, MobileBottomNav } from '@/components/UXEnhancements'
+import { EmailCapture } from '@/components/EmailCapture'
 
 // Premium fonts for spiritual/numerology aesthetic
 const playfair = Playfair_Display({
@@ -83,6 +84,7 @@ export default function RootLayout({
           <Footer />
           <ScrollToTop />
           <MobileBottomNav />
+          <EmailCapture />
         </div>
       </body>
     </html>
