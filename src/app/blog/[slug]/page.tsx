@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
 import { getClickBankCTA } from '@/lib/utils/clickbank';
 
@@ -8,9 +8,44 @@ export async function generateStaticParams() {
     return BLOG_POSTS.map(post => ({ slug: post.slug }));
 }
 
+const LEGACY_SLUG_ALIASES: Record<string, string> = {
+    'seeing-1111-everywhere': 'angel-number-111-manifestation',
+};
+
+const resolvePostBySlug = (slug: string): { post: BlogPost; resolvedSlug: string; redirected: boolean } | null => {
+    const direct = getBlogPost(slug);
+    if (direct) {
+        return { post: direct, resolvedSlug: slug, redirected: false };
+    }
+
+    const legacy = LEGACY_SLUG_ALIASES[slug];
+    if (legacy) {
+        const legacyPost = getBlogPost(legacy);
+        if (legacyPost) {
+            return { post: legacyPost, resolvedSlug: legacy, redirected: true };
+        }
+    }
+
+    const numberMatch = slug.match(/\d{1,4}/);
+    if (numberMatch) {
+        const number = Number(numberMatch[0]);
+        const isLifePath = slug.includes('life-path');
+        const isAngel = slug.includes('angel') || slug.includes('seeing');
+        const candidates = BLOG_POSTS.filter(post => post.relatedNumbers?.includes(number));
+        const preferred = candidates.find(post => (isLifePath && post.category === 'Life Path') || (isAngel && post.category === 'Angel Numbers'))
+            || candidates[0];
+        if (preferred) {
+            return { post: preferred, resolvedSlug: preferred.slug, redirected: true };
+        }
+    }
+
+    return null;
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
-    const post = getBlogPost(slug);
+    const resolved = resolvePostBySlug(slug);
+    const post = resolved?.post;
 
     if (!post) {
         return { title: 'Post Not Found' };
@@ -19,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {
         title: `${post.title} | Spirit Numeral`,
         description: post.excerpt,
-        alternates: { canonical: `/blog/${slug}` },
+        alternates: { canonical: `/blog/${resolved?.resolvedSlug ?? slug}` },
         openGraph: {
             title: post.title,
             description: post.excerpt,
@@ -31,10 +66,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const post = getBlogPost(slug);
+    const resolved = resolvePostBySlug(slug);
+    const post = resolved?.post;
 
     if (!post) {
         notFound();
+    }
+
+    if (resolved?.redirected && resolved.resolvedSlug !== slug) {
+        redirect(`/blog/${resolved.resolvedSlug}`);
     }
 
     const cta = getClickBankCTA('numerology');
