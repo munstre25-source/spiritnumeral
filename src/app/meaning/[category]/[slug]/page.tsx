@@ -4,6 +4,8 @@ import { getClickBankCTA } from '@/lib/utils/clickbank';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
+import { ViewTracker } from '@/components/ViewTracker';
+import { AudioReaderCompact } from '@/components/AudioReader';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -148,11 +150,18 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
             <p className="text-lg md:text-2xl text-zinc-400 font-light max-w-xl mx-auto leading-relaxed">
               {data.meaning || data.traits}
             </p>
+            {/* Audio Reader for accessibility */}
+            <div className="pt-2">
+              <AudioReaderCompact text={`${h1Text}. ${data.meaning || data.traits}`} />
+            </div>
           </header>
 
           {/* Quick Actions */}
           {!isLifePath && (
-            <QuickActions number={data.number} />
+            <>
+              <ViewTracker number={data.number} />
+              <QuickActions number={data.number} />
+            </>
           )}
 
           <section className="grid gap-6 md:grid-cols-2">

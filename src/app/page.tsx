@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
 import { DailyAngelNumber, AffirmationGenerator, CompatibilityTeaser } from '@/components/EngagementFeatures';
+import { MoonPhaseWidget } from '@/components/MoonPhase';
 
 // Dynamically import Calculator to avoid SSR issues
 const Calculator = dynamic(() => import('@/components/Calculator'), {
@@ -143,6 +144,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 gap-6">
           <DailyAngelNumber />
           <div className="space-y-6">
+            <MoonPhaseWidget />
             <AffirmationGenerator />
             <CompatibilityTeaser />
           </div>

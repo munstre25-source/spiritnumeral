@@ -185,7 +185,7 @@ export function AffirmationGenerator({ number }: { number?: number }) {
 export function CompatibilityTeaser() {
     return (
         <Link
-            href="/calculator"
+            href="/compatibility"
             className="block p-6 md:p-8 rounded-3xl bg-gradient-to-br from-rose-950/50 to-zinc-900 border border-rose-500/20 hover:border-rose-500/40 transition-all group"
         >
             <div className="flex items-center gap-2 mb-4">
@@ -285,8 +285,8 @@ export function SaveNumberButton({ number }: { number: number }) {
         <button
             onClick={toggleSave}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${isSaved
-                    ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-                    : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50'
+                ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
+                : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50'
                 }`}
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
