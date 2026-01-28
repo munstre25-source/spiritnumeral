@@ -123,90 +123,146 @@ const CELEBRITIES = {
     },
 };
 
+// Generate ItemList schema for celebrities
+const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Famous Celebrities by Life Path Number',
+    description: 'A comprehensive list of celebrities organized by their numerology life path numbers.',
+    numberOfItems: 11,
+    itemListElement: Object.entries(CELEBRITIES).map(([path, data], index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: data.name,
+        description: data.description,
+    })),
+};
+
+const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+        {
+            '@type': 'Question',
+            name: 'Which celebrities are Life Path 1?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Famous Life Path 1 celebrities include Martin Luther King Jr., Steve Jobs, Lady Gaga, and Scarlett Johansson. Life Path 1s are natural born leaders.',
+            },
+        },
+        {
+            '@type': 'Question',
+            name: 'What life path number has the most famous people?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Life Path numbers 1, 5, and 8 tend to have many famous people, as these paths are associated with leadership, freedom, and power respectively.',
+            },
+        },
+        {
+            '@type': 'Question',
+            name: 'Can I find out which celebrity shares my life path?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes! Calculate your life path number using your birthdate, then find celebrities on this page who share your number.',
+            },
+        },
+    ],
+};
+
 export default function CelebrityNumerologyPage() {
     const cta = getClickBankCTA('life-path');
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
-            <div className="max-w-6xl mx-auto">
-                <header className="text-center mb-16">
-                    <div className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
-                        Celebrity Life Paths
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-purple-100 to-purple-400 bg-clip-text text-transparent tracking-tighter mb-4">
-                        Famous Numerology
-                    </h1>
-                    <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-                        Discover which celebrities share your life path number. See the patterns that connect
-                        famous leaders, artists, and visionaries.
-                    </p>
-                </header>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <main className="min-h-screen pt-32 pb-20 px-6">
+                <div className="max-w-6xl mx-auto">
+                    <header className="text-center mb-16">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
+                            Celebrity Life Paths
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-purple-100 to-purple-400 bg-clip-text text-transparent tracking-tighter mb-4">
+                            Famous Numerology
+                        </h1>
+                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                            Discover which celebrities share your life path number. See the patterns that connect
+                            famous leaders, artists, and visionaries.
+                        </p>
+                    </header>
 
-                {/* Life Path Grid */}
-                <div className="space-y-8">
-                    {Object.entries(CELEBRITIES).map(([path, data]) => (
-                        <section
-                            key={path}
-                            className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 hover:border-purple-500/30 transition-colors"
-                        >
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
-                                        <span className="text-2xl font-bold text-purple-400">{path}</span>
+                    {/* Life Path Grid */}
+                    <div className="space-y-8">
+                        {Object.entries(CELEBRITIES).map(([path, data]) => (
+                            <section
+                                key={path}
+                                className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 hover:border-purple-500/30 transition-colors"
+                            >
+                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                                            <span className="text-2xl font-bold text-purple-400">{path}</span>
+                                        </div>
+                                        <div>
+                                            <h2 className="text-xl font-bold text-white">{data.name}</h2>
+                                            <p className="text-zinc-500 text-sm">{data.description}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h2 className="text-xl font-bold text-white">{data.name}</h2>
-                                        <p className="text-zinc-500 text-sm">{data.description}</p>
-                                    </div>
-                                </div>
-                                <Link
-                                    href={`/meaning/life-path/life-path-${path}`}
-                                    className="text-purple-400 hover:text-purple-300 text-sm font-medium"
-                                >
-                                    View Life Path {path} →
-                                </Link>
-                            </div>
-
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {data.celebrities.map((celeb, i) => (
-                                    <div
-                                        key={i}
-                                        className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50"
+                                    <Link
+                                        href={`/meaning/life-path/life-path-${path}`}
+                                        className="text-purple-400 hover:text-purple-300 text-sm font-medium"
                                     >
-                                        <div className="text-white font-medium mb-1">{celeb.name}</div>
-                                        <div className="text-zinc-500 text-xs mb-2">{celeb.known}</div>
-                                        <div className="text-zinc-600 text-xs">{celeb.birthday}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
-                </div>
+                                        View Life Path {path} →
+                                    </Link>
+                                </div>
 
-                {/* CTA Section */}
-                <section className="mt-16 max-w-2xl mx-auto text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">What's Your Life Path?</h2>
-                    <p className="text-zinc-400 mb-6">
-                        Calculate your life path number and discover which celebrities share your numerological destiny.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                            href="/calculator"
-                            className="px-8 py-4 bg-purple-500 text-white font-bold rounded-xl hover:bg-purple-400 transition-colors"
-                        >
-                            Calculate Your Number
-                        </Link>
-                        <a
-                            href={cta.url}
-                            target="_blank"
-                            rel="noopener noreferrer sponsored"
-                            className="px-8 py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
-                        >
-                            Get Your Full Reading
-                        </a>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {data.celebrities.map((celeb, i) => (
+                                        <div
+                                            key={i}
+                                            className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50"
+                                        >
+                                            <div className="text-white font-medium mb-1">{celeb.name}</div>
+                                            <div className="text-zinc-500 text-xs mb-2">{celeb.known}</div>
+                                            <div className="text-zinc-600 text-xs">{celeb.birthday}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        ))}
                     </div>
-                </section>
-            </div>
-        </main>
+
+                    {/* CTA Section */}
+                    <section className="mt-16 max-w-2xl mx-auto text-center">
+                        <h2 className="text-2xl font-bold text-white mb-4">What's Your Life Path?</h2>
+                        <p className="text-zinc-400 mb-6">
+                            Calculate your life path number and discover which celebrities share your numerological destiny.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link
+                                href="/calculator"
+                                className="px-8 py-4 bg-purple-500 text-white font-bold rounded-xl hover:bg-purple-400 transition-colors"
+                            >
+                                Calculate Your Number
+                            </Link>
+                            <a
+                                href={cta.url}
+                                target="_blank"
+                                rel="noopener noreferrer sponsored"
+                                className="px-8 py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
+                            >
+                                Get Your Full Reading
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </>
     );
 }

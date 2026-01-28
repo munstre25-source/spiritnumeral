@@ -87,130 +87,157 @@ const BLOG_POSTS = [
 
 const CATEGORIES = ['All', 'Basics', 'Angel Numbers', 'Life Path', 'Love', 'Predictions', 'Spirituality'];
 
+// Generate ItemList schema for blog
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const blogListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Spirit Numeral Numerology Blog',
+    description: 'Learn about numerology, angel numbers, life paths, and spiritual guidance.',
+    url: `${baseUrl}/blog`,
+    blogPost: BLOG_POSTS.map((post, index) => ({
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        url: `${baseUrl}/blog/${post.slug}`,
+        datePublished: post.date,
+        author: {
+            '@type': 'Organization',
+            name: 'Spirit Numeral',
+        },
+    })),
+};
+
 export default function BlogPage() {
     const featuredPosts = BLOG_POSTS.filter(p => p.featured).slice(0, 3);
     const recentPosts = BLOG_POSTS.filter(p => !p.featured);
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
-            <div className="max-w-6xl mx-auto">
-                <header className="text-center mb-16">
-                    <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
-                        Spiritual Insights
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-emerald-100 to-emerald-400 bg-clip-text text-transparent tracking-tighter mb-4">
-                        Numerology Blog
-                    </h1>
-                    <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-                        Guides, insights, and deep dives into the world of numerology and angel numbers.
-                    </p>
-                </header>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+            />
+            <main className="min-h-screen pt-32 pb-20 px-6">
+                <div className="max-w-6xl mx-auto">
+                    <header className="text-center mb-16">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
+                            Spiritual Insights
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-emerald-100 to-emerald-400 bg-clip-text text-transparent tracking-tighter mb-4">
+                            Numerology Blog
+                        </h1>
+                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                            Guides, insights, and deep dives into the world of numerology and angel numbers.
+                        </p>
+                    </header>
 
-                {/* Categories */}
-                <div className="flex flex-wrap justify-center gap-2 mb-12">
-                    {CATEGORIES.map(cat => (
-                        <button
-                            key={cat}
-                            className={`px-4 py-2 rounded-full text-sm transition-all ${cat === 'All'
+                    {/* Categories */}
+                    <div className="flex flex-wrap justify-center gap-2 mb-12">
+                        {CATEGORIES.map(cat => (
+                            <button
+                                key={cat}
+                                className={`px-4 py-2 rounded-full text-sm transition-all ${cat === 'All'
                                     ? 'bg-emerald-500 text-black font-medium'
                                     : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
-                                }`}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Featured Posts */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold text-white mb-6">Featured Articles</h2>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {featuredPosts.map((post, i) => (
-                            <Link
-                                key={post.slug}
-                                href={`/blog/${post.slug}`}
-                                className={`group relative overflow-hidden rounded-3xl border border-zinc-800 hover:border-emerald-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''
                                     }`}
                             >
-                                <div className={`bg-gradient-to-br from-zinc-900 to-zinc-950 ${i === 0 ? 'p-8 md:p-12' : 'p-6'}`}>
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
-                                            {post.category}
-                                        </span>
-                                        <span className="text-zinc-600 text-xs">{post.readTime}</span>
-                                    </div>
-                                    <h3 className={`font-bold text-white group-hover:text-emerald-400 transition-colors ${i === 0 ? 'text-2xl md:text-3xl mb-4' : 'text-lg mb-2'
-                                        }`}>
-                                        {post.title}
-                                    </h3>
-                                    <p className={`text-zinc-400 ${i === 0 ? 'text-base' : 'text-sm line-clamp-2'}`}>
-                                        {post.excerpt}
-                                    </p>
-                                    {i === 0 && (
-                                        <div className="mt-6 text-emerald-400 font-medium group-hover:translate-x-2 transition-transform">
-                                            Read Article →
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Featured Posts */}
+                    <section className="mb-16">
+                        <h2 className="text-2xl font-bold text-white mb-6">Featured Articles</h2>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {featuredPosts.map((post, i) => (
+                                <Link
+                                    key={post.slug}
+                                    href={`/blog/${post.slug}`}
+                                    className={`group relative overflow-hidden rounded-3xl border border-zinc-800 hover:border-emerald-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''
+                                        }`}
+                                >
+                                    <div className={`bg-gradient-to-br from-zinc-900 to-zinc-950 ${i === 0 ? 'p-8 md:p-12' : 'p-6'}`}>
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
+                                                {post.category}
+                                            </span>
+                                            <span className="text-zinc-600 text-xs">{post.readTime}</span>
                                         </div>
-                                    )}
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Recent Posts */}
-                <section>
-                    <h2 className="text-2xl font-bold text-white mb-6">Recent Articles</h2>
-                    <div className="space-y-4">
-                        {recentPosts.map(post => (
-                            <Link
-                                key={post.slug}
-                                href={`/blog/${post.slug}`}
-                                className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-emerald-500/50 transition-all"
-                            >
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs">
-                                            {post.category}
-                                        </span>
-                                        <span className="text-zinc-600 text-xs">{post.readTime}</span>
+                                        <h3 className={`font-bold text-white group-hover:text-emerald-400 transition-colors ${i === 0 ? 'text-2xl md:text-3xl mb-4' : 'text-lg mb-2'
+                                            }`}>
+                                            {post.title}
+                                        </h3>
+                                        <p className={`text-zinc-400 ${i === 0 ? 'text-base' : 'text-sm line-clamp-2'}`}>
+                                            {post.excerpt}
+                                        </p>
+                                        {i === 0 && (
+                                            <div className="mt-6 text-emerald-400 font-medium group-hover:translate-x-2 transition-transform">
+                                                Read Article →
+                                            </div>
+                                        )}
                                     </div>
-                                    <h3 className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                                        {post.title}
-                                    </h3>
-                                    <p className="text-zinc-500 text-sm mt-1 line-clamp-1">{post.excerpt}</p>
-                                </div>
-                                <div className="text-zinc-600 text-sm md:text-right">
-                                    {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
 
-                {/* Newsletter CTA */}
-                <section className="mt-20 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-emerald-950/30 to-zinc-900 border border-emerald-500/20 text-center">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                        Get Weekly Numerology Insights
-                    </h2>
-                    <p className="text-zinc-400 mb-6 max-w-lg mx-auto">
-                        Join thousands of spiritual seekers receiving our weekly angel number
-                        interpretations and numerology guides.
-                    </p>
-                    <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                        <input
-                            type="email"
-                            placeholder="your@email.com"
-                            className="flex-1 bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-500"
-                        />
-                        <button
-                            type="submit"
-                            className="px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors"
-                        >
-                            Subscribe
-                        </button>
-                    </form>
-                </section>
-            </div>
-        </main>
+                    {/* Recent Posts */}
+                    <section>
+                        <h2 className="text-2xl font-bold text-white mb-6">Recent Articles</h2>
+                        <div className="space-y-4">
+                            {recentPosts.map(post => (
+                                <Link
+                                    key={post.slug}
+                                    href={`/blog/${post.slug}`}
+                                    className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-emerald-500/50 transition-all"
+                                >
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs">
+                                                {post.category}
+                                            </span>
+                                            <span className="text-zinc-600 text-xs">{post.readTime}</span>
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                                            {post.title}
+                                        </h3>
+                                        <p className="text-zinc-500 text-sm mt-1 line-clamp-1">{post.excerpt}</p>
+                                    </div>
+                                    <div className="text-zinc-600 text-sm md:text-right">
+                                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Newsletter CTA */}
+                    <section className="mt-20 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-emerald-950/30 to-zinc-900 border border-emerald-500/20 text-center">
+                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                            Get Weekly Numerology Insights
+                        </h2>
+                        <p className="text-zinc-400 mb-6 max-w-lg mx-auto">
+                            Join thousands of spiritual seekers receiving our weekly angel number
+                            interpretations and numerology guides.
+                        </p>
+                        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                            <input
+                                type="email"
+                                placeholder="your@email.com"
+                                className="flex-1 bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-500"
+                            />
+                            <button
+                                type="submit"
+                                className="px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors"
+                            >
+                                Subscribe
+                            </button>
+                        </form>
+                    </section>
+                </div>
+            </main>
+        </>
     );
 }
