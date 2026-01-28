@@ -3,6 +3,7 @@ import { generateAllSchemas, generateDefaultFAQs } from '@/lib/utils/schema';
 import { getClickBankCTA } from '@/lib/utils/clickbank';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { category, slug } = await params;
   const data: any = await getPSEODataAsync(category, slug.replace('life-path-', ''));
-  
+
   if (!data) return { title: 'Meaning Not Found' };
 
   const isLifePath = category === 'life-path';
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const title = isLifePath
     ? `${subject} Meaning: Personality, Love & Career Insights`
     : `${subject} Meaning: Love, Twin Flame & Career`;
-  
+
   const description = isLifePath
     ? `Discover the meaning of ${subject} for personality, love, and career. ${data.traits || ''}`
     : `Discover the meaning of ${subject} for love, twin flame, and career. ${data.meaning || ''}`;
@@ -61,29 +62,29 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
   const isLifePath = category === 'life-path';
   const subject = isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`;
   const h1Text = `${subject} Meaning`;
-  const faqs = isLifePath 
+  const faqs = isLifePath
     ? [
-        {
-          question: `What does Life Path ${data.path} mean?`,
-          answer: `${data.traits} ${data.title} represents ${data.traits.toLowerCase()}.`
-        },
-        {
-          question: `What is Life Path ${data.path} in love?`,
-          answer: data.love || `Life Path ${data.path} individuals ${data.traits.toLowerCase()} in relationships.`
-        },
-        {
-          question: `What careers suit Life Path ${data.path}?`,
-          answer: data.career || `Life Path ${data.path} individuals excel in careers that align with their natural traits.`
-        },
-        {
-          question: `What are the challenges for Life Path ${data.path}?`,
-          answer: data.challenge || `Life Path ${data.path} individuals may face challenges related to ${data.traits.toLowerCase()}.`
-        },
-        {
-          question: `What does the future hold for Life Path ${data.path}?`,
-          answer: data["2026_outlook"] || `The future brings significant opportunities for Life Path ${data.path} individuals.`
-        }
-      ]
+      {
+        question: `What does Life Path ${data.path} mean?`,
+        answer: `${data.traits} ${data.title} represents ${data.traits.toLowerCase()}.`
+      },
+      {
+        question: `What is Life Path ${data.path} in love?`,
+        answer: data.love || `Life Path ${data.path} individuals ${data.traits.toLowerCase()} in relationships.`
+      },
+      {
+        question: `What careers suit Life Path ${data.path}?`,
+        answer: data.career || `Life Path ${data.path} individuals excel in careers that align with their natural traits.`
+      },
+      {
+        question: `What are the challenges for Life Path ${data.path}?`,
+        answer: data.challenge || `Life Path ${data.path} individuals may face challenges related to ${data.traits.toLowerCase()}.`
+      },
+      {
+        question: `What does the future hold for Life Path ${data.path}?`,
+        answer: data["2026_outlook"] || `The future brings significant opportunities for Life Path ${data.path} individuals.`
+      }
+    ]
     : generateDefaultFAQs(data);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
   const pagePath = `/meaning/${category}/${slug}`;
@@ -126,9 +127,17 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           />
         </>
       )}
-      
+
       <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 px-6 md:p-8 font-sans">
         <div className="max-w-3xl mx-auto space-y-12">
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { label: isLifePath ? 'Life Paths' : 'Angel Numbers', href: `/meaning/${category}` },
+              { label: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}` }
+            ]}
+          />
+
           <header className="text-center space-y-4">
             <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-sm font-medium mb-4">
               {isLifePath ? 'Life Path Wisdom' : 'Angel Number Guidance'}
@@ -140,6 +149,11 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
               {data.meaning || data.traits}
             </p>
           </header>
+
+          {/* Quick Actions */}
+          {!isLifePath && (
+            <QuickActions number={data.number} />
+          )}
 
           <section className="grid gap-6 md:grid-cols-2">
             <div className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
@@ -171,18 +185,19 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
             )}
           </section>
 
-<FAQ faqs={faqs} />
+          <FAQ faqs={faqs} />
 
-            {!isLifePath && (
-              <>
-                <InternalLinks number={data.number} currentPage="meaning" />
-                <RelatedNumbers currentNumber={data.number} />
-              </>
-            )}
-            
-            <NavigationLinks />
+          {!isLifePath && (
+            <>
+              <InternalLinks number={data.number} currentPage="meaning" />
+              <RecommendedNumbers currentNumber={data.number} />
+              <RelatedNumbers currentNumber={data.number} />
+            </>
+          )}
 
-            <footer className="pt-8 pb-16">
+          <NavigationLinks />
+
+          <footer className="pt-8 pb-16">
             <a
               href={cta.url}
               target="_blank"
