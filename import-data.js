@@ -20,17 +20,23 @@ const angelNumbers = data.angel_numbers.map(item => ({
   chakra: item.chakra,
   what_to_do: item.what_to_do,
   why_seeing: item.why_seeing,
-  misconception: item.misconception
+  misconception: item.misconception,
+  money: item.money || null,
+  pregnancy: item.pregnancy || null,
+  soulmate: item.soulmate || null,
+  breakup: item.breakup || null,
+  dreams: item.dreams || null,
+  affirmation: item.affirmation || null
 }));
 
 async function insertBatch(batch) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify(batch);
-    
+
     const options = {
       hostname: 'iygpvkrdqzksipwqrphj.supabase.co',
       port: 443,
-      path: '/rest/v1/angel_numbers',
+      path: '/rest/v1/angel_numbers?on_conflict=number',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,21 +67,21 @@ async function insertBatch(batch) {
 
 async function main() {
   console.log(`Total angel numbers: ${angelNumbers.length}`);
-  
+
   const batchSize = 50;
   for (let i = 0; i < angelNumbers.length; i += batchSize) {
     const batch = angelNumbers.slice(i, i + batchSize);
     const result = await insertBatch(batch);
-    console.log(`Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(angelNumbers.length/batchSize)}: ${result.success ? 'OK' : 'FAIL ' + result.error}`);
-    
+    console.log(`Batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(angelNumbers.length / batchSize)}: ${result.success ? 'OK' : 'FAIL ' + result.error}`);
+
     if (!result.success) {
       console.error('Error:', result.error);
       break;
     }
-    
+
     await new Promise(r => setTimeout(r, 100));
   }
-  
+
   console.log('Done!');
 }
 

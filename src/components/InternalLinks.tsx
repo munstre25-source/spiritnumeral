@@ -108,8 +108,8 @@ interface RelatedNumbersProps {
 export function RelatedNumbers({ currentNumber, count = 6 }: RelatedNumbersProps) {
   const related: number[] = [];
 
-  const nearbyStart = Math.max(111, currentNumber - 3);
-  for (let i = nearbyStart; i <= Math.min(999, nearbyStart + count - 1); i++) {
+  const nearbyStart = Math.max(0, currentNumber - 3);
+  for (let i = nearbyStart; i <= Math.min(2222, nearbyStart + count - 1); i++) {
     if (i !== currentNumber) {
       related.push(i);
     }

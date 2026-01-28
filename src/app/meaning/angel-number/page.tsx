@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { supabase, AngelNumber } from '@/lib/supabase';
+import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Angel Number Library | Browse 111-999 Meanings',
-  description: 'Explore our complete library of 889+ angel numbers. Discover spiritual meanings for love, career, twin flames, and your 2026 outlook.',
+  title: 'Complete Angel Number Library | 0-2222 Meanings',
+  description: 'Explore our complete library of 2,223 angel numbers (0-2222). Discover spiritual meanings for love, career, twin flames, and your 2026 outlook.',
 };
 
 const faqs = [
@@ -26,10 +26,27 @@ const faqs = [
 ];
 
 export default async function AngelNumberIndexPage() {
-  const { data: angelNumbers, error } = await supabase
+  // Fetch all angel numbers in batches (Supabase default limit is 1000)
+  const { data: batch1, error: error1 } = await supabaseAdmin
     .from('angel_numbers')
     .select('number, meaning')
-    .order('number', { ascending: true });
+    .order('number', { ascending: true })
+    .range(0, 999);
+
+  const { data: batch2, error: error2 } = await supabaseAdmin
+    .from('angel_numbers')
+    .select('number, meaning')
+    .order('number', { ascending: true })
+    .range(1000, 2499);
+
+  const { data: batch3, error: error3 } = await supabaseAdmin
+    .from('angel_numbers')
+    .select('number, meaning')
+    .order('number', { ascending: true })
+    .range(2000, 2499);
+
+  const angelNumbers = [...(batch1 || []), ...(batch2 || []), ...(batch3 || [])];
+  const error = error1 || error2 || error3;
 
   if (error) {
     console.error('Error fetching angel numbers:', error);
@@ -73,7 +90,7 @@ export default async function AngelNumberIndexPage() {
         <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
           We have decoded {angelNumbers?.length || '889+'} angel numbers. Find the hidden meaning behind the sequences appearing in your life.
         </p>
-        
+
         <div className="pt-4">
           <AngelNumberSearch />
         </div>

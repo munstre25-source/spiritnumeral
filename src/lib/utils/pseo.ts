@@ -38,11 +38,11 @@ export function getAllPSEOSlugs() {
 }
 
 /**
- * Get all angel numbers in range 0-888 for sitemap (matches JSON data)
+ * Get all angel numbers in range 0-2222 for sitemap (expanded data)
  */
 export function getAngelNumberRange(): number[] {
   const numbers: number[] = [];
-  for (let i = 0; i <= 888; i++) {
+  for (let i = 0; i <= 2222; i++) {
     numbers.push(i);
   }
   return numbers;
