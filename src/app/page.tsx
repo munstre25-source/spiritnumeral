@@ -195,6 +195,68 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Tools & Resources Section */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-4 bg-gradient-to-r from-purple-200 to-pink-500 bg-clip-text text-transparent">
+          Numerology Tools & Resources
+        </h2>
+        <p className="text-zinc-500 text-center mb-12 max-w-2xl mx-auto">Explore our interactive tools and educational content to deepen your spiritual journey</p>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Number Comparison Tool */}
+          <Link
+            href="/compare"
+            className="group relative p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all hover:shadow-mystical"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
+            <div className="relative">
+              <div className="text-4xl mb-3">🔮</div>
+              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Compare Numbers</h3>
+              <p className="text-zinc-400 text-sm">See how two angel numbers relate and their combined message</p>
+            </div>
+          </Link>
+
+          {/* Interactive Quiz */}
+          <Link
+            href="/quiz"
+            className="group relative p-6 rounded-2xl bg-gradient-to-br from-indigo-950/30 to-zinc-900 border border-indigo-500/20 hover:border-indigo-500/40 transition-all hover:shadow-mystical"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-indigo-500/0 group-hover:from-indigo-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
+            <div className="relative">
+              <div className="text-4xl mb-3">✨</div>
+              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Number Quiz</h3>
+              <p className="text-zinc-400 text-sm">Discover which angel number is trying to reach you</p>
+            </div>
+          </Link>
+
+          {/* Celebrity Numerology */}
+          <Link
+            href="/celebrity-numerology"
+            className="group relative p-6 rounded-2xl bg-gradient-to-br from-purple-950/30 to-zinc-900 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:shadow-mystical"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
+            <div className="relative">
+              <div className="text-4xl mb-3">⭐</div>
+              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Famous Life Paths</h3>
+              <p className="text-zinc-400 text-sm">See which celebrities share your life path number</p>
+            </div>
+          </Link>
+
+          {/* Blog */}
+          <Link
+            href="/blog"
+            className="group relative p-6 rounded-2xl bg-gradient-to-br from-emerald-950/30 to-zinc-900 border border-emerald-500/20 hover:border-emerald-500/40 transition-all hover:shadow-mystical"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-500/0 group-hover:from-emerald-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
+            <div className="relative">
+              <div className="text-4xl mb-3">📖</div>
+              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Numerology Blog</h3>
+              <p className="text-zinc-400 text-sm">Expert guides and insights for your spiritual journey</p>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* Life Paths Section */}
       <section className="max-w-6xl mx-auto px-6 py-16">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">

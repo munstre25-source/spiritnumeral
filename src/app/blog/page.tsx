@@ -1,13 +1,7 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+'use client';
 
-export const metadata: Metadata = {
-    title: 'Numerology Blog - Spirit Numeral',
-    description: 'Learn about numerology, angel numbers, life paths, and spiritual guidance. Expert insights and guides for your spiritual journey.',
-    alternates: {
-        canonical: '/blog',
-    },
-};
+import { useState } from 'react';
+import Link from 'next/link';
 
 // Blog posts - can be moved to CMS or database later
 const BLOG_POSTS = [
@@ -109,8 +103,15 @@ const blogListSchema = {
 };
 
 export default function BlogPage() {
-    const featuredPosts = BLOG_POSTS.filter(p => p.featured).slice(0, 3);
-    const recentPosts = BLOG_POSTS.filter(p => !p.featured);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+
+    // Filter posts based on selected category
+    const filteredPosts = selectedCategory === 'All'
+        ? BLOG_POSTS
+        : BLOG_POSTS.filter(p => p.category === selectedCategory);
+
+    const featuredPosts = filteredPosts.filter(p => p.featured).slice(0, 3);
+    const recentPosts = filteredPosts.filter(p => !p.featured);
 
     return (
         <>
@@ -137,7 +138,8 @@ export default function BlogPage() {
                         {CATEGORIES.map(cat => (
                             <button
                                 key={cat}
-                                className={`px-4 py-2 rounded-full text-sm transition-all ${cat === 'All'
+                                onClick={() => setSelectedCategory(cat)}
+                                className={`px-4 py-2 rounded-full text-sm transition-all ${cat === selectedCategory
                                     ? 'bg-emerald-500 text-black font-medium'
                                     : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
                                     }`}
