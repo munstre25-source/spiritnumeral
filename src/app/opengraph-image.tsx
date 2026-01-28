@@ -46,34 +46,45 @@ export default async function Image() {
                     }}
                 />
 
-                {/* Logo */}
+                {/* Logo - Spiritual Star Design */}
                 <div
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '16px',
+                        gap: '20px',
                         marginBottom: '40px',
                     }}
                 >
+                    {/* Icon matching favicon */}
                     <div
                         style={{
-                            width: '80px',
-                            height: '80px',
-                            borderRadius: '16px',
-                            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                            width: '100px',
+                            height: '100px',
+                            borderRadius: '24px',
+                            background: 'linear-gradient(135deg, #0c0a11 0%, #111827 45%, #1f2937 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '48px',
-                            fontWeight: 'bold',
-                            color: 'black',
+                            position: 'relative',
+                            border: '2px solid rgba(251, 191, 36, 0.3)',
                         }}
                     >
-                        S
+                        {/* Star glow */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '50%',
+                                background: 'radial-gradient(circle, rgba(251,191,36,0.3) 0%, transparent 70%)',
+                            }}
+                        />
+                        {/* Star symbol */}
+                        <span style={{ fontSize: '48px', zIndex: 10 }}>✦</span>
                     </div>
                     <span
                         style={{
-                            fontSize: '40px',
+                            fontSize: '48px',
                             fontWeight: 'bold',
                             color: 'white',
                         }}

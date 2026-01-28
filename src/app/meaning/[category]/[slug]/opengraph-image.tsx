@@ -116,16 +116,15 @@ export default async function Image({ params }: { params: Promise<{ category: st
                             width: '48px',
                             height: '48px',
                             borderRadius: '12px',
-                            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                            background: 'linear-gradient(135deg, #0c0a11 0%, #111827 45%, #1f2937 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '28px',
-                            fontWeight: 'bold',
-                            color: 'black',
+                            fontSize: '24px',
+                            border: '1px solid rgba(251, 191, 36, 0.3)',
                         }}
                     >
-                        S
+                        ✦
                     </div>
                     <span
                         style={{
