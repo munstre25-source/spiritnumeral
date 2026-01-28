@@ -1,20 +1,17 @@
-import { getPSEOData, getAllAngelNumberSlugs, generateAngelNumberTitle, generateAngelNumberDescription } from '@/lib/utils/pseo';
+import { getPSEODataAsync, generateAngelNumberTitle, generateAngelNumberDescription } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
+import { getClickBankCTA } from '@/lib/utils/clickbank';
 import FAQ from '@/components/FAQ';
+import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-export async function generateStaticParams() {
-  const numbers = getAllAngelNumberSlugs();
-  return numbers.map((number) => ({
-    num: number,
-    number: number,
-  }));
-}
+export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: Promise<{ num: string; number: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
   const { number } = await params;
-  const data = getPSEOData('angel-number', number);
-  
+  const data = await getPSEODataAsync('angel-number', number);
+
   if (!data) {
     return { title: 'Angel Number Not Found' };
   }
@@ -33,24 +30,20 @@ export async function generateMetadata({ params }: { params: Promise<{ num: stri
   };
 }
 
-export default async function IsWarningPage({ params }: { params: Promise<{ num: string; number: string }> }) {
+export default async function IsWarningPage({ params }: { params: Promise<{ number: string }> }) {
   const { number } = await params;
-  const data = getPSEOData('angel-number', number) as any;
+  const data = await getPSEODataAsync('angel-number', number) as any;
 
   if (!data || !('number' in data)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-zinc-400">
-        Angel number not found.
-      </div>
-    );
+    notFound();
   }
 
   const isActuallyWarning = parseInt(number) === 666; // Only 666 might be perceived as warning
-  
+
   const faqs = [
     {
       question: `Is ${number} a warning sign?`,
-      answer: isActuallyWarning 
+      answer: isActuallyWarning
         ? `Angel number ${number} is often misunderstood. ${data.misconception || data.meaning} It's not a warning of danger, but rather a message about rebalancing your life.`
         : `No, angel number ${number} is not a warning sign. ${data.misconception || `It's a positive message from your angels: ${data.meaning}`}`
     },
@@ -72,7 +65,7 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
     }
   ];
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-  const pagePath = `/is-${number}-a-warning/${number}`;
+  const pagePath = `/warning/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
@@ -100,7 +93,7 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
-      
+
       <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
         <div className="max-w-4xl mx-auto space-y-12">
           <header className="text-center space-y-4">
@@ -114,7 +107,7 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
               Angel number {number} meaning explained
             </p>
             <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
-              {isActuallyWarning 
+              {isActuallyWarning
                 ? `No, ${number} is not a warning. Here's what it really means...`
                 : `No, angel number ${number} is not a warning. It's a positive message from your angels.`
               }
@@ -156,17 +149,37 @@ export default async function IsWarningPage({ params }: { params: Promise<{ num:
 
           <FAQ faqs={faqs} title="Common Questions About This Number" />
 
-          <footer className="pt-8 pb-16">
-            <div className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02]">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-              <a
-                href={`/meaning/angel-number/${number}`}
-                className="block w-full bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black"
-              >
-                Angel Number {number} Meaning →
-              </a>
-            </div>
-          </footer>
+          <InternalLinks number={number} currentPage="warning" />
+
+          <RelatedNumbers currentNumber={parseInt(number)} />
+
+          <NavigationLinks />
+
+          {(() => {
+            const cta = getClickBankCTA('warning');
+            return (
+              <footer className="pt-8 pb-16 space-y-6">
+                <a
+                  href={cta.url}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+                  <div className="bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
+                    {cta.text}
+                  </div>
+                </a>
+                <p className="text-center text-zinc-500 text-sm">{cta.secondaryText}</p>
+                <a
+                  href={`/meaning/angel-number/${number}`}
+                  className="block text-center text-amber-500 hover:text-amber-400 transition-colors"
+                >
+                  ← Full Angel Number {number} Meaning
+                </a>
+              </footer>
+            );
+          })()}
         </div>
       </main>
     </>

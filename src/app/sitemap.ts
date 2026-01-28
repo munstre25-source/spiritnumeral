@@ -1,62 +1,53 @@
 import { MetadataRoute } from 'next';
-import { getAllPSEOSlugs, getAllAngelNumberSlugs } from '@/lib/utils/pseo';
+import { getAllPSEOSlugs } from '@/lib/utils/pseo';
+import { getAllAngelNumbers } from '@/lib/supabase';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
-/**
- * Generate sitemap for all pages
- * Includes:
- * - Main pages (home, calculator, etc.)
- * - All angel number pages (multiple URL patterns)
- * - All life path pages
- */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
   const now = new Date();
-  
-  const sitemap: MetadataRoute.Sitemap = [];
 
-  // Homepage and main pages
-  sitemap.push({
+  const sitemapEntries: MetadataRoute.Sitemap = [];
+
+  sitemapEntries.push({
     url: baseUrl,
     lastModified: now,
     changeFrequency: 'daily',
     priority: 1.0,
   });
 
-  sitemap.push({
+  sitemapEntries.push({
     url: `${baseUrl}/calculator`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.9,
   });
 
-  sitemap.push({
+  sitemapEntries.push({
     url: `${baseUrl}/meaning/life-path`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.9,
   });
-  sitemap.push({
+  sitemapEntries.push({
     url: `${baseUrl}/meaning`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.9,
   });
-  sitemap.push({
+  sitemapEntries.push({
     url: `${baseUrl}/meaning/angel-number`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.9,
   });
 
-  // Get all angel numbers and life paths
   const allSlugs = getAllPSEOSlugs();
-  const allAngelNumbers = getAllAngelNumberSlugs();
+  const allAngelNumbers = await getAllAngelNumbers();
 
-  // Main meaning pages: /meaning/angel-number/[number] and /meaning/life-path/[path]
   allSlugs.forEach(({ category, slug }) => {
-    sitemap.push({
+    sitemapEntries.push({
       url: `${baseUrl}/meaning/${category}/${slug}`,
       lastModified: now,
       changeFrequency: 'monthly',
@@ -64,32 +55,99 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // Additional URL patterns for angel numbers
   allAngelNumbers.forEach((number) => {
-    // Why am I seeing pattern
-    sitemap.push({
+    sitemapEntries.push({
+      url: `${baseUrl}/meaning/angel-number/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    });
+
+    sitemapEntries.push({
       url: `${baseUrl}/why-am-i-seeing/${number}`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     });
 
-    // Is warning pattern
-    sitemap.push({
-      url: `${baseUrl}/is-${number}-a-warning/${number}`,
+    sitemapEntries.push({
+      url: `${baseUrl}/warning/${number}`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     });
 
-    // Twin flame pattern
-    sitemap.push({
-      url: `${baseUrl}/${number}-twin-flame/${number}`,
+    sitemapEntries.push({
+      url: `${baseUrl}/twin-flame/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/angel-number-love/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/angel-number-career/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/manifestation/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/biblical-meaning/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    // New high-intent page types
+    sitemapEntries.push({
+      url: `${baseUrl}/money/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/soulmate/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/pregnancy/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/breakup/${number}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
+
+    sitemapEntries.push({
+      url: `${baseUrl}/dreams/${number}`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     });
   });
 
-  return sitemap;
+  return sitemapEntries;
 }

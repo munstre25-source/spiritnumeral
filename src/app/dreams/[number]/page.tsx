@@ -1,0 +1,199 @@
+import { getPSEODataAsync } from '@/lib/utils/pseo';
+import { generateAllSchemas } from '@/lib/utils/schema';
+import { getClickBankCTA } from '@/lib/utils/clickbank';
+import FAQ from '@/components/FAQ';
+import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+    const { number } = await params;
+    const data = await getPSEODataAsync('angel-number', number);
+
+    if (!data) {
+        return { title: 'Angel Number Not Found' };
+    }
+
+    const title = `Angel Number ${number} in Dreams: Dream Meaning & Interpretation`;
+    const description = `Seeing ${number} in your dreams? Discover the spiritual dream meaning, subconscious messages, and what your angels are telling you.`;
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            type: 'article',
+        },
+    };
+}
+
+export default async function DreamMeaningPage({ params }: { params: Promise<{ number: string }> }) {
+    const { number } = await params;
+    const data = await getPSEODataAsync('angel-number', number) as any;
+
+    if (!data || !('number' in data)) {
+        notFound();
+    }
+
+    const faqs = [
+        {
+            question: `What does it mean to see ${number} in a dream?`,
+            answer: data.dreams || `Seeing ${number} in dreams carries amplified spiritual significance and messages from your subconscious.`
+        },
+        {
+            question: `Is dreaming of ${number} a message from angels?`,
+            answer: `Yes, dreams are a powerful way for angels to communicate. Seeing ${number} in dreams is a direct spiritual message.`
+        },
+        {
+            question: `Should I be concerned about dreaming of ${number}?`,
+            answer: `No, dreaming of ${number} is generally positive. It indicates spiritual guidance and important messages from the divine.`
+        },
+        {
+            question: `How do I interpret ${number} in my dreams?`,
+            answer: `Pay attention to the emotions and context of the dream. ${number} combined with your feelings reveals the full message.`
+        },
+        {
+            question: `What should I do after dreaming of ${number}?`,
+            answer: `Write down your dream immediately, meditate on the message, and trust your intuitive understanding of what it means.`
+        },
+    ];
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+    const pagePath = `/dreams/${number}`;
+    const schemas = generateAllSchemas(data, {
+        baseUrl: siteUrl,
+        path: pagePath,
+        breadcrumbTrail: [
+            { name: 'Home', url: siteUrl },
+            { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
+            { name: `${number} Dream Meaning`, url: `${siteUrl}${pagePath}` },
+        ],
+        title: `Angel Number ${number} Dream Meaning`,
+        description: data.dreams || `Discover what seeing ${number} in dreams means.`,
+        faqOverride: faqs,
+    });
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.faq) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
+            />
+
+            <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
+                <div className="max-w-4xl mx-auto space-y-12">
+                    <header className="text-center space-y-4">
+                        <div className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium mb-4">
+                            Dreams & Subconscious
+                        </div>
+                        <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-b from-indigo-200 to-indigo-500 bg-clip-text text-transparent tracking-tighter">
+                            Angel Number {number} in Dreams
+                        </h1>
+                        <p className="text-sm uppercase tracking-[0.2em] text-indigo-400/80">
+                            Dream Interpretation & Messages
+                        </p>
+                        <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+                            {data.dreams || `Discover what seeing ${number} in your dreams reveals about your spiritual path.`}
+                        </p>
+                    </header>
+
+                    <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20 shadow-2xl">
+                        <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+                            What Does {number} Mean in Dreams?
+                        </h2>
+                        <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
+                            {data.dreams || `Seeing angel number ${number} in your dreams is a powerful sign. Your subconscious mind is receiving spiritual messages that your waking mind may not be ready to hear.`}
+                        </p>
+                        <p className="text-lg text-zinc-400 leading-relaxed">
+                            {data.meaning}
+                        </p>
+                    </section>
+
+                    <section className="grid gap-6 md:grid-cols-2">
+                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-indigo-500/30">
+                            <h2 className="text-indigo-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                Subconscious Messages
+                            </h2>
+                            <p className="text-zinc-300 leading-relaxed">
+                                Dreams featuring {number} often reveal what your subconscious already knows. Pay attention to recurring themes.
+                            </p>
+                        </div>
+                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-indigo-500/30">
+                            <h2 className="text-indigo-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                Spirit Communication
+                            </h2>
+                            <p className="text-zinc-300 leading-relaxed">
+                                Your spirit guides may use {number} in dreams to communicate directly with you when you're most receptive.
+                            </p>
+                        </div>
+                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-indigo-500/30">
+                            <h2 className="text-indigo-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                Dream Journaling
+                            </h2>
+                            <p className="text-zinc-300 leading-relaxed">
+                                Keep a dream journal by your bed. Record every instance of {number} appearing and the context for deeper insights.
+                            </p>
+                        </div>
+                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-indigo-500/30">
+                            <h2 className="text-indigo-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                Dream Affirmation
+                            </h2>
+                            <p className="text-zinc-300 leading-relaxed italic">
+                                "I am open to receiving messages in my dreams. Angel number {number} speaks to my higher self."
+                            </p>
+                        </div>
+                    </section>
+
+                    <FAQ faqs={faqs} title="Dream Interpretation Questions" />
+
+                    <InternalLinks number={number} currentPage="dreams" />
+
+                    <RelatedNumbers currentNumber={parseInt(number)} />
+
+                    <NavigationLinks />
+
+                    {(() => {
+                        const cta = getClickBankCTA('dreams');
+                        return (
+                            <footer className="pt-8 pb-16 space-y-6">
+                                <a
+                                    href={cta.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer sponsored"
+                                    className="group relative overflow-hidden bg-indigo-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+                                    <div className="bg-zinc-950 text-indigo-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-white">
+                                        {cta.text}
+                                    </div>
+                                </a>
+                                <p className="text-center text-zinc-500 text-sm">{cta.secondaryText}</p>
+                                <a
+                                    href={`/meaning/angel-number/${number}`}
+                                    className="block text-center text-amber-500 hover:text-amber-400 transition-colors"
+                                >
+                                    ← Full Angel Number {number} Meaning
+                                </a>
+                            </footer>
+                        );
+                    })()}
+                </div>
+            </main>
+        </>
+    );
+}

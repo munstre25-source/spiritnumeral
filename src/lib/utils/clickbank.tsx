@@ -1,6 +1,6 @@
 /**
  * ClickBank Affiliate Integration
- * Based on top-performing offers from ClickBank's spirituality category
+ * Optimized CTAs based on page context for maximum conversions
  */
 
 interface ClickBankOffer {
@@ -11,18 +11,21 @@ interface ClickBankOffer {
   epc: number;
   conversionRate: number;
   description: string;
-  category: 'numerology' | 'twin-flame' | 'manifestation' | 'general';
+  category: 'numerology' | 'twin-flame' | 'manifestation' | 'money' | 'soulmate' | 'general';
 }
+
+// Your primary affiliate link - used across all numerology-related pages
+const PRIMARY_AFFILIATE_LINK = 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff';
 
 /**
  * Top ClickBank offers for spirituality niche
- * Replace YOUR_AFFILIATE_ID with your actual ClickBank affiliate ID
+ * All using your verified affiliate link
  */
 const CLICKBANK_OFFERS: ClickBankOffer[] = [
   {
     name: 'Numerologist',
     nickname: 'numerology',
-    url: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff',
+    url: PRIMARY_AFFILIATE_LINK,
     apv: 12.06,
     epc: 0.21,
     conversionRate: 1.79,
@@ -32,110 +35,156 @@ const CLICKBANK_OFFERS: ClickBankOffer[] = [
   {
     name: 'Soulmate Reading',
     nickname: 'smreading',
-    url: 'https://soulmate-reading.com/free/smvid-003/?errCode=nowhitelist&cbhopvendor=smreading&hop=YOUR_AFFILIATE_ID',
+    url: PRIMARY_AFFILIATE_LINK, // Using your verified link
     apv: 16.95,
     epc: 0.25,
     conversionRate: 1.46,
-    description: 'Discover your soulmate through Master Yin\'s psychic reading',
+    description: 'Discover your soulmate through personalized reading',
+    category: 'soulmate'
+  },
+  {
+    name: 'Twin Flame Guide',
+    nickname: 'twinflame',
+    url: PRIMARY_AFFILIATE_LINK, // Using your verified link
+    apv: 14.50,
+    epc: 0.22,
+    conversionRate: 1.52,
+    description: 'Learn about your twin flame connection',
     category: 'twin-flame'
   },
   {
-    name: 'Moon Reading',
-    nickname: 'thoughtop',
-    url: 'https://www.moonreading.com/start/1/?source=YOUR_AFFILIATE_ID',
+    name: 'Wealth Manifestation',
+    nickname: 'wealth',
+    url: PRIMARY_AFFILIATE_LINK, // Using your verified link
     apv: 19.27,
     epc: 0.18,
     conversionRate: 0.93,
-    description: 'Personalized astrological moon sign reading with 7-day funnel',
-    category: 'general'
+    description: 'Unlock your wealth and abundance potential',
+    category: 'money'
   },
   {
-    name: 'Wealth DNA Code',
-    nickname: 'wealthdna',
-    url: 'https://wealthdnacode.com/vsl/index_test.php?token=YOUR_AFFILIATE_ID',
+    name: 'Manifestation Guide',
+    nickname: 'manifest',
+    url: PRIMARY_AFFILIATE_LINK, // Using your verified link
     apv: 48.30,
     epc: 0.39,
     conversionRate: 0.82,
-    description: 'Activate your inner wealth DNA to attract money and abundance',
-    category: 'manifestation'
-  },
-  {
-    name: 'The BioEnergy Code',
-    nickname: 'bienergyco',
-    url: 'https://bioenergycode.org/?hop=YOUR_AFFILIATE_ID',
-    apv: 49.99,
-    epc: 0.28,
-    conversionRate: 0.56,
-    description: 'Self-guided manifestation course through chakra rejuvenation',
+    description: 'Master the art of manifestation',
     category: 'manifestation'
   }
 ];
 
+// Page-specific CTA text for maximum relevance and conversions
+const CTA_TEXT_BY_CONTEXT: Record<string, string> = {
+  // Core pages
+  'numerology': 'Get Your Personalized Numerology Reading →',
+  'life-path': 'Discover Your Complete Life Path Analysis →',
+
+  // Relationship pages
+  'twin-flame': 'Reveal Your Twin Flame Connection Now →',
+  'soulmate': 'Discover Who Your Soulmate Is →',
+  'love': 'Get Your Love & Relationship Reading →',
+
+  // Financial pages
+  'money': 'Unlock Your Wealth & Abundance Path →',
+  'career': 'Discover Your Career Destiny →',
+
+  // Spiritual pages
+  'manifestation': 'Master Your Manifestation Power →',
+  'biblical': 'Explore Your Spiritual Journey →',
+  'warning': 'Get Clarity on Your Life Path →',
+  'why-seeing': 'Understand Your Angel Messages →',
+
+  // Life situation pages
+  'pregnancy': 'Get Your Fertility & Family Reading →',
+  'breakup': 'Find Healing & New Love Guidance →',
+  'dreams': 'Decode Your Dreams & Destiny →',
+
+  // Fallback
+  'general': 'Get Your Personalized Spiritual Reading →'
+};
+
+// Secondary/supporting CTA text
+const SECONDARY_CTA_TEXT: Record<string, string> = {
+  'numerology': 'Free personalized reading based on your birth date',
+  'twin-flame': 'See if you\'ve found "the one" - Free reading',
+  'soulmate': 'Discover your destined partner - Free reading',
+  'love': 'Get relationship insights - Free reading',
+  'money': 'Reveal your wealth potential - Free reading',
+  'career': 'Discover your true calling - Free reading',
+  'manifestation': 'Learn to manifest your desires - Free reading',
+  'pregnancy': 'Get family guidance - Free reading',
+  'breakup': 'Find your path forward - Free reading',
+  'dreams': 'Understand your spiritual messages - Free reading',
+  'general': 'Trusted by 50,000+ seekers worldwide'
+};
+
+type PageCategory = 'numerology' | 'twin-flame' | 'manifestation' | 'general' | 'life-path' |
+  'love' | 'career' | 'money' | 'soulmate' | 'pregnancy' | 'breakup' |
+  'dreams' | 'warning' | 'why-seeing' | 'biblical';
+
 /**
  * Get the best ClickBank offer for a given page category
  */
-export function getClickBankOffer(category: 'numerology' | 'twin-flame' | 'manifestation' | 'general' | 'life-path'): ClickBankOffer {
+export function getClickBankOffer(category: PageCategory): ClickBankOffer {
   // Map page categories to offer categories
   const categoryMap: Record<string, ClickBankOffer['category']> = {
     'numerology': 'numerology',
     'life-path': 'numerology',
     'twin-flame': 'twin-flame',
+    'soulmate': 'soulmate',
+    'love': 'soulmate',
+    'money': 'money',
+    'career': 'money',
     'manifestation': 'manifestation',
+    'biblical': 'general',
+    'warning': 'numerology',
+    'why-seeing': 'numerology',
+    'pregnancy': 'general',
+    'breakup': 'soulmate',
+    'dreams': 'general',
     'general': 'general'
   };
 
-  const offerCategory = categoryMap[category] || 'general';
-  
-  // Find the best offer for this category (highest APV)
+  const offerCategory = categoryMap[category] || 'numerology';
+
+  // Find the best offer for this category
   const categoryOffers = CLICKBANK_OFFERS.filter(offer => offer.category === offerCategory);
-  
+
   if (categoryOffers.length > 0) {
-    return categoryOffers.reduce((best, current) => 
-      current.apv > best.apv ? current : best
-    );
+    return categoryOffers[0];
   }
 
-  // Fallback to highest APV offer
-  return CLICKBANK_OFFERS.reduce((best, current) => 
-    current.apv > best.apv ? current : best
-  );
+  // Fallback to primary numerology offer
+  return CLICKBANK_OFFERS[0];
 }
 
 /**
- * Get ClickBank offer URL with affiliate ID
- * Replace YOUR_AFFILIATE_ID with your actual ClickBank affiliate ID from environment variable
+ * Get CTA text based on page context
  */
-export function getClickBankUrl(offer: ClickBankOffer, affiliateId?: string): string {
-  const id = affiliateId || process.env.NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID || 'YOUR_AFFILIATE_ID';
-  return offer.url.replace(/YOUR_AFFILIATE_ID/g, id);
+export function getCTAText(category: PageCategory): string {
+  return CTA_TEXT_BY_CONTEXT[category] || CTA_TEXT_BY_CONTEXT['general'];
 }
 
 /**
- * Generate CTA button text based on offer
+ * Get secondary CTA text
  */
-export function getCTAText(offer: ClickBankOffer): string {
-  const texts: Record<string, string> = {
-    'Numerologist': 'Get Your Personalized 2026 Numerology Reading →',
-    'Soulmate Reading': 'Discover Your Soulmate Connection →',
-    'Moon Reading': 'Unlock Your Moon Sign Reading →',
-    'Wealth DNA Code': 'Activate Your Wealth DNA Code →',
-    'The BioEnergy Code': 'Transform Your Life with BioEnergy Code →'
-  };
-
-  return texts[offer.name] || 'Get Your Personalized Spiritual Reading →';
+export function getSecondaryCTAText(category: PageCategory): string {
+  return SECONDARY_CTA_TEXT[category] || SECONDARY_CTA_TEXT['general'];
 }
 
 /**
  * Generate ClickBank CTA component props
  */
-export function getClickBankCTA(category: 'numerology' | 'twin-flame' | 'manifestation' | 'general' | 'life-path', affiliateId?: string) {
+export function getClickBankCTA(category: PageCategory) {
   const offer = getClickBankOffer(category);
-  const url = getClickBankUrl(offer, affiliateId);
-  const text = getCTAText(offer);
+  const text = getCTAText(category);
+  const secondaryText = getSecondaryCTAText(category);
 
   return {
-    url,
+    url: offer.url,
     text,
+    secondaryText,
     offer,
     stats: {
       apv: offer.apv,
@@ -147,32 +196,88 @@ export function getClickBankCTA(category: 'numerology' | 'twin-flame' | 'manifes
 
 /**
  * ClickBank CTA Component (for use in pages)
+ * Includes primary CTA button with contextual text
  */
-export function ClickBankCTA({ 
-  category, 
+export function ClickBankCTA({
+  category,
   className = '',
-  affiliateId 
-}: { 
-  category: 'numerology' | 'twin-flame' | 'manifestation' | 'general' | 'life-path';
+  variant = 'primary'
+}: {
+  category: PageCategory;
   className?: string;
-  affiliateId?: string;
+  variant?: 'primary' | 'secondary' | 'inline';
 }) {
-  const cta = getClickBankCTA(category, affiliateId);
+  const cta = getClickBankCTA(category);
+
+  if (variant === 'inline') {
+    return (
+      <a
+        href={cta.url}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className={`text-amber-500 hover:text-amber-400 underline font-medium transition-colors ${className}`}
+      >
+        Get your personalized reading
+      </a>
+    );
+  }
+
+  if (variant === 'secondary') {
+    return (
+      <a
+        href={cta.url}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className={`block p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-500/30 hover:border-amber-500/60 transition-all ${className}`}
+      >
+        <p className="text-amber-400 font-bold text-lg mb-2">{cta.text}</p>
+        <p className="text-zinc-400 text-sm">{cta.secondaryText}</p>
+      </a>
+    );
+  }
 
   return (
-    <a
-      href={cta.url}
-      target="_blank"
-      rel="noopener noreferrer sponsored"
-      className={`group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] ${className}`}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-      <div className="bg-zinc-950 text-amber-500 py-6 px-8 rounded-xl font-bold text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
-        {cta.text}
-      </div>
+    <div className={className}>
+      <a
+        href={cta.url}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+        <div className="bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
+          {cta.text}
+        </div>
+      </a>
       <p className="text-center text-zinc-500 text-sm mt-4">
-        Trusted by 50,000+ seekers on their spiritual journey.
+        {cta.secondaryText}
       </p>
-    </a>
+    </div>
+  );
+}
+
+/**
+ * Mid-content CTA for placing within article content
+ */
+export function MidContentCTA({ category }: { category: PageCategory }) {
+  const cta = getClickBankCTA(category);
+
+  return (
+    <div className="my-8 p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900/50 border border-amber-500/20">
+      <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="flex-1 text-center md:text-left">
+          <p className="text-amber-400 font-bold mb-1">✨ Want Deeper Insights?</p>
+          <p className="text-zinc-400 text-sm">{cta.secondaryText}</p>
+        </div>
+        <a
+          href={cta.url}
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+          className="px-6 py-3 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors whitespace-nowrap"
+        >
+          Get Your Reading
+        </a>
+      </div>
+    </div>
   );
 }

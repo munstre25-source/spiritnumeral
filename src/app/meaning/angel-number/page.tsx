@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import dataset from '@/lib/data/spirituality-dataset.json';
+import { supabase, AngelNumber } from '@/lib/supabase';
+import AngelNumberSearch from '@/components/AngelNumberSearch';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Angel Number Meanings | Spirit Numeral',
-  description: 'Browse the complete library of angel numbers with meanings for love, career, twin flames, and year-ahead outlooks. Jump into any number for a detailed reading.',
+  title: 'Angel Number Library | Browse 111-999 Meanings',
+  description: 'Explore our complete library of 889+ angel numbers. Discover spiritual meanings for love, career, twin flames, and your 2026 outlook.',
 };
 
-const angelNumbers = dataset.angel_numbers;
 const faqs = [
   {
     question: 'What is an angel number?',
@@ -20,14 +22,27 @@ const faqs = [
   {
     question: 'Do angel numbers have different meanings for love and career?',
     answer: 'Yes. Every angel number has themes for relationships, purpose, and personal growth. Dive into the detailed page to see tailored guidance for love, career, and your twin flame journey.'
-  },
-  {
-    question: 'Can angel numbers warn me about something?',
-    answer: 'Some angel numbers highlight course corrections—like setting boundaries or slowing down. Check the “warning” pages for nuance before making big decisions.'
   }
 ];
 
-export default function AngelNumberIndexPage() {
+export default async function AngelNumberIndexPage() {
+  const { data: angelNumbers, error } = await supabase
+    .from('angel_numbers')
+    .select('number, meaning')
+    .order('number', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching angel numbers:', error);
+  }
+
+  // Group by hundreds
+  const groups: { [key: string]: typeof angelNumbers } = {};
+  angelNumbers?.forEach((item) => {
+    const groupKey = `${Math.floor(item.number / 100)}00s`;
+    if (!groups[groupKey]) groups[groupKey] = [];
+    groups[groupKey].push(item);
+  });
+
   const faqStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -48,109 +63,58 @@ export default function AngelNumberIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
 
-      <section className="max-w-5xl mx-auto text-center space-y-6 mb-14">
+      <section className="max-w-5xl mx-auto text-center space-y-8 mb-20">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold">
-          Angel Number Library
+          Complete Angel Number Library
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent">
-          Angel Number Meanings (111-999)
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent">
+          Explore All Angel Numbers
         </h1>
-        <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-          Explore every angel number from 111-999. Each card gives you the core guidance plus quick links to deep-dive meanings, “why am I seeing”, warnings, and twin flame insights.
+        <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
+          We have decoded {angelNumbers?.length || '889+'} angel numbers. Find the hidden meaning behind the sequences appearing in your life.
         </p>
-        <div className="flex justify-center gap-3">
-          <Link
-            href="/calculator"
-            className="bg-amber-500 text-black px-5 py-3 rounded-xl font-semibold transition hover:bg-amber-400"
-          >
-            Find My Life Path
-          </Link>
-          <Link
-            href="/meaning/life-path"
-            className="px-5 py-3 rounded-xl border border-zinc-800 text-zinc-200 hover:border-amber-500/60 transition"
-          >
-            Explore Life Paths
-          </Link>
+        
+        <div className="pt-4">
+          <AngelNumberSearch />
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {angelNumbers.map((item) => (
-          <article
-            key={item.number}
-            className="p-5 md:p-6 rounded-3xl bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/40 transition shadow-lg flex flex-col gap-3"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm uppercase tracking-[0.2em] text-amber-400 font-semibold">
-                {item.number}
-              </span>
-              <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs border border-amber-500/30">
-                Guidance
-              </span>
+      <section className="max-w-7xl mx-auto mb-20">
+        {Object.entries(groups).map(([group, numbers]) => (
+          <div key={group} className="mb-20 last:mb-0">
+            <div className="flex items-center gap-4 mb-8">
+              <h2 className="text-3xl font-bold text-amber-500">{group}</h2>
+              <div className="h-px flex-grow bg-gradient-to-r from-zinc-800 to-transparent"></div>
             </div>
-            <h2 className="text-lg md:text-xl font-semibold text-amber-50 leading-tight">
-              Angel Number {item.number} Meaning
-            </h2>
-            <p className="text-sm text-zinc-300 leading-relaxed line-clamp-2">
-              {item.meaning}
-            </p>
-            <p className="text-sm text-zinc-300 leading-relaxed line-clamp-3">
-              Love: {item.love}
-            </p>
-            <p className="text-sm text-zinc-300 leading-relaxed line-clamp-3">
-              Career: {item.career}
-            </p>
-            <div className="text-xs text-zinc-400">
-              Outlook: {item['2026_prediction']}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {numbers.map((item) => (
+                <Link
+                  key={item.number}
+                  href={`/meaning/angel-number/${item.number}`}
+                  className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800 hover:border-amber-500/50 hover:bg-zinc-900 transition-all text-center group"
+                >
+                  <div className="text-2xl font-bold text-zinc-100 group-hover:text-amber-500 transition-colors">
+                    {item.number}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold mt-1">Meaning</div>
+                </Link>
+              ))}
             </div>
-            <div className="flex flex-wrap gap-2 pt-2">
-              <Link
-                href={`/meaning/angel-number/${item.number}`}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
-              >
-                Angel {item.number} meaning <span aria-hidden>→</span>
-              </Link>
-              <Link
-                href={`/why-am-i-seeing/${item.number}`}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
-              >
-                Why I&rsquo;m seeing {item.number}
-              </Link>
-              <Link
-                href={`/is-${item.number}-a-warning/${item.number}`}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
-              >
-                Is {item.number} a warning?
-              </Link>
-              <Link
-                href={`/${item.number}-twin-flame/${item.number}`}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-zinc-800 text-zinc-200 text-sm hover:border-amber-500/60 transition"
-              >
-                {item.number} twin flame
-              </Link>
-            </div>
-          </article>
+          </div>
         ))}
       </section>
 
-      <section className="max-w-5xl mx-auto mt-14">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold mb-4">
-          Angel Number FAQ
-        </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-amber-50 mb-6">Quick answers to common questions</h2>
-        <div className="space-y-4">
-          {faqs.map((item) => (
-            <details
-              key={item.question}
-              className="group border border-zinc-800 rounded-2xl bg-zinc-900/40 px-5 py-4 hover:border-amber-500/40 transition"
-            >
-              <summary className="flex justify-between items-center cursor-pointer text-amber-100 font-semibold text-base md:text-lg">
-                <span>{item.question}</span>
-                <span className="text-amber-500 group-open:rotate-45 transition-transform">+</span>
-              </summary>
-              <p className="mt-3 text-zinc-300 leading-relaxed text-sm md:text-base">{item.answer}</p>
-            </details>
-          ))}
+      <section className="max-w-4xl mx-auto">
+        <div className="p-8 md:p-12 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+          <h2 className="text-3xl font-bold mb-8 text-amber-300 text-center">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {faqs.map((item) => (
+              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-0 last:pb-0">
+                <h3 className="text-xl font-semibold text-zinc-100 mb-3">{item.question}</h3>
+                <p className="text-zinc-400 leading-relaxed">{item.answer}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>

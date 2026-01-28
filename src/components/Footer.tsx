@@ -11,8 +11,18 @@ export default function Footer() {
         { name: 'Meaning Hub', href: '/meaning' },
         { name: 'Angel Numbers', href: '/meaning/angel-number' },
         { name: 'Life Path Numbers', href: '/meaning/life-path' },
-        { name: 'Twin Flame Numbers', href: '/111-twin-flame' },
-        { name: 'Spiritual Warnings', href: '/is-111-a-warning' },
+        { name: 'Twin Flame Numbers', href: '/twin-flame/111' },
+        { name: 'Spiritual Warnings', href: '/warning/111' },
+      ],
+    },
+    {
+      title: 'Topics',
+      links: [
+        { name: 'Money & Abundance', href: '/money/888' },
+        { name: 'Soulmate Signs', href: '/soulmate/222' },
+        { name: 'Pregnancy & Fertility', href: '/pregnancy/333' },
+        { name: 'Breakup Healing', href: '/breakup/555' },
+        { name: 'Dream Meanings', href: '/dreams/777' },
       ],
     },
     {
@@ -20,7 +30,7 @@ export default function Footer() {
       links: [
         { name: 'Life Path Calculator', href: '/calculator' },
         { name: 'Daily Predictions', href: '/' },
-          { name: 'Personalized Reading', href: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff' },
+        { name: 'Personalized Reading', href: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff' },
       ],
     },
     {
@@ -91,10 +101,10 @@ export default function Footer() {
           <p className="text-zinc-500 text-xs text-center md:text-left">
             © {currentYear} Spirit Numeral. All rights reserved.
           </p>
-            <div className="flex space-x-6">
-              <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
-                Privacy
-              </Link>
+          <div className="flex space-x-6">
+            <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
+              Privacy
+            </Link>
             <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
               Terms
             </Link>

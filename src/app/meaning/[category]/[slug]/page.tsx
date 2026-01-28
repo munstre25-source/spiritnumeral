@@ -1,8 +1,12 @@
-import { getPSEOData, getAllPSEOSlugs } from '@/lib/utils/pseo';
+import { getPSEODataAsync, getAllPSEOSlugs } from '@/lib/utils/pseo';
 import { generateAllSchemas, generateDefaultFAQs } from '@/lib/utils/schema';
 import { getClickBankCTA } from '@/lib/utils/clickbank';
 import FAQ from '@/components/FAQ';
+import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   return getAllPSEOSlugs();
@@ -10,7 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { category, slug } = await params;
-  const data: any = getPSEOData(category, slug.replace('life-path-', ''));
+  const data: any = await getPSEODataAsync(category, slug.replace('life-path-', ''));
   
   if (!data) return { title: 'Meaning Not Found' };
 
@@ -48,14 +52,10 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
 export default async function PSEOPage({ params }: { params: Promise<{ category: string; slug: string }> }) {
   const { category, slug } = await params;
-  const data: any = getPSEOData(category, slug.replace('life-path-', ''));
+  const data: any = await getPSEODataAsync(category, slug.replace('life-path-', ''));
 
   if (!data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-zinc-400">
-        Meaning not found.
-      </div>
-    );
+    notFound();
   }
 
   const isLifePath = category === 'life-path';
@@ -171,9 +171,18 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
             )}
           </section>
 
-          <FAQ faqs={faqs} />
+<FAQ faqs={faqs} />
 
-          <footer className="pt-8 pb-16">
+            {!isLifePath && (
+              <>
+                <InternalLinks number={data.number} currentPage="meaning" />
+                <RelatedNumbers currentNumber={data.number} />
+              </>
+            )}
+            
+            <NavigationLinks />
+
+            <footer className="pt-8 pb-16">
             <a
               href={cta.url}
               target="_blank"

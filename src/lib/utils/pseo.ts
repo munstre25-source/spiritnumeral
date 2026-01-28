@@ -1,29 +1,34 @@
 import dataset from '../data/spirituality-dataset.json';
+import { getAngelNumber, transformAngelNumberData } from '../supabase';
 
-/**
- * Get PSEO data for a specific category and slug
- */
-export function getPSEOData(category: string, slug: string) {
+export async function getPSEODataAsync(category: string, slug: string) {
   if (category === 'angel-number') {
-    return dataset.angel_numbers.find(n => n.number.toString() === slug);
+    const num = parseInt(slug, 10);
+    if (isNaN(num)) return null;
+    const data = await getAngelNumber(num);
+    if (!data) return null;
+    return transformAngelNumberData(data);
   }
   if (category === 'life-path') {
-    // Expecting slug like 'life-path-7' or just '7'
     const id = slug.replace('life-path-', '');
     return dataset.life_paths.find(p => p.path.toString() === id);
   }
   return null;
 }
 
-/**
- * Get all PSEO slugs for static generation
- */
+export function getPSEOData(category: string, slug: string) {
+  if (category === 'angel-number') {
+    return dataset.angel_numbers.find(n => n.number.toString() === slug);
+  }
+  if (category === 'life-path') {
+    const id = slug.replace('life-path-', '');
+    return dataset.life_paths.find(p => p.path.toString() === id);
+  }
+  return null;
+}
+
 export function getAllPSEOSlugs() {
   const paths: { category: string; slug: string }[] = [];
-  
-  dataset.angel_numbers.forEach(n => {
-    paths.push({ category: 'angel-number', slug: n.number.toString() });
-  });
   
   dataset.life_paths.forEach(p => {
     paths.push({ category: 'life-path', slug: `life-path-${p.path}` });
@@ -32,16 +37,10 @@ export function getAllPSEOSlugs() {
   return paths;
 }
 
-/**
- * Get all angel number slugs (for additional URL patterns)
- */
 export function getAllAngelNumberSlugs(): string[] {
-  return dataset.angel_numbers.map(n => n.number.toString());
+  return [];
 }
 
-/**
- * Get all life path slugs
- */
 export function getAllLifePathSlugs(): string[] {
   return dataset.life_paths.map(p => p.path.toString());
 }
