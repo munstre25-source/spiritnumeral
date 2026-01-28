@@ -102,6 +102,36 @@ const blogListSchema = {
     })),
 };
 
+const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: baseUrl,
+        },
+        {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Blog',
+            item: `${baseUrl}/blog`,
+        },
+    ],
+};
+
+const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Numerology Blog - Spirit Numeral',
+    description: 'Expert articles about angel numbers, life path numbers, and spiritual numerology.',
+    url: `${baseUrl}/blog`,
+    breadcrumb: {
+        '@id': `${baseUrl}/blog#breadcrumb`,
+    },
+};
+
 export default function BlogPage() {
     const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -118,6 +148,14 @@ export default function BlogPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
             />
             <main className="min-h-screen pt-32 pb-20 px-6">
                 <div className="max-w-6xl mx-auto">
