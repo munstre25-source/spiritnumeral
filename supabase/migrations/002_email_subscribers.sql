@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS email_subscribers (
   id BIGSERIAL PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   source TEXT DEFAULT 'popup',
+  metadata JSONB, -- Stores quiz answers, suggested numbers, etc.
   subscribed_at TIMESTAMPTZ DEFAULT NOW(),
   unsubscribed_at TIMESTAMPTZ,
   is_active BOOLEAN DEFAULT true,

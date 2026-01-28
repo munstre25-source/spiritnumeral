@@ -6,6 +6,7 @@ import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/Int
 import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
 import { ViewTracker } from '@/components/ViewTracker';
 import { AudioReaderCompact } from '@/components/AudioReader';
+import { PrintReading } from '@/components/PrintReading';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -160,7 +161,18 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           {!isLifePath && (
             <>
               <ViewTracker number={data.number} />
-              <QuickActions number={data.number} />
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <QuickActions number={data.number} />
+                <PrintReading
+                  number={data.number}
+                  meaning={data.meaning || ''}
+                  love={data.love}
+                  career={data.career}
+                  twinFlame={data.twin_flame}
+                  luckyColor={data.lucky_color}
+                  chakra={data.chakra}
+                />
+              </div>
             </>
           )}
 

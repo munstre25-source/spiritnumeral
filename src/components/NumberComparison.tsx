@@ -1,0 +1,257 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+interface ComparisonData {
+    number: number;
+    meaning: string;
+    love: string;
+    career: string;
+    energy: string;
+}
+
+// Generate comparison data based on number patterns
+function getNumberEnergy(num: number): string {
+    const digits = num.toString().split('').map(Number);
+    const sum = digits.reduce((a, b) => a + b, 0);
+
+    if (digits.every(d => d === digits[0])) return 'Amplified single-digit energy';
+    if (num === parseInt(digits.reverse().join(''))) return 'Balanced mirror energy';
+    if (sum % 3 === 0) return 'Creative and expressive';
+    if (sum % 2 === 0) return 'Harmonious and balanced';
+    return 'Dynamic and transformative';
+}
+
+function getQuickMeaning(num: number): string {
+    const meanings: Record<number, string> = {
+        0: 'Infinite potential and divine connection',
+        1: 'New beginnings and leadership',
+        2: 'Partnership and balance',
+        3: 'Creativity and self-expression',
+        4: 'Stability and foundation',
+        5: 'Change and adventure',
+        6: 'Love and responsibility',
+        7: 'Spirituality and inner wisdom',
+        8: 'Abundance and power',
+        9: 'Completion and humanitarianism',
+    };
+
+    const firstDigit = parseInt(num.toString()[0]);
+    return meanings[firstDigit] || 'Unique spiritual significance';
+}
+
+export function NumberComparison() {
+    const [number1, setNumber1] = useState('');
+    const [number2, setNumber2] = useState('');
+    const [comparison, setComparison] = useState<{
+        num1: ComparisonData;
+        num2: ComparisonData;
+        compatibility: number;
+        insight: string;
+    } | null>(null);
+
+    const handleCompare = () => {
+        const n1 = parseInt(number1);
+        const n2 = parseInt(number2);
+
+        if (isNaN(n1) || isNaN(n2) || n1 < 0 || n1 > 2222 || n2 < 0 || n2 > 2222) {
+            return;
+        }
+
+        // Calculate compatibility based on digit relationships
+        const digits1 = n1.toString().split('').map(Number);
+        const digits2 = n2.toString().split('').map(Number);
+        const sum1 = digits1.reduce((a, b) => a + b, 0);
+        const sum2 = digits2.reduce((a, b) => a + b, 0);
+
+        // Reduce to single digit
+        let root1 = sum1;
+        while (root1 > 9) root1 = root1.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+        let root2 = sum2;
+        while (root2 > 9) root2 = root2.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+
+        // Compatibility based on root numbers
+        const diff = Math.abs(root1 - root2);
+        const compatibility = Math.max(50, 100 - (diff * 8) + (root1 === root2 ? 15 : 0));
+
+        // Generate insight
+        const insights = [
+            `${n1} and ${n2} share ${root1 === root2 ? 'the same' : 'complementary'} root energy.`,
+            `Together, these numbers create a ${compatibility > 80 ? 'powerful' : 'unique'} spiritual combination.`,
+            `The combined energy suggests ${compatibility > 70 ? 'harmony' : 'growth through contrast'}.`,
+        ];
+
+        setComparison({
+            num1: {
+                number: n1,
+                meaning: getQuickMeaning(n1),
+                love: `In love, ${n1} brings ${digits1[0] % 2 === 0 ? 'nurturing support' : 'passionate energy'}.`,
+                career: `Career-wise, ${n1} favors ${digits1[0] > 5 ? 'leadership roles' : 'collaborative work'}.`,
+                energy: getNumberEnergy(n1),
+            },
+            num2: {
+                number: n2,
+                meaning: getQuickMeaning(n2),
+                love: `In love, ${n2} brings ${digits2[0] % 2 === 0 ? 'nurturing support' : 'passionate energy'}.`,
+                career: `Career-wise, ${n2} favors ${digits2[0] > 5 ? 'leadership roles' : 'collaborative work'}.`,
+                energy: getNumberEnergy(n2),
+            },
+            compatibility: Math.min(98, compatibility),
+            insight: insights[Math.floor(Math.random() * insights.length)],
+        });
+    };
+
+    return (
+        <div className="max-w-4xl mx-auto">
+            {/* Input Section */}
+            <div className="grid md:grid-cols-3 gap-4 items-end mb-8">
+                <div>
+                    <label className="block text-zinc-400 text-sm mb-2">First Number</label>
+                    <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder="e.g., 111"
+                        value={number1}
+                        onChange={(e) => setNumber1(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+                        className="w-full bg-zinc-900 border border-zinc-700 text-white text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
+                    />
+                </div>
+                <div className="text-center py-4 text-zinc-500 text-2xl hidden md:block">
+                    vs
+                </div>
+                <div>
+                    <label className="block text-zinc-400 text-sm mb-2">Second Number</label>
+                    <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder="e.g., 222"
+                        value={number2}
+                        onChange={(e) => setNumber2(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+                        className="w-full bg-zinc-900 border border-zinc-700 text-white text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
+                    />
+                </div>
+            </div>
+
+            <button
+                onClick={handleCompare}
+                disabled={!number1 || !number2}
+                className="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold rounded-xl hover:from-amber-400 hover:to-yellow-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-8"
+            >
+                Compare Numbers
+            </button>
+
+            {/* Results */}
+            {comparison && (
+                <div className="space-y-6">
+                    {/* Compatibility Score */}
+                    <div className="p-8 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 text-center">
+                        <div className="text-sm uppercase tracking-widest text-amber-400 mb-2">Spiritual Connection</div>
+                        <div className="text-6xl font-bold text-amber-400 mb-2">{comparison.compatibility}%</div>
+                        <p className="text-zinc-400">{comparison.insight}</p>
+                    </div>
+
+                    {/* Side by Side Comparison */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {/* Number 1 */}
+                        <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                            <Link href={`/meaning/angel-number/${comparison.num1.number}`} className="group">
+                                <div className="text-4xl font-bold text-amber-400 mb-4 group-hover:text-amber-300 transition-colors">
+                                    {comparison.num1.number}
+                                </div>
+                            </Link>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Core Energy</div>
+                                    <div className="text-zinc-300">{comparison.num1.meaning}</div>
+                                </div>
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Energy Type</div>
+                                    <div className="text-zinc-400 text-sm">{comparison.num1.energy}</div>
+                                </div>
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">In Love</div>
+                                    <div className="text-zinc-400 text-sm">{comparison.num1.love}</div>
+                                </div>
+                            </div>
+                            <Link
+                                href={`/meaning/angel-number/${comparison.num1.number}`}
+                                className="inline-block mt-4 text-amber-400 text-sm hover:text-amber-300"
+                            >
+                                View full meaning →
+                            </Link>
+                        </div>
+
+                        {/* Number 2 */}
+                        <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                            <Link href={`/meaning/angel-number/${comparison.num2.number}`} className="group">
+                                <div className="text-4xl font-bold text-amber-400 mb-4 group-hover:text-amber-300 transition-colors">
+                                    {comparison.num2.number}
+                                </div>
+                            </Link>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Core Energy</div>
+                                    <div className="text-zinc-300">{comparison.num2.meaning}</div>
+                                </div>
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Energy Type</div>
+                                    <div className="text-zinc-400 text-sm">{comparison.num2.energy}</div>
+                                </div>
+                                <div>
+                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">In Love</div>
+                                    <div className="text-zinc-400 text-sm">{comparison.num2.love}</div>
+                                </div>
+                            </div>
+                            <Link
+                                href={`/meaning/angel-number/${comparison.num2.number}`}
+                                className="inline-block mt-4 text-amber-400 text-sm hover:text-amber-300"
+                            >
+                                View full meaning →
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Combined Reading */}
+                    <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800">
+                        <h3 className="text-lg font-bold text-white mb-3">Combined Message</h3>
+                        <p className="text-zinc-400">
+                            When you see both {comparison.num1.number} and {comparison.num2.number} appearing in your life,
+                            the universe is guiding you toward {comparison.compatibility > 75 ? 'a harmonious path that combines' : 'growth through the contrast of'}
+                            {' '}{comparison.num1.meaning.toLowerCase()} with {comparison.num2.meaning.toLowerCase()}.
+                            Pay attention to when each number appears—the sequence matters.
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            {/* Popular Comparisons */}
+            {!comparison && (
+                <div className="mt-12">
+                    <h3 className="text-lg font-bold text-zinc-300 mb-4">Popular Comparisons</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {[
+                            ['111', '222'],
+                            ['333', '444'],
+                            ['555', '777'],
+                            ['1111', '2222'],
+                        ].map(([a, b]) => (
+                            <button
+                                key={`${a}-${b}`}
+                                onClick={() => {
+                                    setNumber1(a);
+                                    setNumber2(b);
+                                }}
+                                className="px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-amber-500/50 hover:text-amber-400 transition-all text-sm"
+                            >
+                                {a} vs {b}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

@@ -19,10 +19,10 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/calculator', label: 'Calculator' },
-    { href: '/compatibility', label: 'Compatibility' },
+    { href: '/quiz', label: 'Quiz' },
     { href: '/meaning/angel-number', label: 'Angel Numbers' },
     { href: '/meaning/life-path', label: 'Life Paths' },
-    { href: '/profile', label: 'My Journey' },
+    { href: '/blog', label: 'Blog' },
   ];
 
   return (

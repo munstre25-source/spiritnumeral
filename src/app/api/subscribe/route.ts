@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, source } = await request.json();
+        const { email, source, metadata } = await request.json();
 
         if (!email || !email.includes('@')) {
             return NextResponse.json(
@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
                 {
                     email: email.toLowerCase().trim(),
                     source: source || 'popup',
+                    metadata: metadata ? JSON.stringify(metadata) : null,
                     subscribed_at: new Date().toISOString()
                 },
                 { onConflict: 'email' }
