@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: 'Complete Angel Number Library | 0-2222 Meanings',

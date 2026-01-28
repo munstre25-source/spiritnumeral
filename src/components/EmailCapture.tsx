@@ -1,18 +1,37 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { resolveOfferFromPath } from '@/lib/offers';
 
 // Email capture popup that appears after scroll or before exit
 export function EmailCapture() {
     const [isOpen, setIsOpen] = useState(false);
-    const [email, setEmail] = useState('');
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [hasShown, setHasShown] = useState(false);
+    const pathname = usePathname();
+    const offer = resolveOfferFromPath(pathname || '/');
+
+    const recentlyShown = () => {
+        const last = localStorage.getItem('promoLastShown');
+        if (!last) return false;
+        const diffDays = (Date.now() - Number(last)) / (1000 * 60 * 60 * 24);
+        return diffDays < 7;
+    };
+
+    const markShown = () => {
+        sessionStorage.setItem('emailPopupShown', 'true');
+        localStorage.setItem('promoLastShown', Date.now().toString());
+    };
 
     useEffect(() => {
         // Check if already shown in this session
         const shown = sessionStorage.getItem('emailPopupShown');
         if (shown) {
+            setHasShown(true);
+            return;
+        }
+        // Respect 7-day cooldown
+        if (typeof window !== 'undefined' && recentlyShown()) {
             setHasShown(true);
             return;
         }
@@ -23,7 +42,7 @@ export function EmailCapture() {
             if (scrollPercent > 60 && !hasShown) {
                 setIsOpen(true);
                 setHasShown(true);
-                sessionStorage.setItem('emailPopupShown', 'true');
+                markShown();
             }
         };
 
@@ -32,7 +51,7 @@ export function EmailCapture() {
             if (e.clientY <= 0 && !hasShown) {
                 setIsOpen(true);
                 setHasShown(true);
-                sessionStorage.setItem('emailPopupShown', 'true');
+                markShown();
             }
         };
 
@@ -44,27 +63,6 @@ export function EmailCapture() {
             document.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, [hasShown]);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setStatus('loading');
-
-        try {
-            const res = await fetch('/api/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, source: 'popup' })
-            });
-
-            if (!res.ok) throw new Error('Failed to subscribe');
-
-            setStatus('success');
-            localStorage.setItem('emailSubscribed', 'true');
-            setTimeout(() => setIsOpen(false), 2000);
-        } catch {
-            setStatus('error');
-        }
-    };
 
     if (!isOpen) return null;
 
@@ -81,64 +79,42 @@ export function EmailCapture() {
                     </svg>
                 </button>
 
-                {status === 'success' ? (
-                    <div className="text-center py-8">
-                        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M20 6 9 17l-5-5" />
-                            </svg>
+                {/* Icon */}
+                <div className="w-16 h-16 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" />
+                    </svg>
+                </div>
+
+                {/* Content */}
+                <div className="text-center">
+                    {offer.badge && (
+                        <div className="inline-flex items-center px-3 py-1 text-[11px] uppercase tracking-[0.2em] rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 mb-3">
+                            {offer.badge}
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">You're In! ✨</h3>
-                        <p className="text-zinc-400">Check your inbox for your free numerology guide.</p>
-                    </div>
-                ) : (
-                    <>
-                        {/* Icon */}
-                        <div className="w-16 h-16 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" />
-                            </svg>
-                        </div>
+                    )}
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                        {offer.title}
+                    </h3>
+                    <p className="text-zinc-400 mb-6">
+                        {offer.body}
+                    </p>
+                </div>
 
-                        {/* Content */}
-                        <h3 className="text-2xl font-bold text-white text-center mb-2">
-                            Unlock Your Numerology Secrets
-                        </h3>
-                        <p className="text-zinc-400 text-center mb-6">
-                            Get a <span className="text-amber-400 font-semibold">FREE</span> personalized numerology guide + weekly angel number insights delivered to your inbox.
-                        </p>
+                {/* CTA */}
+                <a
+                    href={offer.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full block text-center bg-amber-500 text-black py-4 rounded-xl font-bold text-lg hover:bg-amber-400 transition-colors"
+                >
+                    {offer.cta}
+                </a>
 
-                        {/* Form */}
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email..."
-                                required
-                                className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-4 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
-                            />
-                            <button
-                                type="submit"
-                                disabled={status === 'loading'}
-                                className="w-full bg-amber-500 text-black py-4 rounded-xl font-bold text-lg hover:bg-amber-400 transition-colors disabled:opacity-50"
-                            >
-                                {status === 'loading' ? 'Sending...' : 'Get My Free Guide →'}
-                            </button>
-                        </form>
-
-                        {status === 'error' && (
-                            <p className="text-red-400 text-center mt-4 text-sm">
-                                Something went wrong. Please try again.
-                            </p>
-                        )}
-
-                        {/* Trust signals */}
-                        <p className="text-zinc-600 text-xs text-center mt-4">
-                            🔒 No spam. Unsubscribe anytime. Join 10,000+ spiritual seekers.
-                        </p>
-                    </>
-                )}
+                {/* Trust signals */}
+                <p className="text-zinc-600 text-xs text-center mt-4">
+                    🔒 Affiliate partner. No extra cost to you.
+                </p>
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ import { PrintReading } from '@/components/PrintReading';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return getAllPSEOSlugs();

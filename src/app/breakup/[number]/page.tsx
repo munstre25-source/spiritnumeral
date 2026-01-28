@@ -6,7 +6,7 @@ import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/Int
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
     const { number } = await params;
