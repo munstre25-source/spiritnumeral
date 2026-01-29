@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { RelationshipPaidCTA } from '@/components/RelationshipPaidCTA';
 import { AffiliatePromo } from '@/components/AffiliatePromo';
 import { OFFERS } from '@/lib/offers';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = {
   title: 'Soulmate Angel Numbers | Signs and Love Messages',
@@ -12,8 +14,30 @@ export const metadata: Metadata = {
 const featuredNumbers = [111, 222, 333, 444, 555, 666, 777, 888];
 
 export default function SoulmateIndexPage() {
+  const faqs = [
+    {
+      question: 'What are soulmate angel numbers?',
+      answer: 'Soulmate angel numbers are repeating sequences that highlight alignment, timing, and love lessons.',
+    },
+    {
+      question: 'Do soulmate numbers guarantee a relationship?',
+      answer: 'No. They are guidance signals that encourage readiness, clarity, and communication.',
+    },
+    {
+      question: 'Which numbers are most associated with love?',
+      answer: 'Common love‑aligned numbers include 222, 444, 777, and 1111.',
+    },
+    {
+      question: 'How should I act when I see a soulmate number?',
+      answer: 'Use the message to take one grounded step toward openness or healing.',
+    },
+  ];
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 md:pt-36 pb-20 px-6 md:px-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <section className="max-w-5xl mx-auto text-center space-y-8 mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold">
           Soulmate Guidance
@@ -87,6 +111,9 @@ export default function SoulmateIndexPage() {
           sublabel="Personalized relationship guidance based on your number and current connection."
         />
         <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
+      </section>
+      <section className="max-w-4xl mx-auto mt-16">
+        <FAQ faqs={faqs} title="Soulmate Number Questions" />
       </section>
     </main>
   );

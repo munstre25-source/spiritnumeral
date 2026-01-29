@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import { AffiliatePromo } from '@/components/AffiliatePromo';
 import { OFFERS } from '@/lib/offers';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata = {
   title: 'Maturity Numbers • Spirit Numeral',
@@ -9,9 +11,31 @@ export const metadata = {
 };
 
 export default function MaturityIndexPage() {
+  const faqs = [
+    {
+      question: 'What is a maturity number?',
+      answer: 'Your maturity number reflects the direction of your later‑life purpose and growth.',
+    },
+    {
+      question: 'How is the maturity number calculated?',
+      answer: 'It’s typically the sum of your life path and expression numbers, reduced.',
+    },
+    {
+      question: 'When does the maturity number become important?',
+      answer: 'It becomes more noticeable later in life as long‑term priorities solidify.',
+    },
+    {
+      question: 'How should I use it?',
+      answer: 'Use it to align long‑term goals with your evolving strengths and purpose.',
+    },
+  ];
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <div className="max-w-3xl mx-auto space-y-8">
         <header className="text-center space-y-3">
           <h1 className="text-4xl md:text-6xl font-bold text-white">Maturity Numbers</h1>
@@ -28,6 +52,7 @@ export default function MaturityIndexPage() {
           <LifecyclePaidCTA type="maturity" />
           <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
         </section>
+        <FAQ faqs={faqs} title="Maturity Number Questions" />
       </div>
     </main>
   );

@@ -1,5 +1,7 @@
 import NameNumerologyCalculator from '@/components/NameNumerologyCalculator';
 import { NamePaidCTA } from '@/components/NamePaidCTA';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata = {
   title: 'Name Numerology Calculator • Spirit Numeral',
@@ -7,8 +9,30 @@ export const metadata = {
 };
 
 export default function NameNumerologyPage() {
+  const faqs = [
+    {
+      question: 'What is name numerology?',
+      answer: 'Name numerology translates your full birth name into numbers that reveal core personality traits and life themes.',
+    },
+    {
+      question: 'What are Expression, Soul Urge, and Personality numbers?',
+      answer: 'Expression reflects your overall potential, Soul Urge reveals inner desires, and Personality shows how others perceive you.',
+    },
+    {
+      question: 'Does a name change affect my numerology?',
+      answer: 'Yes. Changes to your name can shift Expression, Soul Urge, and Personality numbers.',
+    },
+    {
+      question: 'Do I need my full legal name?',
+      answer: 'Use your full birth name for the most accurate result.',
+    },
+  ];
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <div className="max-w-4xl mx-auto space-y-10">
         <header className="text-center space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold text-white">Name Numerology</h1>
@@ -20,6 +44,7 @@ export default function NameNumerologyPage() {
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <NamePaidCTA />
         </section>
+        <FAQ faqs={faqs} title="Name Numerology Questions" />
       </div>
     </main>
   );

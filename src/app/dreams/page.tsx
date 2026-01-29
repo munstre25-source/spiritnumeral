@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 import { AffiliatePromo } from '@/components/AffiliatePromo';
 import { OFFERS } from '@/lib/offers';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = {
   title: 'Angel Numbers in Dreams | Meanings and Messages',
@@ -12,8 +14,30 @@ export const metadata: Metadata = {
 const featuredNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999];
 
 export default function DreamsIndexPage() {
+  const faqs = [
+    {
+      question: 'What are dream numbers?',
+      answer: 'Dream numbers are repeating sequences that show up in dreams and highlight subconscious themes.',
+    },
+    {
+      question: 'Do dream numbers have spiritual meaning?',
+      answer: 'Yes. They can reflect guidance, emotions, or patterns your subconscious is processing.',
+    },
+    {
+      question: 'How do I use dream numbers?',
+      answer: 'Write them down, connect them to your current life theme, and take one clear action.',
+    },
+    {
+      question: 'Which numbers appear most in dreams?',
+      answer: 'Common dream sequences include 111, 222, 333, 444, and 777.',
+    },
+  ];
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 md:pt-36 pb-20 px-6 md:px-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <section className="max-w-5xl mx-auto text-center space-y-8 mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold">
           Dream Interpretation
@@ -84,6 +108,9 @@ export default function DreamsIndexPage() {
       <section className="max-w-4xl mx-auto text-center">
         <MeaningPaidCTA />
         <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Lunar Insight" />
+      </section>
+      <section className="max-w-4xl mx-auto mt-16">
+        <FAQ faqs={faqs} title="Dream Number Questions" />
       </section>
     </main>
   );

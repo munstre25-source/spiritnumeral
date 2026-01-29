@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { TwinFlamePaidCTA } from '@/components/TwinFlamePaidCTA';
 import { AffiliatePromo } from '@/components/AffiliatePromo';
 import { OFFERS } from '@/lib/offers';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = {
   title: 'Twin Flame Angel Numbers | Signs, Stages, and Meaning',
@@ -12,8 +14,30 @@ export const metadata: Metadata = {
 const featuredNumbers = [111, 222, 333, 444, 555, 777, 888, 999];
 
 export default function TwinFlameIndexPage() {
+  const faqs = [
+    {
+      question: 'What are twin flame numbers?',
+      answer: 'Twin flame numbers are repeating sequences that reflect stages of a deep soul connection.',
+    },
+    {
+      question: 'Do twin flame numbers guarantee reunion?',
+      answer: 'No. They signal themes and lessons, not outcomes.',
+    },
+    {
+      question: 'Which numbers show up most for twin flames?',
+      answer: '1111, 222, 717, and 1212 are commonly reported.',
+    },
+    {
+      question: 'How should I respond when I see them?',
+      answer: 'Focus on inner growth and aligned action rather than urgency.',
+    },
+  ];
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 md:pt-36 pb-20 px-6 md:px-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <section className="max-w-5xl mx-auto text-center space-y-8 mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold">
           Twin Flame Guidance
@@ -84,6 +108,9 @@ export default function TwinFlameIndexPage() {
       <section className="max-w-4xl mx-auto text-center">
         <TwinFlamePaidCTA />
         <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
+      </section>
+      <section className="max-w-4xl mx-auto mt-16">
+        <FAQ faqs={faqs} title="Twin Flame Questions" />
       </section>
     </main>
   );
