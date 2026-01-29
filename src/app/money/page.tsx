@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { MoneyPaidCTA } from '@/components/MoneyPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata: Metadata = {
   title: 'Money Angel Numbers | Abundance and Prosperity Signs',
@@ -81,6 +83,7 @@ export default function MoneyIndexPage() {
 
       <section className="max-w-4xl mx-auto text-center">
         <MoneyPaidCTA />
+        <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
       </section>
     </main>
   );

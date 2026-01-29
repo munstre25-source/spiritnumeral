@@ -1,6 +1,8 @@
 import { getPSEODataAsync, generateAngelNumberTitle, generateAngelNumberDescription } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
@@ -154,6 +156,7 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ numb
 
           <footer className="pt-8 pb-16 space-y-6">
             <MeaningPaidCTA number={parseInt(number)} />
+            <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
             <a
               href={`/meaning/angel-number/${number}`}
               className="block text-center text-amber-500 hover:text-amber-400 transition-colors"

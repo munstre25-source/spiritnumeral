@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getTimingCycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { TimingPaidCTA } from '@/components/TimingPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -52,7 +54,12 @@ export default async function PersonalDayNumberPage({ params }: { params: Promis
         { href: `/personal-year/${num}`, label: `Personal Year ${num}` },
         { href: `/personal-month/${num}`, label: `Personal Month ${num}` },
       ]}
-      footer={<TimingPaidCTA />}
+      footer={
+        <>
+          <TimingPaidCTA />
+          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+        </>
+      }
     />
   );
 }

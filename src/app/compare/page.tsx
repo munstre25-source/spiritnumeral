@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { NumberComparison } from '@/components/NumberComparison';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata: Metadata = {
     title: 'Compare Angel Numbers - Side by Side Analysis',
@@ -87,6 +89,9 @@ export default function ComparePage() {
                     </header>
 
                     <NumberComparison />
+                    <div className="mt-8">
+                        <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
+                    </div>
 
                 </div>
             </main>

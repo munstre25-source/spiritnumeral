@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
   title: 'Pinnacle Numbers • Spirit Numeral',
@@ -24,6 +26,7 @@ export default function PinnacleIndexPage() {
         </div>
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <LifecyclePaidCTA type="pinnacle" />
+          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
         </section>
       </div>
     </main>

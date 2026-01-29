@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { resolveOfferFromPath } from '@/lib/offers';
+import { resolveExitAffiliateFromPath, resolveOfferFromPath } from '@/lib/offers';
 import { trackEvent } from '@/lib/analytics/client';
 
 // Email capture popup that appears after scroll or before exit
@@ -11,7 +11,7 @@ export function EmailCapture() {
     const [isOpen, setIsOpen] = useState(false);
     const [hasShown, setHasShown] = useState(false);
     const pathname = usePathname();
-    const offer = resolveOfferFromPath(pathname || '/');
+    const offer = resolveExitAffiliateFromPath(pathname || '/') || resolveOfferFromPath(pathname || '/');
 
     const recentlyShown = () => {
         const last = localStorage.getItem('promoLastShown');

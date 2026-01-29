@@ -1,5 +1,7 @@
 import PersonalTimingCalculator from '@/components/PersonalTimingCalculator';
 import { TimingPaidCTA } from '@/components/TimingPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
   title: 'Personal Year Number Calculator • Spirit Numeral',
@@ -19,6 +21,7 @@ export default function PersonalYearPage() {
         <PersonalTimingCalculator />
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <TimingPaidCTA />
+          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
         </section>
       </div>
     </main>

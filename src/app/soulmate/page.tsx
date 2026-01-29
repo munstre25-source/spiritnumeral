@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { RelationshipPaidCTA } from '@/components/RelationshipPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata: Metadata = {
   title: 'Soulmate Angel Numbers | Signs and Love Messages',
@@ -84,6 +86,7 @@ export default function SoulmateIndexPage() {
           label="Get Your Soulmate PDF ($29)"
           sublabel="Personalized relationship guidance based on your number and current connection."
         />
+        <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
       </section>
     </main>
   );

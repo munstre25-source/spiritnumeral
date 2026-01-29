@@ -1,6 +1,8 @@
 import { getPSEODataAsync } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
 import { MoneyPaidCTA } from '@/components/MoneyPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
@@ -169,6 +171,7 @@ export default async function MoneyMeaningPage({ params }: { params: Promise<{ n
 
                     <footer className="pt-8 pb-16 space-y-6">
                         <MoneyPaidCTA number={parseInt(number)} />
+                        <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
                         <a
                             href={`/meaning/angel-number/${number}`}
                             className="block text-center text-amber-500 hover:text-amber-400 transition-colors"

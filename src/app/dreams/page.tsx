@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata: Metadata = {
   title: 'Angel Numbers in Dreams | Meanings and Messages',
@@ -81,6 +83,7 @@ export default function DreamsIndexPage() {
 
       <section className="max-w-4xl mx-auto text-center">
         <MeaningPaidCTA />
+        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Lunar Insight" />
       </section>
     </main>
   );

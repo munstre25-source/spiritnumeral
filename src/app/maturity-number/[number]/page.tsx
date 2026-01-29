@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -52,7 +54,12 @@ export default async function MaturityNumberPage({ params }: { params: Promise<{
         { href: '/pinnacle', label: 'Pinnacle Numbers' },
         { href: '/birthday-number', label: 'Birthday Numbers' },
       ]}
-      footer={<LifecyclePaidCTA type="maturity" number={num} />}
+      footer={
+        <>
+          <LifecyclePaidCTA type="maturity" number={num} />
+          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+        </>
+      }
     />
   );
 }
