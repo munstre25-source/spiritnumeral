@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+export const metadata = {
+  robots: 'noindex',
+};
+
 type Stats = {
   totals: {
     pageViews: number;
