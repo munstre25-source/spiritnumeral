@@ -60,7 +60,19 @@ const resolveAffiliateForCategory = (category: string) => {
     if (normalized.includes('challenges') || normalized.includes('warning')) {
         return { offer: OFFERS.affiliate_genius_song, context: 'Grounding & Clarity' };
     }
-    if (normalized.includes('dream') || normalized.includes('angel') || normalized.includes('why-am-i-seeing') || normalized.includes('biblical') || normalized.includes('pregnancy') || normalized.includes('celebrity')) {
+    if (normalized.includes('dream') || normalized.includes('angel') || normalized.includes('why-am-i-seeing') || normalized.includes('why am i seeing') || normalized.includes('biblical') || normalized.includes('pregnancy') || normalized.includes('celebrity')) {
+        return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
+    }
+    if (
+        normalized.includes('life path') ||
+        normalized.includes('name numerology') ||
+        normalized.includes('destiny') ||
+        normalized.includes('soul urge') ||
+        normalized.includes('personality') ||
+        normalized.includes('birthday') ||
+        normalized.includes('maturity') ||
+        normalized.includes('pinnacles')
+    ) {
         return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
     }
     if (normalized.includes('compatibility')) {
