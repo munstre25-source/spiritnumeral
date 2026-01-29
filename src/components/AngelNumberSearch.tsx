@@ -4,15 +4,15 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-// All valid angel numbers (0-2222)
+// All valid angel numbers (0-9999)
 const MIN_NUMBER = 0;
-const MAX_NUMBER = 2222;
+const MAX_NUMBER = 9999;
 
 // Popular angel numbers for quick access
-const POPULAR_NUMBERS = [111, 222, 333, 444, 555, 666, 777, 888, 999, 1111, 1212, 2222];
+const POPULAR_NUMBERS = [111, 222, 333, 444, 555, 666, 777, 888, 999, 1111, 1212, 2222, 3333, 4444, 5555, 7777, 8888, 9999];
 
 // Page categories for quick navigation
-const CATEGORIES = [
+const TOP_CATEGORIES = [
   { key: 'meaning', label: 'Meaning', path: '/meaning/angel-number' },
   { key: 'twin-flame', label: 'Twin Flame', path: '/twin-flame' },
   { key: 'love', label: 'Love', path: '/angel-number-love' },
@@ -21,11 +21,57 @@ const CATEGORIES = [
   { key: 'soulmate', label: 'Soulmate', path: '/soulmate' },
 ];
 
+const CATEGORY_DEFS = [
+  { key: 'meaning', label: 'Meaning', path: '/meaning/angel-number', keywords: ['meaning', 'angel', 'angel number', 'number'] },
+  { key: 'twin-flame', label: 'Twin Flame', path: '/twin-flame', keywords: ['twin', 'twin flame'] },
+  { key: 'love', label: 'Love', path: '/angel-number-love', keywords: ['love', 'romance', 'relationship'] },
+  { key: 'money', label: 'Money', path: '/money', keywords: ['money', 'wealth', 'abundance', 'finance'] },
+  { key: 'career', label: 'Career', path: '/angel-number-career', keywords: ['career', 'job', 'work'] },
+  { key: 'soulmate', label: 'Soulmate', path: '/soulmate', keywords: ['soulmate'] },
+  { key: 'dreams', label: 'Dreams', path: '/dreams', keywords: ['dream', 'dreams'] },
+  { key: 'warning', label: 'Warning', path: '/warning', keywords: ['warning', 'alert', 'caution'] },
+  { key: 'manifestation', label: 'Manifestation', path: '/manifestation', keywords: ['manifest', 'manifestation', 'loa', 'law of attraction', 'attraction'] },
+  { key: 'why-seeing', label: 'Why Seeing', path: '/why-am-i-seeing', keywords: ['why', 'seeing', 'why am i seeing'] },
+  { key: 'life-path', label: 'Life Path', path: '/meaning/life-path', keywords: ['life path', 'lifepath'] },
+  { key: 'personal-year', label: 'Personal Year', path: '/personal-year', keywords: ['personal year', 'year'] },
+  { key: 'personal-month', label: 'Personal Month', path: '/personal-month', keywords: ['personal month', 'month'] },
+  { key: 'personal-day', label: 'Personal Day', path: '/personal-day', keywords: ['personal day', 'day', 'today'] },
+  { key: 'pinnacle', label: 'Pinnacle', path: '/pinnacle', keywords: ['pinnacle'] },
+  { key: 'challenge', label: 'Challenge', path: '/challenge', keywords: ['challenge'] },
+  { key: 'maturity', label: 'Maturity', path: '/maturity-number', keywords: ['maturity'] },
+  { key: 'birthday', label: 'Birthday', path: '/birthday-number', keywords: ['birthday'] },
+  { key: 'karmic-debt', label: 'Karmic Debt', path: '/karmic-debt', keywords: ['karmic', 'debt'] },
+  { key: 'name-expression', label: 'Expression', path: '/name-numerology/expression', keywords: ['expression', 'destiny'] },
+  { key: 'name-soul-urge', label: 'Soul Urge', path: '/name-numerology/soul-urge', keywords: ['soul urge', 'heart desire'] },
+  { key: 'name-personality', label: 'Personality', path: '/name-numerology/personality', keywords: ['personality'] },
+];
+
 interface SearchResult {
-  number: number;
+  number?: number;
   label: string;
   path: string;
 }
+
+type CategoryDef = typeof CATEGORY_DEFS[number];
+
+const buildCategoryPath = (category: CategoryDef, num: number) => {
+  if (category.key === 'life-path') return `${category.path}/life-path-${num}`;
+  if (category.key.startsWith('name-')) return `${category.path}/${num}`;
+  return `${category.path}/${num}`;
+};
+
+const extractNumber = (input: string) => {
+  const match = input.match(/\d{1,4}/);
+  if (!match) return null;
+  const num = parseInt(match[0], 10);
+  if (isNaN(num) || num < MIN_NUMBER || num > MAX_NUMBER) return null;
+  return num;
+};
+
+const matchCategories = (input: string) => {
+  const query = input.toLowerCase();
+  return CATEGORY_DEFS.filter((cat) => cat.keywords.some((kw) => query.includes(kw)));
+};
 
 export default function AngelNumberSearch({
   variant = 'default',
@@ -47,28 +93,34 @@ export default function AngelNumberSearch({
   const generateSuggestions = useCallback((input: string): SearchResult[] => {
     if (!input) return [];
 
-    const num = parseInt(input, 10);
     const results: SearchResult[] = [];
-    const category = CATEGORIES.find(c => c.key === selectedCategory);
-    const basePath = category?.path || '/meaning/angel-number';
+    const num = extractNumber(input);
+    const matched = matchCategories(input);
+    const activeCategory = TOP_CATEGORIES.find(c => c.key === selectedCategory) || TOP_CATEGORIES[0];
+    const categoryFallback = CATEGORY_DEFS.find(c => c.key === activeCategory.key) || CATEGORY_DEFS[0];
+    const categoriesToUse = matched.length ? matched : [categoryFallback];
 
-    // Exact match
-    if (!isNaN(num) && num >= MIN_NUMBER && num <= MAX_NUMBER) {
-      results.push({
-        number: num,
-        label: `Angel Number ${num}`,
-        path: basePath === '/meaning/angel-number' ? `${basePath}/${num}` : `${basePath}/${num}`
+    // If we have a number, suggest category-specific routes
+    if (num !== null) {
+      categoriesToUse.forEach((category) => {
+        results.push({
+          number: num,
+          label: `${category.label} ${num}`,
+          path: buildCategoryPath(category, num),
+        });
       });
     }
 
-    // Numbers starting with the input
-    if (input.length > 0) {
+    // Numbers starting with the input digits (if input begins with digits)
+    const digitsOnly = input.replace(/[^0-9]/g, '');
+    if (digitsOnly.length > 0) {
       for (let i = MIN_NUMBER; i <= MAX_NUMBER; i++) {
-        if (i.toString().startsWith(input) && i !== num) {
+        if (i.toString().startsWith(digitsOnly) && i !== num) {
+          const category = categoryFallback;
           results.push({
             number: i,
-            label: `Angel Number ${i}`,
-            path: basePath === '/meaning/angel-number' ? `${basePath}/${i}` : `${basePath}/${i}`
+            label: `${category.label} ${i}`,
+            path: buildCategoryPath(category, i),
           });
           if (results.length >= 8) break;
         }
@@ -76,18 +128,30 @@ export default function AngelNumberSearch({
     }
 
     // Popular numbers containing the digits
-    if (results.length < 8) {
+    if (digitsOnly.length > 0 && results.length < 8) {
       POPULAR_NUMBERS.forEach(popular => {
         if (
-          popular.toString().includes(input) &&
+          popular.toString().includes(digitsOnly) &&
           !results.find(r => r.number === popular)
         ) {
+          const category = categoryFallback;
           results.push({
             number: popular,
-            label: `${popular} (Popular)`,
-            path: basePath === '/meaning/angel-number' ? `${basePath}/${popular}` : `${basePath}/${popular}`
+            label: `${category.label} ${popular} (Popular)`,
+            path: buildCategoryPath(category, popular),
           });
         }
+      });
+    }
+
+    // If no number, suggest category landing pages
+    if (num === null && matched.length) {
+      matched.slice(0, 6).forEach((category) => {
+        results.push({
+          number: undefined,
+          label: `Browse ${category.label}`,
+          path: category.path,
+        });
       });
     }
 
@@ -119,11 +183,17 @@ export default function AngelNumberSearch({
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const num = parseInt(query, 10);
-    if (!isNaN(num) && num >= MIN_NUMBER && num <= MAX_NUMBER) {
-      const category = CATEGORIES.find(c => c.key === selectedCategory);
-      const basePath = category?.path || '/meaning/angel-number';
-      router.push(`${basePath}/${num}`);
+    const num = extractNumber(query);
+    const matched = matchCategories(query);
+    const categoryFallback = CATEGORY_DEFS.find(c => c.key === selectedCategory) || CATEGORY_DEFS[0];
+    if (num !== null) {
+      const category = matched[0] || categoryFallback;
+      router.push(buildCategoryPath(category, num));
+      setIsOpen(false);
+      return;
+    }
+    if (matched.length > 0) {
+      router.push(matched[0].path);
       setIsOpen(false);
     }
   };
@@ -163,8 +233,8 @@ export default function AngelNumberSearch({
   };
 
   const isValidNumber = (val: string) => {
-    const num = parseInt(val, 10);
-    return !isNaN(num) && num >= MIN_NUMBER && num <= MAX_NUMBER;
+    const num = extractNumber(val);
+    return num !== null;
   };
 
   return (
@@ -172,7 +242,7 @@ export default function AngelNumberSearch({
       {/* Category Tabs */}
       {showCategories && (
         <div className="flex flex-wrap justify-center gap-2 mb-4">
-          {CATEGORIES.map((cat) => (
+          {TOP_CATEGORIES.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setSelectedCategory(cat.key)}
@@ -199,12 +269,10 @@ export default function AngelNumberSearch({
           <input
             ref={inputRef}
             type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            placeholder={`Search any number (0-${MAX_NUMBER})...`}
+            placeholder={`Search numbers or topics (e.g., "money 888", "twin flame 1111", "personal year 7")`}
             value={query}
             onChange={(e) => {
-              const val = e.target.value.replace(/[^0-9]/g, '');
+              const val = e.target.value;
               setQuery(val);
               setIsOpen(true);
             }}
@@ -232,8 +300,8 @@ export default function AngelNumberSearch({
             className="absolute z-50 w-full mt-2 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden"
           >
             {suggestions.map((result, index) => (
-              <button
-                key={result.number}
+            <button
+                key={result.path}
                 type="button"
                 onClick={() => handleSuggestionClick(result)}
                 className={`w-full px-5 py-4 text-left flex items-center justify-between transition-all ${index === selectedIndex
@@ -242,11 +310,15 @@ export default function AngelNumberSearch({
                   }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold text-amber-500">{result.number}</span>
+                  {typeof result.number === 'number' ? (
+                    <span className="text-2xl font-bold text-amber-500">{result.number}</span>
+                  ) : (
+                    <span className="text-2xl font-bold text-amber-500">★</span>
+                  )}
                   <div>
                     <span className="text-sm">{result.label}</span>
                     <span className="block text-xs text-zinc-500 capitalize">
-                      {selectedCategory.replace('-', ' ')} meaning
+                      {typeof result.number === 'number' ? `${selectedCategory.replace('-', ' ')} meaning` : 'Browse topic'}
                     </span>
                   </div>
                 </div>
@@ -259,7 +331,7 @@ export default function AngelNumberSearch({
         )}
 
         {/* Invalid number message */}
-        {query && !isValidNumber(query) && parseInt(query) > MAX_NUMBER && (
+        {query && query.match(/\d+/) && !isValidNumber(query) && (
           <p className="absolute mt-2 text-sm text-amber-500">
             Numbers go from 0 to {MAX_NUMBER}
           </p>
@@ -291,9 +363,17 @@ export function CompactSearch() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const num = parseInt(query, 10);
-    if (!isNaN(num) && num >= MIN_NUMBER && num <= MAX_NUMBER) {
-      router.push(`/meaning/angel-number/${num}`);
+    const num = extractNumber(query);
+    const matched = matchCategories(query);
+    const category = matched[0] || CATEGORY_DEFS[0];
+    if (num !== null) {
+      router.push(buildCategoryPath(category, num));
+      setQuery('');
+      setIsOpen(false);
+      return;
+    }
+    if (matched.length > 0) {
+      router.push(matched[0].path);
       setQuery('');
       setIsOpen(false);
     }
@@ -303,11 +383,9 @@ export function CompactSearch() {
     <form onSubmit={handleSubmit} className="relative">
       <input
         type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        placeholder="Search..."
+        placeholder="Search…"
         value={query}
-        onChange={(e) => setQuery(e.target.value.replace(/[^0-9]/g, ''))}
+        onChange={(e) => setQuery(e.target.value)}
         className="w-32 md:w-40 bg-zinc-900/50 border border-zinc-800 text-zinc-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-amber-500/50 focus:w-48 transition-all"
       />
     </form>
