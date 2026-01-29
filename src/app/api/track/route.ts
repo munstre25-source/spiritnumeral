@@ -5,6 +5,9 @@ import { parseBrowser, parseDeviceType, safeReferrerDomain } from '@/lib/analyti
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    if (body?.path?.startsWith('/admin')) {
+      return NextResponse.json({ ok: true, ignored: true });
+    }
     const userAgent = req.headers.get('user-agent') || undefined;
     const country =
       req.headers.get('x-vercel-ip-country') ||

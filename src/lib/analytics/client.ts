@@ -13,6 +13,7 @@ export function getSessionId() {
 
 export function getSessionFirstSeen() {
   if (typeof window === 'undefined') return undefined;
+  if (localStorage.getItem('analytics_opt_out') === 'true') return undefined;
   const key = 'spirit_session_first_seen';
   let firstSeen = localStorage.getItem(key);
   if (!firstSeen) {
@@ -22,8 +23,17 @@ export function getSessionFirstSeen() {
   return firstSeen;
 }
 
+export function isTrackingDisabled() {
+  if (typeof window === 'undefined') return true;
+  const optOut = localStorage.getItem('analytics_opt_out') === 'true';
+  const adminOptOut = sessionStorage.getItem('admin_mode') === 'true';
+  const path = window.location.pathname || '';
+  return optOut || adminOptOut || path.startsWith('/admin');
+}
+
 export async function trackEvent(eventType: string, payload: Record<string, any> = {}) {
   try {
+    if (isTrackingDisabled()) return;
     const sessionId = getSessionId();
     const sessionFirstSeen = getSessionFirstSeen();
     const url = typeof window !== 'undefined' ? window.location.href : undefined;

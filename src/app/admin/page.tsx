@@ -95,6 +95,12 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('admin_mode', 'true');
+    }
+  }, []);
+
+  useEffect(() => {
     if (!rangeOptions[rangeUnit].includes(rangeValue)) return;
     if (adminKey) {
       fetchStats(adminKey, rangeUnit, rangeValue);
