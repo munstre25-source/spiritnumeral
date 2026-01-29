@@ -47,6 +47,11 @@ export default async function PersonalDayNumberPage({ params }: { params: Promis
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/personal-day', label: 'Personal Day Calculator' },
+        { href: `/personal-year/${num}`, label: `Personal Year ${num}` },
+        { href: `/personal-month/${num}`, label: `Personal Month ${num}` },
+      ]}
       footer={<TimingPaidCTA />}
     />
   );

@@ -47,6 +47,11 @@ export default async function MaturityNumberPage({ params }: { params: Promise<{
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/maturity-number', label: 'Maturity Overview' },
+        { href: '/pinnacle', label: 'Pinnacle Numbers' },
+        { href: '/birthday-number', label: 'Birthday Numbers' },
+      ]}
       footer={<LifecyclePaidCTA type="maturity" number={num} />}
     />
   );

@@ -47,6 +47,11 @@ export default async function ChallengeNumberPage({ params }: { params: Promise<
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/challenge', label: 'Challenge Overview' },
+        { href: '/pinnacle', label: 'Pinnacle Numbers' },
+        { href: '/maturity-number', label: 'Maturity Numbers' },
+      ]}
       footer={<LifecyclePaidCTA type="challenge" number={num} />}
     />
   );

@@ -47,6 +47,11 @@ export default async function BirthdayNumberPage({ params }: { params: Promise<{
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/birthday-number', label: 'Birthday Overview' },
+        { href: '/maturity-number', label: 'Maturity Numbers' },
+        { href: '/karmic-debt', label: 'Karmic Debt Numbers' },
+      ]}
       footer={<LifecyclePaidCTA type="birthday" number={num} />}
     />
   );

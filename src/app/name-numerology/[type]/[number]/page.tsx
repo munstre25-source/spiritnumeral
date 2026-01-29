@@ -66,6 +66,12 @@ export default async function NameNumberPage({ params }: { params: Promise<{ typ
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/name-numerology', label: 'Name Numerology Calculator' },
+        { href: `/name-numerology/expression/${num}`, label: `Expression ${num}` },
+        { href: `/name-numerology/soul-urge/${num}`, label: `Soul Urge ${num}` },
+        { href: `/name-numerology/personality/${num}`, label: `Personality ${num}` },
+      ]}
       footer={<NamePaidCTA />}
     />
   );

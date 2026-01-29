@@ -47,6 +47,11 @@ export default async function KarmicDebtNumberPage({ params }: { params: Promise
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/karmic-debt', label: 'Karmic Debt Overview' },
+        { href: '/challenge', label: 'Challenge Numbers' },
+        { href: '/pinnacle', label: 'Pinnacle Numbers' },
+      ]}
       footer={<LifecyclePaidCTA type="karmic_debt" number={num} />}
     />
   );

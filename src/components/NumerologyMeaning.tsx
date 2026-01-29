@@ -22,6 +22,7 @@ interface NumerologyMeaningProps {
   advice?: string;
   footer?: React.ReactNode;
   faqs?: FAQItem[];
+  relatedLinks?: Array<{ href: string; label: string }>;
 }
 
 export function NumerologyMeaning({
@@ -35,6 +36,7 @@ export function NumerologyMeaning({
   advice,
   footer,
   faqs,
+  relatedLinks,
 }: NumerologyMeaningProps) {
   const blocks: MeaningBlock[] = [];
   if (love) blocks.push({ title: 'Love & Relationships', body: love });
@@ -103,6 +105,23 @@ export function NumerologyMeaning({
         )}
 
         {faqs && faqs.length > 0 && <FAQ faqs={faqs} />}
+
+        {relatedLinks && relatedLinks.length > 0 && (
+          <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+            <h2 className="text-lg font-semibold text-white mb-4">Explore Related Insights</h2>
+            <div className="flex flex-wrap gap-2">
+              {relatedLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="px-4 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-amber-400 text-sm hover:border-amber-500/60 transition"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
         {footer && (
           <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">

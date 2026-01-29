@@ -47,6 +47,11 @@ export default async function PinnacleNumberPage({ params }: { params: Promise<{
       career={data.career}
       advice={data.advice}
       faqs={faqs}
+      relatedLinks={[
+        { href: '/pinnacle', label: 'Pinnacle Overview' },
+        { href: '/challenge', label: 'Challenge Numbers' },
+        { href: '/maturity-number', label: 'Maturity Numbers' },
+      ]}
       footer={<LifecyclePaidCTA type="pinnacle" number={num} />}
     />
   );
