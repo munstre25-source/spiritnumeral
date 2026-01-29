@@ -54,16 +54,58 @@ const resolveAffiliateForCategory = (category: string) => {
     if (normalized.includes('breakup')) {
         return { offer: OFFERS.affiliate_ex_back, context: 'Reconciliation Support' };
     }
-    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('personal year') || normalized.includes('personal month') || normalized.includes('personal day')) {
+    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('personal year') || normalized.includes('personal month') || normalized.includes('personal day') || normalized.includes('manifestation')) {
         return { offer: OFFERS.affiliate_numerologist, context: 'Prosperity VSL' };
     }
-    if (normalized.includes('challenges')) {
+    if (normalized.includes('challenges') || normalized.includes('warning')) {
         return { offer: OFFERS.affiliate_genius_song, context: 'Grounding & Clarity' };
     }
-    if (normalized.includes('dream') || normalized.includes('angel')) {
+    if (normalized.includes('dream') || normalized.includes('angel') || normalized.includes('why-am-i-seeing') || normalized.includes('biblical') || normalized.includes('pregnancy') || normalized.includes('celebrity')) {
         return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
     }
+    if (normalized.includes('compatibility')) {
+        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
+    }
+    if (normalized.includes('soulmate')) {
+        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
+    }
     return null;
+};
+
+const extractFaqs = (content: string) => {
+    const lines = content.split('\n').map((line) => line.trim());
+    const faqs: { question: string; answer: string }[] = [];
+    let inFaq = false;
+    let currentQuestion = '';
+    let currentAnswer: string[] = [];
+
+    const flush = () => {
+        if (currentQuestion && currentAnswer.length > 0) {
+            faqs.push({ question: currentQuestion, answer: currentAnswer.join(' ') });
+        }
+        currentQuestion = '';
+        currentAnswer = [];
+    };
+
+    for (const line of lines) {
+        if (line.startsWith('## ')) {
+            if (inFaq) flush();
+            inFaq = line.toLowerCase().includes('faq');
+            continue;
+        }
+        if (!inFaq) continue;
+        if (line.startsWith('### ')) {
+            flush();
+            currentQuestion = line.replace(/^###\s*/, '').trim();
+            continue;
+        }
+        if (!line) continue;
+        if (currentQuestion) {
+            currentAnswer.push(line);
+        }
+    }
+    flush();
+    return faqs;
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -136,6 +178,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         ],
     };
 
+    const faqItems = extractFaqs(post.content || '');
+    const faqSchema = faqItems.length
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqItems.map((item) => ({
+                '@type': 'Question',
+                name: item.question,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: item.answer,
+                },
+            })),
+        }
+        : null;
+
     // Parse markdown-like content
     const formatContent = (content: string) => {
         return content.split('\n').map((line, i) => {
@@ -162,6 +220,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            {faqSchema && (
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+            )}
 
             <main className="min-h-screen pt-32 pb-20 px-6">
                 <article className="max-w-3xl mx-auto">

@@ -60,6 +60,14 @@ SECTIONS = [
     ("love-compatibility", ["compatibility", "love", "relationship"]),
     ("money", ["money", "wealth", "abundance"]),
     ("career", ["career", "purpose", "job"]),
+    ("manifestation", ["manifestation", "law of attraction", "attract"]),
+    ("warning", ["warning", "alert", "danger"]),
+    ("why-am-i-seeing", ["why am i seeing", "seeing numbers", "repeating numbers"]),
+    ("soulmate", ["soulmate", "soul mate", "soulmates"]),
+    ("biblical-meaning", ["biblical", "bible", "scripture"]),
+    ("pregnancy", ["pregnancy", "fertility", "conception"]),
+    ("celebrity-numerology", ["celebrity", "famous", "celebrity numerology"]),
+    ("compatibility", ["compatibility", "match", "pairing"]),
 ]
 
 NUMBERS_CORE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33]
@@ -146,6 +154,39 @@ TOPIC_TEMPLATES = {
     "career": [
         "{n} Meaning for Career and Purpose",
         "Career Path with {n}: Roles and Strengths",
+    ],
+    "manifestation": [
+        "Manifestation Number {n}: How to Attract Results",
+        "{n} Manifestation Meaning and Action Steps",
+        "Manifestation Signs: Why You See {n}",
+    ],
+    "warning": [
+        "Is {n} a Warning? What It Means and What To Do",
+        "{n} Warning Signs: How to Respond",
+    ],
+    "why-am-i-seeing": [
+        "Why Am I Seeing {n}? Meaning and Next Steps",
+        "Seeing {n} Repeatedly: What It Means",
+    ],
+    "soulmate": [
+        "Soulmate Number {n}: Meaning for Love",
+        "Soulmate Signs: What {n} Means for Your Connection",
+    ],
+    "biblical-meaning": [
+        "Biblical Meaning of {n}: Symbolism and Themes",
+        "{n} in the Bible: Spiritual Meaning",
+    ],
+    "pregnancy": [
+        "Pregnancy Number {n}: Meaning for New Life",
+        "{n} and Fertility: Spiritual Guidance",
+    ],
+    "celebrity-numerology": [
+        "Celebrity Numerology: Famous People with {n}",
+        "Life Path {n} Celebrities: What They Share",
+    ],
+    "compatibility": [
+        "Numerology Compatibility: {n} Match Meaning",
+        "{n} Compatibility: Strengths and Challenges",
     ],
 }
 
