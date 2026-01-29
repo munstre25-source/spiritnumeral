@@ -9,6 +9,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/:prefix(\\d+)-twin-flame/:num(\\d+)',
+        destination: '/twin-flame/:num',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
