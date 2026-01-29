@@ -27,8 +27,8 @@ from bs4 import BeautifulSoup
 USER_AGENT = "SpiritNumeralBot/1.0 (+https://spiritnumeral.com)"
 HEADERS = {"User-Agent": USER_AGENT}
 TIMEOUT = 20
-MAX_PAGES_PER_DOMAIN = 400
-MAX_SOURCE_PAGES_PER_SECTION = 30
+MAX_PAGES_PER_DOMAIN = 800
+MAX_SOURCE_PAGES_PER_SECTION = 80
 
 WHITELIST_DOMAINS = [
     "numerology.com",
@@ -415,6 +415,25 @@ def load_or_fetch_cache(cache_dir: str, url: str) -> Optional[Dict[str, List[str
     return facts
 
 
+def merge_facts(facts_list: List[Dict[str, List[str]]]) -> Dict[str, List[str]]:
+    merged = {"title": [], "headings": [], "paragraphs": [], "bullets": []}
+    for facts in facts_list:
+        for key in merged.keys():
+            merged[key].extend(facts.get(key, []))
+    # De-duplicate while preserving order
+    def uniq(items: List[str]) -> List[str]:
+        seen = set()
+        out = []
+        for item in items:
+            key = item.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(item)
+        return out
+    return {k: uniq(v) for k, v in merged.items()}
+
+
 def build_source_pool() -> Dict[str, List[str]]:
     section_sources: Dict[str, List[str]] = {s[0]: [] for s in SECTIONS}
     domain_urls: Dict[str, List[str]] = {}
@@ -447,11 +466,19 @@ def generate_posts(cache_dir: str, per_section: int) -> List[Dict[str, str]]:
             facts = {"title": [], "headings": [], "paragraphs": [], "bullets": []}
             source_url = ""
             if sources:
-                source_url = sources[source_idx % len(sources)]
-                source_idx += 1
-                cached = load_or_fetch_cache(cache_dir, source_url)
-                if cached:
-                    facts = cached
+                source_urls = [
+                    sources[source_idx % len(sources)],
+                    sources[(source_idx + 1) % len(sources)],
+                ]
+                source_idx += 2
+                source_url = ",".join(source_urls)
+                collected = []
+                for url in source_urls:
+                    cached = load_or_fetch_cache(cache_dir, url)
+                    if cached:
+                        collected.append(cached)
+                if collected:
+                    facts = merge_facts(collected)
             content = draft_from_facts(section, topic, facts)
             posts.append(
                 {

@@ -3,9 +3,13 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
+
+const MAX_STATIC_BLOG_POSTS = 2000;
 
 export async function generateStaticParams() {
-    return BLOG_POSTS.map(post => ({ slug: post.slug }));
+    return BLOG_POSTS.slice(0, MAX_STATIC_BLOG_POSTS).map(post => ({ slug: post.slug }));
 }
 
 const LEGACY_SLUG_ALIASES: Record<string, string> = {
@@ -39,6 +43,26 @@ const resolvePostBySlug = (slug: string): { post: BlogPost; resolvedSlug: string
         }
     }
 
+    return null;
+};
+
+const resolveAffiliateForCategory = (category: string) => {
+    const normalized = category.toLowerCase();
+    if (normalized.includes('love') || normalized.includes('twin flame')) {
+        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
+    }
+    if (normalized.includes('breakup')) {
+        return { offer: OFFERS.affiliate_ex_back, context: 'Reconciliation Support' };
+    }
+    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('personal year') || normalized.includes('personal month') || normalized.includes('personal day')) {
+        return { offer: OFFERS.affiliate_numerologist, context: 'Prosperity VSL' };
+    }
+    if (normalized.includes('challenges')) {
+        return { offer: OFFERS.affiliate_genius_song, context: 'Grounding & Clarity' };
+    }
+    if (normalized.includes('dream') || normalized.includes('angel')) {
+        return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
+    }
     return null;
 };
 
@@ -132,6 +156,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     // Get related posts
     const relatedPosts = BLOG_POSTS.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3);
+    const affiliatePromo = resolveAffiliateForCategory(post.category);
 
     return (
         <>
@@ -186,6 +211,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     <div className="prose prose-invert max-w-none">
                         {formatContent(post.content)}
                     </div>
+
+                    {affiliatePromo && (
+                        <section className="mt-10">
+                            <AffiliatePromo offer={affiliatePromo.offer} context={affiliatePromo.context} />
+                        </section>
+                    )}
 
                     {/* Bottom CTA */}
                     <section className="mt-12 space-y-6">
