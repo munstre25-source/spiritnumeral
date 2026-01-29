@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
     };
 
     const targets = product === 'bundle' ? (['blueprint', 'relationship', 'wealth'] as const) : ([product] as const);
+    const generationStart = Date.now();
     const attachments = [];
     for (const target of targets) {
       const { buffer, filename } = await generateReportPdf({
@@ -91,6 +92,7 @@ export async function POST(req: NextRequest) {
       });
       attachments.push({ filename, content: buffer });
     }
+    const generationMs = Date.now() - generationStart;
 
     // Email delivery
     const subject =
@@ -101,17 +103,30 @@ export async function POST(req: NextRequest) {
           : product === 'wealth'
             ? 'Your Wealth & Abundance Numerology Report'
             : 'Your Personal Numerology Blueprint';
-    await sendReportEmail(
-      email,
-      subject,
-      'Here is your personalized numerology PDF. Save it for your journey. \n\nWith light,\nSpirit Numeral',
-      attachments
-    );
+    try {
+      await sendReportEmail(
+        email,
+        subject,
+        'Here is your personalized numerology PDF. Save it for your journey. \n\nWith light,\nSpirit Numeral',
+        attachments
+      );
+    } catch (err: any) {
+      await logEvent({
+        eventType: 'pdf_failed',
+        product,
+        metadata: { orderId: payload?.data?.id, email, error: err?.message || 'delivery_failed', generationMs },
+        userAgent: req.headers.get('user-agent') || undefined,
+      });
+      if (reportRows && reportRows[0]) {
+        await supabaseAdmin.from('reports').update({ status: 'failed' }).eq('id', reportRows[0].id);
+      }
+      throw err;
+    }
 
     await logEvent({
       eventType: 'pdf_sent',
       product,
-      metadata: { orderId: payload?.data?.id, email },
+      metadata: { orderId: payload?.data?.id, email, generationMs },
       userAgent: req.headers.get('user-agent') || undefined,
     });
 

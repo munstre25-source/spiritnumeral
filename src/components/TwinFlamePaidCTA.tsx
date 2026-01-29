@@ -1,13 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 
 type Feeling = 'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken' | '';
 type Horizon = '7d' | '30d' | '90d' | '';
 type RelationshipStatus = 'single' | 'dating' | 'committed' | 'situationship' | 'separated' | '';
 
 export function TwinFlamePaidCTA() {
+  const pathname = usePathname();
+  const impressionRef = useCtaImpression({ product: 'relationship', path: pathname || undefined, label: 'Twin Flame PDF CTA' });
   const [feeling, setFeeling] = useState<Feeling>('');
   const [timeHorizon, setTimeHorizon] = useState<Horizon>('');
   const [relationshipStatus, setRelationshipStatus] = useState<RelationshipStatus>('');
@@ -54,7 +58,7 @@ export function TwinFlamePaidCTA() {
   };
 
   return (
-    <div className="space-y-4">
+    <div ref={impressionRef} className="space-y-4">
       <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400">
         <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-pink-400"></span>

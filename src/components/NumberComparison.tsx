@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 import Link from 'next/link';
 
 interface ComparisonData {
@@ -43,6 +45,8 @@ function getQuickMeaning(num: number): string {
 }
 
 export function NumberComparison() {
+    const pathname = usePathname();
+    const impressionRef = useCtaImpression({ product: 'relationship', path: pathname || undefined, label: 'Compare Relationship PDF' });
     const [number1, setNumber1] = useState('');
     const [number2, setNumber2] = useState('');
     const [comparison, setComparison] = useState<{
@@ -360,7 +364,7 @@ export function NumberComparison() {
                             </div>
                         </div>
 
-                        <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                        <div ref={impressionRef} className="mt-4 flex flex-col sm:flex-row gap-3">
                             <button
                                 onClick={startCheckout}
                                 disabled={loadingCheckout || !canCheckout || !paymentsReady}

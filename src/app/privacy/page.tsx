@@ -26,7 +26,7 @@ export default function PrivacyPage() {
     },
     {
       question: 'How can I contact you about privacy?',
-      answer: 'Reach us via guidance@spiritnumeral.com for any privacy-related questions.',
+      answer: 'Reach us via spiritnumeral@proton.me for any privacy-related questions.',
     },
   ];
 

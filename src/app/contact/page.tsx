@@ -99,7 +99,7 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
                 <h3 className="text-amber-500 font-bold mb-2">Email Us</h3>
-                <p className="text-zinc-300">guidance@spiritnumeral.com</p>
+                <p className="text-zinc-300">spiritnumeral@proton.me</p>
               </div>
               
               <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">

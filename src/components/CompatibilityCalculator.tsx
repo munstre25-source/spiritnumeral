@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 import Link from 'next/link';
 
 // Calculate life path from birthday
@@ -129,6 +131,8 @@ function getCompatibility(num1: number, num2: number): { score: number; descript
 }
 
 export function CompatibilityCalculator() {
+    const pathname = usePathname();
+    const impressionRef = useCtaImpression({ product: 'relationship', path: pathname || undefined, label: 'Compatibility Relationship PDF' });
     const [birthday1, setBirthday1] = useState('');
     const [birthday2, setBirthday2] = useState('');
     const [result, setResult] = useState<{
@@ -367,7 +371,7 @@ export function CompatibilityCalculator() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
+                    <div ref={impressionRef} className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
                         <button
                             onClick={startCheckout}
                             disabled={loadingCheckout || !canCheckout || !paymentsReady}

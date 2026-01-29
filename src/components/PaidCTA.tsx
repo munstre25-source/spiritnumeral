@@ -1,6 +1,8 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 
 type Product = 'blueprint' | 'relationship';
 
@@ -25,6 +27,8 @@ export function PaidCTA({
   className = '',
   variant = 'primary',
 }: PaidCTAProps) {
+  const pathname = usePathname();
+  const impressionRef = useCtaImpression({ product, path: pathname || undefined, label: label || undefined });
   const defaultLabel =
     product === 'relationship' ? 'Get Relationship Report ($29)' : 'Get Personal Blueprint ($17)';
   const defaultSub =
@@ -61,18 +65,20 @@ export function PaidCTA({
 
   if (variant === 'inline') {
     return (
-      <button
-        onClick={handleClick}
-        className={`text-amber-400 hover:text-amber-300 underline font-medium ${className}`}
-      >
-        {label || defaultLabel}
-      </button>
+      <span ref={impressionRef} className={className}>
+        <button
+          onClick={handleClick}
+          className="text-amber-400 hover:text-amber-300 underline font-medium"
+        >
+          {label || defaultLabel}
+        </button>
+      </span>
     );
   }
 
   if (variant === 'secondary') {
     return (
-      <div className={className}>
+      <div ref={impressionRef} className={className}>
         <button
           onClick={handleClick}
           className="w-full block p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-500/30 hover:border-amber-500/60 transition-all text-left"
@@ -86,7 +92,7 @@ export function PaidCTA({
 
   // primary
   return (
-    <div className={className}>
+    <div ref={impressionRef} className={className}>
       <button
         onClick={handleClick}
         className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block w-full"

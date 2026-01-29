@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { parseBrowser, parseDeviceType, safeReferrerDomain } from '@/lib/analytics/userAgent';
 
 function unauthorized() {
   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -22,12 +24,15 @@ export async function GET(req: NextRequest) {
   const expected = process.env.ADMIN_DASHBOARD_KEY;
   if (!expected || adminKey !== expected) return unauthorized();
 
+  const hours = Number(req.nextUrl.searchParams.get('hours') || 0);
   const days = Number(req.nextUrl.searchParams.get('days') || 30);
-  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const bucket = (req.nextUrl.searchParams.get('bucket') || (hours ? 'hour' : 'day')) as 'hour' | 'day' | 'week' | 'month';
+  const sinceMs = Date.now() - (hours ? hours * 60 * 60 * 1000 : days * 24 * 60 * 60 * 1000);
+  const since = new Date(sinceMs).toISOString();
 
   const { data: events } = await supabaseAdmin
     .from('analytics_events')
-    .select('event_type, product, path, metadata, created_at')
+    .select('event_type, product, path, referrer, metadata, created_at, session_id, user_agent')
     .gte('created_at', since)
     .order('created_at', { ascending: false });
 
@@ -39,25 +44,84 @@ export async function GET(req: NextRequest) {
 
   const totals = {
     pageViews: 0,
+    uniqueSessions: 0,
+    newSessions: 0,
+    returningSessions: 0,
+    ctaImpressions: 0,
     ctaClicks: 0,
     checkoutStarts: 0,
     orders: 0,
     pdfSent: 0,
+    pdfFailed: 0,
     revenueCents: 0,
   };
 
-  const funnels: Record<string, { clicks: number; checkouts: number; orders: number; pdfSent: number }> = {};
+  const funnels: Record<string, { impressions: number; clicks: number; checkouts: number; orders: number; pdfSent: number; pdfFailed: number }> = {};
 
   const productBreakdown: Record<string, { count: number; revenueCents: number }> = {};
   const topCtas: Record<string, number> = {};
+  const pageViewsByPath: Record<string, number> = {};
+  const referrers: Record<string, number> = {};
+  const devices: Record<string, number> = {};
+  const browsers: Record<string, number> = {};
+  const countries: Record<string, number> = {};
+  const entryPages: Record<string, number> = {};
   const daily: Record<string, { pageViews: number; ctaClicks: number; orders: number }> = {};
+  const sessions: Record<string, { firstSeen?: string; firstEvent?: string; entry?: string; pageViews: number }> = {};
+  let generationTotalMs = 0;
+  let generationSamples = 0;
+
+  const bucketKey = (iso: string) => {
+    const date = new Date(iso);
+    if (bucket === 'hour') return date.toISOString().slice(0, 13) + ':00';
+    if (bucket === 'month') return date.toISOString().slice(0, 7);
+    if (bucket === 'week') {
+      const temp = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+      const dayNum = temp.getUTCDay() || 7;
+      temp.setUTCDate(temp.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(temp.getUTCFullYear(), 0, 1));
+      const weekNo = Math.ceil((((temp.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+      return `${temp.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+    }
+    return date.toISOString().slice(0, 10);
+  };
 
   (events || []).forEach((e: any) => {
     const product = e.product || inferProduct(e.path);
-    if (!funnels[product]) funnels[product] = { clicks: 0, checkouts: 0, orders: 0, pdfSent: 0 };
-    const day = new Date(e.created_at).toISOString().slice(0, 10);
+    if (!funnels[product]) funnels[product] = { impressions: 0, clicks: 0, checkouts: 0, orders: 0, pdfSent: 0, pdfFailed: 0 };
+    const day = bucketKey(e.created_at);
     if (!daily[day]) daily[day] = { pageViews: 0, ctaClicks: 0, orders: 0 };
-    if (e.event_type === 'page_view') totals.pageViews += 1, daily[day].pageViews += 1;
+
+    const metadata = typeof e.metadata === 'object' && e.metadata ? e.metadata : {};
+    const sessionId = e.session_id as string | null;
+    if (sessionId) {
+      if (!sessions[sessionId]) sessions[sessionId] = { pageViews: 0 };
+      if (!sessions[sessionId].firstEvent || e.created_at < sessions[sessionId].firstEvent!) {
+        sessions[sessionId].firstEvent = e.created_at;
+      }
+      if (metadata.sessionFirstSeen) {
+        const firstSeen = String(metadata.sessionFirstSeen);
+        if (!sessions[sessionId].firstSeen || firstSeen < sessions[sessionId].firstSeen!) {
+          sessions[sessionId].firstSeen = firstSeen;
+        }
+      }
+    }
+
+    if (e.event_type === 'page_view') {
+      totals.pageViews += 1;
+      daily[day].pageViews += 1;
+      if (e.path) {
+        pageViewsByPath[e.path] = (pageViewsByPath[e.path] || 0) + 1;
+        if (sessionId) {
+          sessions[sessionId].pageViews += 1;
+          if (!sessions[sessionId].entry) sessions[sessionId].entry = e.path;
+        }
+      }
+    }
+    if (e.event_type === 'cta_impression') {
+      totals.ctaImpressions += 1;
+      funnels[product].impressions += 1;
+    }
     if (e.event_type === 'cta_click') {
       totals.ctaClicks += 1;
       daily[day].ctaClicks += 1;
@@ -77,7 +141,25 @@ export async function GET(req: NextRequest) {
     if (e.event_type === 'pdf_sent') {
       totals.pdfSent += 1;
       funnels[product].pdfSent += 1;
+      const gen = Number(metadata.generationMs);
+      if (!Number.isNaN(gen) && gen > 0) {
+        generationTotalMs += gen;
+        generationSamples += 1;
+      }
     }
+    if (e.event_type === 'pdf_failed') {
+      totals.pdfFailed += 1;
+      funnels[product].pdfFailed += 1;
+    }
+
+    const refDomain = metadata.referrerDomain || safeReferrerDomain(e.referrer);
+    if (refDomain) referrers[refDomain] = (referrers[refDomain] || 0) + 1;
+    const device = metadata.device || parseDeviceType(e.user_agent);
+    if (device) devices[device] = (devices[device] || 0) + 1;
+    const browser = metadata.browser || parseBrowser(e.user_agent);
+    if (browser) browsers[browser] = (browsers[browser] || 0) + 1;
+    const country = metadata.country;
+    if (country) countries[country] = (countries[country] || 0) + 1;
   });
 
   (reports || []).forEach((r: any) => {
@@ -101,6 +183,64 @@ export async function GET(req: NextRequest) {
     .map(([date, v]) => ({ date, ...v }))
     .sort((a, b) => a.date.localeCompare(b.date));
 
+  Object.values(sessions).forEach((session) => {
+    if (session.entry) entryPages[session.entry] = (entryPages[session.entry] || 0) + 1;
+  });
+  totals.uniqueSessions = Object.keys(sessions).length;
+  const sinceDate = new Date(sinceMs);
+  Object.values(sessions).forEach((session) => {
+    const firstSeen = session.firstSeen ? new Date(session.firstSeen) : session.firstEvent ? new Date(session.firstEvent) : null;
+    if (!firstSeen) return;
+    if (firstSeen < sinceDate) totals.returningSessions += 1;
+    else totals.newSessions += 1;
+  });
+
+  const topPages = Object.entries(pageViewsByPath)
+    .map(([path, count]) => ({ path, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const topEntryPages = Object.entries(entryPages)
+    .map(([path, count]) => ({ path, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const topReferrers = Object.entries(referrers)
+    .map(([domain, count]) => ({ domain, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const deviceBreakdown = Object.entries(devices)
+    .map(([device, count]) => ({ device, count }))
+    .sort((a, b) => b.count - a.count);
+
+  const browserBreakdown = Object.entries(browsers)
+    .map(([browser, count]) => ({ browser, count }))
+    .sort((a, b) => b.count - a.count);
+
+  const countryBreakdown = Object.entries(countries)
+    .map(([country, count]) => ({ country, count }))
+    .sort((a, b) => b.count - a.count);
+
+  const offerCtr = Object.entries(funnels).map(([product, f]) => ({
+    product,
+    impressions: f.impressions,
+    clicks: f.clicks,
+    ctr: f.impressions ? Number(((f.clicks / f.impressions) * 100).toFixed(1)) : 0,
+  }));
+
+  const avgPagesPerSession = totals.uniqueSessions ? Number((totals.pageViews / totals.uniqueSessions).toFixed(2)) : 0;
+
+  const { urls } = getAllSitemapUrls();
+  const sectionCounts: Record<string, number> = {};
+  urls.forEach((url) => {
+    const path = new URL(url).pathname;
+    const key = path.split('/').filter(Boolean)[0] || 'home';
+    sectionCounts[key] = (sectionCounts[key] || 0) + 1;
+  });
+
+  const avgGenerationMs = generationSamples ? Math.round(generationTotalMs / generationSamples) : 0;
+
   return NextResponse.json({
     totals,
     funnels,
@@ -108,5 +248,24 @@ export async function GET(req: NextRequest) {
     topCtas: topCtaList,
     recentReports: (reports || []).slice(0, 20),
     dailySeries,
+    topPages,
+    topEntryPages,
+    topReferrers,
+    deviceBreakdown,
+    browserBreakdown,
+    countryBreakdown,
+    offerCtr,
+    seoSnapshot: {
+      totalUrls: urls.length,
+      avgPagesPerSession,
+      sectionCounts,
+      seenPages: Object.keys(pageViewsByPath).length,
+      coveragePct: urls.length ? Number(((Object.keys(pageViewsByPath).length / urls.length) * 100).toFixed(2)) : 0,
+    },
+    deliveryStats: {
+      avgGenerationMs,
+      samples: generationSamples,
+    },
+    bucket,
   });
 }

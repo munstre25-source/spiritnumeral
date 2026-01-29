@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 
 type Focus = 'love' | 'career' | 'spiritual' | 'money' | 'healing' | '';
 type Feeling = 'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken' | '';
@@ -15,6 +17,8 @@ const DEFAULT_NUMBERS = [111, 222, 333, 444, 555, 666, 777, 888, 999];
 
 export function MeaningPaidCTA({ number }: MeaningPaidCTAProps) {
   const paymentsReady = true; // assume payments are ready; remove coming-soon UX
+  const pathname = usePathname();
+  const impressionRef = useCtaImpression({ product: 'blueprint', path: pathname || undefined, label: 'Meaning PDF CTA' });
   const [name, setName] = useState('');
   const [focus, setFocus] = useState<Focus>('');
   const [feeling, setFeeling] = useState<Feeling>('');
@@ -65,7 +69,7 @@ export function MeaningPaidCTA({ number }: MeaningPaidCTAProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div ref={impressionRef} className="space-y-4">
       {/* Value props for trust & clarity */}
       <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400">
         <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
+import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 import Link from 'next/link';
 
 const QUIZ_QUESTIONS = [
@@ -58,6 +60,8 @@ const QUIZ_QUESTIONS = [
 ];
 
 export function AngelNumberQuiz() {
+    const pathname = usePathname();
+    const impressionRef = useCtaImpression({ product: 'blueprint', path: pathname || undefined, label: 'Quiz Blueprint CTA' });
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState<number[]>([]);
     const [suggestedNumbers, setSuggestedNumbers] = useState<number[]>([]);
@@ -257,7 +261,7 @@ export function AngelNumberQuiz() {
                     )}
 
                     {/* Action Buttons */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
+                    <div ref={impressionRef} className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
                         <input
                             placeholder="Your name (optional)"
                             value={name}

@@ -3,8 +3,11 @@ import { createCheckout, CheckoutMetadata } from '@/lib/lemonsqueezy';
 import { logEvent } from '@/lib/analytics/server';
 
 export async function POST(req: NextRequest) {
+  let product: 'blueprint' | 'relationship' | 'wealth' | 'bundle' | undefined;
   try {
-    const { product, metadata, successUrl, cancelUrl } = await req.json();
+    const body = await req.json();
+    product = body.product;
+    const { metadata, successUrl, cancelUrl } = body;
 
     if (product !== 'blueprint' && product !== 'relationship' && product !== 'wealth' && product !== 'bundle') {
       return NextResponse.json({ error: 'Invalid product' }, { status: 400 });
@@ -77,6 +80,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url });
   } catch (error: any) {
     console.error('Checkout error:', error);
+    if (product) {
+      await logEvent({
+        sessionId: req.headers.get('x-session-id') || undefined,
+        eventType: 'checkout_error',
+        path: req.headers.get('referer') || undefined,
+        referrer: req.headers.get('referer') || undefined,
+        product,
+        metadata: { error: error?.message || 'unknown' },
+        userAgent: req.headers.get('user-agent') || undefined,
+      });
+    }
     return NextResponse.json({ error: 'Failed to create checkout' }, { status: 500 });
   }
 }
