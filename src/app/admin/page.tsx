@@ -30,6 +30,10 @@ type Stats = {
   countryBreakdown: { country: string; count: number }[];
   seoSnapshot: { totalUrls: number; avgPagesPerSession: number; sectionCounts: Record<string, number>; seenPages: number; coveragePct: number };
   deliveryStats: { avgGenerationMs: number; samples: number };
+  seoAudit: {
+    fixList: { path: string; score: number; reasons: string[]; views: number; ctr: number }[];
+    internalLinks: { path: string; suggested: string[] }[];
+  };
   affiliate: {
     offers: { product: string; impressions: number; clicks: number; ctr: number }[];
     topPages: { path: string; product: string; count: number }[];
@@ -204,6 +208,8 @@ export default function AdminDashboard() {
                 <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Pages</a>
                 <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Traffic</a>
                 <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">SEO</a>
+                <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">SEO Fixes</a>
+                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Internal Links</a>
                 <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Affiliates</a>
                 <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Reports</a>
               </div>
@@ -539,6 +545,46 @@ export default function AdminDashboard() {
                     Prioritize sections with high impressions but low clicks. Use internal links and fresh CTAs to lift CTR.
                   </p>
                 </div>
+              </div>
+            </div>
+
+            <div id="seo-fix" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-4">Top Pages to Fix (Weekly)</h3>
+              <div className="space-y-4">
+                {(stats.seoAudit?.fixList || []).length === 0 && (
+                  <p className="text-sm text-zinc-500">No issues detected for blog pages in this range.</p>
+                )}
+                {(stats.seoAudit?.fixList || []).map((item) => (
+                  <div key={item.path} className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-sm font-semibold text-amber-200">{item.path}</div>
+                      <div className="text-xs text-zinc-500">Views: {item.views} • CTR: {item.ctr}%</div>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {item.reasons.map((reason) => (
+                        <span key={reason} className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs text-amber-300">
+                          {reason}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div id="links" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-4">Internal Linking Suggestions</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {(stats.seoAudit?.internalLinks || []).slice(0, 10).map((row) => (
+                  <div key={row.path} className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+                    <div className="text-sm font-semibold text-emerald-200 mb-2">{row.path}</div>
+                    <ul className="space-y-1 text-sm text-zinc-400">
+                      {row.suggested.map((link) => (
+                        <li key={link}>• Add link to {link}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
 

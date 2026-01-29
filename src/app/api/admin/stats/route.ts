@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { BLOG_POSTS } from '@/lib/blog-data';
 import { parseBrowser, parseDeviceType, safeReferrerDomain } from '@/lib/analytics/userAgent';
 
 function unauthorized() {
@@ -61,6 +62,7 @@ export async function GET(req: NextRequest) {
   const productBreakdown: Record<string, { count: number; revenueCents: number }> = {};
   const topCtas: Record<string, number> = {};
   const pageViewsByPath: Record<string, number> = {};
+  const ctaClicksByPath: Record<string, number> = {};
   const referrers: Record<string, number> = {};
   const devices: Record<string, number> = {};
   const browsers: Record<string, number> = {};
@@ -128,6 +130,9 @@ export async function GET(req: NextRequest) {
       funnels[product].clicks += 1;
       const key = `${e.path || 'unknown'}|${product}`;
       topCtas[key] = (topCtas[key] || 0) + 1;
+      if (e.path) {
+        ctaClicksByPath[e.path] = (ctaClicksByPath[e.path] || 0) + 1;
+      }
     }
     if (e.event_type === 'checkout_start') {
       totals.checkoutStarts += 1;
@@ -241,6 +246,65 @@ export async function GET(req: NextRequest) {
 
   const avgGenerationMs = generationSamples ? Math.round(generationTotalMs / generationSamples) : 0;
 
+  const blogIndex = new Map<string, (typeof BLOG_POSTS)[number]>();
+  BLOG_POSTS.forEach((post) => blogIndex.set(`/blog/${post.slug}`, post));
+
+  const wordCount = (content: string) => content.split(/\s+/).filter(Boolean).length;
+  const hasFaqSection = (content: string) => /##\s*FAQs/i.test(content);
+
+  const resolveToolsForCategory = (category: string) => {
+    const normalized = category.toLowerCase();
+    if (normalized.includes('love') || normalized.includes('twin flame') || normalized.includes('compatibility') || normalized.includes('soulmate') || normalized.includes('breakup')) {
+      return ['/compare', '/compatibility', '/quiz'];
+    }
+    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('manifestation')) {
+      return ['/money', '/personal-year', '/calculator'];
+    }
+    if (normalized.includes('life path') || normalized.includes('name numerology') || normalized.includes('destiny') || normalized.includes('soul urge') || normalized.includes('personality') || normalized.includes('birthday') || normalized.includes('maturity')) {
+      return ['/calculator', '/name-numerology', '/meaning/life-path'];
+    }
+    if (normalized.includes('angel') || normalized.includes('dream') || normalized.includes('warning') || normalized.includes('why am i seeing') || normalized.includes('biblical')) {
+      return ['/meaning/angel-number', '/why-am-i-seeing/111', '/warning/111'];
+    }
+    return ['/calculator', '/meaning/angel-number', '/quiz'];
+  };
+
+  const fixList: { path: string; score: number; reasons: string[]; views: number; ctr: number }[] = [];
+  const internalLinkSuggestions: { path: string; suggested: string[] }[] = [];
+
+  Object.entries(pageViewsByPath).forEach(([path, views]) => {
+    const post = blogIndex.get(path);
+    if (!post) return;
+
+    const clicks = ctaClicksByPath[path] || 0;
+    const ctr = views ? Number(((clicks / views) * 100).toFixed(2)) : 0;
+    const reasons: string[] = [];
+    let score = 0;
+
+    const wc = wordCount(post.content || '');
+    if (wc < 700) {
+      reasons.push('Thin content (<700 words)');
+      score += 2;
+    }
+    if (!hasFaqSection(post.content || '')) {
+      reasons.push('Missing FAQ section');
+      score += 2;
+    }
+    if (views >= 200 && ctr < 0.5) {
+      reasons.push('Low CTA CTR (<0.5%)');
+      score += 3;
+    }
+
+    const suggestions = resolveToolsForCategory(post.category);
+    internalLinkSuggestions.push({ path, suggested: suggestions });
+
+    if (reasons.length > 0) {
+      fixList.push({ path, score, reasons, views, ctr });
+    }
+  });
+
+  fixList.sort((a, b) => b.score - a.score || b.views - a.views);
+
   return NextResponse.json({
     totals,
     funnels,
@@ -265,6 +329,10 @@ export async function GET(req: NextRequest) {
     deliveryStats: {
       avgGenerationMs,
       samples: generationSamples,
+    },
+    seoAudit: {
+      fixList: fixList.slice(0, 10),
+      internalLinks: internalLinkSuggestions.slice(0, 20),
     },
     affiliate: {
       offers: offerCtr
