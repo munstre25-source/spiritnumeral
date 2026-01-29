@@ -84,6 +84,43 @@ const resolveAffiliateForCategory = (category: string) => {
     return null;
 };
 
+const resolveToolsForCategory = (category: string) => {
+    const normalized = category.toLowerCase();
+    if (normalized.includes('love') || normalized.includes('twin flame') || normalized.includes('compatibility') || normalized.includes('soulmate') || normalized.includes('breakup')) {
+        return [
+            { title: 'Compare Numbers', href: '/compare', description: 'See how two numbers blend in relationships.' },
+            { title: 'Compatibility Calculator', href: '/compatibility', description: 'Check love compatibility by life path.' },
+            { title: 'Relationship Quiz', href: '/quiz', description: 'Get a personalized relationship blueprint.' },
+        ];
+    }
+    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('manifestation')) {
+        return [
+            { title: 'Money Numbers', href: '/money', description: 'Explore abundance meanings for your numbers.' },
+            { title: 'Personal Year', href: '/personal-year', description: 'See timing and career momentum.' },
+            { title: 'Life Path Calculator', href: '/calculator', description: 'Find your core number quickly.' },
+        ];
+    }
+    if (normalized.includes('life path') || normalized.includes('name numerology') || normalized.includes('destiny') || normalized.includes('soul urge') || normalized.includes('personality') || normalized.includes('birthday') || normalized.includes('maturity')) {
+        return [
+            { title: 'Life Path Calculator', href: '/calculator', description: 'Calculate your core life path number.' },
+            { title: 'Name Numerology', href: '/name-numerology', description: 'Reveal expression, soul urge, and personality.' },
+            { title: 'Life Path Library', href: '/meaning/life-path', description: 'Browse all life path meanings.' },
+        ];
+    }
+    if (normalized.includes('angel') || normalized.includes('dream') || normalized.includes('warning') || normalized.includes('why am i seeing') || normalized.includes('biblical')) {
+        return [
+            { title: 'Angel Number Library', href: '/meaning/angel-number', description: 'Browse all 0–9999 meanings.' },
+            { title: 'Why Am I Seeing', href: '/why-am-i-seeing/111', description: 'Decode repeating number signals.' },
+            { title: 'Warning Numbers', href: '/warning/111', description: 'See cautionary meanings and next steps.' },
+        ];
+    }
+    return [
+        { title: 'Life Path Calculator', href: '/calculator', description: 'Start with your core numerology number.' },
+        { title: 'Angel Number Library', href: '/meaning/angel-number', description: 'Find meanings for any number.' },
+        { title: 'Quiz Reading', href: '/quiz', description: 'Get a personalized blueprint.' },
+    ];
+};
+
 const extractFaqs = (content: string) => {
     const lines = content.split('\n').map((line) => line.trim());
     const faqs: { question: string; answer: string }[] = [];
@@ -231,6 +268,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     // Get related posts
     const relatedPosts = BLOG_POSTS.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3);
     const affiliatePromo = resolveAffiliateForCategory(post.category);
+    const tools = resolveToolsForCategory(post.category);
 
     return (
         <>
@@ -292,6 +330,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     {affiliatePromo && (
                         <section className="mt-10">
                             <AffiliatePromo offer={affiliatePromo.offer} context={affiliatePromo.context} />
+                        </section>
+                    )}
+
+                    {tools.length > 0 && (
+                        <section className="mt-10 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                            <h3 className="text-xl font-bold text-white mb-4">Related Tools</h3>
+                            <div className="grid md:grid-cols-3 gap-4">
+                                {tools.map((tool) => (
+                                    <Link
+                                        key={tool.href}
+                                        href={tool.href}
+                                        className="p-4 rounded-xl bg-zinc-950/60 border border-zinc-800 hover:border-amber-500/50 transition"
+                                    >
+                                        <div className="text-amber-400 font-semibold mb-1">{tool.title}</div>
+                                        <div className="text-zinc-400 text-sm">{tool.description}</div>
+                                    </Link>
+                                ))}
+                            </div>
                         </section>
                     )}
 

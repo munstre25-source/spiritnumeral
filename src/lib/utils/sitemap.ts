@@ -67,6 +67,38 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
   ];
   blogSlugs.forEach((slug) => urls.push(`${baseUrl}/blog/${slug}`));
 
+  // Blog category pages
+  const blogCategories = [
+    'angel-numbers',
+    'birthday-number',
+    'breakup',
+    'career',
+    'celebrity-numerology',
+    'challenges',
+    'compatibility',
+    'destiny-number',
+    'dream-meaning',
+    'life-path',
+    'love-compatibility',
+    'manifestation',
+    'maturity-number',
+    'money',
+    'name-numerology',
+    'personal-day',
+    'personal-month',
+    'personal-year',
+    'personality-number',
+    'pinnacles',
+    'pregnancy',
+    'soul-urge-number',
+    'soulmate',
+    'twin-flame',
+    'warning',
+    'why-am-i-seeing',
+    'biblical-meaning',
+  ];
+  blogCategories.forEach((slug) => urls.push(`${baseUrl}/blog/category/${slug}`));
+
   // Life path pages (1-9)
   for (let i = 1; i <= 9; i += 1) {
     urls.push(`${baseUrl}/meaning/life-path/life-path-${i}`);

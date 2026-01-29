@@ -1,53 +1,80 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import { BLOG_POSTS, BLOG_CATEGORIES, getBlogPostsByCategory } from '@/lib/blog-data';
 
-// Generate schemas
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const PAGE_SIZE = 24;
 
-const blogListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'Spirit Numeral Numerology Blog',
-    description: 'Expert guides on angel numbers, life path numbers, numerology compatibility, manifestation, and spiritual guidance.',
-    url: `${baseUrl}/blog`,
-    blogPost: BLOG_POSTS.slice(0, 20).map((post) => ({
-        '@type': 'BlogPosting',
-        headline: post.title,
-        description: post.excerpt,
-        url: `${baseUrl}/blog/${post.slug}`,
-        datePublished: post.date,
-        author: {
-            '@type': 'Organization',
-            name: 'Spirit Numeral',
-        },
-    })),
+const slugifyCategory = (value: string) =>
+    value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+const getFilteredPosts = (category: string, query: string) => {
+    const list = category === 'All' ? BLOG_POSTS : getBlogPostsByCategory(category);
+    if (!query) return list;
+    const q = query.toLowerCase();
+    return list.filter((post) => (
+        post.title.toLowerCase().includes(q)
+        || post.excerpt.toLowerCase().includes(q)
+        || post.content.toLowerCase().includes(q)
+    ));
 };
 
-const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
-    ],
-};
+export default function BlogPage({ searchParams }: { searchParams?: { category?: string; page?: string; q?: string } }) {
+    const categoryParam = searchParams?.category || 'All';
+    const query = searchParams?.q?.trim() || '';
+    const page = Math.max(1, Number(searchParams?.page || 1));
+    const selectedCategory = BLOG_CATEGORIES.includes(categoryParam) ? categoryParam : 'All';
 
-const collectionSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Numerology Blog - Spirit Numeral',
-    description: 'Expert articles about angel numbers, life path numbers, and spiritual numerology.',
-    url: `${baseUrl}/blog`,
-};
-
-export default function BlogPage() {
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const filteredPosts = getBlogPostsByCategory(selectedCategory);
+    const filteredPosts = getFilteredPosts(selectedCategory, query);
     const featuredPosts = filteredPosts.filter(p => p.featured).slice(0, 3);
     const recentPosts = filteredPosts.filter(p => !p.featured);
+    const totalPages = Math.max(1, Math.ceil(recentPosts.length / PAGE_SIZE));
+    const currentPage = Math.min(page, totalPages);
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pagePosts = recentPosts.slice(start, start + PAGE_SIZE);
+
+    const buildPageLink = (nextPage: number) => {
+        const params = new URLSearchParams();
+        if (selectedCategory !== 'All') params.set('category', selectedCategory);
+        if (query) params.set('q', query);
+        params.set('page', String(nextPage));
+        return `/blog?${params.toString()}`;
+    };
+
+    const blogListSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        name: 'Spirit Numeral Numerology Blog',
+        description: 'Expert guides on angel numbers, life path numbers, numerology compatibility, manifestation, and spiritual guidance.',
+        url: `${baseUrl}/blog`,
+        blogPost: BLOG_POSTS.slice(0, 20).map((post) => ({
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.excerpt,
+            url: `${baseUrl}/blog/${post.slug}`,
+            datePublished: post.date,
+            author: {
+                '@type': 'Organization',
+                name: 'Spirit Numeral',
+            },
+        })),
+    };
+
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
+        ],
+    };
+
+    const collectionSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Numerology Blog - Spirit Numeral',
+        description: 'Expert articles about angel numbers, life path numbers, and spiritual numerology.',
+        url: `${baseUrl}/blog`,
+    };
 
     return (
         <>
@@ -70,19 +97,39 @@ export default function BlogPage() {
                     </header>
 
                     {/* Categories */}
-                    <div className="flex flex-wrap justify-center gap-2 mb-12">
-                        {BLOG_CATEGORIES.map(cat => (
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+                        <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                            {BLOG_CATEGORIES.map(cat => (
+                                <Link
+                                    key={cat}
+                                    href={cat === 'All' ? '/blog' : `/blog/category/${slugifyCategory(cat)}`}
+                                    className={`px-4 py-2 rounded-full text-sm transition-all ${cat === selectedCategory
+                                        ? 'bg-emerald-500 text-black font-medium'
+                                        : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
+                                        }`}
+                                >
+                                    {cat}
+                                </Link>
+                            ))}
+                        </div>
+                        <form action="/blog" method="get" className="flex gap-2 items-center justify-center">
+                            {selectedCategory !== 'All' && (
+                                <input type="hidden" name="category" value={selectedCategory} />
+                            )}
+                            <input
+                                type="text"
+                                name="q"
+                                defaultValue={query}
+                                placeholder="Search the blog..."
+                                className="w-full md:w-72 bg-zinc-900/70 border border-zinc-800 rounded-full px-4 py-2 text-sm text-zinc-200 focus:outline-none focus:border-emerald-500/60"
+                            />
                             <button
-                                key={cat}
-                                onClick={() => setSelectedCategory(cat)}
-                                className={`px-4 py-2 rounded-full text-sm transition-all ${cat === selectedCategory
-                                    ? 'bg-emerald-500 text-black font-medium'
-                                    : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
-                                    }`}
+                                type="submit"
+                                className="px-4 py-2 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 transition"
                             >
-                                {cat}
+                                Search
                             </button>
-                        ))}
+                        </form>
                     </div>
 
                     {/* Stats Bar */}
@@ -156,7 +203,7 @@ export default function BlogPage() {
                             <span className="text-zinc-500 font-normal ml-2">({filteredPosts.length})</span>
                         </h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {(selectedCategory === 'All' ? recentPosts : filteredPosts).map(post => (
+                            {pagePosts.map(post => (
                                 <Link key={post.slug} href={`/blog/${post.slug}`}
                                     className="group p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/50 transition-all"
                                 >
@@ -175,6 +222,29 @@ export default function BlogPage() {
                                 </Link>
                             ))}
                         </div>
+                        {totalPages > 1 && (
+                            <div className="flex flex-wrap items-center justify-center gap-3 mt-10">
+                                {currentPage > 1 && (
+                                    <Link
+                                        href={buildPageLink(currentPage - 1)}
+                                        className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                                    >
+                                        ← Prev
+                                    </Link>
+                                )}
+                                <span className="text-sm text-zinc-500">
+                                    Page {currentPage} of {totalPages}
+                                </span>
+                                {currentPage < totalPages && (
+                                    <Link
+                                        href={buildPageLink(currentPage + 1)}
+                                        className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                                    >
+                                        Next →
+                                    </Link>
+                                )}
+                            </div>
+                        )}
                     </section>
 
                     {/* Bottom CTA */}
