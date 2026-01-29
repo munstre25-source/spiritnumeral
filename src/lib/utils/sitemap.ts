@@ -34,6 +34,7 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     '/pregnancy',
     '/soulmate',
     '/money',
+    '/press',
   ].forEach((path) => {
     urls.push(`${baseUrl}${path}`);
   });

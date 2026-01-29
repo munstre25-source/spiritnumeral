@@ -37,6 +37,7 @@ export default function Footer() {
       title: 'Company',
       links: [
         { name: 'About Us', href: '/about' },
+        { name: 'Press Kit', href: '/press' },
         { name: 'Contact', href: '/contact' },
         { name: 'Privacy Policy', href: '/privacy' },
         { name: 'Terms of Service', href: '/terms' },
@@ -107,6 +108,9 @@ export default function Footer() {
             </Link>
             <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
               Terms
+            </Link>
+            <Link href="/press" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
+              Press
             </Link>
             <Link href="/about" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
               About
