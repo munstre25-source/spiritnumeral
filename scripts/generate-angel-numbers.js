@@ -1,6 +1,6 @@
 /**
  * Angel Number Content Generator
- * Generates unique, meaningful content for numbers 889-2222
+ * Generates unique, meaningful content for numbers 0-9999
  * Based on numerology principles: digit reduction, individual digit meanings, patterns
  */
 
@@ -67,18 +67,23 @@ function generateMeaning(num) {
 
     const uniqueDigits = [...new Set(digits)];
     const digitDescriptions = uniqueDigits.map(d => digitMeanings[d].essence).join(', ');
+    const isPalindrome = num.toString() === num.toString().split('').reverse().join('');
+    const parity = num % 2 === 0 ? 'even' : 'odd';
 
     let pattern = '';
     if (hasRepeatingDigits(num)) {
         pattern = 'The repeating digits amplify its power. ';
     } else if (hasSequentialPattern(num)) {
         pattern = 'The sequential pattern indicates progressive spiritual growth. ';
+    } else if (isPalindrome) {
+        pattern = 'The mirrored pattern reflects inner alignment and karmic feedback. ';
     }
 
     const templates = [
-        `Angel number ${num} carries the vibration of ${rootInfo.theme}. ${pattern}This number combines the energies of ${digitDescriptions}, creating a powerful message about ${rootInfo.essence} in your life. When you see ${num}, your angels are signaling that you're aligned with the universe's plan for your highest good.`,
-        `When ${num} appears repeatedly, it's a divine message about ${rootInfo.essence}. ${pattern}The combination of energies from ${digitDescriptions} suggests that significant ${rootInfo.theme} is unfolding. Trust that your angels are guiding you toward your soul's purpose.`,
-        `The spiritual significance of ${num} relates to ${rootInfo.theme}. ${pattern}This number blends ${digitDescriptions}, reminding you that the universe supports your journey. Seeing ${num} is confirmation that you're on the right path.`,
+        `Angel number ${num} carries the vibration of ${rootInfo.theme}. ${pattern}This ${parity} number combines ${digitDescriptions}, creating a message about ${rootInfo.essence} in your life. When you see ${num}, your angels are signaling alignment with your highest path.`,
+        `When ${num} appears repeatedly, it's a divine message about ${rootInfo.essence}. ${pattern}The blend of ${digitDescriptions} suggests that ${rootInfo.theme} is unfolding. Trust that your angels are guiding you toward your next step.`,
+        `The spiritual significance of ${num} relates to ${rootInfo.theme}. ${pattern}This number blends ${digitDescriptions}, reminding you that the universe supports your journey. Seeing ${num} confirms you're on the right path.`,
+        `Angel number ${num} points to ${rootInfo.theme}. ${pattern}Its ${parity} vibration and digit mix (${digitDescriptions}) emphasize ${rootInfo.essence}. Use this signal to move with clarity and intention.`,
     ];
 
     return templates[num % templates.length];
@@ -284,9 +289,9 @@ async function main() {
     const maxExisting = Math.max(...existingNumbers);
     console.log(`📈 Highest existing number: ${maxExisting}`);
 
-    // Generate new numbers (889-2222)
+    // Generate new numbers up to 9999
     const newNumbers = [];
-    for (let i = 889; i <= 2222; i++) {
+    for (let i = 0; i <= 9999; i++) {
         if (!existingNumbers.has(i)) {
             newNumbers.push(generateAngelNumber(i));
         }

@@ -42,7 +42,7 @@ export function getAllPSEOSlugs() {
  */
 export function getAngelNumberRange(): number[] {
   const numbers: number[] = [];
-  for (let i = 0; i <= 2222; i++) {
+  for (let i = 0; i <= 9999; i++) {
     numbers.push(i);
   }
   return numbers;
