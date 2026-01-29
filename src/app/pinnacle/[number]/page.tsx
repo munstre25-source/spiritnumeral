@@ -17,6 +17,25 @@ export default async function PinnacleNumberPage({ params }: { params: Promise<{
   const data = await getLifecycleMeaning('pinnacle', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Pinnacle ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How does Pinnacle ${num} affect relationships?`,
+      answer: data.love,
+    },
+    {
+      question: `What should I focus on during this pinnacle?`,
+      answer: data.advice,
+    },
+    {
+      question: `What about career during Pinnacle ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Pinnacle ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function PinnacleNumberPage({ params }: { params: Promise<{
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<LifecyclePaidCTA type="pinnacle" number={num} />}
     />
   );

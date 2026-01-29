@@ -1,6 +1,14 @@
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
+
 type MeaningBlock = {
   title: string;
   body: string;
+};
+
+type FAQItem = {
+  question: string;
+  answer: string;
 };
 
 interface NumerologyMeaningProps {
@@ -13,6 +21,7 @@ interface NumerologyMeaningProps {
   career?: string;
   advice?: string;
   footer?: React.ReactNode;
+  faqs?: FAQItem[];
 }
 
 export function NumerologyMeaning({
@@ -25,6 +34,7 @@ export function NumerologyMeaning({
   career,
   advice,
   footer,
+  faqs,
 }: NumerologyMeaningProps) {
   const blocks: MeaningBlock[] = [];
   if (love) blocks.push({ title: 'Love & Relationships', body: love });
@@ -33,6 +43,12 @@ export function NumerologyMeaning({
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+      {faqs && faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+        />
+      )}
       <div className="max-w-3xl mx-auto space-y-10">
         <header className="text-center space-y-4">
           <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium">
@@ -85,6 +101,8 @@ export function NumerologyMeaning({
             ))}
           </section>
         )}
+
+        {faqs && faqs.length > 0 && <FAQ faqs={faqs} />}
 
         {footer && (
           <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">

@@ -17,6 +17,25 @@ export default async function PersonalMonthNumberPage({ params }: { params: Prom
   const data = await getTimingCycleMeaning('personal_month', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Personal Month ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How should I use Personal Month ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `What should I focus on in love this month?`,
+      answer: data.love,
+    },
+    {
+      question: `What about career in Personal Month ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Personal Month ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function PersonalMonthNumberPage({ params }: { params: Prom
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<TimingPaidCTA />}
     />
   );

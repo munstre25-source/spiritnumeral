@@ -59,6 +59,46 @@ function hasSequentialPattern(num) {
     return str.length > 1;
 }
 
+function countDigits(digits) {
+    const counts = {};
+    digits.forEach(d => {
+        counts[d] = (counts[d] || 0) + 1;
+    });
+    return counts;
+}
+
+function mostCommonDigit(digits) {
+    const counts = countDigits(digits);
+    let best = digits[0];
+    let bestCount = 0;
+    Object.entries(counts).forEach(([digit, count]) => {
+        if (count > bestCount) {
+            best = parseInt(digit);
+            bestCount = count;
+        }
+    });
+    return { digit: best, count: bestCount };
+}
+
+function digitSum(num) {
+    return num.toString().split('').reduce((acc, d) => acc + parseInt(d), 0);
+}
+
+function getPatternNote(num, digits) {
+    const isPalindrome = num.toString() === num.toString().split('').reverse().join('');
+    const { digit, count } = mostCommonDigit(digits);
+    if (hasRepeatingDigits(num) && count >= 2) {
+        return `Repeating ${digit}s intensify the message.`;
+    }
+    if (hasSequentialPattern(num)) {
+        return 'Sequential digits suggest steady, step-by-step growth.';
+    }
+    if (isPalindrome) {
+        return 'The mirrored pattern reflects inner alignment and karmic feedback.';
+    }
+    return 'The mixed digits indicate balanced lessons across multiple areas.';
+}
+
 // Generate meaning based on number composition
 function generateMeaning(num) {
     const digits = getDigits(num);
@@ -69,6 +109,8 @@ function generateMeaning(num) {
     const digitDescriptions = uniqueDigits.map(d => digitMeanings[d].essence).join(', ');
     const isPalindrome = num.toString() === num.toString().split('').reverse().join('');
     const parity = num % 2 === 0 ? 'even' : 'odd';
+    const sum = digitSum(num);
+    const patternNote = getPatternNote(num, digits);
 
     let pattern = '';
     if (hasRepeatingDigits(num)) {
@@ -80,10 +122,12 @@ function generateMeaning(num) {
     }
 
     const templates = [
-        `Angel number ${num} carries the vibration of ${rootInfo.theme}. ${pattern}This ${parity} number combines ${digitDescriptions}, creating a message about ${rootInfo.essence} in your life. When you see ${num}, your angels are signaling alignment with your highest path.`,
-        `When ${num} appears repeatedly, it's a divine message about ${rootInfo.essence}. ${pattern}The blend of ${digitDescriptions} suggests that ${rootInfo.theme} is unfolding. Trust that your angels are guiding you toward your next step.`,
-        `The spiritual significance of ${num} relates to ${rootInfo.theme}. ${pattern}This number blends ${digitDescriptions}, reminding you that the universe supports your journey. Seeing ${num} confirms you're on the right path.`,
-        `Angel number ${num} points to ${rootInfo.theme}. ${pattern}Its ${parity} vibration and digit mix (${digitDescriptions}) emphasize ${rootInfo.essence}. Use this signal to move with clarity and intention.`,
+        `Angel number ${num} carries the vibration of ${rootInfo.theme}. ${pattern}This ${parity} number combines ${digitDescriptions}, creating a message about ${rootInfo.essence} in your life. ${patternNote}`,
+        `When ${num} appears repeatedly, it's a divine message about ${rootInfo.essence}. ${pattern}The blend of ${digitDescriptions} suggests that ${rootInfo.theme} is unfolding. Digit sum ${sum} adds emphasis to timing and readiness.`,
+        `The spiritual significance of ${num} relates to ${rootInfo.theme}. ${pattern}This number blends ${digitDescriptions}, reminding you that the universe supports your journey. ${patternNote}`,
+        `Angel number ${num} points to ${rootInfo.theme}. ${pattern}Its ${parity} vibration and digit mix (${digitDescriptions}) emphasize ${rootInfo.essence}. Let this signal guide your next decision.`,
+        `Seeing ${num} is a confirmation of ${rootInfo.essence}. The digits (${digitDescriptions}) and sum ${sum} reinforce ${rootInfo.theme}. ${patternNote}`,
+        `Angel number ${num} echoes ${rootInfo.theme}. ${pattern}Use its ${parity} energy to act with purpose; the number’s composition (${digitDescriptions}) highlights where to focus.`,
     ];
 
     return templates[num % templates.length];
@@ -94,11 +138,14 @@ function generateLove(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
     const area = lifeAreas.love[num % lifeAreas.love.length];
+    const sum = digitSum(num);
 
     const templates = [
         `In matters of ${area}, angel number ${num} brings a message of ${rootInfo.essence}. Your angels are guiding you toward deeper emotional connections. This number suggests that ${rootInfo.theme} will positively transform your love life. Open your heart to receive the romantic blessings heading your way.`,
         `Angel number ${num} in love signals ${rootInfo.essence} and ${rootInfo.energy} energy entering your ${area}. Whether single or partnered, this number indicates positive shifts in how you give and receive love. Trust the divine timing of your romantic journey.`,
         `For your ${area}, ${num} represents ${rootInfo.theme}. Your guardian angels want you to know that love aligned with your soul's purpose is within reach. Embrace ${rootInfo.essence} as you navigate your romantic path.`,
+        `Angel number ${num} highlights ${rootInfo.essence} in your ${area}. The digit sum ${sum} underscores emotional timing—move slowly, communicate clearly, and let trust build.`,
+        `${area.charAt(0).toUpperCase() + area.slice(1)} grows when you align with ${rootInfo.theme}. ${num} asks you to practice ${rootInfo.essence} in real conversations, not just intentions.`,
     ];
 
     return templates[num % templates.length];
@@ -109,11 +156,14 @@ function generateCareer(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
     const area = lifeAreas.career[num % lifeAreas.career.length];
+    const sum = digitSum(num);
 
     const templates = [
         `Angel number ${num} brings powerful energy to your ${area}. The message centers on ${rootInfo.essence} and ${rootInfo.theme}. Your professional path is being divinely guided toward opportunities that align with your soul's mission.`,
         `In your ${area}, ${num} signals that ${rootInfo.essence} is key to your success. The ${rootInfo.energy} energy of this number supports bold career moves and financial decisions. Trust your instincts about professional opportunities.`,
         `Regarding your ${area}, angel number ${num} emphasizes ${rootInfo.theme}. Your angels are opening doors that align with your highest potential. Stay focused on ${rootInfo.essence} as you advance professionally.`,
+        `Angel number ${num} brings a ${rootInfo.energy} push in your ${area}. The digit sum ${sum} suggests a timeline for action—prepare now and execute with clarity.`,
+        `Your ${area} benefits from ${rootInfo.theme}. ${num} asks you to build on ${rootInfo.essence} and say yes to the next right opportunity.`,
     ];
 
     return templates[num % templates.length];
@@ -124,11 +174,14 @@ function generateTwinFlame(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
     const area = lifeAreas.twin_flame[num % lifeAreas.twin_flame.length];
+    const sum = digitSum(num);
 
     const templates = [
         `For your ${area}, angel number ${num} carries profound significance. This number suggests that ${rootInfo.essence} is central to your twin flame experience. Whether in separation or union, ${rootInfo.theme} is guiding this sacred connection.`,
         `Angel number ${num} in your ${area} indicates ${rootInfo.energy} energy is at work. The theme of ${rootInfo.essence} applies to both you and your divine counterpart. Trust the spiritual process unfolding between you.`,
         `In matters of your ${area}, ${num} signifies ${rootInfo.theme}. Your angels are supporting the evolution of this profound soul bond. Embrace ${rootInfo.essence} on this transformative journey.`,
+        `Angel number ${num} brings ${rootInfo.essence} to your ${area}. The digit sum ${sum} can hint at timing—focus on self-work and the connection will follow.`,
+        `${area.charAt(0).toUpperCase() + area.slice(1)} asks for ${rootInfo.theme}. ${num} is a signal to choose honesty, patience, and alignment.`,
     ];
 
     return templates[num % templates.length];
@@ -139,11 +192,14 @@ function generateMoney(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
     const area = lifeAreas.money[num % lifeAreas.money.length];
+    const sum = digitSum(num);
 
     const templates = [
         `Angel number ${num} brings positive energy to your ${area}. Through ${rootInfo.essence}, financial blessings are aligning with your path. The universe supports your journey toward ${rootInfo.theme} in material matters.`,
         `For ${area}, ${num} signals that ${rootInfo.energy} energy is attracting opportunities. Focus on ${rootInfo.essence} as you make financial decisions. Your angels are guiding you toward sustainable wealth.`,
         `Regarding ${area}, angel number ${num} emphasizes ${rootInfo.theme}. Abundance flows to those who align with ${rootInfo.essence}. Trust that your financial needs are being divinely supported.`,
+        `Angel number ${num} nudges your ${area} through ${rootInfo.essence}. The digit sum ${sum} suggests a rhythm—budget, build, and then expand.`,
+        `Your ${area} improves when you commit to ${rootInfo.theme}. ${num} is a reminder to align money with values and long-term goals.`,
     ];
 
     return templates[num % templates.length];
@@ -154,11 +210,14 @@ function generateSoulmate(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
     const area = lifeAreas.soulmate[num % lifeAreas.soulmate.length];
+    const sum = digitSum(num);
 
     const templates = [
         `Angel number ${num} brings hope for your ${area}. The energy of ${rootInfo.essence} is preparing you for deep, meaningful love. Whether you've met your soulmate or await their arrival, ${rootInfo.theme} guides this sacred connection.`,
         `In your search for ${area}, ${num} signals divine timing at work. ${rootInfo.energy} energy surrounds your love life, drawing compatible souls into your orbit. Trust in ${rootInfo.essence} as love unfolds.`,
         `For your ${area}, angel number ${num} represents ${rootInfo.theme}. Your angels confirm that deep, lasting love aligned with your soul's purpose is possible. Embrace ${rootInfo.essence} in matters of the heart.`,
+        `Angel number ${num} highlights ${rootInfo.essence} for your ${area}. The digit sum ${sum} suggests patience; love arrives when your values are clear.`,
+        `${area.charAt(0).toUpperCase() + area.slice(1)} is influenced by ${rootInfo.theme}. ${num} encourages honest communication and aligned intentions.`,
     ];
 
     return templates[num % templates.length];
@@ -168,11 +227,13 @@ function generateSoulmate(num) {
 function generatePregnancy(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
+    const sum = digitSum(num);
 
     const templates = [
         `Angel number ${num} carries ${rootInfo.essence} energy for fertility and new life. Whether you're trying to conceive or already expecting, this number brings blessings of ${rootInfo.theme}. Your angels are supporting your journey to parenthood.`,
         `For pregnancy and fertility, ${num} signals ${rootInfo.energy} energy is at work. The theme of ${rootInfo.essence} applies to conception and creation. Trust divine timing in your family planning journey.`,
         `In matters of pregnancy, angel number ${num} represents ${rootInfo.theme}. New life and creation energy surrounds you. Your angels send blessings of ${rootInfo.essence} for healthy conception and pregnancy.`,
+        `Angel number ${num} emphasizes ${rootInfo.essence} in pregnancy themes. The digit sum ${sum} suggests gentle pacing and steady care.`,
     ];
 
     return templates[num % templates.length];
@@ -182,11 +243,13 @@ function generatePregnancy(num) {
 function generateBreakup(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
+    const sum = digitSum(num);
 
     const templates = [
         `After a breakup, angel number ${num} brings healing energy of ${rootInfo.essence}. This ending creates space for ${rootInfo.theme} in your life. Your angels are supporting your emotional recovery and guiding you toward brighter days.`,
         `During heartbreak, ${num} signals that ${rootInfo.energy} energy supports your healing. The lesson of ${rootInfo.essence} will emerge from this experience. Trust that better love awaits beyond this ending.`,
         `If you're healing from a breakup, angel number ${num} represents ${rootInfo.theme}. Your angels assure you that this ending serves your highest good. Embrace ${rootInfo.essence} as you move forward.`,
+        `Angel number ${num} helps you process loss through ${rootInfo.essence}. The digit sum ${sum} points to a slow, steady reset rather than a quick fix.`,
     ];
 
     return templates[num % templates.length];
@@ -196,11 +259,13 @@ function generateBreakup(num) {
 function generateDreams(num) {
     const root = reduceToDigit(num);
     const rootInfo = digitMeanings[root] || digitMeanings[root % 10];
+    const sum = digitSum(num);
 
     const templates = [
         `Seeing ${num} in dreams amplifies its spiritual message of ${rootInfo.essence}. Your subconscious is receiving guidance about ${rootInfo.theme}. Pay attention to dream symbols accompanying this number for deeper insights.`,
         `When ${num} appears in dreams, ${rootInfo.energy} energy is communicating through your subconscious. The message of ${rootInfo.essence} may be too important for waking hours alone. Journal your dreams for clarity.`,
         `Dreams featuring ${num} indicate spiritual messages about ${rootInfo.theme}. Your angels use dream state to convey ${rootInfo.essence} when you're most receptive. Trust these nocturnal insights.`,
+        `Angel number ${num} in dreams signals ${rootInfo.essence}. The digit sum ${sum} hints at timing—note when the dream happened and what was on your mind.`,
     ];
 
     return templates[num % templates.length];
@@ -284,23 +349,15 @@ async function main() {
 
     console.log(`📊 Existing angel numbers: ${existingData.angel_numbers.length}`);
 
-    // Get max existing number
-    const existingNumbers = new Set(existingData.angel_numbers.map(n => n.number));
-    const maxExisting = Math.max(...existingNumbers);
-    console.log(`📈 Highest existing number: ${maxExisting}`);
-
-    // Generate new numbers up to 9999
-    const newNumbers = [];
+    // Regenerate all numbers (0-9999) for richer uniqueness
+    const regeneratedNumbers = [];
     for (let i = 0; i <= 9999; i++) {
-        if (!existingNumbers.has(i)) {
-            newNumbers.push(generateAngelNumber(i));
-        }
+        regeneratedNumbers.push(generateAngelNumber(i));
     }
 
-    console.log(`✨ Generated ${newNumbers.length} new angel numbers`);
+    console.log(`✨ Regenerated ${regeneratedNumbers.length} angel numbers`);
 
-    // Combine with existing
-    existingData.angel_numbers = [...existingData.angel_numbers, ...newNumbers];
+    existingData.angel_numbers = regeneratedNumbers;
     existingData.angel_numbers.sort((a, b) => a.number - b.number);
 
     console.log(`📚 Total angel numbers: ${existingData.angel_numbers.length}`);

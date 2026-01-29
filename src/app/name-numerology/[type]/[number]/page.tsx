@@ -36,6 +36,25 @@ export default async function NameNumberPage({ params }: { params: Promise<{ typ
         ? `Soul Urge Number ${num} Meaning`
         : `Personality Number ${num} Meaning`;
 
+  const faqs = [
+    {
+      question: `What does ${title.replace(' Meaning', '')} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How does number ${num} affect relationships?`,
+      answer: data.love,
+    },
+    {
+      question: `What careers align with ${title.replace(' Meaning', '')}?`,
+      answer: data.career,
+    },
+    {
+      question: `What should I focus on with this number?`,
+      answer: data.advice,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={title}
@@ -46,6 +65,7 @@ export default async function NameNumberPage({ params }: { params: Promise<{ typ
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<NamePaidCTA />}
     />
   );

@@ -17,6 +17,25 @@ export default async function PersonalDayNumberPage({ params }: { params: Promis
   const data = await getTimingCycleMeaning('personal_day', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Personal Day ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How should I use Personal Day ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `What should I focus on today in love?`,
+      answer: data.love,
+    },
+    {
+      question: `What about career today?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Personal Day ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function PersonalDayNumberPage({ params }: { params: Promis
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<TimingPaidCTA />}
     />
   );

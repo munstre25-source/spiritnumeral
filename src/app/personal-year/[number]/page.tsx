@@ -17,6 +17,25 @@ export default async function PersonalYearNumberPage({ params }: { params: Promi
   const data = await getTimingCycleMeaning('personal_year', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Personal Year ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How should I use Personal Year ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `What should I focus on in love during Personal Year ${num}?`,
+      answer: data.love,
+    },
+    {
+      question: `What about career or money in Personal Year ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Personal Year ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function PersonalYearNumberPage({ params }: { params: Promi
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<TimingPaidCTA />}
     />
   );

@@ -17,6 +17,25 @@ export default async function BirthdayNumberPage({ params }: { params: Promise<{
   const data = await getLifecycleMeaning('birthday', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Birthday Number ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How does Birthday ${num} affect love?`,
+      answer: data.love,
+    },
+    {
+      question: `What should I focus on with Birthday ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `What about career with Birthday ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Birthday Number ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function BirthdayNumberPage({ params }: { params: Promise<{
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<LifecyclePaidCTA type="birthday" number={num} />}
     />
   );

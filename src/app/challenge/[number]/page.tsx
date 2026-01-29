@@ -17,6 +17,25 @@ export default async function ChallengeNumberPage({ params }: { params: Promise<
   const data = await getLifecycleMeaning('challenge', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Challenge ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How do I work with Challenge ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `How does Challenge ${num} affect relationships?`,
+      answer: data.love,
+    },
+    {
+      question: `What about career during this challenge?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Challenge ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function ChallengeNumberPage({ params }: { params: Promise<
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<LifecyclePaidCTA type="challenge" number={num} />}
     />
   );

@@ -17,6 +17,25 @@ export default async function MaturityNumberPage({ params }: { params: Promise<{
   const data = await getLifecycleMeaning('maturity', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Maturity Number ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How does Maturity ${num} affect relationships?`,
+      answer: data.love,
+    },
+    {
+      question: `What should I focus on with this maturity number?`,
+      answer: data.advice,
+    },
+    {
+      question: `What about career with Maturity ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Maturity Number ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function MaturityNumberPage({ params }: { params: Promise<{
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<LifecyclePaidCTA type="maturity" number={num} />}
     />
   );

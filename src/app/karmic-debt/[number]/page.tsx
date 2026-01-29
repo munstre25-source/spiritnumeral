@@ -17,6 +17,25 @@ export default async function KarmicDebtNumberPage({ params }: { params: Promise
   const data = await getLifecycleMeaning('karmic_debt', num);
   if (!data) return notFound();
 
+  const faqs = [
+    {
+      question: `What does Karmic Debt ${num} mean?`,
+      answer: data.meaning,
+    },
+    {
+      question: `How do I work with Karmic Debt ${num}?`,
+      answer: data.advice,
+    },
+    {
+      question: `How does Karmic Debt ${num} affect relationships?`,
+      answer: data.love,
+    },
+    {
+      question: `What about career with Karmic Debt ${num}?`,
+      answer: data.career,
+    },
+  ];
+
   return (
     <NumerologyMeaning
       title={`Karmic Debt ${num} Meaning`}
@@ -27,6 +46,7 @@ export default async function KarmicDebtNumberPage({ params }: { params: Promise
       love={data.love}
       career={data.career}
       advice={data.advice}
+      faqs={faqs}
       footer={<LifecyclePaidCTA type="karmic_debt" number={num} />}
     />
   );
