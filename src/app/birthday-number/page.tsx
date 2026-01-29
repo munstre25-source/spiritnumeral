@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
+import FAQ from '@/components/FAQ';
+import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata = {
   title: 'Birthday Numbers • Spirit Numeral',
@@ -7,9 +9,31 @@ export const metadata = {
 };
 
 export default function BirthdayIndexPage() {
+  const faqs = [
+    {
+      question: 'What is a birthday number?',
+      answer: 'Your birthday number reflects natural talents and gifts linked to the day you were born.',
+    },
+    {
+      question: 'Is a birthday number the same as life path?',
+      answer: 'No. Life path uses your full birth date; the birthday number is just the day (1–31).',
+    },
+    {
+      question: 'How should I use my birthday number?',
+      answer: 'Use it to highlight strengths and ways you naturally express yourself.',
+    },
+    {
+      question: 'Do master numbers apply to birthday numbers?',
+      answer: 'Yes. If you were born on 11 or 22, those master energies apply.',
+    },
+  ];
   const numbers = Array.from({ length: 31 }, (_, i) => i + 1);
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="text-center space-y-3">
           <h1 className="text-4xl md:text-6xl font-bold text-white">Birthday Numbers</h1>
@@ -25,6 +49,7 @@ export default function BirthdayIndexPage() {
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <LifecyclePaidCTA type="birthday" />
         </section>
+        <FAQ faqs={faqs} title="Birthday Number Questions" />
       </div>
     </main>
   );
