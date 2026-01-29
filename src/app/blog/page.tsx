@@ -96,8 +96,8 @@ export default function BlogPage() {
                             <div className="text-xs text-zinc-500">Life Paths</div>
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                            <div className="text-2xl font-bold text-pink-400">{BLOG_POSTS.filter(p => p.category === 'Love').length}</div>
-                            <div className="text-xs text-zinc-500">Love & Relationships</div>
+                            <div className="text-2xl font-bold text-pink-400">{BLOG_POSTS.filter(p => p.category === 'Love Compatibility').length}</div>
+                            <div className="text-xs text-zinc-500">Love Compatibility</div>
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
                             <div className="text-2xl font-bold text-emerald-400">{BLOG_POSTS.length}</div>
