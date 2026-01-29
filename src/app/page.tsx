@@ -113,12 +113,10 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md mx-auto sm:max-w-none">
               <Link
-                href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-10 rounded-full font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/30 text-center hover:shadow-amber-500/50 hover:scale-105"
+                href="/quiz"
+                className="group relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-10 rounded-full font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/30 text-center hover:shadow-amber-500/50 hover:scale-105 w-full sm:w-auto sm:flex-1"
               >
-                <span className="relative z-10">Reveal Your Life Path Number</span>
+                <span className="relative z-10">Get My Blueprint (Quiz First)</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
               </Link>
               <Link
@@ -273,26 +271,6 @@ export default function HomePage() {
               <p className="text-zinc-400 text-sm">Discover your numerological path and destiny.</p>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-4xl mx-auto px-6 py-16 text-center">
-        <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
-            Ready to Reveal Your Life Path Number?
-          </h2>
-          <p className="text-lg md:text-xl text-zinc-400 mb-8">
-            Get a personalized reading based on your birth date and hidden number.
-          </p>
-          <Link
-            href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-8 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/10"
-          >
-            Reveal My Life Path Reading →
-          </Link>
         </div>
       </section>
 

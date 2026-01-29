@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { trackEvent, getSessionId } from '@/lib/analytics/client';
 import Link from 'next/link';
 
 const QUIZ_QUESTIONS = [
@@ -63,6 +64,21 @@ export function AngelNumberQuiz() {
     const [showResult, setShowResult] = useState(false);
     const [email, setEmail] = useState('');
     const [emailSubmitted, setEmailSubmitted] = useState(false);
+    const [loadingCheckout, setLoadingCheckout] = useState(false);
+    const [checkoutError, setCheckoutError] = useState<string | null>(null);
+    const [name, setName] = useState('');
+    const [focus, setFocus] = useState<'love' | 'career' | 'spiritual' | 'money' | 'healing' | ''>('');
+    const [feeling, setFeeling] = useState<'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken' | ''>('');
+    const [timeHorizon, setTimeHorizon] = useState<'7d' | '30d' | '90d' | ''>('');
+    const [challenge, setChallenge] = useState('');
+    const paymentsReady = true; // enable paid flow
+
+    const canCheckout = Boolean(
+        suggestedNumbers.length &&
+        focus &&
+        timeHorizon &&
+        feeling
+    );
 
     const handleAnswer = (optionIndex: number) => {
         const newAnswers = [...answers, optionIndex];
@@ -126,6 +142,50 @@ export function AngelNumberQuiz() {
         setSuggestedNumbers([]);
         setEmail('');
         setEmailSubmitted(false);
+        setName('');
+        setFocus('');
+        setFeeling('');
+        setTimeHorizon('');
+        setChallenge('');
+    };
+
+    const startBlueprintCheckout = async () => {
+        if (!canCheckout) {
+            setCheckoutError('Please choose focus, feeling, and time horizon to personalize your PDF.');
+            return;
+        }
+        setLoadingCheckout(true);
+        setCheckoutError(null);
+        try {
+            trackEvent('cta_click', {
+                product: 'blueprint',
+                path: window.location.pathname,
+                metadata: { label: 'Quiz Blueprint CTA', numbers: suggestedNumbers },
+            });
+            const res = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-session-id': getSessionId() || '' },
+                body: JSON.stringify({
+                    product: 'blueprint',
+                    metadata: {
+                        numbers: suggestedNumbers,
+                        quizAnswers: answers,
+                        email,
+                        name: name || undefined,
+                        focus: (focus as any) || undefined,
+                        feeling: (feeling as any) || undefined,
+                        timeHorizon: (timeHorizon as any) || undefined,
+                        challenge: challenge ? challenge.slice(0, 80) : undefined,
+                    },
+                }),
+            });
+            const json = await res.json();
+            if (!res.ok || !json.url) throw new Error(json.error || 'Checkout failed');
+            window.location.href = json.url;
+        } catch (error: any) {
+            setCheckoutError(error.message || 'Could not start checkout');
+            setLoadingCheckout(false);
+        }
     };
 
     if (showResult) {
@@ -140,7 +200,7 @@ export function AngelNumberQuiz() {
                     </div>
 
                     {/* Suggested Numbers */}
-                    <div className="flex justify-center gap-4 mb-8">
+                    <div className="flex justify-center gap-4 mb-8 flex-wrap">
                         {suggestedNumbers.map((num, i) => (
                             <Link
                                 key={num}
@@ -167,12 +227,12 @@ export function AngelNumberQuiz() {
 
                     {/* Email Capture */}
                     {!emailSubmitted ? (
-                        <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700">
-                            <h3 className="text-lg font-semibold text-white mb-2">Get Your Detailed Reading</h3>
-                            <p className="text-zinc-400 text-sm mb-4">
+                        <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 space-y-3">
+                            <h3 className="text-lg font-semibold text-white">Get Your Detailed Reading</h3>
+                            <p className="text-zinc-400 text-sm">
                                 Enter your email to receive a personalized interpretation of your angel numbers.
                             </p>
-                            <form onSubmit={handleEmailSubmit} className="flex gap-2">
+                            <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="email"
                                     value={email}
@@ -183,7 +243,7 @@ export function AngelNumberQuiz() {
                                 />
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors"
+                                    className="px-6 py-3 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors w-full sm:w-auto"
                                 >
                                     Send
                                 </button>
@@ -197,20 +257,89 @@ export function AngelNumberQuiz() {
                     )}
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
+                        <input
+                            placeholder="Your name (optional)"
+                            value={name}
+                            onChange={(e) => setName(e.target.value.slice(0, 40))}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        />
+                        <input
+                            placeholder="Biggest challenge (optional, 80 chars)"
+                            value={challenge}
+                            onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        />
+                        <select
+                            value={focus}
+                            onChange={(e) => setFocus(e.target.value as any)}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60 col-span-1 sm:col-span-1"
+                        >
+                            <option value="">Focus area (required)</option>
+                            <option value="love">Love</option>
+                            <option value="career">Career</option>
+                            <option value="spiritual">Spiritual Growth</option>
+                            <option value="money">Money</option>
+                            <option value="healing">Healing</option>
+                        </select>
+                        <select
+                            value={feeling}
+                            onChange={(e) => setFeeling(e.target.value as any)}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        >
+                            <option value="">How do you feel? (required)</option>
+                            <option value="calm">Calm</option>
+                            <option value="stuck">Stuck</option>
+                            <option value="anxious">Anxious</option>
+                            <option value="excited">Excited</option>
+                            <option value="heartbroken">Heartbroken</option>
+                        </select>
+                        <select
+                            value={timeHorizon}
+                            onChange={(e) => setTimeHorizon(e.target.value as any)}
+                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        >
+                            <option value="">Time horizon (required)</option>
+                            <option value="7d">Next 7 days</option>
+                            <option value="30d">Next 30 days</option>
+                            <option value="90d">Next 90 days</option>
+                        </select>
                         <Link
                             href={`/meaning/angel-number/${suggestedNumbers[0]}`}
-                            className="flex-1 py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors text-center"
+                            className="py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors text-center"
                         >
                             Explore {suggestedNumbers[0]}'s Meaning
                         </Link>
                         <button
+                            onClick={startBlueprintCheckout}
+                            disabled={loadingCheckout || !canCheckout}
+                            className="py-4 bg-gradient-to-r from-indigo-500 to-amber-500 text-black font-bold rounded-xl hover:from-indigo-400 hover:to-amber-400 transition-colors disabled:opacity-60"
+                        >
+                            {loadingCheckout ? 'Creating your blueprint…' : 'Get My Blueprint ($17)'}
+                        </button>
+                        <button
                             onClick={restartQuiz}
-                            className="flex-1 py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
+                            className="py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
                         >
                             Take Quiz Again
                         </button>
                     </div>
+                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400 mt-2">
+                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                            Focus-specific guidance
+                        </div>
+                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                            7/30/90-day plan
+                        </div>
+                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                            Challenge-based affirmation
+                        </div>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 text-center mt-1">One-time $17 · Instant PDF · No login</p>
+                    {checkoutError && <p className="text-red-400 text-sm mt-2">{checkoutError}</p>}
                 </div>
             </div>
         );

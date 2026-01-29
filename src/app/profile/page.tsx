@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { NumerologyProfile } from '@/components/NumerologyProfile';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
+import { PaidCTA } from '@/components/PaidCTA';
 
 export const metadata: Metadata = {
     title: 'Your Numerology Profile - Spirit Numeral',
@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function ProfilePage() {
-    const cta = getClickBankCTA('numerology');
 
     return (
         <main className="min-h-screen pt-32 pb-20 px-6">
@@ -27,15 +26,11 @@ export default function ProfilePage() {
 
                 {/* CTA Section */}
                 <section className="mt-12">
-                    <a
-                        href={cta.url}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored"
-                        className="group block p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all"
-                    >
-                        <div className="text-amber-400 font-bold text-lg mb-2">{cta.text}</div>
-                        <p className="text-zinc-500 text-sm">{cta.secondaryText}</p>
-                    </a>
+                    <PaidCTA
+                        product="blueprint"
+                        label="Get Your Blueprint ($17)"
+                        sublabel="Personalized PDF based on the numbers you’re tracking."
+                    />
                 </section>
             </div>
         </main>

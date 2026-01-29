@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { NumberComparison } from '@/components/NumberComparison';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
 
 export const metadata: Metadata = {
     title: 'Compare Angel Numbers - Side by Side Analysis',
@@ -63,8 +62,6 @@ const faqSchema = {
 };
 
 export default function ComparePage() {
-    const cta = getClickBankCTA('numerology');
-
     return (
         <>
             <script
@@ -91,18 +88,6 @@ export default function ComparePage() {
 
                     <NumberComparison />
 
-                    {/* CTA Section */}
-                    <section className="mt-16 max-w-xl mx-auto">
-                        <a
-                            href={cta.url}
-                            target="_blank"
-                            rel="noopener noreferrer sponsored"
-                            className="group block p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all text-center"
-                        >
-                            <div className="text-amber-400 font-bold text-lg mb-2">{cta.text}</div>
-                            <p className="text-zinc-500 text-sm">{cta.secondaryText}</p>
-                        </a>
-                    </section>
                 </div>
             </main>
         </>

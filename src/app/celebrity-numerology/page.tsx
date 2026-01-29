@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
+import { PaidCTA } from '@/components/PaidCTA';
 
 export const metadata: Metadata = {
     title: 'Celebrity Numerology - Famous Life Path Numbers',
@@ -170,7 +170,6 @@ const faqSchema = {
 };
 
 export default function CelebrityNumerologyPage() {
-    const cta = getClickBankCTA('life-path');
 
     return (
         <>
@@ -251,14 +250,14 @@ export default function CelebrityNumerologyPage() {
                             >
                                 Calculate Your Number
                             </Link>
-                            <a
-                                href={cta.url}
-                                target="_blank"
-                                rel="noopener noreferrer sponsored"
-                                className="px-8 py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
-                            >
-                                Get Your Full Reading
-                            </a>
+                            <div className="flex-1 min-w-[240px]">
+                                <PaidCTA
+                                    product="blueprint"
+                                    label="Get Your Blueprint ($17)"
+                                    sublabel="Personalized PDF based on your life path and key numbers."
+                                    variant="secondary"
+                                />
+                            </div>
                         </div>
                     </section>
                 </div>

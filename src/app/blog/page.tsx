@@ -183,14 +183,12 @@ export default function BlogPage() {
                         <p className="text-zinc-400 mb-6 max-w-xl mx-auto">
                             Discover your life path, destiny number, soul urge, and more with a personalized numerology analysis.
                         </p>
-                        <a
-                            href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
-                            target="_blank"
-                            rel="noopener noreferrer sponsored"
+                        <Link
+                            href="/quiz"
                             className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold hover:from-amber-400 hover:to-yellow-400 transition-all"
                         >
                             Get My Full Reading →
-                        </a>
+                        </Link>
                     </section>
                 </div>
             </main>

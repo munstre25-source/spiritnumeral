@@ -30,7 +30,7 @@ export default function Footer() {
       links: [
         { name: 'Life Path Calculator', href: '/calculator' },
         { name: 'Daily Predictions', href: '/' },
-        { name: 'Personalized Reading', href: 'https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff' },
+        { name: 'Personalized Reading', href: '/quiz' },
       ],
     },
     {

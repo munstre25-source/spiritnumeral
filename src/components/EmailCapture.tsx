@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { resolveOfferFromPath } from '@/lib/offers';
+import { trackEvent } from '@/lib/analytics/client';
 
 // Email capture popup that appears after scroll or before exit
 export function EmailCapture() {
@@ -102,18 +104,17 @@ export function EmailCapture() {
                 </div>
 
                 {/* CTA */}
-                <a
+                <Link
                     href={offer.href}
-                    target="_blank"
-                    rel="noreferrer"
+                    onClick={() => trackEvent('cta_click', { product: offer.product || 'unknown', path: pathname, metadata: { label: offer.cta } })}
                     className="w-full block text-center bg-amber-500 text-black py-4 rounded-xl font-bold text-lg hover:bg-amber-400 transition-colors"
                 >
                     {offer.cta}
-                </a>
+                </Link>
 
                 {/* Trust signals */}
                 <p className="text-zinc-600 text-xs text-center mt-4">
-                    🔒 Affiliate partner. No extra cost to you.
+                    One-time purchase · Instant PDF · No login
                 </p>
             </div>
         </div>

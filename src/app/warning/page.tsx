@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
+import { PaidCTA } from '@/components/PaidCTA';
 
 export const metadata: Metadata = {
   title: 'Angel Number Warnings | Signs, Alerts, and Guidance',
@@ -10,8 +10,6 @@ export const metadata: Metadata = {
 const featuredNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999];
 
 export default function WarningIndexPage() {
-  const cta = getClickBankCTA('warning');
-
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 md:pt-36 pb-20 px-6 md:px-10">
       <section className="max-w-5xl mx-auto text-center space-y-8 mb-16">
@@ -82,15 +80,11 @@ export default function WarningIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <a
-          href={cta.url}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold hover:from-amber-400 hover:to-yellow-400 transition-all"
-        >
-          {cta.text}
-        </a>
-        <p className="text-zinc-500 text-sm mt-4">{cta.secondaryText}</p>
+        <PaidCTA
+          product="blueprint"
+          label="Get Your Personalized PDF ($17)"
+          sublabel="Clarity and actions tailored to the number you’re exploring."
+        />
       </section>
     </main>
   );

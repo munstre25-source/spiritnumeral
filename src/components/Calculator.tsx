@@ -119,14 +119,7 @@ export default function NumerologyCalculator() {
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
               Generating your personalized reading...
             </p>
-            <a
-              href="https://909dddwh682ivoeexkmjt5qacw.hop.clickbank.net/?cbpage=life-roadmap-37-Aff"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="mt-4 inline-block px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-300 text-sm hover:bg-amber-500/30 transition-colors"
-            >
-              Get Your Full Numerology Reading →
-            </a>
+            <p className="mt-3 text-amber-300 text-sm">Save this number and grab your personalized PDF below.</p>
           </div>
         )}
 

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { ReadingProgress, ScrollToTop, MobileBottomNav } from '@/components/UXEnhancements'
 import { EmailCapture } from '@/components/EmailCapture'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 // Premium fonts for spiritual/numerology aesthetic
 const playfair = Playfair_Display({
@@ -78,6 +79,7 @@ export default function RootLayout({
         <div className="relative z-10">
           <ReadingProgress />
           <Navbar />
+          <AnalyticsTracker />
           <div className="flex-grow pb-20 md:pb-0">
             {children}
           </div>

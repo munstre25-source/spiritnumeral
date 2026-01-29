@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
+import { PaidCTA } from '@/components/PaidCTA';
 
 export async function generateStaticParams() {
     return BLOG_POSTS.map(post => ({ slug: post.slug }));
@@ -77,7 +77,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         redirect(`/blog/${resolved.resolvedSlug}`);
     }
 
-    const cta = getClickBankCTA('numerology');
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
     const articleUrl = `${baseUrl}/blog/${slug}`;
 
@@ -193,10 +192,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-zinc-900 border border-indigo-500/20 text-center">
                             <h3 className="text-xl font-bold text-white mb-2">Ready to Go Deeper?</h3>
                             <p className="text-zinc-400 mb-4">Get your complete numerology profile with personalized insights</p>
-                            <a href={cta.url} target="_blank" rel="noopener noreferrer sponsored"
-                                className="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold hover:from-amber-400 hover:to-yellow-400 transition-all">
-                                {cta.text} →
-                            </a>
+                            <div className="max-w-sm mx-auto">
+                                <PaidCTA
+                                    product="blueprint"
+                                    label="Get Your Blueprint ($17)"
+                                    sublabel="Personalized PDF based on the numbers in this article."
+                                    variant="secondary"
+                                />
+                            </div>
                         </div>
                     </section>
 

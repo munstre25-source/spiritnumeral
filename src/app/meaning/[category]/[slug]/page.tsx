@@ -1,12 +1,12 @@
 import { getPSEODataAsync, getAllPSEOSlugs } from '@/lib/utils/pseo';
 import { generateAllSchemas, generateDefaultFAQs } from '@/lib/utils/schema';
-import { getClickBankCTA } from '@/lib/utils/clickbank';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
 import { ViewTracker } from '@/components/ViewTracker';
 import { AudioReaderCompact } from '@/components/AudioReader';
 import { PrintReading } from '@/components/PrintReading';
+import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -107,10 +107,6 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
       : `Discover the meaning of ${subject} for love, twin flame, and career. ${data.meaning || ''}`,
     faqOverride: faqs,
   });
-
-  // Determine ClickBank category
-  const clickbankCategory = isLifePath ? 'life-path' : 'numerology';
-  const cta = getClickBankCTA(clickbankCategory);
 
   return (
     <>
@@ -219,17 +215,9 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           <NavigationLinks />
 
           <footer className="pt-8 pb-16">
-            <a
-              href={cta.url}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-              <div className="bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
-                {cta.text}
-              </div>
-            </a>
+            <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800">
+              <MeaningPaidCTA number={isLifePath ? data.path : data.number} />
+            </div>
             <p className="text-center text-zinc-500 text-sm mt-6 px-4">
               Trusted by seekers on their spiritual journey.
             </p>
