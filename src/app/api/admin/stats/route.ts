@@ -266,6 +266,24 @@ export async function GET(req: NextRequest) {
       avgGenerationMs,
       samples: generationSamples,
     },
+    affiliate: {
+      offers: offerCtr
+        .filter((row) => row.product.startsWith('affiliate_'))
+        .map((row) => ({
+          product: row.product,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          ctr: row.ctr,
+        })),
+      topPages: Object.entries(topCtas)
+        .map(([key, count]) => {
+          const [path, product] = key.split('|');
+          return { path, product, count };
+        })
+        .filter((row) => row.product.startsWith('affiliate_'))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10),
+    },
     bucket,
   });
 }

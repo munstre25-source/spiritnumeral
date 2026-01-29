@@ -30,6 +30,10 @@ type Stats = {
   countryBreakdown: { country: string; count: number }[];
   seoSnapshot: { totalUrls: number; avgPagesPerSession: number; sectionCounts: Record<string, number>; seenPages: number; coveragePct: number };
   deliveryStats: { avgGenerationMs: number; samples: number };
+  affiliate: {
+    offers: { product: string; impressions: number; clicks: number; ctr: number }[];
+    topPages: { path: string; product: string; count: number }[];
+  };
   bucket: string;
 };
 
@@ -109,6 +113,11 @@ export default function AdminDashboard() {
     if (product === 'relationship') return 'Relationship';
     if (product === 'wealth') return 'Wealth';
     if (product === 'bundle') return 'Bundle';
+    if (product === 'affiliate_numerologist') return 'Numerologist VSL';
+    if (product === 'affiliate_genius_song') return 'Genius Song';
+    if (product === 'affiliate_moon_reading') return 'Moon Reading';
+    if (product === 'affiliate_soulmate_story') return 'Soulmate Sketch';
+    if (product === 'affiliate_ex_back') return 'Ex‑Back Method';
     return 'Unknown';
   };
 
@@ -189,6 +198,7 @@ export default function AdminDashboard() {
                 <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Pages</a>
                 <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Traffic</a>
                 <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">SEO</a>
+                <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Affiliates</a>
                 <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Reports</a>
               </div>
             </div>
@@ -522,6 +532,40 @@ export default function AdminDashboard() {
                   <p className="text-zinc-400 text-sm">
                     Prioritize sections with high impressions but low clicks. Use internal links and fresh CTAs to lift CTR.
                   </p>
+                </div>
+              </div>
+            </div>
+
+            <div id="affiliate" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-6">Affiliate Performance</h3>
+              <div className="grid lg:grid-cols-2 gap-6">
+                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-zinc-500 mb-4">Offer CTR</h4>
+                  <div className="space-y-3">
+                    {stats.affiliate.offers.length === 0 && (
+                      <p className="text-zinc-500 text-sm">No affiliate clicks yet.</p>
+                    )}
+                    {stats.affiliate.offers.map((row) => (
+                      <div key={row.product} className="flex items-center justify-between text-sm">
+                        <span className="text-zinc-400">{labelForProduct(row.product)}</span>
+                        <span className="text-zinc-200 font-semibold">{row.impressions} / {row.clicks} · {row.ctr}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-zinc-500 mb-4">Top Affiliate Pages</h4>
+                  <div className="space-y-3">
+                    {stats.affiliate.topPages.length === 0 && (
+                      <p className="text-zinc-500 text-sm">No affiliate page clicks yet.</p>
+                    )}
+                    {stats.affiliate.topPages.map((row, i) => (
+                      <div key={`${row.path}-${i}`} className="flex items-center justify-between text-sm">
+                        <span className="text-zinc-400 font-mono">{row.path}</span>
+                        <span className="text-zinc-200 font-semibold">{row.count}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
