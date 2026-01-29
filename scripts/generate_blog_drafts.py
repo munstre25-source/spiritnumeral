@@ -330,7 +330,7 @@ def draft_from_facts(section: str, topic: str, facts: Dict[str, List[str]]) -> s
     return "\n".join(body)
 
 
-def generate_topics(section: str) -> List[str]:
+def generate_topics(section: str, per_section: int) -> List[str]:
     templates = TOPIC_TEMPLATES.get(section, [])
     topics: List[str] = []
     number_set = ANGEL_NUMBERS if section in ("angel-numbers", "twin-flame", "dream-meaning") else NUMBERS_CORE
@@ -345,12 +345,48 @@ def generate_topics(section: str) -> List[str]:
         f"{section.replace('-', ' ').title()} Meaning and How It Affects Love",
         f"Common Mistakes in {section.replace('-', ' ').title()} Readings",
         f"{section.replace('-', ' ').title()} Signs You Should Pay Attention",
+        f"{section.replace('-', ' ').title()}: Practical Steps for Real Life",
+        f"{section.replace('-', ' ').title()} FAQs: Quick Answers",
+        f"{section.replace('-', ' ').title()} vs Life Path: Key Differences",
+        f"When {section.replace('-', ' ').title()} Shows Up: What to Do Next",
     ]
     topics.extend(extra)
 
-    # Deduplicate and cap at 60 (we'll slice to 50 later)
+    modifiers = [
+        "for love",
+        "for money",
+        "for career",
+        "for relationships",
+        "for personal growth",
+        "for spiritual growth",
+        "for beginners",
+        "in 2026",
+        "in 2027",
+        "quick guide",
+        "deep dive",
+        "meaning and signs",
+        "actions to take",
+    ]
+
+    base_phrases = [
+        f"{section.replace('-', ' ').title()} meaning",
+        f"{section.replace('-', ' ').title()} signs",
+        f"{section.replace('-', ' ').title()} message",
+        f"{section.replace('-', ' ').title()} advice",
+    ]
+
+    for base in base_phrases:
+        for mod in modifiers:
+            topics.append(f"{base} {mod}".strip())
+
+    # Deduplicate and ensure we can reach per_section
     uniq = list(dict.fromkeys(topics))
-    return uniq[:60]
+    if len(uniq) < per_section:
+        # Expand with numbered variants to fill remaining slots
+        fill_count = per_section - len(uniq)
+        for i in range(fill_count):
+            uniq.append(f"{section.replace('-', ' ').title()} insight #{i + 1}")
+    return uniq[:per_section]
 
 
 def filter_urls_for_section(urls: List[str], keywords: List[str]) -> List[str]:
@@ -397,16 +433,16 @@ def build_source_pool() -> Dict[str, List[str]]:
     return section_sources
 
 
-def generate_posts(cache_dir: str) -> List[Dict[str, str]]:
+def generate_posts(cache_dir: str, per_section: int) -> List[Dict[str, str]]:
     section_sources = build_source_pool()
     posts: List[Dict[str, str]] = []
 
     for section, _keywords in SECTIONS:
-        topics = generate_topics(section)
+        topics = generate_topics(section, per_section)
         sources = section_sources.get(section, [])
         source_idx = 0
 
-        for topic in topics[:50]:
+        for topic in topics[:per_section]:
             slug = slugify(topic)
             facts = {"title": [], "headings": [], "paragraphs": [], "bullets": []}
             source_url = ""
@@ -454,9 +490,10 @@ def main() -> None:
     parser.add_argument("--out", required=True, help="Output JSON path")
     parser.add_argument("--csv", default="", help="Optional CSV path")
     parser.add_argument("--cache", default="data/cache/scrape", help="Cache directory")
+    parser.add_argument("--per-section", type=int, default=50, help="Posts per section")
     args = parser.parse_args()
 
-    posts = generate_posts(args.cache)
+    posts = generate_posts(args.cache, args.per_section)
     write_json(args.out, posts)
     if args.csv:
         write_csv(args.csv, posts)
