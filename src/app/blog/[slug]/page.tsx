@@ -209,7 +209,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     // Parse markdown-like content
     const formatContent = (content: string) => {
         return content.split('\n').map((line, i) => {
-            if (line.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold text-white mt-8 mb-4">{line.replace('## ', '')}</h2>;
+            if (line.startsWith('## ')) {
+                const heading = line.replace('## ', '').trim();
+                if (heading.toLowerCase() === 'soft cta') return null;
+                return <h2 key={i} className="text-2xl font-bold text-white mt-8 mb-4">{heading}</h2>;
+            }
             if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-semibold text-amber-400 mt-6 mb-3">{line.replace('### ', '')}</h3>;
             if (line.startsWith('- **')) {
                 const match = line.match(/- \*\*(.+?)\*\*:?\s*(.*)/);
