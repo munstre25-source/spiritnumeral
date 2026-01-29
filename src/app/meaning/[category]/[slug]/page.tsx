@@ -1,7 +1,7 @@
 import { getPSEODataAsync, getAllPSEOSlugs } from '@/lib/utils/pseo';
 import { generateAllSchemas, generateDefaultFAQs } from '@/lib/utils/schema';
 import FAQ from '@/components/FAQ';
-import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { InternalLinks, NavigationLinks, RelatedNumbers, ContextualLinks } from '@/components/InternalLinks';
 import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
 import { ViewTracker } from '@/components/ViewTracker';
 import { AudioReaderCompact } from '@/components/AudioReader';
@@ -209,6 +209,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
               <InternalLinks number={data.number} currentPage="meaning" />
               <RecommendedNumbers currentNumber={data.number} />
               <RelatedNumbers currentNumber={data.number} />
+              <ContextualLinks currentNumber={data.number} />
             </>
           )}
 

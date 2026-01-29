@@ -109,7 +109,7 @@ export function RelatedNumbers({ currentNumber, count = 6 }: RelatedNumbersProps
   const related: number[] = [];
 
   const nearbyStart = Math.max(0, currentNumber - 3);
-  for (let i = nearbyStart; i <= Math.min(2222, nearbyStart + count - 1); i++) {
+  for (let i = nearbyStart; i <= Math.min(9999, nearbyStart + count - 1); i++) {
     if (i !== currentNumber) {
       related.push(i);
     }
@@ -126,6 +126,52 @@ export function RelatedNumbers({ currentNumber, count = 6 }: RelatedNumbersProps
             className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
           >
             Angel Number {num}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+interface ContextualLinksProps {
+  currentNumber: number;
+}
+
+export function ContextualLinks({ currentNumber }: ContextualLinksProps) {
+  const nums = [currentNumber, currentNumber - 1, currentNumber + 1].filter((n) => n >= 0 && n <= 9999);
+  const links = [
+    { href: '/name-numerology', label: 'Name Numerology Calculator' },
+    { href: '/personal-year', label: 'Personal Year Calculator' },
+    { href: '/personal-month', label: 'Personal Month Calculator' },
+    { href: '/personal-day', label: 'Personal Day Calculator' },
+    { href: '/pinnacle', label: 'Pinnacle Numbers' },
+    { href: '/challenge', label: 'Challenge Numbers' },
+    { href: '/maturity-number', label: 'Maturity Numbers' },
+    { href: '/birthday-number', label: 'Birthday Numbers' },
+  ];
+
+  return (
+    <section className="py-6">
+      <h3 className="text-lg font-bold text-amber-400 mb-3">Next Steps</h3>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {nums.map((num) => (
+          <Link
+            key={num}
+            href={`/meaning/angel-number/${num}`}
+            className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+          >
+            Angel Number {num}
+          </Link>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+          >
+            {link.label}
           </Link>
         ))}
       </div>

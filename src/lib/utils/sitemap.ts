@@ -124,11 +124,3 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
 
   return { urls, generatedAt: now };
 }
-
-export function applySitemapRollout(urls: string[]) {
-  const rolloutMax = process.env.SITEMAP_ROLLOUT_MAX;
-  if (!rolloutMax) return urls;
-  const limit = parseInt(rolloutMax, 10);
-  if (Number.isNaN(limit) || limit <= 0) return urls;
-  return urls.slice(0, limit);
-}

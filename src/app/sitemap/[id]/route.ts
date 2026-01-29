@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { applySitemapRollout, getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getAllSitemapUrls } from '@/lib/utils/sitemap';
 
 export const runtime = 'nodejs';
 
@@ -17,10 +17,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   }
 
   const { urls, generatedAt } = getAllSitemapUrls();
-  const staged = applySitemapRollout(urls);
   const start = idx * CHUNK_SIZE;
   const end = start + CHUNK_SIZE;
-  const slice = staged.slice(start, end);
+  const slice = urls.slice(start, end);
 
   const urlEntries = slice
     .map((loc) => `<url><loc>${xmlEscape(loc)}</loc><lastmod>${generatedAt}</lastmod></url>`)

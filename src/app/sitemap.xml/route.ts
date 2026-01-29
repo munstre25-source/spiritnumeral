@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { applySitemapRollout, getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getAllSitemapUrls } from '@/lib/utils/sitemap';
 
 export const runtime = 'nodejs';
 
@@ -11,8 +11,7 @@ function xmlEscape(value: string) {
 
 export async function GET() {
   const { urls } = getAllSitemapUrls();
-  const staged = applySitemapRollout(urls);
-  const totalChunks = Math.ceil(staged.length / CHUNK_SIZE);
+  const totalChunks = Math.ceil(urls.length / CHUNK_SIZE);
 
   const indexEntries = Array.from({ length: totalChunks }, (_, i) => {
     return `<sitemap><loc>${xmlEscape(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com'}/sitemap/${i}.xml`)}</loc></sitemap>`;
