@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
   title: 'Birthday Numbers • Spirit Numeral',
@@ -49,6 +51,7 @@ export default function BirthdayIndexPage() {
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <LifecyclePaidCTA type="birthday" />
         </section>
+        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
         <FAQ faqs={faqs} title="Birthday Number Questions" />
       </div>
     </main>

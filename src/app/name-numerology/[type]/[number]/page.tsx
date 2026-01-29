@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getNameNumberMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { NamePaidCTA } from '@/components/NamePaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 const VALID_TYPES = new Set(['expression', 'soul-urge', 'personality']);
 const TYPE_MAP: Record<string, 'expression' | 'soul_urge' | 'personality'> = {
@@ -72,7 +74,12 @@ export default async function NameNumberPage({ params }: { params: Promise<{ typ
         { href: `/name-numerology/soul-urge/${num}`, label: `Soul Urge ${num}` },
         { href: `/name-numerology/personality/${num}`, label: `Personality ${num}` },
       ]}
-      footer={<NamePaidCTA />}
+      footer={(
+        <div className="space-y-6">
+          <NamePaidCTA />
+          <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+        </div>
+      )}
     />
   );
 }

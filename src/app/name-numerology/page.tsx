@@ -2,6 +2,8 @@ import NameNumerologyCalculator from '@/components/NameNumerologyCalculator';
 import { NamePaidCTA } from '@/components/NamePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
   title: 'Name Numerology Calculator • Spirit Numeral',
@@ -44,6 +46,7 @@ export default function NameNumerologyPage() {
         <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
           <NamePaidCTA />
         </section>
+        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
         <FAQ faqs={faqs} title="Name Numerology Questions" />
       </div>
     </main>

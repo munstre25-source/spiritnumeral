@@ -2,12 +2,14 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Complete Angel Number Library | 0-2222 Meanings',
-  description: 'Explore our complete library of 2,223 angel numbers (0-2222). Discover spiritual meanings for love, career, twin flames, and your 2026 outlook.',
+  title: 'Complete Angel Number Library | 0-9999 Meanings',
+  description: 'Explore our complete library of angel numbers (0-9999). Discover spiritual meanings for love, career, twin flames, and your 2026 outlook.',
 };
 
 const faqs = [
@@ -133,6 +135,10 @@ export default async function AngelNumberIndexPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="max-w-4xl mx-auto mt-10">
+        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
       </section>
     </main>
   );

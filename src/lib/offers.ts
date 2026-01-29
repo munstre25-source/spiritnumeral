@@ -132,7 +132,12 @@ const exitAffiliateMap: { pattern: RegExp; offer: Offer['id'] }[] = [
   // General spiritual / brainwave
   { pattern: /^\/dreams(\/|$)/, offer: 'affiliate_moon_reading' },
   { pattern: /^\/why-am-i-seeing\//, offer: 'affiliate_moon_reading' },
+  { pattern: /^\/meaning(\/|$)/, offer: 'affiliate_moon_reading' },
+  { pattern: /^\/name-numerology(\/|$)/, offer: 'affiliate_moon_reading' },
+  { pattern: /^\/birthday-number(\/|$)/, offer: 'affiliate_moon_reading' },
+  { pattern: /^\/celebrity-numerology(\/|$)/, offer: 'affiliate_moon_reading' },
   { pattern: /^\/warning\//, offer: 'affiliate_genius_song' },
+  { pattern: /^\/karmic-debt(\/|$)/, offer: 'affiliate_genius_song' },
   // Love / soulmate
   { pattern: /^\/soulmate(\/|$)/, offer: 'affiliate_soulmate_story' },
   { pattern: /^\/twin-flame(\/|$)/, offer: 'affiliate_soulmate_story' },

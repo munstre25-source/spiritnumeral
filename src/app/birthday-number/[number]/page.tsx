@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
+import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { OFFERS } from '@/lib/offers';
 
 const NUMBERS = Array.from({ length: 31 }, (_, i) => i + 1);
 
@@ -52,7 +54,12 @@ export default async function BirthdayNumberPage({ params }: { params: Promise<{
         { href: '/maturity-number', label: 'Maturity Numbers' },
         { href: '/karmic-debt', label: 'Karmic Debt Numbers' },
       ]}
-      footer={<LifecyclePaidCTA type="birthday" number={num} />}
+      footer={(
+        <div className="space-y-6">
+          <LifecyclePaidCTA type="birthday" number={num} />
+          <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+        </div>
+      )}
     />
   );
 }
