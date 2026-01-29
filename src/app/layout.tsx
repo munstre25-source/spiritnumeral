@@ -1,11 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import { ReadingProgress, ScrollToTop, MobileBottomNav } from '@/components/UXEnhancements'
-import { EmailCapture } from '@/components/EmailCapture'
-import { AnalyticsTracker } from '@/components/AnalyticsTracker'
+import RootShell from '@/components/RootShell'
 
 // Premium fonts for spiritual/numerology aesthetic
 const playfair = Playfair_Display({
@@ -76,18 +72,9 @@ export default function RootLayout({
           <div className="stars absolute inset-0 opacity-40" />
         </div>
 
-        <div className="relative z-10">
-          <ReadingProgress />
-          <Navbar />
-          <AnalyticsTracker />
-          <div className="flex-grow pb-20 md:pb-0">
-            {children}
-          </div>
-          <Footer />
-          <ScrollToTop />
-          <MobileBottomNav />
-          <EmailCapture />
-        </div>
+        <RootShell>
+          {children}
+        </RootShell>
       </body>
     </html>
   )

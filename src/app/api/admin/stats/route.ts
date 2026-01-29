@@ -5,6 +5,18 @@ function unauthorized() {
   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 }
 
+function inferProduct(path?: string | null) {
+  if (!path) return 'unknown';
+  const p = path.toLowerCase();
+  if (p.includes('/bundle')) return 'bundle';
+  if (p.includes('/money')) return 'wealth';
+  if (p.includes('/compare') || p.includes('/compatibility')) return 'relationship';
+  if (p.includes('/twin-flame') || p.includes('/soulmate') || p.includes('/breakup') || p.includes('/angel-number-love')) {
+    return 'relationship';
+  }
+  return 'blueprint';
+}
+
 export async function GET(req: NextRequest) {
   const adminKey = req.headers.get('x-admin-key');
   const expected = process.env.ADMIN_DASHBOARD_KEY;
@@ -41,7 +53,7 @@ export async function GET(req: NextRequest) {
   const daily: Record<string, { pageViews: number; ctaClicks: number; orders: number }> = {};
 
   (events || []).forEach((e: any) => {
-    const product = e.product || 'unknown';
+    const product = e.product || inferProduct(e.path);
     if (!funnels[product]) funnels[product] = { clicks: 0, checkouts: 0, orders: 0, pdfSent: 0 };
     const day = new Date(e.created_at).toISOString().slice(0, 10);
     if (!daily[day]) daily[day] = { pageViews: 0, ctaClicks: 0, orders: 0 };
@@ -50,7 +62,7 @@ export async function GET(req: NextRequest) {
       totals.ctaClicks += 1;
       daily[day].ctaClicks += 1;
       funnels[product].clicks += 1;
-      const key = `${e.path || 'unknown'}|${e.product || 'unknown'}`;
+      const key = `${e.path || 'unknown'}|${product}`;
       topCtas[key] = (topCtas[key] || 0) + 1;
     }
     if (e.event_type === 'checkout_start') {

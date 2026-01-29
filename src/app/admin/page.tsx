@@ -1,11 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-
-export const metadata = {
-  robots: 'noindex',
-};
 
 type Stats = {
   totals: {
@@ -57,6 +52,30 @@ export default function AdminDashboard() {
   }, []);
 
   const totals = stats?.totals;
+  const OFFER_KEYS = ['blueprint', 'relationship', 'wealth', 'bundle'] as const;
+  const labelForProduct = (product: string) => {
+    if (product === 'blueprint') return 'Blueprint';
+    if (product === 'relationship') return 'Relationship';
+    if (product === 'wealth') return 'Wealth';
+    if (product === 'bundle') return 'Bundle';
+    return 'Unknown';
+  };
+
+  const funnelsWithDefaults = OFFER_KEYS.reduce<Record<string, { clicks: number; checkouts: number; orders: number; pdfSent: number }>>(
+    (acc, key) => {
+      acc[key] = stats?.funnels?.[key] || { clicks: 0, checkouts: 0, orders: 0, pdfSent: 0 };
+      return acc;
+    },
+    {}
+  );
+
+  const breakdownWithDefaults = OFFER_KEYS.reduce<Record<string, { count: number; revenueCents: number }>>(
+    (acc, key) => {
+      acc[key] = stats?.productBreakdown?.[key] || { count: 0, revenueCents: 0 };
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12">
@@ -68,9 +87,6 @@ export default function AdminDashboard() {
             </h1>
             <p className="text-zinc-500">Offers, PDFs, clicks, and revenue</p>
           </div>
-          <Link href="/" className="text-sm text-zinc-400 hover:text-amber-500 transition-colors">
-            ← Back to Site
-          </Link>
         </header>
 
         {!stats ? (
@@ -128,9 +144,9 @@ export default function AdminDashboard() {
             <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6">
               <h3 className="font-semibold mb-4">Offer Performance (Last 30 Days)</h3>
               <div className="grid sm:grid-cols-3 gap-4">
-                {Object.entries(stats.productBreakdown).map(([product, data]) => (
+                {Object.entries(breakdownWithDefaults).map(([product, data]) => (
                   <div key={product} className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                    <p className="text-zinc-400 text-sm capitalize">{product}</p>
+                    <p className="text-zinc-400 text-sm">{labelForProduct(product)}</p>
                     <p className="text-white font-bold text-lg">{data.count} reports</p>
                     <p className="text-amber-400 text-sm">${(data.revenueCents / 100).toFixed(2)} revenue</p>
                   </div>
@@ -156,11 +172,11 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                    {Object.entries(stats.funnels || {}).map(([product, f]) => {
+                    {Object.entries(funnelsWithDefaults).map(([product, f]) => {
                       const conversion = f.clicks ? ((f.orders / f.clicks) * 100).toFixed(1) : '0.0';
                       return (
                         <tr key={product} className="hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-6 py-4 text-zinc-300 capitalize">{product}</td>
+                          <td className="px-6 py-4 text-zinc-300">{labelForProduct(product)}</td>
                           <td className="px-6 py-4">{f.clicks}</td>
                           <td className="px-6 py-4">{f.checkouts}</td>
                           <td className="px-6 py-4">{f.orders}</td>
@@ -192,7 +208,7 @@ export default function AdminDashboard() {
                     {stats.topCtas.map((row, i) => (
                       <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
                         <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{row.path}</td>
-                        <td className="px-6 py-4 text-zinc-400">{row.product}</td>
+                        <td className="px-6 py-4 text-zinc-400">{labelForProduct(row.product)}</td>
                         <td className="px-6 py-4">{row.count}</td>
                       </tr>
                     ))}
@@ -221,7 +237,7 @@ export default function AdminDashboard() {
                     {stats.recentReports.map((row, i) => (
                       <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
                         <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{new Date(row.created_at).toLocaleString()}</td>
-                        <td className="px-6 py-4 text-zinc-400">{row.product}</td>
+                        <td className="px-6 py-4 text-zinc-400">{labelForProduct(row.product)}</td>
                         <td className="px-6 py-4">{row.status}</td>
                         <td className="px-6 py-4 text-amber-400">${(row.price_cents / 100).toFixed(2)}</td>
                         <td className="px-6 py-4 text-zinc-500">{row.email}</td>
