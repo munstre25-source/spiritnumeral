@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { NumerologyProfile } from '@/components/NumerologyProfile';
-import { PaidCTA } from '@/components/PaidCTA';
+import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 
 export const metadata: Metadata = {
     title: 'Your Numerology Profile - Spirit Numeral',
@@ -26,11 +26,7 @@ export default function ProfilePage() {
 
                 {/* CTA Section */}
                 <section className="mt-12">
-                    <PaidCTA
-                        product="blueprint"
-                        label="Get Your Blueprint ($17)"
-                        sublabel="Personalized PDF based on the numbers you’re tracking."
-                    />
+                    <MeaningPaidCTA />
                 </section>
             </div>
         </main>

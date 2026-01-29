@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
-import { PaidCTA } from '@/components/PaidCTA';
+import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 
 export async function generateStaticParams() {
     return BLOG_POSTS.map(post => ({ slug: post.slug }));
@@ -193,12 +193,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             <h3 className="text-xl font-bold text-white mb-2">Ready to Go Deeper?</h3>
                             <p className="text-zinc-400 mb-4">Get your complete numerology profile with personalized insights</p>
                             <div className="max-w-sm mx-auto">
-                                <PaidCTA
-                                    product="blueprint"
-                                    label="Get Your Blueprint ($17)"
-                                    sublabel="Personalized PDF based on the numbers in this article."
-                                    variant="secondary"
-                                />
+                                <MeaningPaidCTA />
                             </div>
                         </div>
                     </section>

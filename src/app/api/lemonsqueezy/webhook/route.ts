@@ -77,6 +77,9 @@ export async function POST(req: NextRequest) {
       timeHorizon: inputs.timeHorizon,
       relationshipStatus: inputs.relationshipStatus,
       challenge: inputs.challenge,
+      nameNumbers: inputs.nameNumbers,
+      personalTiming: inputs.personalTiming,
+      lifecycle: inputs.lifecycle,
     };
 
     const targets = product === 'bundle' ? (['blueprint', 'relationship', 'wealth'] as const) : ([product] as const);

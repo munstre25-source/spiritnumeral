@@ -33,6 +33,45 @@ export interface AngelNumber {
   created_at: string;
 }
 
+export interface NameNumberMeaning {
+  id: number;
+  type: 'expression' | 'soul_urge' | 'personality';
+  number: number;
+  meaning: string;
+  strengths: string[];
+  challenges: string[];
+  love: string;
+  career: string;
+  advice: string;
+  created_at: string;
+}
+
+export interface TimingCycleMeaning {
+  id: number;
+  type: 'personal_year' | 'personal_month' | 'personal_day';
+  number: number;
+  meaning: string;
+  strengths: string[];
+  challenges: string[];
+  love: string;
+  career: string;
+  advice: string;
+  created_at: string;
+}
+
+export interface LifecycleMeaning {
+  id: number;
+  type: 'pinnacle' | 'challenge' | 'maturity' | 'birthday' | 'karmic_debt';
+  number: number;
+  meaning: string;
+  strengths: string[];
+  challenges: string[];
+  love: string;
+  career: string;
+  advice: string;
+  created_at: string;
+}
+
 export async function getAngelNumber(num: number): Promise<AngelNumber | null> {
   const { data, error } = await supabaseAdmin
     .from('angel_numbers')
@@ -58,6 +97,42 @@ export async function getAllAngelNumbers(): Promise<number[]> {
   }
 
   return data.map((d: { number: number }) => d.number);
+}
+
+export async function getNameNumberMeaning(type: NameNumberMeaning['type'], number: number): Promise<NameNumberMeaning | null> {
+  const { data, error } = await supabaseAdmin
+    .from('name_numbers')
+    .select('*')
+    .eq('type', type)
+    .eq('number', number)
+    .single();
+
+  if (error || !data) return null;
+  return data as NameNumberMeaning;
+}
+
+export async function getTimingCycleMeaning(type: TimingCycleMeaning['type'], number: number): Promise<TimingCycleMeaning | null> {
+  const { data, error } = await supabaseAdmin
+    .from('timing_cycles')
+    .select('*')
+    .eq('type', type)
+    .eq('number', number)
+    .single();
+
+  if (error || !data) return null;
+  return data as TimingCycleMeaning;
+}
+
+export async function getLifecycleMeaning(type: LifecycleMeaning['type'], number: number): Promise<LifecycleMeaning | null> {
+  const { data, error } = await supabaseAdmin
+    .from('lifecycle_numbers')
+    .select('*')
+    .eq('type', type)
+    .eq('number', number)
+    .single();
+
+  if (error || !data) return null;
+  return data as LifecycleMeaning;
 }
 
 export function transformAngelNumberData(data: AngelNumber) {

@@ -36,6 +36,31 @@ export async function POST(req: NextRequest) {
         ? metadata.relationshipStatus
         : undefined,
       challenge: typeof metadata?.challenge === 'string' ? metadata.challenge.slice(0, 120) : undefined,
+      nameNumbers: metadata?.nameNumbers
+        ? {
+            fullName: typeof metadata.nameNumbers.fullName === 'string' ? metadata.nameNumbers.fullName.slice(0, 80) : undefined,
+            expression: typeof metadata.nameNumbers.expression === 'number' ? metadata.nameNumbers.expression : undefined,
+            soulUrge: typeof metadata.nameNumbers.soulUrge === 'number' ? metadata.nameNumbers.soulUrge : undefined,
+            personality: typeof metadata.nameNumbers.personality === 'number' ? metadata.nameNumbers.personality : undefined,
+          }
+        : undefined,
+      personalTiming: metadata?.personalTiming
+        ? {
+            birthdate: typeof metadata.personalTiming.birthdate === 'string' ? metadata.personalTiming.birthdate : undefined,
+            targetDate: typeof metadata.personalTiming.targetDate === 'string' ? metadata.personalTiming.targetDate : undefined,
+            personalYear: typeof metadata.personalTiming.personalYear === 'number' ? metadata.personalTiming.personalYear : undefined,
+            personalMonth: typeof metadata.personalTiming.personalMonth === 'number' ? metadata.personalTiming.personalMonth : undefined,
+            personalDay: typeof metadata.personalTiming.personalDay === 'number' ? metadata.personalTiming.personalDay : undefined,
+          }
+        : undefined,
+      lifecycle: metadata?.lifecycle
+        ? {
+            type: ['pinnacle', 'challenge', 'maturity', 'birthday', 'karmic_debt'].includes(metadata.lifecycle.type)
+              ? metadata.lifecycle.type
+              : undefined,
+            number: typeof metadata.lifecycle.number === 'number' ? metadata.lifecycle.number : undefined,
+          }
+        : undefined,
     };
 
     await logEvent({

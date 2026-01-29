@@ -1,5 +1,5 @@
 import PDFDocument from 'pdfkit';
-import { getAngelNumber } from '../supabase';
+import { getAngelNumber, getNameNumberMeaning, getTimingCycleMeaning, getLifecycleMeaning } from '../supabase';
 
 type ProductType = 'blueprint' | 'relationship' | 'wealth';
 
@@ -14,6 +14,23 @@ export interface ReportPayload {
   quizAnswers?: any;
   email?: string;
   name?: string;
+  nameNumbers?: {
+    fullName?: string;
+    expression?: number;
+    soulUrge?: number;
+    personality?: number;
+  };
+  personalTiming?: {
+    birthdate?: string;
+    targetDate?: string;
+    personalYear?: number;
+    personalMonth?: number;
+    personalDay?: number;
+  };
+  lifecycle?: {
+    type?: 'pinnacle' | 'challenge' | 'maturity' | 'birthday' | 'karmic_debt';
+    number?: number;
+  };
   focus?: 'love' | 'career' | 'spiritual' | 'money' | 'healing';
   feeling?: 'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken';
   timeHorizon?: '7d' | '30d' | '90d';
@@ -77,6 +94,72 @@ function addFooter(doc: PDFDocument) {
     .fontSize(9)
     .fillColor('#999')
     .text('Generated for you by Spirit Numeral • spiritnumeral.com', { align: 'center' });
+}
+
+function formatTraits(label: string, items?: string[]) {
+  if (!items || !items.length) return '';
+  return `${label}: ${items.join(', ')}`;
+}
+
+async function addNameNumberSection(doc: PDFDocument, type: 'expression' | 'soul_urge' | 'personality', number?: number) {
+  if (!number) return;
+  const data = await getNameNumberMeaning(type, number);
+  if (!data) return;
+  const title =
+    type === 'expression'
+      ? `Expression Number ${number}`
+      : type === 'soul_urge'
+        ? `Soul Urge Number ${number}`
+        : `Personality Number ${number}`;
+  const bodyLines = [
+    data.meaning,
+    formatTraits('Strengths', data.strengths),
+    formatTraits('Challenges', data.challenges),
+    `Advice: ${data.advice}`,
+  ].filter(Boolean);
+  addSection(doc, { title, body: bodyLines.join('\n') });
+}
+
+async function addTimingSection(doc: PDFDocument, type: 'personal_year' | 'personal_month' | 'personal_day', number?: number) {
+  if (!number) return;
+  const data = await getTimingCycleMeaning(type, number);
+  if (!data) return;
+  const title =
+    type === 'personal_year'
+      ? `Personal Year ${number}`
+      : type === 'personal_month'
+        ? `Personal Month ${number}`
+        : `Personal Day ${number}`;
+  const bodyLines = [
+    data.meaning,
+    formatTraits('Strengths', data.strengths),
+    formatTraits('Challenges', data.challenges),
+    `Advice: ${data.advice}`,
+  ].filter(Boolean);
+  addSection(doc, { title, body: bodyLines.join('\n') });
+}
+
+async function addLifecycleSection(doc: PDFDocument, type?: 'pinnacle' | 'challenge' | 'maturity' | 'birthday' | 'karmic_debt', number?: number) {
+  if (!type || number === undefined) return;
+  const data = await getLifecycleMeaning(type, number);
+  if (!data) return;
+  const label =
+    type === 'pinnacle'
+      ? `Pinnacle ${number}`
+      : type === 'challenge'
+        ? `Challenge ${number}`
+        : type === 'maturity'
+          ? `Maturity Number ${number}`
+          : type === 'birthday'
+            ? `Birthday Number ${number}`
+            : `Karmic Debt ${number}`;
+  const bodyLines = [
+    data.meaning,
+    formatTraits('Strengths', data.strengths),
+    formatTraits('Challenges', data.challenges),
+    `Advice: ${data.advice}`,
+  ].filter(Boolean);
+  addSection(doc, { title: label, body: bodyLines.join('\n') });
 }
 
 function focusBlurb(focus?: ReportPayload['focus']) {
@@ -145,7 +228,7 @@ export async function generateReportPdf(payload: ReportPayload) {
       : payload.product === 'wealth'
         ? 'Wealth & Abundance Numerology Report'
         : 'Personal Numerology Blueprint',
-    `Prepared for ${payload.name || payload.email || 'you'} • ${new Date().toLocaleDateString()}`
+    `Prepared for ${payload.nameNumbers?.fullName || payload.name || payload.email || 'you'} • ${new Date().toLocaleDateString()}`
   );
 
   if (payload.product === 'relationship') {
@@ -222,6 +305,30 @@ export async function generateReportPdf(payload: ReportPayload) {
         body: '1) Set a 7-day intention using your primary number. 2) Track every appearance and what you were thinking. 3) Act on one clear nudge each week.',
       });
     }
+  }
+
+  if (payload.nameNumbers) {
+    addSection(doc, {
+      title: 'Name Numerology Snapshot',
+      body: 'These numbers describe how your name patterns influence expression, inner needs, and social presence.',
+    });
+    await addNameNumberSection(doc, 'expression', payload.nameNumbers.expression);
+    await addNameNumberSection(doc, 'soul_urge', payload.nameNumbers.soulUrge);
+    await addNameNumberSection(doc, 'personality', payload.nameNumbers.personality);
+  }
+
+  if (payload.personalTiming) {
+    addSection(doc, {
+      title: 'Personal Timing Snapshot',
+      body: 'Your timing numbers show the dominant theme for the year, month, and day you chose.',
+    });
+    await addTimingSection(doc, 'personal_year', payload.personalTiming.personalYear);
+    await addTimingSection(doc, 'personal_month', payload.personalTiming.personalMonth);
+    await addTimingSection(doc, 'personal_day', payload.personalTiming.personalDay);
+  }
+
+  if (payload.lifecycle) {
+    await addLifecycleSection(doc, payload.lifecycle.type, payload.lifecycle.number);
   }
 
   const challenge = challengeLine(payload.challenge);

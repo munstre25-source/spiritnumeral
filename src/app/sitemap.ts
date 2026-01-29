@@ -81,6 +81,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   });
 
+  // Name numerology + timing + lifecycle landing pages
+  [
+    '/name-numerology',
+    '/personal-year',
+    '/personal-month',
+    '/personal-day',
+    '/pinnacle',
+    '/challenge',
+    '/maturity-number',
+    '/birthday-number',
+    '/karmic-debt',
+  ].forEach((path) => {
+    sitemapEntries.push({
+      url: `${baseUrl}${path}`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    });
+  });
+
   sitemapEntries.push({
     url: `${baseUrl}/profile`,
     lastModified: now,
@@ -267,6 +287,84 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
+    });
+  });
+
+  // Name numerology numbers
+  const nameNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
+  const nameTypes = ['expression', 'soul-urge', 'personality'];
+  nameTypes.forEach((type) => {
+    nameNumbers.forEach((num) => {
+      sitemapEntries.push({
+        url: `${baseUrl}/name-numerology/${type}/${num}`,
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      });
+    });
+  });
+
+  // Timing cycles (personal year/month/day)
+  const timingNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  ['personal-year', 'personal-month', 'personal-day'].forEach((path) => {
+    timingNumbers.forEach((num) => {
+      sitemapEntries.push({
+        url: `${baseUrl}/${path}/${num}`,
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      });
+    });
+  });
+
+  // Lifecycle numbers
+  const pinnacleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  pinnacleNumbers.forEach((num) => {
+    sitemapEntries.push({
+      url: `${baseUrl}/pinnacle/${num}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    });
+  });
+
+  const challengeNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  challengeNumbers.forEach((num) => {
+    sitemapEntries.push({
+      url: `${baseUrl}/challenge/${num}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    });
+  });
+
+  const maturityNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  maturityNumbers.forEach((num) => {
+    sitemapEntries.push({
+      url: `${baseUrl}/maturity-number/${num}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    });
+  });
+
+  const birthdayNumbers = Array.from({ length: 31 }, (_, i) => i + 1);
+  birthdayNumbers.forEach((num) => {
+    sitemapEntries.push({
+      url: `${baseUrl}/birthday-number/${num}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    });
+  });
+
+  const karmicDebtNumbers = [13, 14, 16, 19];
+  karmicDebtNumbers.forEach((num) => {
+    sitemapEntries.push({
+      url: `${baseUrl}/karmic-debt/${num}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
     });
   });
 

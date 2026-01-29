@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { PaidCTA } from '@/components/PaidCTA';
+import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 
 export const metadata: Metadata = {
     title: 'Celebrity Numerology - Famous Life Path Numbers',
@@ -243,22 +243,17 @@ export default function CelebrityNumerologyPage() {
                         <p className="text-zinc-400 mb-6">
                             Calculate your life path number and discover which celebrities share your numerological destiny.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                href="/calculator"
-                                className="px-8 py-4 bg-purple-500 text-white font-bold rounded-xl hover:bg-purple-400 transition-colors"
-                            >
-                                Calculate Your Number
-                            </Link>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link
+                                    href="/calculator"
+                                    className="px-8 py-4 bg-purple-500 text-white font-bold rounded-xl hover:bg-purple-400 transition-colors"
+                                >
+                                    Calculate Your Number
+                                </Link>
                             <div className="flex-1 min-w-[240px]">
-                                <PaidCTA
-                                    product="blueprint"
-                                    label="Get Your Blueprint ($17)"
-                                    sublabel="Personalized PDF based on your life path and key numbers."
-                                    variant="secondary"
-                                />
+                                <MeaningPaidCTA />
                             </div>
-                        </div>
+                            </div>
                     </section>
                 </div>
             </main>

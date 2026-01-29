@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { PaidCTA } from '@/components/PaidCTA';
+import { RelationshipPaidCTA } from '@/components/RelationshipPaidCTA';
 
 export const metadata: Metadata = {
   title: 'Breakup Angel Numbers | Healing and New Beginnings',
@@ -80,10 +80,9 @@ export default function BreakupIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <PaidCTA
-          product="relationship"
+        <RelationshipPaidCTA
           label="Get Your Healing PDF ($29)"
-          sublabel="Personalized breakup recovery guidance based on your numbers."
+          sublabel="Personalized breakup recovery guidance based on your number and current feelings."
         />
       </section>
     </main>

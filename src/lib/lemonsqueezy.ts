@@ -10,6 +10,23 @@ export interface CheckoutMetadata {
   quizAnswers?: any;
   email?: string;
   product?: string;
+  nameNumbers?: {
+    fullName?: string;
+    expression?: number;
+    soulUrge?: number;
+    personality?: number;
+  };
+  personalTiming?: {
+    birthdate?: string;
+    targetDate?: string;
+    personalYear?: number;
+    personalMonth?: number;
+    personalDay?: number;
+  };
+  lifecycle?: {
+    type?: 'pinnacle' | 'challenge' | 'maturity' | 'birthday' | 'karmic_debt';
+    number?: number;
+  };
   compatibility?: {
     score: number;
     description?: string;
@@ -75,12 +92,10 @@ export async function createCheckout(product: ProductType, metadata: CheckoutMet
           media: false,
           logo: false,
         },
-        product_options: [
-          {
-            redirect_url: redirectUrl,
-            enabled_variants: [parseInt(variantId, 10)].filter((id) => !Number.isNaN(id)),
-          },
-        ],
+        product_options: {
+          redirect_url: redirectUrl,
+          enabled_variants: [parseInt(variantId, 10)].filter((id) => !Number.isNaN(id)),
+        },
       },
       relationships: {
         store: {

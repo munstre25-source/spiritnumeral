@@ -8,3 +8,14 @@ tsconfig.tsbuildinfo
 .env.development.local
 .env.test.local
 .env.production.local
+
+# local environments
+.venv
+
+# generated data
+/data/normalized
+/data/scraped
+
+# misc
+.DS_Store
+*.log

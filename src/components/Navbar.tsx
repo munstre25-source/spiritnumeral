@@ -38,6 +38,8 @@ export default function Navbar() {
         { href: '/quiz', label: 'Number Quiz', description: 'Discover your angel number' },
         { href: '/compare', label: 'Compare Numbers', description: 'See how numbers relate' },
         { href: '/compatibility', label: 'Compatibility', description: 'Check your love match' },
+        { href: '/name-numerology', label: 'Name Numerology', description: 'Expression & Soul Urge' },
+        { href: '/personal-year', label: 'Personal Year', description: 'Your timing cycle' },
         { href: '/celebrity-numerology', label: 'Celebrity Life Paths', description: 'Famous numerology' },
         { href: '/blog', label: 'Blog', description: 'Spiritual insights' },
       ],
@@ -47,6 +49,9 @@ export default function Navbar() {
       dropdown: [
         { href: '/meaning/angel-number', label: 'Angel Numbers', description: 'Repeating number sequences' },
         { href: '/meaning/life-path', label: 'Life Path Numbers', description: 'Your destiny number' },
+        { href: '/pinnacle', label: 'Pinnacle Numbers', description: 'Long-term cycles' },
+        { href: '/birthday-number', label: 'Birthday Numbers', description: 'Your gifts by day' },
+        { href: '/karmic-debt', label: 'Karmic Debt Numbers', description: 'Key lessons' },
         { href: '/meaning', label: 'All Meanings', description: 'Browse everything' },
       ],
     },

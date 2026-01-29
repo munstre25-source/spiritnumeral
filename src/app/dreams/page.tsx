@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { PaidCTA } from '@/components/PaidCTA';
+import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 
 export const metadata: Metadata = {
   title: 'Angel Numbers in Dreams | Meanings and Messages',
@@ -80,11 +80,7 @@ export default function DreamsIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <PaidCTA
-          product="blueprint"
-          label="Get Your Dream Insight PDF ($17)"
-          sublabel="Personalized blueprint with your dream number focus."
-        />
+        <MeaningPaidCTA />
       </section>
     </main>
   );

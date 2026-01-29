@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { PaidCTA } from '@/components/PaidCTA';
+import { RelationshipPaidCTA } from '@/components/RelationshipPaidCTA';
 
 export const metadata: Metadata = {
   title: 'Soulmate Angel Numbers | Signs and Love Messages',
@@ -80,10 +80,9 @@ export default function SoulmateIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <PaidCTA
-          product="relationship"
+        <RelationshipPaidCTA
           label="Get Your Soulmate PDF ($29)"
-          sublabel="Personalized relationship guidance based on your numbers."
+          sublabel="Personalized relationship guidance based on your number and current connection."
         />
       </section>
     </main>
