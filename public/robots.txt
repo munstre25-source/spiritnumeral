@@ -7,9 +7,6 @@ Allow: /
 # Sitemaps
 Sitemap: https://spiritnumeral.com/sitemap.xml
 
-# Crawl delay for politeness
-Crawl-delay: 1
-
 # Block admin/internal paths (if any)
 Disallow: /api/
 Disallow: /_next/
