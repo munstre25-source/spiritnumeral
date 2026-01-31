@@ -65,6 +65,10 @@ node generate-dataset.js
 # .env.local
 NEXT_PUBLIC_SITE_URL=https://spiritnumeral.com
 NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
+# For daily number emails (cron + Resend)
+RESEND_API_KEY=re_xxx
+RESEND_FROM=reports@spiritnumeral.com
+CRON_SECRET=your_random_secret  # e.g. openssl rand -hex 32 (required for /api/cron/daily-number)
 ```
 
 5. Run the development server:

@@ -200,18 +200,18 @@ export default function AdminDashboard() {
 
             <div className="sticky top-2 z-20 bg-page/80 backdrop-blur border border-default rounded-2xl px-3 py-2 overflow-x-auto">
               <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
-                <a href="#overview" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Overview</a>
-                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Offers</a>
-                <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">CTR</a>
-                <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Funnel</a>
-                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">CTA</a>
-                <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Pages</a>
-                <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Traffic</a>
-                <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">SEO</a>
-                <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">SEO Fixes</a>
-                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Internal Links</a>
-                <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Affiliates</a>
-                <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Reports</a>
+                <a href="#overview" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Overview</a>
+                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Offers</a>
+                <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">CTR</a>
+                <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Funnel</a>
+                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">CTA</a>
+                <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Pages</a>
+                <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Traffic</a>
+                <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">SEO</a>
+                <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">SEO Fixes</a>
+                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Internal Links</a>
+                <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Affiliates</a>
+                <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Reports</a>
               </div>
             </div>
           </div>

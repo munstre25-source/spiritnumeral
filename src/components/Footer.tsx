@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { DailyNumberSignup } from './DailyNumberSignup';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -54,6 +55,9 @@ export default function Footer() {
             <p className="text-muted text-sm mt-3 max-w-xs">
               Numerology and angel number meanings for your spiritual path.
             </p>
+            <div className="mt-6">
+              <DailyNumberSignup variant="inline" compact className="p-4" />
+            </div>
           </div>
           {sections.map((section) => (
             <div key={section.title}>

@@ -107,7 +107,13 @@ export default function PressKitPage() {
               href="/favicon.svg"
               className="rounded-2xl border border-default bg-page/60 px-4 py-4 text-sm text-secondary hover:border-amber-500/60 transition"
             >
-              Logo (SVG) — /favicon.svg
+              Icon / Favicon (SVG) — /favicon.svg
+            </a>
+            <a
+              href="/logo.svg"
+              className="rounded-2xl border border-default bg-page/60 px-4 py-4 text-sm text-secondary hover:border-amber-500/60 transition"
+            >
+              Full logo with wordmark (SVG) — /logo.svg
             </a>
             <a
               href="/opengraph-image"

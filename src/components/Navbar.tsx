@@ -67,9 +67,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-amber-500 text-black flex items-center justify-center text-lg font-bold">
-            S
-          </div>
+          <img src="/favicon.svg" alt="" className="w-9 h-9 rounded-lg flex-shrink-0" width="36" height="36" />
           <span className="text-lg font-bold text-primary">
             Spirit Numeral
           </span>
@@ -136,18 +134,21 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-primary p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></svg>
-          )}
-        </button>
+        {/* Mobile: theme toggle + menu button (always visible in header) */}
+        <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-primary p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -186,12 +187,11 @@ export default function Navbar() {
               )
             ))}
 
-            <div className="flex items-center gap-3 pt-4">
-              <ThemeToggle />
+            <div className="pt-4">
               <Link
                 href="/calculator"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex-1 block btn-primary py-4 rounded-lg text-center font-bold"
+                className="block w-full btn-primary py-4 rounded-lg text-center font-bold"
               >
                 Calculate Your Life Path
               </Link>

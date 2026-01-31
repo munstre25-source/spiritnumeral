@@ -52,7 +52,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');else if(!t&&window.matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.classList.add('light');})();`,
+            __html: `(function(){var t=localStorage.getItem('theme');if(t!=='dark')document.documentElement.classList.add('light');})();`,
           }}
         />
         <script

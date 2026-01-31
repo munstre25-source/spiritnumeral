@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  /* Theme: default = dark */
+  /* Theme: :root = dark, .light = light; script adds .light by default so light is default */
   :root {
     --color-bg-primary: 9 9 11;
     --color-bg-secondary: 24 24 27;

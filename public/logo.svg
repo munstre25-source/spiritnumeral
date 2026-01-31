@@ -1,0 +1,72 @@
+<svg width="320" height="160" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <title>Spirit Numeral</title>
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#f59e0b" flood-opacity="0.6"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#f59e0b" flood-opacity="0.8"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Dark circular disc -->
+  <circle cx="80" cy="80" r="78" fill="#0f0f0f" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Sacred geometry: Seed of Life (1 center + 6 around) in golden-orange -->
+  <g stroke="#f59e0b" stroke-width="1.5" fill="none" opacity="0.95">
+    <circle cx="80" cy="80" r="32"/>
+    <circle cx="112" cy="80" r="32"/>
+    <circle cx="96" cy="52.3" r="32"/>
+    <circle cx="96" cy="107.7" r="32"/>
+    <circle cx="64" cy="52.3" r="32"/>
+    <circle cx="64" cy="107.7" r="32"/>
+    <circle cx="48" cy="80" r="32"/>
+  </g>
+  <!-- Central glowing circle with "1" -->
+  <circle cx="80" cy="80" r="22" fill="none" stroke="#f59e0b" stroke-width="3" filter="url(#glow-strong)"/>
+  <circle cx="80" cy="80" r="22" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="80" y="88" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="28" fill="#fff">1</text>
+  <!-- Orbital circles with numbers and infinity -->
+  <g font-family="system-ui, sans-serif" font-weight="700" font-size="14" fill="#0f0f0f" text-anchor="middle">
+    <circle cx="80" cy="80" r="55" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+    <g>
+      <circle cx="117" cy="52" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="117" y="57">9</text>
+    </g>
+    <g>
+      <circle cx="117" cy="108" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="117" y="113">3</text>
+    </g>
+    <g>
+      <circle cx="80" cy="25" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="80" y="30">6</text>
+    </g>
+    <g>
+      <circle cx="80" cy="135" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="80" y="140">4</text>
+    </g>
+    <g>
+      <circle cx="43" cy="52" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="43" y="57">7</text>
+    </g>
+    <g>
+      <circle cx="43" cy="108" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="43" y="113">5</text>
+    </g>
+    <g>
+      <circle cx="25" cy="80" r="14" fill="#f59e0b" opacity="0.9"/>
+      <text x="25" y="85">8</text>
+    </g>
+  </g>
+  <!-- Infinity symbol in the orbital circle (replace text with path for ∞) -->
+  <g transform="translate(135, 80)">
+    <circle r="14" fill="#f59e0b" opacity="0.9"/>
+    <path d="M-4 0 C-4 -4, 4 -4, 4 0 C 4 4, -4 4, -4 0" stroke="#0f0f0f" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="175" y="95" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="28" fill="#0f0f0f">Spirit Numeral</text>
+</svg>

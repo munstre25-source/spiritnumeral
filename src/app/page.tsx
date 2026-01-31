@@ -27,6 +27,16 @@ const MoonPhaseWidget = dynamic(
   { loading: () => <div className="rounded-2xl bg-card border border-default p-6 text-secondary">Loading…</div> }
 );
 
+const DailyNumberSignup = dynamic(
+  () => import('@/components/DailyNumberSignup').then((m) => ({ default: m.DailyNumberSignup })),
+  { loading: () => <div className="rounded-2xl bg-card border border-default p-8 h-48 animate-pulse" /> }
+);
+
+const PersonalNumberToday = dynamic(
+  () => import('@/components/PersonalNumberToday').then((m) => ({ default: m.PersonalNumberToday })),
+  { loading: () => <div className="rounded-3xl bg-card border border-default p-8 h-52 animate-pulse" /> }
+);
+
 const CATEGORY_TABS = [
   { label: 'Meaning', href: '/meaning' },
   { label: 'Twin Flame', href: '/twin-flame' },
@@ -172,6 +182,14 @@ export default function HomePage() {
       {/* Today’s Angel Number – engagement, shareable */}
       <section className="max-w-4xl mx-auto px-6 py-8">
         <DailyAngelNumber />
+      </section>
+
+      <section className="max-w-4xl mx-auto px-6 py-8">
+        <PersonalNumberToday />
+      </section>
+
+      <section className="max-w-xl mx-auto px-6 py-8">
+        <DailyNumberSignup variant="block" />
       </section>
 
       {/* Tools & Resources – Compare, Quiz, Famous Life Paths, Blog (GSC: celebrity, quiz, meaning) */}
