@@ -93,69 +93,69 @@ export default async function SoulmateMeaningPage({ params }: { params: Promise<
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
             />
 
-            <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
+            <main className="min-h-screen bg-page text-primary pt-32 md:pt-48 p-8 font-sans">
                 <div className="max-w-4xl mx-auto space-y-12">
                     <header className="text-center space-y-4">
-                        <div className="inline-block px-4 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-4">
+                        <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-4">
                             Soulmate Connection
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-b from-rose-200 to-rose-500 bg-clip-text text-transparent tracking-tighter">
+                        <h1 className="text-5xl md:text-6xl font-bold text-primary font-bold tracking-tighter">
                             Angel Number {number} Soulmate Meaning
                         </h1>
-                        <p className="text-sm uppercase tracking-[0.2em] text-rose-400/80">
+                        <p className="text-sm uppercase tracking-[0.2em] text-amber-400/80">
                             Destined Love & Soul Connections
                         </p>
-                        <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-2xl text-secondary font-light max-w-2xl mx-auto leading-relaxed">
                             {data.soulmate || `Discover what angel number ${number} reveals about your soulmate connection.`}
                         </p>
                     </header>
 
-                    <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-rose-950/40 via-zinc-900/50 to-zinc-900 border border-rose-500/20 shadow-2xl">
-                        <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+                    <section className="p-10 rounded-[2.5rem] bg-card border border-default">
+                        <h2 className="text-3xl font-bold mb-6 text-primary tracking-tight">
                             What Does {number} Mean for Soulmates?
                         </h2>
-                        <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
+                        <p className="text-xl text-secondary leading-relaxed font-light mb-6">
                             {data.soulmate || `Angel number ${number} carries a profound message about your soulmate journey. When this number appears, your guardian angels are guiding you toward destined love.`}
                         </p>
-                        <p className="text-lg text-zinc-400 leading-relaxed">
+                        <p className="text-lg text-secondary leading-relaxed">
                             {data.love}
                         </p>
                     </section>
 
                     <section className="grid gap-6 md:grid-cols-2">
-                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-rose-500/30">
-                            <h2 className="text-rose-400 font-bold text-lg mb-4 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-amber-500/30">
+                            <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Soul Recognition
                             </h2>
-                            <p className="text-zinc-300 leading-relaxed">
+                            <p className="text-secondary leading-relaxed">
                                 When you see {number}, you may experience instant recognition when meeting your soulmate. Trust these powerful feelings.
                             </p>
                         </div>
-                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-rose-500/30">
-                            <h2 className="text-rose-400 font-bold text-lg mb-4 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-amber-500/30">
+                            <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Divine Timing
                             </h2>
-                            <p className="text-zinc-300 leading-relaxed">
+                            <p className="text-secondary leading-relaxed">
                                 {number} reminds you that soulmate connections happen in divine timing. Your perfect partner is being prepared for you.
                             </p>
                         </div>
-                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-rose-500/30">
-                            <h2 className="text-rose-400 font-bold text-lg mb-4 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-amber-500/30">
+                            <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Past Life Connection
                             </h2>
-                            <p className="text-zinc-300 leading-relaxed">
+                            <p className="text-secondary leading-relaxed">
                                 {data.twin_flame || `Angel number ${number} may indicate a past life connection with your soulmate, explaining your deep bond.`}
                             </p>
                         </div>
-                        <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-rose-500/30">
-                            <h2 className="text-rose-400 font-bold text-lg mb-4 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                        <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-amber-500/30">
+                            <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Soulmate Affirmation
                             </h2>
-                            <p className="text-zinc-300 leading-relaxed italic">
+                            <p className="text-secondary leading-relaxed italic">
                                 "I am worthy of deep, soulmate love. Angel number {number} is guiding me to my destined partner."
                             </p>
                         </div>
@@ -174,7 +174,7 @@ export default async function SoulmateMeaningPage({ params }: { params: Promise<
                         <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
                         <a
                             href={`/meaning/angel-number/${number}`}
-                            className="block text-center text-amber-500 hover:text-amber-400 transition-colors"
+                            className="block text-center text-amber-500 hover:text-amber-600 transition-colors"
                         >
                             ← Full Angel Number {number} Meaning
                         </a>

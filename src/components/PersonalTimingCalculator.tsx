@@ -40,52 +40,52 @@ export default function PersonalTimingCalculator() {
   }, [birthdate, targetDate]);
 
   return (
-    <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-      <h2 className="text-2xl font-bold mb-3 text-white">Personal Timing Calculator</h2>
-      <p className="text-zinc-400 mb-6">
+    <section className="p-8 rounded-3xl bg-card border border-default">
+      <h2 className="text-2xl font-bold mb-3 text-primary">Personal Timing Calculator</h2>
+      <p className="text-secondary mb-6">
         Enter your birthdate and a target date to find your personal year, month, and day numbers.
       </p>
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="text-xs text-zinc-500">Birthdate</label>
+          <label className="text-xs text-muted">Birthdate</label>
           <input
             type="date"
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
-            className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500"
+            className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500"
           />
         </div>
         <div>
-          <label className="text-xs text-zinc-500">Target date</label>
+          <label className="text-xs text-muted">Target date</label>
           <input
             type="date"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
-            className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500"
+            className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500"
           />
         </div>
       </div>
 
       {results && (
         <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Personal Year</div>
-            <div className="text-3xl font-bold text-amber-400">{results.personalYear}</div>
-            <Link href={`/personal-year/${results.personalYear}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Personal Year</div>
+            <div className="text-3xl font-bold text-amber-600">{results.personalYear}</div>
+            <Link href={`/personal-year/${results.personalYear}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Personal Month</div>
-            <div className="text-3xl font-bold text-amber-400">{results.personalMonth}</div>
-            <Link href={`/personal-month/${results.personalMonth}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Personal Month</div>
+            <div className="text-3xl font-bold text-amber-600">{results.personalMonth}</div>
+            <Link href={`/personal-month/${results.personalMonth}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Personal Day</div>
-            <div className="text-3xl font-bold text-amber-400">{results.personalDay}</div>
-            <Link href={`/personal-day/${results.personalDay}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Personal Day</div>
+            <div className="text-3xl font-bold text-amber-600">{results.personalDay}</div>
+            <Link href={`/personal-day/${results.personalDay}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>

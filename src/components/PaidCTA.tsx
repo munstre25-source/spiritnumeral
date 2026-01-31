@@ -68,7 +68,7 @@ export function PaidCTA({
       <span ref={impressionRef} className={className}>
         <button
           onClick={handleClick}
-          className="text-amber-400 hover:text-amber-300 underline font-medium"
+          className="text-amber-600 hover:text-amber-600 underline font-medium"
         >
           {label || defaultLabel}
         </button>
@@ -83,8 +83,8 @@ export function PaidCTA({
           onClick={handleClick}
           className="w-full block p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-500/30 hover:border-amber-500/60 transition-all text-left"
         >
-          <p className="text-amber-400 font-bold text-lg mb-2">{label || defaultLabel}</p>
-          <p className="text-zinc-400 text-sm">{sublabel || defaultSub}</p>
+          <p className="text-amber-600 font-bold text-lg mb-2">{label || defaultLabel}</p>
+          <p className="text-secondary text-sm">{sublabel || defaultSub}</p>
         </button>
       </div>
     );
@@ -98,11 +98,11 @@ export function PaidCTA({
         className="group relative overflow-hidden bg-amber-500 p-1 rounded-2xl transition-all hover:scale-[1.02] block w-full"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-        <div className="bg-zinc-950 text-amber-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
+        <div className="bg-page text-amber-500 py-6 rounded-xl font-bold text-xl md:text-2xl text-center transition-all group-hover:bg-transparent group-hover:text-black">
           {label || defaultLabel}
         </div>
       </button>
-      <p className="text-center text-zinc-500 text-sm mt-4">{sublabel || defaultSub}</p>
+      <p className="text-center text-muted text-sm mt-4">{sublabel || defaultSub}</p>
     </div>
   );
 }

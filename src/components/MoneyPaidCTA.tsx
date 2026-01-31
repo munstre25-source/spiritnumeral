@@ -61,16 +61,16 @@ export function MoneyPaidCTA({ number }: MoneyPaidCTAProps) {
 
   return (
     <div ref={impressionRef} className="space-y-4">
-      <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400">
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+      <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-green-400"></span>
           Cashflow + expense trim
         </div>
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-green-400"></span>
           7/30/90-day money plan
         </div>
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-green-400"></span>
           Challenge-based affirmation
         </div>
@@ -80,7 +80,7 @@ export function MoneyPaidCTA({ number }: MoneyPaidCTAProps) {
         <select
           value={feeling}
           onChange={(e) => setFeeling(e.target.value as Feeling)}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
         >
           <option value="">How do you feel? (required)</option>
           <option value="calm">Calm</option>
@@ -92,7 +92,7 @@ export function MoneyPaidCTA({ number }: MoneyPaidCTAProps) {
         <select
           value={timeHorizon}
           onChange={(e) => setTimeHorizon(e.target.value as Horizon)}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
         >
           <option value="">Time horizon (required)</option>
           <option value="7d">Next 7 days</option>
@@ -103,7 +103,7 @@ export function MoneyPaidCTA({ number }: MoneyPaidCTAProps) {
           placeholder="Biggest money challenge (optional, 80 chars)"
           value={challenge}
           onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-green-400/60"
         />
       </div>
 
@@ -114,14 +114,14 @@ export function MoneyPaidCTA({ number }: MoneyPaidCTAProps) {
         title={!canCheckout ? 'Pick feeling and time horizon to personalize' : 'Proceed to checkout'}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-        <div className="bg-zinc-950 text-green-400 py-4 rounded-xl font-bold text-lg text-center transition-all group-hover:bg-transparent group-hover:text-black">
+        <div className="bg-page text-green-400 py-4 rounded-xl font-bold text-lg text-center transition-all group-hover:bg-transparent group-hover:text-black">
           {loading ? 'Preparing your wealth PDF…' : 'Unlock Wealth PDF ($49)'}
         </div>
       </button>
-      <p className="text-center text-zinc-500 text-sm">
+      <p className="text-center text-muted text-sm">
         We build your wealth plan on {number ? `Angel Number ${number}` : 'your money focus'}, plus your inputs above.
       </p>
-      <div className="text-center text-[11px] text-zinc-500">One-time $49 · Instant PDF · No login</div>
+      <div className="text-center text-[11px] text-muted">One-time $49 · Instant PDF · No login</div>
       {error && <p className="text-center text-red-400 text-sm">{error}</p>}
     </div>
   );

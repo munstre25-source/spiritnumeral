@@ -84,27 +84,27 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
         <StructuredData id="about-structured-data" data={structuredData} />
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-6xl font-bold mb-8 text-primary font-bold">
           Our Spiritual Mission
         </h1>
         
-        <div className="prose prose-invert prose-amber max-w-none space-y-8 text-zinc-300">
+        <div className="prose prose-amber max-w-none max-w-none space-y-8 text-secondary">
           <section>
-            <h2 className="text-2xl font-semibold text-zinc-100 mb-4">Who We Are</h2>
+            <h2 className="text-2xl font-semibold text-primary mb-4">Who We Are</h2>
             <p className="text-lg leading-relaxed">
               Spirit Numeral was founded by a collective of seasoned numerologists, spiritual seekers, and data enthusiasts dedicated to decoding the cosmic language of numbers. We believe that the universe communicates with us through synchronicity, and angel numbers are the most profound form of that guidance.
             </p>
           </section>
 
-          <section className="bg-zinc-900/50 border border-zinc-800 p-8 rounded-3xl my-12">
-            <h2 className="text-2xl font-semibold text-zinc-100 mb-4">Our Expertise</h2>
+          <section className="bg-card border border-default p-8 rounded-3xl my-12">
+            <h2 className="text-2xl font-semibold text-primary mb-4">Our Expertise</h2>
             <p className="leading-relaxed mb-4">
               With over 15 years of combined experience in Pythagorean and Chaldean numerology, our team meticulously researches the historical and spiritual significance of every number we document. Our readings are not just algorithmic; they are rooted in ancient wisdom and verified spiritual patterns.
             </p>
-            <ul className="list-disc pl-6 space-y-2 text-zinc-400">
+            <ul className="list-disc pl-6 space-y-2 text-secondary">
               <li>Certified Numerology Practitioners</li>
               <li>Spiritual Mentors with a focus on Synchronicity</li>
               <li>Research-backed spiritual interpretations</li>
@@ -112,14 +112,14 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-zinc-100 mb-4">Why We Created Spirit Numeral</h2>
+            <h2 className="text-2xl font-semibold text-primary mb-4">Why We Created Spirit Numeral</h2>
             <p className="leading-relaxed">
               In a world filled with digital noise, finding genuine spiritual clarity can be difficult. We created this platform to provide a sanctuary for those seeing repeating numbers like 111, 222, or 444. Our goal is to offer more than just "meanings"—we provide actionable insights for your love life, career, and twin flame journey.
             </p>
           </section>
 
           <section className="pt-8 border-t border-zinc-900">
-            <h2 className="text-2xl font-semibold text-zinc-100 mb-4">Our Commitment to Accuracy</h2>
+            <h2 className="text-2xl font-semibold text-primary mb-4">Our Commitment to Accuracy</h2>
             <p className="leading-relaxed">
               Every piece of content on Spirit Numeral undergoes a rigorous editorial process. We cross-reference spiritual texts, modern numerological studies, and community feedback to ensure our guides remain the most trustworthy resource on the web.
             </p>
@@ -136,13 +136,13 @@ export default function AboutPage() {
           </Link>
         </div>
 
-        <div className="mt-16 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800">
-          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+        <div className="mt-16 p-8 rounded-3xl bg-card border border-default">
+          <h2 className="text-2xl font-bold mb-6 text-amber-600">Frequently Asked Questions</h2>
           <dl className="space-y-6">
             {faqItems.map((item) => (
-              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
-                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
-                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              <div key={item.question} className="border-b border-default pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-primary">{item.question}</dt>
+                <dd className="text-secondary leading-relaxed mt-2">{item.answer}</dd>
               </div>
             ))}
           </dl>

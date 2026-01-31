@@ -153,25 +153,25 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12">
+    <div className="min-h-screen bg-page text-primary p-6 md:p-12">
       <div className="max-w-7xl mx-auto">
         <header className="flex justify-between items-center mb-10">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-primary font-bold">
               Admin Dashboard
             </h1>
-            <p className="text-zinc-500">Offers, PDFs, clicks, and revenue</p>
+            <p className="text-muted">Offers, PDFs, clicks, and revenue</p>
           </div>
         </header>
 
         {stats && (
           <div className="space-y-4 mb-8">
-            <div className="flex flex-wrap items-center gap-3 bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4">
-              <div className="text-xs uppercase tracking-wider text-zinc-500 font-semibold">Time Range</div>
+            <div className="flex flex-wrap items-center gap-3 bg-card border border-default rounded-2xl p-4">
+              <div className="text-xs uppercase tracking-wider text-muted font-semibold">Time Range</div>
               <select
                 value={rangeUnit}
                 onChange={(e) => setRangeUnit(e.target.value as any)}
-                className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-300"
+                className="bg-page border border-default rounded-lg px-3 py-2 text-sm text-secondary"
               >
                 <option value="hours">Hours</option>
                 <option value="days">Days</option>
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
               <select
                 value={rangeValue}
                 onChange={(e) => setRangeValue(parseInt(e.target.value, 10))}
-                className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-300"
+                className="bg-page border border-default rounded-lg px-3 py-2 text-sm text-secondary"
               >
                 {rangeOptions[rangeUnit].map((v) => (
                   <option key={v} value={v}>
@@ -198,27 +198,27 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            <div className="sticky top-2 z-20 bg-zinc-950/80 backdrop-blur border border-zinc-800 rounded-2xl px-3 py-2 overflow-x-auto">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500">
-                <a href="#overview" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Overview</a>
-                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Offers</a>
-                <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">CTR</a>
-                <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Funnel</a>
-                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">CTA</a>
-                <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Pages</a>
-                <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Traffic</a>
-                <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">SEO</a>
-                <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">SEO Fixes</a>
-                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Internal Links</a>
-                <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Affiliates</a>
-                <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-300 hover:bg-zinc-900/60 transition-colors">Reports</a>
+            <div className="sticky top-2 z-20 bg-page/80 backdrop-blur border border-default rounded-2xl px-3 py-2 overflow-x-auto">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
+                <a href="#overview" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Overview</a>
+                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Offers</a>
+                <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">CTR</a>
+                <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Funnel</a>
+                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">CTA</a>
+                <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Pages</a>
+                <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Traffic</a>
+                <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">SEO</a>
+                <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">SEO Fixes</a>
+                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Internal Links</a>
+                <a href="#affiliate" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Affiliates</a>
+                <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-zinc-900/60 transition-colors">Reports</a>
               </div>
             </div>
           </div>
         )}
 
         {!stats ? (
-          <div className="max-w-md mx-auto bg-zinc-900 border border-zinc-800 p-8 rounded-3xl shadow-2xl">
+          <div className="max-w-md mx-auto bg-card border border-default p-8 rounded-3xl shadow-2xl">
             <h2 className="text-xl font-semibold mb-6">Admin Access</h2>
             <form
               onSubmit={(e) => {
@@ -228,16 +228,16 @@ export default function AdminDashboard() {
               className="space-y-6"
             >
               <div>
-                <label className="block text-sm text-zinc-400 mb-2">Admin Key</label>
+                <label className="block text-sm text-secondary mb-2">Admin Key</label>
                 <input
                   type="password"
                   value={adminKey}
                   onChange={(e) => setAdminKey(e.target.value)}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 focus:border-amber-500 outline-none transition-all"
+                  className="w-full bg-page border border-default rounded-xl px-4 py-3 focus:border-amber-500 outline-none transition-all"
                   placeholder="Enter your admin key"
                   required
                 />
-                <p className="mt-2 text-[10px] text-zinc-500">Set ADMIN_DASHBOARD_KEY in your environment.</p>
+                <p className="mt-2 text-[10px] text-muted">Set ADMIN_DASHBOARD_KEY in your environment.</p>
               </div>
               {error && <p className="text-red-500 text-sm bg-red-500/10 p-3 rounded-lg border border-red-500/20">{error}</p>}
               <button
@@ -258,8 +258,8 @@ export default function AdminDashboard() {
                 { label: 'Unique Sessions', value: totals?.uniqueSessions || 0, color: 'text-indigo-400' },
                 { label: 'New Sessions', value: totals?.newSessions || 0, color: 'text-cyan-400' },
                 { label: 'Returning Sessions', value: totals?.returningSessions || 0, color: 'text-sky-400' },
-                { label: 'CTA Impressions', value: totals?.ctaImpressions || 0, color: 'text-amber-300' },
-                { label: 'CTA Clicks', value: totals?.ctaClicks || 0, color: 'text-amber-400' },
+                { label: 'CTA Impressions', value: totals?.ctaImpressions || 0, color: 'text-amber-600' },
+                { label: 'CTA Clicks', value: totals?.ctaClicks || 0, color: 'text-amber-600' },
                 { label: 'Checkout Starts', value: totals?.checkoutStarts || 0, color: 'text-purple-400' },
                 { label: 'Orders', value: totals?.orders || 0, color: 'text-green-400' },
                 { label: 'PDFs Sent', value: totals?.pdfSent || 0, color: 'text-emerald-400' },
@@ -267,34 +267,34 @@ export default function AdminDashboard() {
                 { label: 'Avg PDF Gen (ms)', value: stats?.deliveryStats?.avgGenerationMs || 0, color: 'text-orange-400' },
                 { label: 'Revenue', value: `$${((totals?.revenueCents || 0) / 100).toFixed(2)}`, color: 'text-yellow-400' },
               ].map((card) => (
-                <div key={card.label} className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-2xl">
-                  <p className="text-zinc-500 text-xs mb-1">{card.label}</p>
+                <div key={card.label} className="bg-card border border-default p-5 rounded-2xl">
+                  <p className="text-muted text-xs mb-1">{card.label}</p>
                   <p className={`text-xl font-bold ${card.color}`}>{card.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Product Breakdown */}
-            <div id="offers" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+            <div id="offers" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
               <h3 className="font-semibold mb-4">Offer Performance (Selected Range)</h3>
               <div className="grid sm:grid-cols-3 gap-4">
                 {Object.entries(breakdownWithDefaults).map(([product, data]) => (
-                  <div key={product} className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                    <p className="text-zinc-400 text-sm">{labelForProduct(product)}</p>
+                  <div key={product} className="bg-page/60 border border-default rounded-2xl p-4">
+                    <p className="text-secondary text-sm">{labelForProduct(product)}</p>
                     <p className="text-white font-bold text-lg">{data.count} reports</p>
-                    <p className="text-amber-400 text-sm">${(data.revenueCents / 100).toFixed(2)} revenue</p>
+                    <p className="text-amber-600 text-sm">${(data.revenueCents / 100).toFixed(2)} revenue</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div id="ctr" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-24">
-              <div className="p-6 border-b border-zinc-800">
+            <div id="ctr" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
+              <div className="p-6 border-b border-default">
                 <h3 className="font-semibold">Offer CTR (Impressions → Clicks)</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                  <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                     <tr>
                       <th className="px-6 py-4 font-medium">Offer</th>
                       <th className="px-6 py-4 font-medium">Impressions</th>
@@ -304,11 +304,11 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
                     {offerCtrWithDefaults.map((row) => (
-                      <tr key={row.product} className="hover:bg-zinc-800/30 transition-colors">
-                        <td className="px-6 py-4 text-zinc-300">{labelForProduct(row.product)}</td>
+                      <tr key={row.product} className="hover:bg-elevated/30 transition-colors">
+                        <td className="px-6 py-4 text-secondary">{labelForProduct(row.product)}</td>
                         <td className="px-6 py-4">{row.impressions}</td>
                         <td className="px-6 py-4">{row.clicks}</td>
-                        <td className="px-6 py-4 text-amber-400">{row.ctr}%</td>
+                        <td className="px-6 py-4 text-amber-600">{row.ctr}%</td>
                       </tr>
                     ))}
                   </tbody>
@@ -317,13 +317,13 @@ export default function AdminDashboard() {
             </div>
 
             {/* Funnel */}
-            <div id="funnel" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-24">
-              <div className="p-6 border-b border-zinc-800">
+            <div id="funnel" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
+              <div className="p-6 border-b border-default">
                 <h3 className="font-semibold">Offer Funnel (Click → Checkout → Order → PDF)</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                  <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                     <tr>
                       <th className="px-6 py-4 font-medium">Offer</th>
                       <th className="px-6 py-4 font-medium">Impressions</th>
@@ -339,15 +339,15 @@ export default function AdminDashboard() {
                     {Object.entries(funnelsWithDefaults).map(([product, f]) => {
                       const conversion = f.clicks ? ((f.orders / f.clicks) * 100).toFixed(1) : '0.0';
                       return (
-                        <tr key={product} className="hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-6 py-4 text-zinc-300">{labelForProduct(product)}</td>
+                        <tr key={product} className="hover:bg-elevated/30 transition-colors">
+                          <td className="px-6 py-4 text-secondary">{labelForProduct(product)}</td>
                           <td className="px-6 py-4">{f.impressions}</td>
                           <td className="px-6 py-4">{f.clicks}</td>
                           <td className="px-6 py-4">{f.checkouts}</td>
                           <td className="px-6 py-4">{f.orders}</td>
                           <td className="px-6 py-4">{f.pdfSent}</td>
                           <td className="px-6 py-4">{f.pdfFailed}</td>
-                          <td className="px-6 py-4 text-amber-400">{conversion}%</td>
+                          <td className="px-6 py-4 text-amber-600">{conversion}%</td>
                         </tr>
                       );
                     })}
@@ -357,13 +357,13 @@ export default function AdminDashboard() {
             </div>
 
             {/* Top CTA Pages */}
-            <div id="cta" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-24">
-              <div className="p-6 border-b border-zinc-800">
+            <div id="cta" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
+              <div className="p-6 border-b border-default">
                 <h3 className="font-semibold">Top CTA Clicks</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                  <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                     <tr>
                       <th className="px-6 py-4 font-medium">Path</th>
                       <th className="px-6 py-4 font-medium">Product</th>
@@ -372,9 +372,9 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
                     {stats.topCtas.map((row, i) => (
-                      <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                        <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{row.path}</td>
-                        <td className="px-6 py-4 text-zinc-400">{labelForProduct(row.product)}</td>
+                      <tr key={i} className="hover:bg-elevated/30 transition-colors">
+                        <td className="px-6 py-4 text-secondary font-mono text-sm">{row.path}</td>
+                        <td className="px-6 py-4 text-secondary">{labelForProduct(row.product)}</td>
                         <td className="px-6 py-4">{row.count}</td>
                       </tr>
                     ))}
@@ -384,13 +384,13 @@ export default function AdminDashboard() {
             </div>
 
             <div id="pages" className="grid lg:grid-cols-2 gap-6 scroll-mt-24">
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Top Pages by Views</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
-                    <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                    <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                       <tr>
                         <th className="px-6 py-4 font-medium">Path</th>
                         <th className="px-6 py-4 font-medium">Views</th>
@@ -398,8 +398,8 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="divide-y divide-zinc-800">
                       {stats.topPages.map((row, i) => (
-                        <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{row.path}</td>
+                        <tr key={i} className="hover:bg-elevated/30 transition-colors">
+                          <td className="px-6 py-4 text-secondary font-mono text-sm">{row.path}</td>
                           <td className="px-6 py-4">{row.count}</td>
                         </tr>
                       ))}
@@ -408,13 +408,13 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Top Entry Pages</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
-                    <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                    <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                       <tr>
                         <th className="px-6 py-4 font-medium">Path</th>
                         <th className="px-6 py-4 font-medium">Sessions</th>
@@ -422,8 +422,8 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="divide-y divide-zinc-800">
                       {stats.topEntryPages.map((row, i) => (
-                        <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{row.path}</td>
+                        <tr key={i} className="hover:bg-elevated/30 transition-colors">
+                          <td className="px-6 py-4 text-secondary font-mono text-sm">{row.path}</td>
                           <td className="px-6 py-4">{row.count}</td>
                         </tr>
                       ))}
@@ -434,13 +434,13 @@ export default function AdminDashboard() {
             </div>
 
             <div id="traffic" className="grid lg:grid-cols-4 gap-6 scroll-mt-24">
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Top Referrers</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
-                    <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                    <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                       <tr>
                         <th className="px-6 py-4 font-medium">Domain</th>
                         <th className="px-6 py-4 font-medium">Visits</th>
@@ -448,8 +448,8 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="divide-y divide-zinc-800">
                       {stats.topReferrers.map((row, i) => (
-                        <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-6 py-4 text-zinc-300">{row.domain}</td>
+                        <tr key={i} className="hover:bg-elevated/30 transition-colors">
+                          <td className="px-6 py-4 text-secondary">{row.domain}</td>
                           <td className="px-6 py-4">{row.count}</td>
                         </tr>
                       ))}
@@ -458,111 +458,111 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Devices</h3>
                 </div>
                 <div className="p-6 space-y-3">
                   {stats.deviceBreakdown.map((row) => (
                     <div key={row.device} className="flex items-center justify-between text-sm">
-                      <span className="text-zinc-400">{row.device}</span>
+                      <span className="text-secondary">{row.device}</span>
                       <span className="text-zinc-200 font-semibold">{row.count}</span>
                     </div>
                   ))}
-                  {!stats.deviceBreakdown.length && <p className="text-zinc-500 text-sm">No data yet.</p>}
+                  {!stats.deviceBreakdown.length && <p className="text-muted text-sm">No data yet.</p>}
                 </div>
               </div>
 
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Top Countries</h3>
                 </div>
                 <div className="p-6 space-y-3">
                   {stats.countryBreakdown.slice(0, 8).map((row) => (
                     <div key={row.country} className="flex items-center justify-between text-sm">
-                      <span className="text-zinc-400">{row.country}</span>
+                      <span className="text-secondary">{row.country}</span>
                       <span className="text-zinc-200 font-semibold">{row.count}</span>
                     </div>
                   ))}
-                  {!stats.countryBreakdown.length && <p className="text-zinc-500 text-sm">No data yet.</p>}
+                  {!stats.countryBreakdown.length && <p className="text-muted text-sm">No data yet.</p>}
                 </div>
               </div>
 
-              <div className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden">
-                <div className="p-6 border-b border-zinc-800">
+              <div className="bg-elevated border border-default rounded-3xl overflow-hidden">
+                <div className="p-6 border-b border-default">
                   <h3 className="font-semibold">Browsers</h3>
                 </div>
                 <div className="p-6 space-y-3">
                   {stats.browserBreakdown.slice(0, 6).map((row) => (
                     <div key={row.browser} className="flex items-center justify-between text-sm">
-                      <span className="text-zinc-400">{row.browser}</span>
+                      <span className="text-secondary">{row.browser}</span>
                       <span className="text-zinc-200 font-semibold">{row.count}</span>
                     </div>
                   ))}
-                  {!stats.browserBreakdown.length && <p className="text-zinc-500 text-sm">No data yet.</p>}
+                  {!stats.browserBreakdown.length && <p className="text-muted text-sm">No data yet.</p>}
                 </div>
               </div>
             </div>
 
-            <div id="seo" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+            <div id="seo" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
               <h3 className="font-semibold mb-4">SEO Snapshot (Mini Ahrefs)</h3>
               <div className="grid md:grid-cols-4 gap-4">
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-1">Total URLs</p>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-1">Total URLs</p>
                   <p className="text-lg font-bold text-white">{stats.seoSnapshot.totalUrls}</p>
                 </div>
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-1">Seen Pages</p>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-1">Seen Pages</p>
                   <p className="text-lg font-bold text-white">{stats.seoSnapshot.seenPages}</p>
                 </div>
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-1">Coverage</p>
-                  <p className="text-lg font-bold text-amber-400">{stats.seoSnapshot.coveragePct}%</p>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-1">Coverage</p>
+                  <p className="text-lg font-bold text-amber-600">{stats.seoSnapshot.coveragePct}%</p>
                 </div>
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-1">Pages / Session</p>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-1">Pages / Session</p>
                   <p className="text-lg font-bold text-white">{stats.seoSnapshot.avgPagesPerSession}</p>
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-3 uppercase tracking-wider">URLs by Section</p>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-3 uppercase tracking-wider">URLs by Section</p>
                   <div className="space-y-2 text-sm">
                     {Object.entries(stats.seoSnapshot.sectionCounts)
                       .sort((a, b) => b[1] - a[1])
                       .slice(0, 8)
                       .map(([section, count]) => (
                         <div key={section} className="flex items-center justify-between">
-                          <span className="text-zinc-400">{section}</span>
+                          <span className="text-secondary">{section}</span>
                           <span className="text-zinc-200 font-semibold">{count}</span>
                         </div>
                       ))}
                   </div>
                 </div>
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <p className="text-zinc-500 text-xs mb-3 uppercase tracking-wider">Indexing Focus</p>
-                  <p className="text-zinc-400 text-sm">
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <p className="text-muted text-xs mb-3 uppercase tracking-wider">Indexing Focus</p>
+                  <p className="text-secondary text-sm">
                     Prioritize sections with high impressions but low clicks. Use internal links and fresh CTAs to lift CTR.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div id="seo-fix" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+            <div id="seo-fix" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
               <h3 className="font-semibold mb-4">Top Pages to Fix (Weekly)</h3>
               <div className="space-y-4">
                 {(stats.seoAudit?.fixList || []).length === 0 && (
-                  <p className="text-sm text-zinc-500">No issues detected for blog pages in this range.</p>
+                  <p className="text-sm text-muted">No issues detected for blog pages in this range.</p>
                 )}
                 {(stats.seoAudit?.fixList || []).map((item) => (
-                  <div key={item.path} className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+                  <div key={item.path} className="rounded-2xl border border-default bg-page/60 p-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="text-sm font-semibold text-amber-200">{item.path}</div>
-                      <div className="text-xs text-zinc-500">Views: {item.views} • CTR: {item.ctr}%</div>
+                      <div className="text-sm font-semibold text-amber-600">{item.path}</div>
+                      <div className="text-xs text-muted">Views: {item.views} • CTR: {item.ctr}%</div>
                     </div>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {item.reasons.map((reason) => (
-                        <span key={reason} className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs text-amber-300">
+                        <span key={reason} className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs text-amber-600">
                           {reason}
                         </span>
                       ))}
@@ -572,13 +572,13 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div id="links" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+            <div id="links" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
               <h3 className="font-semibold mb-4">Internal Linking Suggestions</h3>
               <div className="grid md:grid-cols-2 gap-4">
                 {(stats.seoAudit?.internalLinks || []).slice(0, 10).map((row) => (
-                  <div key={row.path} className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-4">
+                  <div key={row.path} className="rounded-2xl border border-default bg-page/60 p-4">
                     <div className="text-sm font-semibold text-emerald-200 mb-2">{row.path}</div>
-                    <ul className="space-y-1 text-sm text-zinc-400">
+                    <ul className="space-y-1 text-sm text-secondary">
                       {row.suggested.map((link) => (
                         <li key={link}>• Add link to {link}</li>
                       ))}
@@ -588,32 +588,32 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div id="affiliate" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl p-6 scroll-mt-24">
+            <div id="affiliate" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
               <h3 className="font-semibold mb-6">Affiliate Performance</h3>
               <div className="grid lg:grid-cols-2 gap-6">
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <h4 className="text-sm uppercase tracking-wider text-zinc-500 mb-4">Offer CTR</h4>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Offer CTR</h4>
                   <div className="space-y-3">
                     {stats.affiliate.offers.length === 0 && (
-                      <p className="text-zinc-500 text-sm">No affiliate clicks yet.</p>
+                      <p className="text-muted text-sm">No affiliate clicks yet.</p>
                     )}
                     {stats.affiliate.offers.map((row) => (
                       <div key={row.product} className="flex items-center justify-between text-sm">
-                        <span className="text-zinc-400">{labelForProduct(row.product)}</span>
+                        <span className="text-secondary">{labelForProduct(row.product)}</span>
                         <span className="text-zinc-200 font-semibold">{row.impressions} / {row.clicks} · {row.ctr}%</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
-                  <h4 className="text-sm uppercase tracking-wider text-zinc-500 mb-4">Top Affiliate Pages</h4>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Top Affiliate Pages</h4>
                   <div className="space-y-3">
                     {stats.affiliate.topPages.length === 0 && (
-                      <p className="text-zinc-500 text-sm">No affiliate page clicks yet.</p>
+                      <p className="text-muted text-sm">No affiliate page clicks yet.</p>
                     )}
                     {stats.affiliate.topPages.map((row, i) => (
                       <div key={`${row.path}-${i}`} className="flex items-center justify-between text-sm">
-                        <span className="text-zinc-400 font-mono">{row.path}</span>
+                        <span className="text-secondary font-mono">{row.path}</span>
                         <span className="text-zinc-200 font-semibold">{row.count}</span>
                       </div>
                     ))}
@@ -623,13 +623,13 @@ export default function AdminDashboard() {
             </div>
 
             {/* Recent Reports */}
-            <div id="reports" className="bg-zinc-900/30 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-24">
-              <div className="p-6 border-b border-zinc-800">
+            <div id="reports" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
+              <div className="p-6 border-b border-default">
                 <h3 className="font-semibold">Recent Reports</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-900/50">
+                  <thead className="text-xs uppercase tracking-wider text-muted bg-card">
                     <tr>
                       <th className="px-6 py-4 font-medium">Date</th>
                       <th className="px-6 py-4 font-medium">Product</th>
@@ -640,12 +640,12 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
                     {stats.recentReports.map((row, i) => (
-                      <tr key={i} className="hover:bg-zinc-800/30 transition-colors">
-                        <td className="px-6 py-4 text-zinc-300 font-mono text-sm">{new Date(row.created_at).toLocaleString()}</td>
-                        <td className="px-6 py-4 text-zinc-400">{labelForProduct(row.product)}</td>
+                      <tr key={i} className="hover:bg-elevated/30 transition-colors">
+                        <td className="px-6 py-4 text-secondary font-mono text-sm">{new Date(row.created_at).toLocaleString()}</td>
+                        <td className="px-6 py-4 text-secondary">{labelForProduct(row.product)}</td>
                         <td className="px-6 py-4">{row.status}</td>
-                        <td className="px-6 py-4 text-amber-400">${(row.price_cents / 100).toFixed(2)}</td>
-                        <td className="px-6 py-4 text-zinc-500">{row.email}</td>
+                        <td className="px-6 py-4 text-amber-600">${(row.price_cents / 100).toFixed(2)}</td>
+                        <td className="px-6 py-4 text-muted">{row.email}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -660,7 +660,7 @@ export default function AdminDashboard() {
                   setStats(null);
                   setAdminKey('');
                 }}
-                className="text-zinc-600 hover:text-zinc-400 text-sm transition-colors"
+                className="text-muted hover:text-secondary text-sm transition-colors"
               >
                 Logout
               </button>

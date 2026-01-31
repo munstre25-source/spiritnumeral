@@ -198,7 +198,7 @@ Visit spiritnumeral.com for more insights
         <div ref={contentRef} className="flex items-center gap-2">
             <button
                 onClick={handlePrint}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50 transition-all text-sm"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-default text-secondary hover:text-amber-600 hover:border-amber-500/50 transition-all text-sm"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="6 9 6 2 18 2 18 9" />
@@ -209,7 +209,7 @@ Visit spiritnumeral.com for more insights
             </button>
             <button
                 onClick={handleDownload}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-500/50 transition-all text-sm"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-default text-secondary hover:text-amber-600 hover:border-amber-500/50 transition-all text-sm"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

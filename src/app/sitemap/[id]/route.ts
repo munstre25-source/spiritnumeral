@@ -21,6 +21,10 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   const end = start + CHUNK_SIZE;
   const slice = urls.slice(start, end);
 
+  if (slice.length === 0) {
+    return new NextResponse(null, { status: 404 });
+  }
+
   const urlEntries = slice
     .map((loc) => `<url><loc>${xmlEscape(loc)}</loc><lastmod>${generatedAt}</lastmod></url>`)
     .join('');

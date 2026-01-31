@@ -43,9 +43,9 @@ export default function NameNumerologyCalculator() {
   }, [name]);
 
   return (
-    <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-      <h2 className="text-2xl font-bold mb-3 text-white">Name Numerology Calculator</h2>
-      <p className="text-zinc-400 mb-6">
+    <section className="p-8 rounded-3xl bg-card border border-default">
+      <h2 className="text-2xl font-bold mb-3 text-primary">Name Numerology Calculator</h2>
+      <p className="text-secondary mb-6">
         Enter your full name to reveal your Expression (Destiny), Soul Urge, and Personality numbers.
       </p>
       <div className="space-y-4">
@@ -53,30 +53,30 @@ export default function NameNumerologyCalculator() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your full name"
-          className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500"
+          className="w-full bg-page border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500"
         />
       </div>
 
       {results && (
         <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Expression</div>
-            <div className="text-3xl font-bold text-amber-400">{results.expression}</div>
-            <Link href={`/name-numerology/expression/${results.expression}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Expression</div>
+            <div className="text-3xl font-bold text-amber-600">{results.expression}</div>
+            <Link href={`/name-numerology/expression/${results.expression}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Soul Urge</div>
-            <div className="text-3xl font-bold text-amber-400">{results.soulUrge}</div>
-            <Link href={`/name-numerology/soul-urge/${results.soulUrge}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Soul Urge</div>
+            <div className="text-3xl font-bold text-amber-600">{results.soulUrge}</div>
+            <Link href={`/name-numerology/soul-urge/${results.soulUrge}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>
-          <div className="p-4 rounded-2xl bg-zinc-950/70 border border-zinc-800 text-center">
-            <div className="text-xs text-zinc-500 mb-2">Personality</div>
-            <div className="text-3xl font-bold text-amber-400">{results.personality}</div>
-            <Link href={`/name-numerology/personality/${results.personality}`} className="text-xs text-amber-400 mt-2 inline-block">
+          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+            <div className="text-xs text-muted mb-2">Personality</div>
+            <div className="text-3xl font-bold text-amber-600">{results.personality}</div>
+            <Link href={`/name-numerology/personality/${results.personality}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
           </div>

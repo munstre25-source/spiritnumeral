@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const isLifePath = category === 'life-path';
   const subject = isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`;
   const title = isLifePath
-    ? `${subject} Meaning: Personality, Love & Career Insights`
-    : `${subject} Meaning: Love, Twin Flame & Career`;
+    ? `${subject} Meaning: Personality, Love & Career`
+    : `${data.number} Meaning: Angel Number Love, Career & Twin Flame`;
 
   const description = isLifePath
-    ? `Discover the meaning of ${subject} for personality, love, and career. ${data.traits || ''}`
-    : `Discover the meaning of ${subject} for love, twin flame, and career. ${data.meaning || ''}`;
+    ? `Discover ${subject} meaning: personality, love, career. ${(data.traits || '').slice(0, 120)}`
+    : `Angel number ${data.number} meaning: love, career, twin flame. ${(data.meaning || '').slice(0, 100)}`;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
   const pagePath = `/meaning/${category}/${slug}`;
@@ -129,9 +129,8 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
         </>
       )}
 
-      <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 px-6 md:p-8 font-sans">
+      <main className="min-h-screen bg-page text-primary pt-32 md:pt-48 px-6 md:p-8 font-sans">
         <div className="max-w-3xl mx-auto space-y-12">
-          {/* Breadcrumbs */}
           <Breadcrumbs
             items={[
               { label: isLifePath ? 'Life Paths' : 'Angel Numbers', href: `/meaning/${category}` },
@@ -140,13 +139,13 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           />
 
           <header className="text-center space-y-4">
-            <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-sm font-medium mb-4">
-              {isLifePath ? 'Life Path Wisdom' : 'Angel Number Guidance'}
+            <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm font-medium mb-4">
+              {isLifePath ? 'Life Path' : 'Angel Number'}
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter leading-tight">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-primary tracking-tight leading-tight">
               {h1Text}
             </h1>
-            <p className="text-lg md:text-2xl text-zinc-400 font-light max-w-xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-secondary max-w-xl mx-auto leading-relaxed">
               {data.meaning || data.traits}
             </p>
             {/* Audio Reader for accessibility */}
@@ -175,31 +174,25 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           )}
 
           <section className="grid gap-6 md:grid-cols-2">
-            <div className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
-              <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                {isLifePath ? 'Love & Relationships' : 'Love & Twin Flame'}
-              </h2>
-              <p className="text-zinc-300 leading-relaxed text-sm md:text-base">{data.love || data.twin_flame || 'Your relationships are evolving.'}</p>
+            <div className="p-6 md:p-8 rounded-2xl bg-card border border-default">
+              <h2 className="text-amber-600 font-bold text-lg mb-4">{isLifePath ? 'Love & Relationships' : 'Love & Twin Flame'}</h2>
+              <p className="text-secondary leading-relaxed text-sm md:text-base">{data.love || data.twin_flame || 'Your relationships are evolving.'}</p>
             </div>
-            <div className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-amber-500/30">
-              <h2 className="text-amber-400 font-bold text-lg mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                Career & Purpose
-              </h2>
-              <p className="text-zinc-300 leading-relaxed text-sm md:text-base">{data.career || 'Your career path is aligning with your purpose.'}</p>
+            <div className="p-6 md:p-8 rounded-2xl bg-card border border-default">
+              <h2 className="text-amber-600 font-bold text-lg mb-4">Career & Purpose</h2>
+              <p className="text-secondary leading-relaxed text-sm md:text-base">{data.career || 'Your career path is aligning with your purpose.'}</p>
             </div>
           </section>
 
-          <section className="p-8 md:p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20 shadow-2xl">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white tracking-tight">Your Spiritual Forecast</h2>
-            <p className="text-lg md:text-xl text-zinc-300 leading-relaxed font-light">
+          <section className="p-8 md:p-10 rounded-2xl bg-card border border-default">
+            <h2 className="text-2xl font-serif font-bold text-primary mb-6">Your Spiritual Forecast</h2>
+            <p className="text-secondary leading-relaxed">
               {data["2026_prediction"] || data["2026_outlook"] || 'Significant spiritual developments are on your horizon.'}
             </p>
             {!isLifePath && data.lucky_color && (
-              <div className="mt-8 flex flex-wrap items-center gap-4 text-xs text-zinc-400">
-                <span className="px-3 py-1 rounded-lg bg-zinc-800">Lucky Color: {data.lucky_color}</span>
-                <span className="px-3 py-1 rounded-lg bg-zinc-800">Active Chakra: {data.chakra}</span>
+              <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-muted">
+                <span className="px-3 py-1 rounded-lg bg-elevated">Lucky Color: {data.lucky_color}</span>
+                <span className="px-3 py-1 rounded-lg bg-elevated">Chakra: {data.chakra}</span>
               </div>
             )}
           </section>
@@ -218,7 +211,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           <NavigationLinks />
 
           <footer className="pt-8 pb-16">
-            <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800">
+            <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-card border border-default">
               <MeaningPaidCTA number={isLifePath ? data.path : data.number} />
             </div>
             {isLifePath && (
@@ -226,7 +219,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
                 <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
               </div>
             )}
-            <p className="text-center text-zinc-500 text-sm mt-6 px-4">
+            <p className="text-center text-muted text-sm mt-6 px-4">
               Trusted by seekers on their spiritual journey.
             </p>
           </footer>

@@ -118,40 +118,40 @@ export default async function BiblicalMeaningPage({ params }: { params: Promise<
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
 
-      <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
+      <main className="min-h-screen bg-page text-primary pt-32 md:pt-48 p-8 font-sans">
         <div className="max-w-4xl mx-auto space-y-12">
           <header className="text-center space-y-4">
             <div className="inline-block px-4 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-4">
               Biblical & Scripture Meaning
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-b from-sky-200 to-sky-500 bg-clip-text text-transparent tracking-tighter">
+            <h1 className="text-5xl md:text-6xl font-bold text-primary font-bold tracking-tighter">
               Angel Number {number} Biblical Meaning
             </h1>
             <p className="text-sm uppercase tracking-[0.2em] text-sky-400/80">
               Scripture & Spiritual Significance
             </p>
-            <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-2xl text-secondary font-light max-w-2xl mx-auto leading-relaxed">
               Explore the biblical roots and scriptural meaning of angel number {number}.
             </p>
           </header>
 
-          <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-sky-950/40 via-zinc-900/50 to-zinc-900 border border-sky-500/20 shadow-2xl">
-            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+          <section className="p-10 rounded-[2.5rem] bg-card border border-default">
+            <h2 className="text-3xl font-bold mb-6 text-primary tracking-tight">
               {biblical.theme}
             </h2>
-            <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
+            <p className="text-xl text-secondary leading-relaxed font-light mb-6">
               {biblical.significance}
             </p>
-            <p className="text-lg text-zinc-400 leading-relaxed">
+            <p className="text-lg text-secondary leading-relaxed">
               {data.meaning}
             </p>
           </section>
 
-          <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
+          <section className="p-8 rounded-3xl bg-card border border-default">
             <h2 className="text-2xl font-bold mb-6 text-sky-400">Related Scripture</h2>
             <div className="space-y-4">
               {biblical.verses.map((verse, index) => (
-                <blockquote key={index} className="pl-6 border-l-2 border-sky-500/50 text-zinc-300 italic">
+                <blockquote key={index} className="pl-6 border-l-2 border-sky-500/50 text-secondary italic">
                   {verse}
                 </blockquote>
               ))}
@@ -159,39 +159,39 @@ export default async function BiblicalMeaningPage({ params }: { params: Promise<
           </section>
 
           <section className="grid gap-6 md:grid-cols-2">
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-sky-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-sky-500/30">
               <h2 className="text-sky-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-500"></span>
                 Divine Message
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 When you see {number}, consider it a reminder of God's presence and guidance. Take time for prayer and reflection on His word.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-sky-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-sky-500/30">
               <h2 className="text-sky-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-500"></span>
                 Spiritual Growth
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 Angel number {number} encourages spiritual growth and deeper faith. Use this sign to draw closer to God through scripture study.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-sky-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-sky-500/30">
               <h2 className="text-sky-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-500"></span>
                 Prayer Focus
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 When {number} appears, pray for wisdom and discernment. Ask God to reveal His purpose and direction for your life.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-sky-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-sky-500/30">
               <h2 className="text-sky-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-500"></span>
                 Faith Affirmation
               </h2>
-              <p className="text-zinc-300 leading-relaxed italic">
+              <p className="text-secondary leading-relaxed italic">
                 "Lord, thank You for the sign of {number}. Help me understand Your message and walk in Your will. Amen."
               </p>
             </div>
@@ -209,7 +209,7 @@ export default async function BiblicalMeaningPage({ params }: { params: Promise<
             <MeaningPaidCTA number={parseInt(number)} />
             <a
               href={`/meaning/angel-number/${number}`}
-              className="block text-center text-amber-500 hover:text-amber-400 transition-colors"
+              className="block text-center text-amber-500 hover:text-amber-600 transition-colors"
             >
               ← Full Angel Number {number} Meaning
             </a>

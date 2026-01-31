@@ -2,27 +2,58 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
-import AngelNumberSearch from '@/components/AngelNumberSearch';
-import { DailyAngelNumber, AffirmationGenerator, CompatibilityTeaser } from '@/components/EngagementFeatures';
-import { MoonPhaseWidget } from '@/components/MoonPhase';
 
-// Dynamically import Calculator to avoid SSR issues
-const Calculator = dynamic(() => import('@/components/Calculator'), {
-  ssr: true,
-  loading: () => <div className="text-zinc-400 text-center py-10">Loading calculator...</div>
+const HomepageSearch = dynamic(() => import('@/components/HomepageSearch').then((m) => ({ default: m.HomepageSearch })), {
+  loading: () => <div className="h-12 max-w-xl mx-auto bg-card border border-default rounded-full animate-pulse" />
 });
 
+const DailyAngelNumber = dynamic(
+  () => import('@/components/EngagementFeatures').then((m) => ({ default: m.DailyAngelNumber })),
+  { loading: () => <div className="rounded-3xl bg-card border border-default p-8 text-center text-secondary">Loading…</div> }
+);
+
+const AffirmationGenerator = dynamic(
+  () => import('@/components/EngagementFeatures').then((m) => ({ default: m.AffirmationGenerator })),
+  { loading: () => <div className="rounded-3xl bg-card border border-default p-6 text-secondary">Loading…</div> }
+);
+
+const CompatibilityTeaser = dynamic(
+  () => import('@/components/EngagementFeatures').then((m) => ({ default: m.CompatibilityTeaser })),
+  { loading: () => <div className="rounded-3xl bg-card border border-default p-6 text-secondary">Loading…</div> }
+);
+
+const MoonPhaseWidget = dynamic(
+  () => import('@/components/MoonPhase').then((m) => ({ default: m.MoonPhaseWidget })),
+  { loading: () => <div className="rounded-2xl bg-card border border-default p-6 text-secondary">Loading…</div> }
+);
+
+const CATEGORY_TABS = [
+  { label: 'Meaning', href: '/meaning' },
+  { label: 'Twin Flame', href: '/twin-flame' },
+  { label: 'Love', href: '/angel-number-love/111' },
+  { label: 'Money', href: '/money' },
+  { label: 'Career', href: '/angel-number-career/111' },
+  { label: 'Soulmate', href: '/soulmate' },
+] as const;
+
+const POPULAR_NUMBERS = [111, 222, 333, 444, 555, 666, 777, 888];
+
+const TOOLS = [
+  { title: 'Compare Numbers', description: 'See how two angel numbers relate and their combined message', href: '/compare', icon: '✨' },
+  { title: 'Number Quiz', description: 'Discover which angel number is trying to reach you', href: '/quiz', icon: '⭐' },
+  { title: 'Famous Life Paths', description: 'See which celebrities share your life path number', href: '/celebrity-numerology', icon: '★' },
+  { title: 'Numerology Blog', description: 'Expert guides and insights for your spiritual journey', href: '/blog', icon: '📖' },
+] as const;
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageTitle = 'Reveal Your Life Path Number - Personalized Numerology Reading';
-const pageDescription = 'Discover the exact number influencing your love, career, and spiritual growth — based on your birth date.';
+const pageTitle = 'Angel Number & Life Path Meanings: Love, Career, Twin Flame';
+const pageDescription = 'Discover your life path number and angel number meanings. Love, career, twin flame — free calculator and guides.';
 const homepageUrl = siteUrl;
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
-  alternates: {
-    canonical: homepageUrl,
-  },
+  alternates: { canonical: homepageUrl },
 };
 
 export default function HomePage() {
@@ -50,37 +81,20 @@ export default function HomePage() {
         url: homepageUrl,
         name: pageTitle,
         description: pageDescription,
-        isPartOf: {
-          '@type': 'WebSite',
-          '@id': `${siteUrl}#website`,
-          url: siteUrl,
-          name: 'Spirit Numeral',
-        },
-        breadcrumb: {
-          '@id': `${homepageUrl}#breadcrumb`,
-        },
+        isPartOf: { '@type': 'WebSite', '@id': `${siteUrl}#website`, url: siteUrl, name: 'Spirit Numeral' },
+        breadcrumb: { '@id': `${homepageUrl}#breadcrumb` },
       },
       {
         '@type': 'BreadcrumbList',
         '@id': `${homepageUrl}#breadcrumb`,
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: homepageUrl,
-          },
-        ],
+        itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: homepageUrl }],
       },
       {
         '@type': 'FAQPage',
         mainEntity: faqItems.map((faq) => ({
           '@type': 'Question',
           name: faq.question,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-          },
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
         })),
         url: homepageUrl,
       },
@@ -88,204 +102,176 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-page text-primary">
       <StructuredData id="home-structured-data" data={structuredData} />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/50 via-zinc-900 to-zinc-950"></div>
-        {/* Cosmic glow behind hero */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[150px] animate-pulse-slow"></div>
-
-        <div className="relative max-w-7xl mx-auto px-6 pt-24 md:pt-48 pb-20 text-center">
-          <div className="animate-fade-in-up">
-            <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6 bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter leading-tight glow-text">
-              Unlock the Hidden Number Behind Your Spiritual Path
-            </h1>
-          </div>
-          <p className="text-lg md:text-3xl text-zinc-400 mb-10 max-w-3xl mx-auto leading-relaxed px-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+      {/* Hero – headline, tabs, search, popular numbers, CTA (GSC-informed) */}
+      <section className="pt-24 pb-10 md:pt-32 md:pb-14">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4 tracking-tight">
+            Unlock the Hidden Number Behind Your Spiritual Path
+          </h1>
+          <p className="text-lg text-secondary mb-6 max-w-2xl mx-auto">
             Discover the exact number influencing your love, career, and spiritual growth — based on your birth date.
           </p>
-          <div className="flex flex-col items-center gap-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <AngelNumberSearch />
-            <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-amber-500/80 font-medium">
-              ✦ Personalized insights based on your birth date ✦
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md mx-auto sm:max-w-none">
+          <Link
+            href="/calculator"
+            className="inline-block btn-primary px-8 py-4 rounded-lg font-bold text-lg transition-colors mb-10"
+          >
+            Calculate My Life Path
+          </Link>
+
+          {/* Category tabs – GSC query themes (meaning, love, twin flame, money, career, soulmate) */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {CATEGORY_TABS.map((tab) => (
               <Link
-                href="/quiz"
-                className="group relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-4 px-10 rounded-full font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all shadow-lg shadow-amber-500/30 text-center hover:shadow-amber-500/50 hover:scale-105 w-full sm:w-auto sm:flex-1"
+                key={tab.href}
+                href={tab.href}
+                className="px-4 py-2 rounded-full text-sm font-medium bg-card border border-default text-primary hover:border-amber-500/50 hover:bg-elevated transition-colors"
               >
-                <span className="relative z-10">Get My Blueprint (Quiz First)</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                {tab.label}
               </Link>
-              <Link
-                href="/meaning/angel-number"
-                className="bg-zinc-950/60 border border-zinc-800 text-zinc-400 py-3.5 px-8 rounded-full font-semibold text-base hover:bg-zinc-900/70 hover:border-amber-500/30 hover:text-zinc-300 transition-all text-center"
-              >
-                Browse Angel Numbers
-              </Link>
-            </div>
+            ))}
           </div>
-        </div>
-      </section>
 
-      {/* Calculator Section */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-1 md:p-8 backdrop-blur-sm">
-          <Calculator />
-        </div>
-      </section>
+          <HomepageSearch />
 
-      {/* Daily Angel Number & Engagement Section */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-2 gap-6">
-          <DailyAngelNumber />
-          <div className="space-y-6">
-            <MoonPhaseWidget />
-            <AffirmationGenerator />
-            <CompatibilityTeaser />
-          </div>
-        </div>
-      </section>
-
-      {/* Popular Numbers Section */}
-      <section id="popular-numbers" className="max-w-6xl mx-auto px-6 py-16">
-        <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-4 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
-          Popular Angel Numbers
-        </h2>
-        <p className="text-zinc-500 text-center mb-12 max-w-2xl mx-auto">Discover the spiritual messages hidden in these powerful number sequences</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {[111, 222, 333, 444, 555, 666, 777, 888].map((number, index) => (
-            <div key={number} className="flex flex-col gap-2" style={{ animationDelay: `${index * 0.1}s` }}>
+          <p className="text-muted text-xs mt-4 mb-2">Popular:</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {POPULAR_NUMBERS.map((number) => (
               <Link
+                key={number}
                 href={`/meaning/angel-number/${number}`}
-                className="relative p-4 md:p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/50 transition-all duration-300 text-center group overflow-hidden hover:shadow-mystical"
+                className="px-3 py-2 rounded-lg bg-elevated border border-default text-primary text-sm font-medium hover:border-amber-500/50 transition-colors"
               >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-                <div className="relative">
-                  <div className="text-3xl md:text-4xl font-serif font-bold text-amber-500 mb-1 group-hover:scale-110 transition-transform duration-300 group-hover:text-amber-400">
-                    {number}
-                  </div>
-                  <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-bold group-hover:text-zinc-400 transition-colors">Angel Number</p>
-                </div>
+                {number}
               </Link>
-              <div className="grid grid-cols-3 gap-1 px-1">
-                <Link href={`/twin-flame/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors">Twin Flame</Link>
-                <Link href={`/angel-number-love/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors text-center">Love</Link>
-                <Link href={`/money/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors text-right">Money</Link>
-                <Link href={`/soulmate/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors">Soulmate</Link>
-                <Link href={`/warning/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors text-center">Warning?</Link>
-                <Link href={`/manifestation/${number}`} className="text-[9px] uppercase tracking-tighter text-zinc-600 hover:text-amber-500 transition-colors text-right">Manifest</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-12 text-center">
-          <Link
-            href="/meaning/angel-number"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-amber-500 font-bold hover:bg-zinc-900 hover:border-amber-500/30 hover:shadow-glow transition-all duration-300 group"
-          >
-            <span>View All Angel Numbers</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-          </Link>
-        </div>
-      </section>
+            ))}
+          </div>
 
-      {/* Tools & Resources Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-4 bg-gradient-to-r from-purple-200 to-pink-500 bg-clip-text text-transparent">
-          Numerology Tools & Resources
-        </h2>
-        <p className="text-zinc-500 text-center mb-12 max-w-2xl mx-auto">Explore our interactive tools and educational content to deepen your spiritual journey</p>
+          <p className="text-muted text-sm mt-8">
+            ◆ Personalized insights based on your birth date ◆
+          </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Number Comparison Tool */}
-          <Link
-            href="/compare"
-            className="group relative p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 hover:border-amber-500/40 transition-all hover:shadow-mystical"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-            <div className="relative">
-              <div className="text-4xl mb-3">🔮</div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Compare Numbers</h3>
-              <p className="text-zinc-400 text-sm">See how two angel numbers relate and their combined message</p>
-            </div>
-          </Link>
-
-          {/* Interactive Quiz */}
-          <Link
-            href="/quiz"
-            className="group relative p-6 rounded-2xl bg-gradient-to-br from-indigo-950/30 to-zinc-900 border border-indigo-500/20 hover:border-indigo-500/40 transition-all hover:shadow-mystical"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-indigo-500/0 group-hover:from-indigo-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-            <div className="relative">
-              <div className="text-4xl mb-3">✨</div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Number Quiz</h3>
-              <p className="text-zinc-400 text-sm">Discover which angel number is trying to reach you</p>
-            </div>
-          </Link>
-
-          {/* Celebrity Numerology */}
-          <Link
-            href="/celebrity-numerology"
-            className="group relative p-6 rounded-2xl bg-gradient-to-br from-purple-950/30 to-zinc-900 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:shadow-mystical"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-            <div className="relative">
-              <div className="text-4xl mb-3">⭐</div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Famous Life Paths</h3>
-              <p className="text-zinc-400 text-sm">See which celebrities share your life path number</p>
-            </div>
-          </Link>
-
-          {/* Blog */}
-          <Link
-            href="/blog"
-            className="group relative p-6 rounded-2xl bg-gradient-to-br from-emerald-950/30 to-zinc-900 border border-emerald-500/20 hover:border-emerald-500/40 transition-all hover:shadow-mystical"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-500/0 group-hover:from-emerald-500/5 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-            <div className="relative">
-              <div className="text-4xl mb-3">📖</div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Numerology Blog</h3>
-              <p className="text-zinc-400 text-sm">Expert guides and insights for your spiritual journey</p>
-            </div>
-          </Link>
+          {/* GSC: high-impression queries (665, 183, 579, etc.) — surface for CTR */}
+          <p className="text-muted text-xs mt-6 mb-2">Often searched:</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {[665, 183, 579, 774, 480, 532, 2015, 1321].map((number) => (
+              <Link
+                key={number}
+                href={`/meaning/angel-number/${number}`}
+                className="px-3 py-1.5 rounded-lg bg-card border border-default text-primary text-sm hover:border-amber-500/50 transition-colors"
+              >
+                {number}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Life Paths Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
-          Discover Your Life Path
+      {/* Today’s Angel Number – engagement, shareable */}
+      <section className="max-w-4xl mx-auto px-6 py-8">
+        <DailyAngelNumber />
+      </section>
+
+      {/* Tools & Resources – Compare, Quiz, Famous Life Paths, Blog (GSC: celebrity, quiz, meaning) */}
+      <section className="max-w-5xl mx-auto px-6 py-12">
+        <h2 className="text-2xl font-serif font-bold text-primary text-center mb-2">
+          Numerology Tools &amp; Resources
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((path) => (
+        <p className="text-secondary text-center text-sm mb-8">
+          Explore our interactive tools and content to deepen your spiritual journey
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {TOOLS.map((tool) => (
             <Link
-              key={path}
-              href={`/meaning/life-path/life-path-${path}`}
-              className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/50 transition-all group"
+              key={tool.href}
+              href={tool.href}
+              className="p-6 rounded-2xl bg-card border border-default text-primary hover:border-amber-500/50 transition-colors"
             >
-              <div className="text-2xl md:text-3xl font-bold text-amber-500 mb-2">Life Path {path}</div>
-              <p className="text-zinc-400 text-sm">Discover your numerological path and destiny.</p>
+              <span className="text-2xl mb-3 block" aria-hidden>{tool.icon}</span>
+              <h3 className="font-semibold text-primary mb-1">{tool.title}</h3>
+              <p className="text-secondary text-sm">{tool.description}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-6 pb-20">
-        <div className="p-8 md:p-12 rounded-3xl bg-zinc-900/40 border border-zinc-800">
-          <h2 className="text-3xl font-bold mb-8 text-amber-300 text-center">Frequently Asked Questions</h2>
-          <dl className="space-y-6">
-            {faqItems.map((faq) => (
-              <div key={faq.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
-                <dt className="text-xl font-semibold text-zinc-100">{faq.question}</dt>
-                <dd className="text-zinc-300 leading-relaxed mt-2">{faq.answer}</dd>
-              </div>
-            ))}
-          </dl>
+      {/* Moon, Affirmation, Love Compatibility – engagement row */}
+      <section className="max-w-5xl mx-auto px-6 py-12">
+        <div className="grid md:grid-cols-3 gap-6">
+          <MoonPhaseWidget />
+          <AffirmationGenerator />
+          <CompatibilityTeaser />
         </div>
+      </section>
+
+      {/* Popular Angel Numbers – simple grid */}
+      <section className="max-w-4xl mx-auto px-6 py-12">
+        <h2 className="text-2xl font-serif font-bold text-primary text-center mb-2">
+          Popular Angel Numbers
+        </h2>
+        <p className="text-secondary text-center text-sm mb-8">
+          Explore meanings for these common number sequences
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {POPULAR_NUMBERS.map((number) => (
+            <Link
+              key={number}
+              href={`/meaning/angel-number/${number}`}
+              className="p-4 rounded-xl bg-elevated border border-default text-center text-primary hover:border-amber-500/50 transition-colors"
+            >
+              <span className="text-2xl font-bold text-amber-600">{number}</span>
+              <p className="text-muted text-xs mt-1">Angel Number</p>
+            </Link>
+          ))}
+        </div>
+        <p className="text-center mt-6">
+          <Link href="/meaning/angel-number" className="text-secondary text-sm hover:underline">
+            View all angel numbers →
+          </Link>
+        </p>
+      </section>
+
+      {/* Life Paths */}
+      <section className="max-w-4xl mx-auto px-6 py-12">
+        <h2 className="text-2xl font-serif font-bold text-primary text-center mb-8">
+          Life Path Numbers 1–9
+        </h2>
+        <div className="grid grid-cols-3 md:grid-cols-9 gap-3">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((path) => (
+            <Link
+              key={path}
+              href={`/meaning/life-path/life-path-${path}`}
+              className="p-4 rounded-xl bg-elevated border border-default text-center hover:border-amber-500/50 transition-colors"
+            >
+              <span className="text-xl font-bold text-amber-600">{path}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ – conversion & trust */}
+      <section className="max-w-2xl mx-auto px-6 pb-16">
+        <h2 className="text-2xl font-serif font-bold text-primary text-center mb-8">
+          Frequently Asked Questions
+        </h2>
+        <dl className="space-y-6 border-t border-default pt-6">
+          {faqItems.map((faq) => (
+            <div key={faq.question} className="border-b border-default pb-6 last:border-b-0">
+              <dt className="font-semibold text-primary">{faq.question}</dt>
+              <dd className="text-secondary text-sm mt-2 leading-relaxed">{faq.answer}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="text-center mt-10">
+          <Link
+            href="/calculator"
+            className="inline-block btn-primary px-6 py-3 rounded-lg font-semibold text-sm transition-colors"
+          >
+            Get my free life path number
+          </Link>
+        </p>
       </section>
     </main>
   );

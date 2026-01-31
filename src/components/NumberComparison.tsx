@@ -170,7 +170,7 @@ export function NumberComparison() {
             {/* Input Section */}
             <div className="grid md:grid-cols-3 gap-4 items-end mb-8">
                 <div>
-                    <label className="block text-zinc-400 text-sm mb-2">First Number</label>
+                    <label className="block text-secondary text-sm mb-2">First Number</label>
                     <input
                         type="text"
                         inputMode="numeric"
@@ -178,14 +178,14 @@ export function NumberComparison() {
                         placeholder="e.g., 111"
                         value={number1}
                         onChange={(e) => setNumber1(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                        className="w-full bg-zinc-900 border border-zinc-700 text-white text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
+                        className="w-full bg-card border border-default text-primary text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
                     />
                 </div>
-                <div className="text-center py-4 text-zinc-500 text-2xl hidden md:block">
+                <div className="text-center py-4 text-muted text-2xl hidden md:block">
                     vs
                 </div>
                 <div>
-                    <label className="block text-zinc-400 text-sm mb-2">Second Number</label>
+                    <label className="block text-secondary text-sm mb-2">Second Number</label>
                     <input
                         type="text"
                         inputMode="numeric"
@@ -193,7 +193,7 @@ export function NumberComparison() {
                         placeholder="e.g., 222"
                         value={number2}
                         onChange={(e) => setNumber2(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                        className="w-full bg-zinc-900 border border-zinc-700 text-white text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
+                        className="w-full bg-card border border-default text-primary text-2xl font-bold px-4 py-4 rounded-xl text-center focus:outline-none focus:border-amber-500 transition-colors"
                     />
                 </div>
             </div>
@@ -211,66 +211,66 @@ export function NumberComparison() {
                 <div className="space-y-6">
                     {/* Compatibility Score */}
                     <div className="p-8 rounded-2xl bg-gradient-to-br from-amber-950/30 to-zinc-900 border border-amber-500/20 text-center">
-                        <div className="text-sm uppercase tracking-widest text-amber-400 mb-2">Spiritual Connection</div>
-                        <div className="text-6xl font-bold text-amber-400 mb-2">{comparison.compatibility}%</div>
-                        <p className="text-zinc-400">{comparison.insight}</p>
+                        <div className="text-sm uppercase tracking-widest text-amber-600 mb-2">Spiritual Connection</div>
+                        <div className="text-6xl font-bold text-amber-600 mb-2">{comparison.compatibility}%</div>
+                        <p className="text-secondary">{comparison.insight}</p>
                     </div>
 
                     {/* Side by Side Comparison */}
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Number 1 */}
-                        <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                        <div className="p-6 rounded-2xl bg-card border border-default">
                             <Link href={`/meaning/angel-number/${comparison.num1.number}`} className="group">
-                                <div className="text-4xl font-bold text-amber-400 mb-4 group-hover:text-amber-300 transition-colors">
+                                <div className="text-4xl font-bold text-amber-600 mb-4 group-hover:text-amber-600 transition-colors">
                                     {comparison.num1.number}
                                 </div>
                             </Link>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Core Energy</div>
-                                    <div className="text-zinc-300">{comparison.num1.meaning}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">Core Energy</div>
+                                    <div className="text-secondary">{comparison.num1.meaning}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Energy Type</div>
-                                    <div className="text-zinc-400 text-sm">{comparison.num1.energy}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">Energy Type</div>
+                                    <div className="text-secondary text-sm">{comparison.num1.energy}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">In Love</div>
-                                    <div className="text-zinc-400 text-sm">{comparison.num1.love}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">In Love</div>
+                                    <div className="text-secondary text-sm">{comparison.num1.love}</div>
                                 </div>
                             </div>
                             <Link
                                 href={`/meaning/angel-number/${comparison.num1.number}`}
-                                className="inline-block mt-4 text-amber-400 text-sm hover:text-amber-300"
+                                className="inline-block mt-4 text-amber-600 text-sm hover:text-amber-600"
                             >
                                 View full meaning →
                             </Link>
                         </div>
 
                         {/* Number 2 */}
-                        <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                        <div className="p-6 rounded-2xl bg-card border border-default">
                             <Link href={`/meaning/angel-number/${comparison.num2.number}`} className="group">
-                                <div className="text-4xl font-bold text-amber-400 mb-4 group-hover:text-amber-300 transition-colors">
+                                <div className="text-4xl font-bold text-amber-600 mb-4 group-hover:text-amber-600 transition-colors">
                                     {comparison.num2.number}
                                 </div>
                             </Link>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Core Energy</div>
-                                    <div className="text-zinc-300">{comparison.num2.meaning}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">Core Energy</div>
+                                    <div className="text-secondary">{comparison.num2.meaning}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Energy Type</div>
-                                    <div className="text-zinc-400 text-sm">{comparison.num2.energy}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">Energy Type</div>
+                                    <div className="text-secondary text-sm">{comparison.num2.energy}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">In Love</div>
-                                    <div className="text-zinc-400 text-sm">{comparison.num2.love}</div>
+                                    <div className="text-xs uppercase tracking-widest text-muted mb-1">In Love</div>
+                                    <div className="text-secondary text-sm">{comparison.num2.love}</div>
                                 </div>
                             </div>
                             <Link
                                 href={`/meaning/angel-number/${comparison.num2.number}`}
-                                className="inline-block mt-4 text-amber-400 text-sm hover:text-amber-300"
+                                className="inline-block mt-4 text-amber-600 text-sm hover:text-amber-600"
                             >
                                 View full meaning →
                             </Link>
@@ -278,9 +278,9 @@ export function NumberComparison() {
                     </div>
 
                     {/* Combined Reading */}
-                    <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800">
-                        <h3 className="text-lg font-bold text-white mb-3">Combined Message</h3>
-                        <p className="text-zinc-400">
+                    <div className="p-6 rounded-2xl bg-elevated border border-default">
+                        <h3 className="text-lg font-bold text-primary mb-3">Combined Message</h3>
+                        <p className="text-secondary">
                             When you see both {comparison.num1.number} and {comparison.num2.number} appearing in your life,
                             the universe is guiding you toward {comparison.compatibility > 75 ? 'a harmonious path that combines' : 'growth through the contrast of'}
                             {' '}{comparison.num1.meaning.toLowerCase()} with {comparison.num2.meaning.toLowerCase()}.
@@ -292,18 +292,18 @@ export function NumberComparison() {
                                 placeholder="Your name (optional)"
                                 value={name}
                                 onChange={(e) => setName(e.target.value.slice(0, 40))}
-                                className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                             />
                             <input
                                 placeholder="Biggest challenge (optional, 80 chars)"
                                 value={challenge}
                                 onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-                                className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                             />
                             <select
                                 value={focus}
                                 onChange={(e) => setFocus(e.target.value as any)}
-                                className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                             >
                                 <option value="">Focus area (optional)</option>
                                 <option value="love">Love</option>
@@ -315,7 +315,7 @@ export function NumberComparison() {
                             <select
                                 value={feeling}
                                 onChange={(e) => setFeeling(e.target.value as any)}
-                                className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                             >
                                 <option value="">How do you feel? (optional)</option>
                                 <option value="calm">Calm</option>
@@ -327,7 +327,7 @@ export function NumberComparison() {
                             <select
                         value={relationshipStatus}
                         onChange={(e) => setRelationshipStatus(e.target.value as any)}
-                        className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                     >
                         <option value="">Relationship status (required)</option>
                         <option value="single">Single</option>
@@ -339,7 +339,7 @@ export function NumberComparison() {
                             <select
                         value={timeHorizon}
                         onChange={(e) => setTimeHorizon(e.target.value as any)}
-                        className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                        className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                     >
                         <option value="">Time horizon (required)</option>
                         <option value="7d">Next 7 days</option>
@@ -349,16 +349,16 @@ export function NumberComparison() {
                         </div>
 
                         {/* Value props */}
-                        <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400 mt-4">
-                            <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                        <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary mt-4">
+                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                                 <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Emotional dynamics
                             </div>
-                            <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                                 <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Timing cycles (7/30/90d)
                             </div>
-                            <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                                 <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                                 Challenge-based steps
                             </div>
@@ -374,11 +374,11 @@ export function NumberComparison() {
                                     ? 'Creating your report…'
                                     : 'Get Full Relationship PDF ($29)'}
                             </button>
-                            <p className="text-xs text-zinc-500 sm:w-48">
+                            <p className="text-xs text-muted sm:w-48">
                                 Personalised emotional dynamics, timing cycles, and what to do next.
                             </p>
                         </div>
-                        <p className="text-[11px] text-zinc-500 mt-2">One-time $29 · Instant PDF · No login</p>
+                        <p className="text-[11px] text-muted mt-2">One-time $29 · Instant PDF · No login</p>
                         {checkoutError && (
                             <p className="text-red-400 text-sm mt-2">{checkoutError}</p>
                         )}
@@ -389,7 +389,7 @@ export function NumberComparison() {
             {/* Popular Comparisons */}
             {!comparison && (
                 <div className="mt-12">
-                    <h3 className="text-lg font-bold text-zinc-300 mb-4">Popular Comparisons</h3>
+                    <h3 className="text-lg font-bold text-secondary mb-4">Popular Comparisons</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {[
                             ['111', '222'],
@@ -403,7 +403,7 @@ export function NumberComparison() {
                                     setNumber1(a);
                                     setNumber2(b);
                                 }}
-                                className="px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-amber-500/50 hover:text-amber-400 transition-all text-sm"
+                                className="px-4 py-3 rounded-xl bg-card border border-default text-secondary hover:border-amber-500/50 hover:text-amber-600 transition-all text-sm"
                             >
                                 {a} vs {b}
                             </button>

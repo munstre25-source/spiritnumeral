@@ -129,40 +129,40 @@ export function MoonPhaseWidget({ variant = 'default' }: { variant?: 'default' |
 
     if (variant === 'compact') {
         return (
-            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card border border-default">
                 <span className="text-lg">{moon.emoji}</span>
-                <span className="text-zinc-400 text-sm">{moon.phase}</span>
+                <span className="text-secondary text-sm">{moon.phase}</span>
             </div>
         );
     }
 
     return (
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/30 to-zinc-900 border border-indigo-500/20">
+        <div className="p-6 rounded-2xl bg-card border border-default">
             <div className="flex items-start justify-between mb-4">
                 <div>
-                    <div className="text-xs uppercase tracking-widest text-indigo-400 font-medium mb-1">
+                    <div className="text-xs uppercase tracking-widest text-amber-600 font-medium mb-1">
                         Lunar Energy
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="text-3xl">{moon.emoji}</span>
-                        <span className="text-xl font-bold text-white">{moon.phase}</span>
+                        <span className="text-xl font-bold text-primary">{moon.phase}</span>
                     </div>
                 </div>
                 <div className="text-right">
-                    <div className="text-zinc-500 text-xs">{moon.illumination}% illuminated</div>
+                    <div className="text-muted text-xs">{moon.illumination}% illuminated</div>
                     {nextPhase && (
-                        <div className="text-indigo-400 text-xs mt-1">
+                        <div className="text-secondary text-xs mt-1">
                             {nextPhase.phase} in {nextPhase.days}d
                         </div>
                     )}
                 </div>
             </div>
 
-            <p className="text-zinc-400 text-sm mb-3">{moon.description}</p>
+            <p className="text-secondary text-sm mb-3">{moon.description}</p>
 
-            <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
-                <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Numerology Guidance</div>
-                <p className="text-zinc-300 text-sm">{moon.guidance}</p>
+            <div className="p-3 rounded-lg bg-elevated/50 border border-default/50">
+                <div className="text-xs uppercase tracking-widest text-muted mb-1">Numerology Guidance</div>
+                <p className="text-secondary text-sm">{moon.guidance}</p>
             </div>
         </div>
     );
@@ -179,7 +179,7 @@ export function MoonIndicator() {
     if (!moon) return null;
 
     return (
-        <div className="inline-flex items-center gap-1.5 text-zinc-500 text-sm">
+        <div className="inline-flex items-center gap-1.5 text-muted text-sm">
             <span>{moon.emoji}</span>
             <span>{moon.phase}</span>
         </div>

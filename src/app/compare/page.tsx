@@ -74,16 +74,16 @@ export default function ComparePage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
-            <main className="min-h-screen pt-32 pb-20 px-6">
+            <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
                     <header className="text-center mb-12">
-                        <div className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-6">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm font-medium mb-6">
                             Number Analysis
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tighter mb-4">
                             Compare Angel Numbers
                         </h1>
-                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                        <p className="text-secondary text-lg max-w-2xl mx-auto">
                             See how two angel numbers relate to each other and discover their combined spiritual message.
                         </p>
                     </header>

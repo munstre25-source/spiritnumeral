@@ -82,16 +82,16 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
 
-            <main className="min-h-screen pt-32 pb-20 px-6">
+            <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
                 <div className="max-w-6xl mx-auto">
                     <header className="text-center mb-16">
-                        <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-primary text-sm font-medium mb-6">
                             {BLOG_POSTS.length} Expert Articles
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-emerald-100 to-emerald-400 bg-clip-text text-transparent tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tighter mb-4">
                             Numerology Blog
                         </h1>
-                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                        <p className="text-secondary text-lg max-w-2xl mx-auto">
                             Deep dive into angel numbers, life path meanings, manifestation, and spiritual guidance.
                         </p>
                     </header>
@@ -104,8 +104,8 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
                                     key={cat}
                                     href={cat === 'All' ? '/blog' : `/blog/category/${slugifyCategory(cat)}`}
                                     className={`px-4 py-2 rounded-full text-sm transition-all ${cat === selectedCategory
-                                        ? 'bg-emerald-500 text-black font-medium'
-                                        : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
+                                        ? 'bg-amber-500 text-black font-medium'
+                                        : 'bg-card border border-default text-secondary hover:border-amber-500/50'
                                         }`}
                                 >
                                     {cat}
@@ -121,11 +121,11 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
                                 name="q"
                                 defaultValue={query}
                                 placeholder="Search the blog..."
-                                className="w-full md:w-72 bg-zinc-900/70 border border-zinc-800 rounded-full px-4 py-2 text-sm text-zinc-200 focus:outline-none focus:border-emerald-500/60"
+                                className="w-full md:w-72 bg-card border border-default rounded-full px-4 py-2 text-sm text-primary focus:outline-none focus:border-amber-500/60"
                             />
                             <button
                                 type="submit"
-                                className="px-4 py-2 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 transition"
+                                className="px-4 py-2 rounded-full bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
                             >
                                 Search
                             </button>
@@ -134,30 +134,30 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
 
                     {/* Stats Bar */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                            <div className="text-2xl font-bold text-amber-400">{BLOG_POSTS.filter(p => p.category === 'Angel Numbers').length}</div>
-                            <div className="text-xs text-zinc-500">Angel Numbers</div>
+                        <div className="p-4 rounded-xl bg-card border border-default text-center">
+                            <div className="text-2xl font-bold text-amber-600">{BLOG_POSTS.filter(p => p.category === 'Angel Numbers').length}</div>
+                            <div className="text-xs text-muted">Angel Numbers</div>
                         </div>
-                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                            <div className="text-2xl font-bold text-purple-400">{BLOG_POSTS.filter(p => p.category === 'Life Path').length}</div>
-                            <div className="text-xs text-zinc-500">Life Paths</div>
+                        <div className="p-4 rounded-xl bg-card border border-default text-center">
+                            <div className="text-2xl font-bold text-primary">{BLOG_POSTS.filter(p => p.category === 'Life Path').length}</div>
+                            <div className="text-xs text-muted">Life Paths</div>
                         </div>
-                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                            <div className="text-2xl font-bold text-pink-400">{BLOG_POSTS.filter(p => p.category === 'Love Compatibility').length}</div>
-                            <div className="text-xs text-zinc-500">Love Compatibility</div>
+                        <div className="p-4 rounded-xl bg-card border border-default text-center">
+                            <div className="text-2xl font-bold text-primary">{BLOG_POSTS.filter(p => p.category === 'Love Compatibility').length}</div>
+                            <div className="text-xs text-muted">Love Compatibility</div>
                         </div>
-                        <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                            <div className="text-2xl font-bold text-emerald-400">{BLOG_POSTS.length}</div>
-                            <div className="text-xs text-zinc-500">Total Articles</div>
+                        <div className="p-4 rounded-xl bg-card border border-default text-center">
+                            <div className="text-2xl font-bold text-primary">{BLOG_POSTS.length}</div>
+                            <div className="text-xs text-muted">Total Articles</div>
                         </div>
                     </div>
 
                     {/* Featured CTA */}
-                    <div className="mb-12 p-6 rounded-2xl bg-gradient-to-r from-amber-950/30 to-zinc-900 border border-amber-500/20">
+                    <div className="mb-12 p-6 rounded-2xl bg-card border border-default">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                             <div>
-                                <h2 className="text-xl font-bold text-white mb-1">Discover Your Life Path Number</h2>
-                                <p className="text-zinc-400 text-sm">Get your personalized numerology reading based on your birth date</p>
+                                <h2 className="text-xl font-bold text-primary mb-1">Discover Your Life Path Number</h2>
+                                <p className="text-secondary text-sm">Get your personalized numerology reading based on your birth date</p>
                             </div>
                             <Link
                                 href="/calculator"
@@ -171,21 +171,21 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
                     {/* Featured Posts */}
                     {featuredPosts.length > 0 && (
                         <section className="mb-16">
-                            <h2 className="text-2xl font-bold text-white mb-6">Featured Articles</h2>
+                            <h2 className="text-2xl font-bold text-primary mb-6">Featured Articles</h2>
                             <div className="grid md:grid-cols-3 gap-6">
                                 {featuredPosts.map((post, i) => (
                                     <Link key={post.slug} href={`/blog/${post.slug}`}
-                                        className={`group relative overflow-hidden rounded-3xl border border-zinc-800 hover:border-emerald-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
+                                        className={`group relative overflow-hidden rounded-3xl border border-default hover:border-amber-500/50 transition-all ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
                                     >
-                                        <div className={`p-6 ${i === 0 ? 'md:p-10' : ''} bg-gradient-to-br from-emerald-950/30 to-zinc-900`}>
-                                            <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+                                        <div className={`p-6 ${i === 0 ? 'md:p-10' : ''} bg-card`}>
+                                            <span className="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-primary text-xs font-medium mb-4">
                                                 {post.category}
                                             </span>
-                                            <h3 className={`font-bold text-white group-hover:text-emerald-400 transition-colors mb-3 ${i === 0 ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+                                            <h3 className={`font-bold text-primary group-hover:text-amber-600 transition-colors mb-3 ${i === 0 ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
                                                 {post.title}
                                             </h3>
-                                            <p className="text-zinc-400 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
-                                            <div className="flex items-center text-xs text-zinc-500 gap-4">
+                                            <p className="text-secondary text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                                            <div className="flex items-center text-xs text-muted gap-4">
                                                 <span>{post.readTime}</span>
                                                 <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                                             </div>
@@ -198,23 +198,23 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
 
                     {/* All Posts */}
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-6">
+                        <h2 className="text-2xl font-bold text-primary mb-6">
                             {selectedCategory === 'All' ? 'All Articles' : selectedCategory}
-                            <span className="text-zinc-500 font-normal ml-2">({filteredPosts.length})</span>
+                            <span className="text-muted font-normal ml-2">({filteredPosts.length})</span>
                         </h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {pagePosts.map(post => (
                                 <Link key={post.slug} href={`/blog/${post.slug}`}
-                                    className="group p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/50 transition-all"
+                                    className="group p-6 rounded-2xl bg-card border border-default hover:border-amber-500/50 transition-all"
                                 >
-                                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs font-medium mb-3">
+                                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-elevated text-secondary text-xs font-medium mb-3">
                                         {post.category}
                                     </span>
-                                    <h3 className="font-bold text-white group-hover:text-emerald-400 transition-colors mb-2 line-clamp-2">
+                                    <h3 className="font-bold text-primary group-hover:text-amber-600 transition-colors mb-2 line-clamp-2">
                                         {post.title}
                                     </h3>
-                                    <p className="text-zinc-500 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
-                                    <div className="flex items-center text-xs text-zinc-600 gap-3">
+                                    <p className="text-muted text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                                    <div className="flex items-center text-xs text-muted gap-3">
                                         <span>{post.readTime}</span>
                                         <span>•</span>
                                         <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
@@ -227,18 +227,18 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
                                 {currentPage > 1 && (
                                     <Link
                                         href={buildPageLink(currentPage - 1)}
-                                        className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                                        className="px-4 py-2 rounded-full border border-default text-secondary hover:border-amber-500/60 transition"
                                     >
                                         ← Prev
                                     </Link>
                                 )}
-                                <span className="text-sm text-zinc-500">
+                                <span className="text-sm text-muted">
                                     Page {currentPage} of {totalPages}
                                 </span>
                                 {currentPage < totalPages && (
                                     <Link
                                         href={buildPageLink(currentPage + 1)}
-                                        className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                                        className="px-4 py-2 rounded-full border border-default text-secondary hover:border-amber-500/60 transition"
                                     >
                                         Next →
                                     </Link>
@@ -248,9 +248,9 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
                     </section>
 
                     {/* Bottom CTA */}
-                    <section className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-indigo-950/30 to-zinc-900 border border-indigo-500/20 text-center">
-                        <h2 className="text-2xl font-bold text-white mb-3">Get Your Complete Numerology Reading</h2>
-                        <p className="text-zinc-400 mb-6 max-w-xl mx-auto">
+                    <section className="mt-16 p-8 rounded-3xl bg-card border border-default text-center">
+                        <h2 className="text-2xl font-bold text-primary mb-3">Get Your Complete Numerology Reading</h2>
+                        <p className="text-secondary mb-6 max-w-xl mx-auto">
                             Discover your life path, destiny number, soul urge, and more with a personalized numerology analysis.
                         </p>
                         <Link

@@ -3,7 +3,6 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import RootShell from '@/components/RootShell'
 
-// Premium fonts for spiritual/numerology aesthetic
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
@@ -49,8 +48,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');else if(!t&&window.matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.classList.add('light');})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
@@ -60,18 +64,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="antialiased bg-zinc-950 text-zinc-100 flex flex-col min-h-screen font-sans">
-        {/* Cosmic background effects */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-          {/* Gradient orbs */}
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] animate-pulse-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] animate-pulse-slow animation-delay-2000" />
-          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-500/3 rounded-full blur-[150px] animate-pulse-slow animation-delay-4000" />
-
-          {/* Star field */}
-          <div className="stars absolute inset-0 opacity-40" />
-        </div>
-
+      <body className="antialiased bg-page text-primary flex flex-col min-h-screen font-sans">
         <RootShell>
           {children}
         </RootShell>

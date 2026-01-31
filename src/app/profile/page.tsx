@@ -11,13 +11,13 @@ export const metadata: Metadata = {
 export default function ProfilePage() {
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
+        <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
             <div className="max-w-2xl mx-auto">
                 <header className="mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tighter mb-4">
+                    <h1 className="text-4xl md:text-5xl font-bold text-primary font-bold tracking-tighter mb-4">
                         Your Journey
                     </h1>
-                    <p className="text-zinc-400 text-lg">
+                    <p className="text-secondary text-lg">
                         Your personal numerology profile and spiritual path tracker.
                     </p>
                 </header>

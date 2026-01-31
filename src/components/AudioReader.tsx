@@ -116,13 +116,13 @@ export function AudioReader({ text, title }: AudioReaderProps) {
     }
 
     return (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-card border border-default">
             {/* Play/Pause Button */}
             <button
                 onClick={isPlaying ? handlePause : handlePlay}
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isPlaying
                         ? 'bg-amber-500 text-black'
-                        : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-amber-400'
+                        : 'bg-elevated text-secondary hover:bg-elevated hover:text-amber-600'
                     }`}
                 aria-label={isPlaying ? 'Pause' : 'Play'}
             >
@@ -141,19 +141,19 @@ export function AudioReader({ text, title }: AudioReaderProps) {
             {/* Progress and Label */}
             <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                    <span className="text-zinc-400 text-sm">
+                    <span className="text-secondary text-sm">
                         {title || 'Listen to this reading'}
                     </span>
                     {(isPlaying || isPaused) && (
                         <button
                             onClick={handleStop}
-                            className="text-zinc-500 hover:text-zinc-300 text-xs"
+                            className="text-muted hover:text-secondary text-xs"
                         >
                             Stop
                         </button>
                     )}
                 </div>
-                <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-1 bg-elevated rounded-full overflow-hidden">
                     <div
                         className="h-full bg-amber-500 transition-all duration-500"
                         style={{ width: `${progress}%` }}
@@ -205,8 +205,8 @@ export function AudioReaderCompact({ text }: { text: string }) {
         <button
             onClick={togglePlay}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all ${isPlaying
-                    ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                    : 'bg-zinc-900/50 text-zinc-400 border border-zinc-800 hover:text-amber-400 hover:border-amber-500/50'
+                    ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30'
+                    : 'bg-card text-secondary border border-default hover:text-amber-600 hover:border-amber-500/50'
                 }`}
         >
             {isPlaying ? (

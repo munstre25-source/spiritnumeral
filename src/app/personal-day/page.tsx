@@ -30,20 +30,20 @@ export default function PersonalDayPage() {
     },
   ];
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+    <main className="min-h-screen bg-page text-primary pt-32 md:pt-40 px-6 pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFAQSchema(faqs)) }}
       />
       <div className="max-w-4xl mx-auto space-y-10">
         <header className="text-center space-y-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Personal Day Number</h1>
-          <p className="text-zinc-400 text-lg">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary">Personal Day Number</h1>
+          <p className="text-secondary text-lg">
             Your personal day reveals the tone for today and what to prioritize.
           </p>
         </header>
         <PersonalTimingCalculator />
-        <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+        <section className="p-6 rounded-3xl bg-card border border-default">
           <TimingPaidCTA />
           <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
         </section>

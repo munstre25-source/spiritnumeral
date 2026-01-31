@@ -83,48 +83,48 @@ export default function PrivacyPage() {
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
-      <div className="max-w-3xl mx-auto prose prose-invert prose-amber">
+    <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
+      <div className="max-w-3xl mx-auto prose prose-amber">
         <StructuredData id="privacy-structured-data" data={structuredData} />
-        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-8 text-primary font-bold">
           Privacy Policy
         </h1>
         
-        <p className="text-zinc-400">Last updated: January 22, 2026</p>
+        <p className="text-secondary">Last updated: January 22, 2026</p>
 
-        <section className="mt-8 space-y-6 text-zinc-300">
+        <section className="mt-8 space-y-6 text-secondary">
           <p>
             At Spirit Numeral, we value your privacy as much as your spiritual journey. This policy outlines how we collect, use, and safeguard your personal information.
           </p>
 
-          <h2 className="text-2xl font-semibold text-zinc-100">1. Information We Collect</h2>
+          <h2 className="text-2xl font-semibold text-primary">1. Information We Collect</h2>
           <p>
             We collect information you provide directly to us, such as your name, birth date (for numerology calculations), and email address when you contact us or use our tools.
           </p>
 
-          <h2 className="text-2xl font-semibold text-zinc-100">2. How We Use Your Information</h2>
+          <h2 className="text-2xl font-semibold text-primary">2. How We Use Your Information</h2>
           <p>
             Your birth date is used solely to calculate your life path and personal numerology readings. We do not store this data unless you explicitly create an account or sign up for our newsletter.
           </p>
 
-          <h2 className="text-2xl font-semibold text-zinc-100">3. Data Protection</h2>
+          <h2 className="text-2xl font-semibold text-primary">3. Data Protection</h2>
           <p>
             We implement a variety of security measures to maintain the safety of your personal information. Your data is never sold to third parties.
           </p>
 
-          <h2 className="text-2xl font-semibold text-zinc-100">4. Cookies</h2>
+          <h2 className="text-2xl font-semibold text-primary">4. Cookies</h2>
           <p>
             We use cookies to improve your experience on our site, analyze traffic, and remember your preferences.
           </p>
         </section>
 
-        <section className="mt-12 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800 not-prose">
-          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+        <section className="mt-12 p-8 rounded-3xl bg-card border border-default not-prose">
+          <h2 className="text-2xl font-bold mb-6 text-amber-600">Frequently Asked Questions</h2>
           <dl className="space-y-6">
             {faqItems.map((item) => (
-              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
-                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
-                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              <div key={item.question} className="border-b border-default pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-primary">{item.question}</dt>
+                <dd className="text-secondary leading-relaxed mt-2">{item.answer}</dd>
               </div>
             ))}
           </dl>

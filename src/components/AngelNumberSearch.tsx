@@ -248,7 +248,7 @@ export default function AngelNumberSearch({
               onClick={() => setSelectedCategory(cat.key)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${selectedCategory === cat.key
                   ? 'bg-amber-500 text-black'
-                  : 'bg-zinc-900/50 text-zinc-400 hover:text-amber-400 hover:bg-zinc-800'
+                  : 'bg-card text-secondary hover:text-amber-600 hover:bg-elevated'
                 }`}
             >
               {cat.label}
@@ -260,7 +260,7 @@ export default function AngelNumberSearch({
       {/* Search Input */}
       <form onSubmit={handleSearch} className="relative">
         <div className="relative group">
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500">
+          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-muted">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
@@ -278,7 +278,7 @@ export default function AngelNumberSearch({
             }}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
-            className="w-full bg-zinc-900/50 border-2 border-zinc-800 text-zinc-100 pl-14 pr-36 py-5 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all text-lg placeholder:text-zinc-600 group-hover:bg-zinc-900/80"
+            className="w-full bg-card border-2 border-default text-primary pl-14 pr-36 py-5 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all text-lg placeholder:text-muted group-hover:bg-elevated"
             autoComplete="off"
           />
           <button
@@ -297,7 +297,7 @@ export default function AngelNumberSearch({
         {isOpen && suggestions.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute z-50 w-full mt-2 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden"
+            className="absolute z-50 w-full mt-2 bg-card border border-default rounded-2xl shadow-2xl overflow-hidden"
           >
             {suggestions.map((result, index) => (
             <button
@@ -305,8 +305,8 @@ export default function AngelNumberSearch({
                 type="button"
                 onClick={() => handleSuggestionClick(result)}
                 className={`w-full px-5 py-4 text-left flex items-center justify-between transition-all ${index === selectedIndex
-                    ? 'bg-amber-500/20 text-amber-400'
-                    : 'hover:bg-zinc-800 text-zinc-300'
+                    ? 'bg-amber-500/20 text-amber-600'
+                    : 'hover:bg-elevated text-secondary'
                   }`}
               >
                 <div className="flex items-center gap-3">
@@ -317,12 +317,12 @@ export default function AngelNumberSearch({
                   )}
                   <div>
                     <span className="text-sm">{result.label}</span>
-                    <span className="block text-xs text-zinc-500 capitalize">
+                    <span className="block text-xs text-muted capitalize">
                       {typeof result.number === 'number' ? `${selectedCategory.replace('-', ' ')} meaning` : 'Browse topic'}
                     </span>
                   </div>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
                   <path d="m9 18 6-6-6-6" />
                 </svg>
               </button>
@@ -340,12 +340,12 @@ export default function AngelNumberSearch({
 
       {/* Popular Numbers */}
       <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <span className="text-zinc-500 text-xs uppercase tracking-widest font-bold mr-2">Popular:</span>
+        <span className="text-muted text-xs uppercase tracking-widest font-bold mr-2">Popular:</span>
         {POPULAR_NUMBERS.slice(0, 8).map((num) => (
           <Link
             key={num}
             href={`/meaning/angel-number/${num}`}
-            className="px-3 py-1 rounded-lg bg-zinc-900/50 border border-zinc-800 text-zinc-400 text-sm hover:border-amber-500/50 hover:text-amber-400 transition-all"
+            className="px-3 py-1 rounded-lg bg-card border border-default text-secondary text-sm hover:border-amber-500/50 hover:text-amber-600 transition-all"
           >
             {num}
           </Link>
@@ -386,7 +386,7 @@ export function CompactSearch() {
         placeholder="Search…"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-32 md:w-40 bg-zinc-900/50 border border-zinc-800 text-zinc-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-amber-500/50 focus:w-48 transition-all"
+        className="w-32 md:w-40 bg-card border border-default text-primary px-4 py-2 rounded-lg text-sm focus:outline-none focus:border-amber-500/50 focus:w-48 transition-all"
       />
     </form>
   );

@@ -5,10 +5,14 @@ import { AffiliatePromo } from '@/components/AffiliatePromo';
 import { OFFERS } from '@/lib/offers';
 
 export const metadata: Metadata = {
-    title: 'Celebrity Numerology - Famous Life Path Numbers',
-    description: 'Discover the numerology behind your favorite celebrities. See which famous people share your life path number and what it means.',
+    title: 'Which Celebrities Share Your Life Path? Famous Numerology',
+    description: 'See which famous people have your life path number. Free calculator. Discover celebrity numerology and what it means for you.',
     alternates: {
         canonical: '/celebrity-numerology',
+    },
+    openGraph: {
+        title: 'Which Celebrities Share Your Life Path? Famous Numerology',
+        description: 'See which famous people have your life path number. Free calculator.',
     },
 };
 
@@ -183,16 +187,16 @@ export default function CelebrityNumerologyPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
-            <main className="min-h-screen pt-32 pb-20 px-6">
+            <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
                 <div className="max-w-6xl mx-auto">
                     <header className="text-center mb-16">
-                        <div className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-6">
                             Celebrity Life Paths
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-purple-100 to-purple-400 bg-clip-text text-transparent tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tighter mb-4">
                             Famous Numerology
                         </h1>
-                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                        <p className="text-secondary text-lg max-w-2xl mx-auto">
                             Discover which celebrities share your life path number. See the patterns that connect
                             famous leaders, artists, and visionaries.
                         </p>
@@ -203,21 +207,21 @@ export default function CelebrityNumerologyPage() {
                         {Object.entries(CELEBRITIES).map(([path, data]) => (
                             <section
                                 key={path}
-                                className="p-6 md:p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 hover:border-purple-500/30 transition-colors"
+                                className="p-6 md:p-8 rounded-3xl bg-card border border-default hover:border-amber-500/30 transition-colors"
                             >
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
-                                            <span className="text-2xl font-bold text-purple-400">{path}</span>
+                                        <div className="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                                            <span className="text-2xl font-bold text-amber-400">{path}</span>
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-bold text-white">{data.name}</h2>
-                                            <p className="text-zinc-500 text-sm">{data.description}</p>
+                                            <h2 className="text-xl font-bold text-primary">{data.name}</h2>
+                                            <p className="text-muted text-sm">{data.description}</p>
                                         </div>
                                     </div>
                                     <Link
                                         href={`/meaning/life-path/life-path-${path}`}
-                                        className="text-purple-400 hover:text-purple-300 text-sm font-medium"
+                                        className="text-amber-400 hover:text-amber-300 text-sm font-medium"
                                     >
                                         View Life Path {path} →
                                     </Link>
@@ -227,11 +231,11 @@ export default function CelebrityNumerologyPage() {
                                     {data.celebrities.map((celeb, i) => (
                                         <div
                                             key={i}
-                                            className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50"
+                                            className="p-4 rounded-xl bg-elevated/50 border border-default/50"
                                         >
-                                            <div className="text-white font-medium mb-1">{celeb.name}</div>
-                                            <div className="text-zinc-500 text-xs mb-2">{celeb.known}</div>
-                                            <div className="text-zinc-600 text-xs">{celeb.birthday}</div>
+                                            <div className="text-primary font-medium mb-1">{celeb.name}</div>
+                                            <div className="text-muted text-xs mb-2">{celeb.known}</div>
+                                            <div className="text-muted text-xs">{celeb.birthday}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -241,14 +245,14 @@ export default function CelebrityNumerologyPage() {
 
                     {/* CTA Section */}
                     <section className="mt-16 max-w-2xl mx-auto text-center">
-                        <h2 className="text-2xl font-bold text-white mb-4">What's Your Life Path?</h2>
-                        <p className="text-zinc-400 mb-6">
+                        <h2 className="text-2xl font-bold text-primary mb-4">What's Your Life Path?</h2>
+                        <p className="text-secondary mb-6">
                             Calculate your life path number and discover which celebrities share your numerological destiny.
                         </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link
                                     href="/calculator"
-                                    className="px-8 py-4 bg-purple-500 text-white font-bold rounded-xl hover:bg-purple-400 transition-colors"
+                                    className="px-8 py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors"
                                 >
                                     Calculate Your Number
                                 </Link>

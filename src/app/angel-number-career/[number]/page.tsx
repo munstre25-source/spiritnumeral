@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
     return { title: 'Angel Number Not Found' };
   }
 
-  const title = `Angel Number ${number} Career Meaning: Work, Money & Success in 2026`;
-  const description = `What does angel number ${number} mean for your career? Discover the professional guidance, financial insights, and success messages from your angels.`;
+  const title = `${number} Career Meaning: Angel Number for Work & Success`;
+  const description = `What does ${number} mean for career? Angel number guidance for work, money and success.`;
 
   return {
     title,
@@ -95,77 +95,77 @@ export default async function CareerMeaningPage({ params }: { params: Promise<{ 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
       />
 
-      <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-48 p-8 font-sans">
+      <main className="min-h-screen bg-page text-primary pt-32 md:pt-48 p-8 font-sans">
         <div className="max-w-4xl mx-auto space-y-12">
           <header className="text-center space-y-4">
             <div className="inline-block px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-4">
               Career & Finance
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-b from-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-tighter">
+            <h1 className="text-5xl md:text-6xl font-bold text-primary font-bold tracking-tighter">
               Angel Number {number} Career Meaning
             </h1>
             <p className="text-sm uppercase tracking-[0.2em] text-emerald-400/80">
               Work, Money & Professional Guidance
             </p>
-            <p className="text-2xl text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-2xl text-secondary font-light max-w-2xl mx-auto leading-relaxed">
               {data.career || `Discover how angel number ${number} guides your professional journey and financial prosperity.`}
             </p>
           </header>
 
-          <section className="p-10 rounded-[2.5rem] bg-gradient-to-br from-emerald-950/40 via-zinc-900/50 to-zinc-900 border border-emerald-500/20 shadow-2xl">
-            <h2 className="text-3xl font-bold mb-6 text-white tracking-tight">
+          <section className="p-10 rounded-[2.5rem] bg-card border border-default">
+            <h2 className="text-3xl font-bold mb-6 text-primary tracking-tight">
               What Does {number} Mean for Your Career?
             </h2>
-            <p className="text-xl text-zinc-300 leading-relaxed font-light mb-6">
+            <p className="text-xl text-secondary leading-relaxed font-light mb-6">
               {data.career || `Angel number ${number} carries important messages about your professional life. When this number appears, your guardian angels are guiding your career path.`}
             </p>
-            <p className="text-lg text-zinc-400 leading-relaxed">
+            <p className="text-lg text-secondary leading-relaxed">
               {data.meaning}
             </p>
           </section>
 
           <section className="grid gap-6 md:grid-cols-2">
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-emerald-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-emerald-500/30">
               <h2 className="text-emerald-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Career Growth
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 Angel number {number} signals a period of professional advancement. Trust that your skills and dedication are being recognized by the universe.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-emerald-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-emerald-500/30">
               <h2 className="text-emerald-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Financial Abundance
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 When {number} appears in financial contexts, it suggests positive money flow is aligning with your path. Stay focused on abundance mindset.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-emerald-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-emerald-500/30">
               <h2 className="text-emerald-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Business Opportunities
               </h2>
-              <p className="text-zinc-300 leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 {number} encourages you to pursue entrepreneurial ventures with confidence. Your angels support new business ideas aligned with your purpose.
               </p>
             </div>
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm transition-all hover:border-emerald-500/30">
+            <div className="p-8 rounded-3xl bg-card border border-default backdrop-blur-sm transition-all hover:border-emerald-500/30">
               <h2 className="text-emerald-400 font-bold text-lg mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 Success Affirmation
               </h2>
-              <p className="text-zinc-300 leading-relaxed italic">
+              <p className="text-secondary leading-relaxed italic">
                 "I am aligned with professional success and financial abundance. Angel number {number} guides me to my highest career potential."
               </p>
             </div>
           </section>
 
-          <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
+          <section className="p-8 rounded-3xl bg-card border border-default">
             <h2 className="text-2xl font-bold mb-4 text-emerald-400">2026 Career Prediction</h2>
-            <p className="text-zinc-300 leading-relaxed">
+            <p className="text-secondary leading-relaxed">
               {data["2026_prediction"] || `In 2026, angel number ${number} suggests significant career developments. Be prepared for opportunities that align with your life purpose.`}
             </p>
           </section>
@@ -182,7 +182,7 @@ export default async function CareerMeaningPage({ params }: { params: Promise<{ 
             <MeaningPaidCTA number={parseInt(number)} />
             <a
               href={`/meaning/angel-number/${number}`}
-              className="block text-center text-amber-500 hover:text-amber-400 transition-colors"
+              className="block text-center text-amber-500 hover:text-amber-600 transition-colors"
             >
               ← Full Angel Number {number} Meaning
             </a>

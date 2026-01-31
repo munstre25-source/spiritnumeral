@@ -211,7 +211,7 @@ export function CompatibilityCalculator() {
 
     const getScoreColor = (score: number) => {
         if (score >= 85) return 'text-green-400';
-        if (score >= 70) return 'text-amber-400';
+        if (score >= 70) return 'text-amber-600';
         if (score >= 55) return 'text-orange-400';
         return 'text-red-400';
     };
@@ -227,35 +227,35 @@ export function CompatibilityCalculator() {
         <div className="max-w-xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6 mb-8">
                 {/* Person 1 */}
-                <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                    <label className="block text-zinc-400 text-sm mb-2 font-medium">Your Birthday</label>
+                <div className="p-6 rounded-2xl bg-card border border-default">
+                    <label className="block text-secondary text-sm mb-2 font-medium">Your Birthday</label>
                     <input
                         type="date"
                         value={birthday1}
                         onChange={(e) => setBirthday1(e.target.value)}
-                        className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
+                        className="w-full bg-elevated border border-default text-primary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
                     />
                     {birthday1 && (
                         <div className="mt-4 text-center">
-                            <div className="text-3xl font-bold text-amber-400">{calculateLifePath(birthday1)}</div>
-                            <div className="text-zinc-500 text-xs uppercase tracking-wider mt-1">Life Path</div>
+                            <div className="text-3xl font-bold text-amber-600">{calculateLifePath(birthday1)}</div>
+                            <div className="text-muted text-xs uppercase tracking-wider mt-1">Life Path</div>
                         </div>
                     )}
                 </div>
 
                 {/* Person 2 */}
-                <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                    <label className="block text-zinc-400 text-sm mb-2 font-medium">Partner's Birthday</label>
+                <div className="p-6 rounded-2xl bg-card border border-default">
+                    <label className="block text-secondary text-sm mb-2 font-medium">Partner's Birthday</label>
                     <input
                         type="date"
                         value={birthday2}
                         onChange={(e) => setBirthday2(e.target.value)}
-                        className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
+                        className="w-full bg-elevated border border-default text-primary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500 transition-colors"
                     />
                     {birthday2 && (
                         <div className="mt-4 text-center">
-                            <div className="text-3xl font-bold text-amber-400">{calculateLifePath(birthday2)}</div>
-                            <div className="text-zinc-500 text-xs uppercase tracking-wider mt-1">Life Path</div>
+                            <div className="text-3xl font-bold text-amber-600">{calculateLifePath(birthday2)}</div>
+                            <div className="text-muted text-xs uppercase tracking-wider mt-1">Life Path</div>
                         </div>
                     )}
                 </div>
@@ -264,21 +264,21 @@ export function CompatibilityCalculator() {
             <button
                 onClick={handleCalculate}
                 disabled={!birthday1 || !birthday2}
-                className="w-full py-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold rounded-xl hover:from-rose-400 hover:to-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 btn-primary font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 Calculate Compatibility
             </button>
 
             {/* Results */}
             {result && (
-                <div className="mt-8 p-8 rounded-2xl bg-gradient-to-br from-rose-950/50 to-zinc-900 border border-rose-500/20 text-center">
+                <div className="mt-8 p-8 rounded-2xl bg-card border border-default text-center">
                     <div className="flex justify-center items-center gap-4 mb-6">
-                        <div className="w-16 h-16 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                            <span className="text-2xl font-bold text-amber-400">{result.path1}</span>
+                        <div className="w-16 h-16 rounded-xl bg-elevated border border-default flex items-center justify-center">
+                            <span className="text-2xl font-bold text-amber-600">{result.path1}</span>
                         </div>
-                        <span className="text-rose-400 text-2xl">+</span>
-                        <div className="w-16 h-16 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                            <span className="text-2xl font-bold text-amber-400">{result.path2}</span>
+                        <span className="text-amber-600 text-2xl">+</span>
+                        <div className="w-16 h-16 rounded-xl bg-elevated border border-default flex items-center justify-center">
+                            <span className="text-2xl font-bold text-amber-600">{result.path2}</span>
                         </div>
                     </div>
 
@@ -289,7 +289,7 @@ export function CompatibilityCalculator() {
                         {getScoreLabel(result.score)} Compatibility
                     </div>
 
-                    <p className="text-zinc-300 leading-relaxed mb-6">
+                    <p className="text-secondary leading-relaxed mb-6">
                         {result.description}
                     </p>
 
@@ -299,18 +299,18 @@ export function CompatibilityCalculator() {
                             placeholder="Your name (optional)"
                             value={name}
                             onChange={(e) => setName(e.target.value.slice(0, 40))}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         />
                         <input
                             placeholder="Biggest challenge (optional, 80 chars)"
                             value={challenge}
                             onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         />
                         <select
                             value={focus}
                             onChange={(e) => setFocus(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         >
                             <option value="">Focus area (optional)</option>
                             <option value="love">Love</option>
@@ -322,7 +322,7 @@ export function CompatibilityCalculator() {
                         <select
                             value={feeling}
                             onChange={(e) => setFeeling(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         >
                             <option value="">How do you feel? (optional)</option>
                             <option value="calm">Calm</option>
@@ -334,7 +334,7 @@ export function CompatibilityCalculator() {
                         <select
                             value={relationshipStatus}
                             onChange={(e) => setRelationshipStatus(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         >
                             <option value="">Relationship status (required)</option>
                             <option value="single">Single</option>
@@ -346,7 +346,7 @@ export function CompatibilityCalculator() {
                         <select
                             value={timeHorizon}
                             onChange={(e) => setTimeHorizon(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-rose-400/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
                         >
                             <option value="">Time horizon (required)</option>
                             <option value="7d">Next 7 days</option>
@@ -356,17 +356,17 @@ export function CompatibilityCalculator() {
                     </div>
 
                     {/* Value props */}
-                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400 mb-4">
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-rose-400"></span>
+                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary mb-4">
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             Emotional dynamics
                         </div>
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-rose-400"></span>
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             Timing cycles (7/30/90d)
                         </div>
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-rose-400"></span>
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             Challenge-based steps
                         </div>
                     </div>
@@ -375,7 +375,7 @@ export function CompatibilityCalculator() {
                         <button
                             onClick={startCheckout}
                             disabled={loadingCheckout || !canCheckout || !paymentsReady}
-                            className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold rounded-xl hover:from-rose-400 hover:to-pink-400 transition-all disabled:opacity-60"
+                            className="px-6 py-3 btn-primary font-bold rounded-xl transition-all disabled:opacity-60"
                         >
                             {!paymentsReady
                                 ? 'Paid PDFs coming soon'
@@ -383,23 +383,23 @@ export function CompatibilityCalculator() {
                                     ? 'Preparing your PDF…'
                                     : 'Get Relationship Report ($29)'}
                         </button>
-                        <p className="text-xs text-zinc-500 sm:w-48 text-left sm:text-center">
+                        <p className="text-xs text-muted sm:w-48 text-left sm:text-center">
                             Full emotional dynamics, timing cycles, and guidance tailored to your birthdays.
                         </p>
                     </div>
-                    <p className="text-[11px] text-zinc-500 text-center mb-2">One-time $29 · Instant PDF · No login</p>
+                    <p className="text-[11px] text-muted text-center mb-2">One-time $29 · Instant PDF · No login</p>
                     {checkoutError && <p className="text-red-400 text-sm text-center">{checkoutError}</p>}
 
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Link
                             href={`/meaning/life-path/life-path-${result.path1}`}
-                            className="px-6 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-amber-500/50 transition-colors text-sm"
+                            className="px-6 py-2 rounded-lg bg-elevated border border-default text-secondary hover:border-amber-500/50 transition-colors text-sm"
                         >
                             Life Path {result.path1} Meaning
                         </Link>
                         <Link
                             href={`/meaning/life-path/life-path-${result.path2}`}
-                            className="px-6 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-amber-500/50 transition-colors text-sm"
+                            className="px-6 py-2 rounded-lg bg-elevated border border-default text-secondary hover:border-amber-500/50 transition-colors text-sm"
                         >
                             Life Path {result.path2} Meaning
                         </Link>

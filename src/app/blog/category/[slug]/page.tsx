@@ -55,16 +55,16 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-10">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-primary text-sm font-medium mb-6">
             {filtered.length} {category} Articles
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-emerald-100 to-emerald-400 bg-clip-text text-transparent tracking-tighter mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tighter mb-4">
             {category} Blog
           </h1>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+          <p className="text-secondary text-lg max-w-2xl mx-auto">
             Explore in-depth {category.toLowerCase()} insights, meanings, and guidance.
           </p>
         </header>
@@ -73,7 +73,7 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
           <div className="flex flex-wrap justify-center md:justify-start gap-2">
             <Link
               href="/blog"
-              className="px-4 py-2 rounded-full text-sm transition-all bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50"
+              className="px-4 py-2 rounded-full text-sm transition-all bg-card border border-default text-secondary hover:border-amber-500/50"
             >
               All Categories
             </Link>
@@ -83,7 +83,7 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
                 href={`/blog/category/${slugifyCategory(cat)}`}
                 className={`px-4 py-2 rounded-full text-sm transition-all ${cat === category
                   ? 'bg-emerald-500 text-black font-medium'
-                  : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-emerald-500/50'
+                  : 'bg-card border border-default text-secondary hover:border-amber-500/50'
                   }`}
               >
                 {cat}
@@ -96,11 +96,11 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
               name="q"
               defaultValue={query}
               placeholder="Search this category..."
-              className="w-full md:w-72 bg-zinc-900/70 border border-zinc-800 rounded-full px-4 py-2 text-sm text-zinc-200 focus:outline-none focus:border-emerald-500/60"
+              className="w-full md:w-72 bg-card border border-default rounded-full px-4 py-2 text-sm text-primary focus:outline-none focus:border-amber-500/60"
             />
             <button
               type="submit"
-              className="px-4 py-2 rounded-full bg-emerald-500 text-black text-sm font-semibold hover:bg-emerald-400 transition"
+              className="px-4 py-2 rounded-full bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition"
             >
               Search
             </button>
@@ -111,16 +111,16 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pagePosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`}
-                className="group p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/50 transition-all"
+                className="group p-6 rounded-2xl bg-card border border-default hover:border-amber-500/50 transition-all"
               >
-                <span className="inline-block px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-xs font-medium mb-3">
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-elevated text-secondary text-xs font-medium mb-3">
                   {post.category}
                 </span>
-                <h3 className="font-bold text-white group-hover:text-emerald-400 transition-colors mb-2 line-clamp-2">
+                <h3 className="font-bold text-primary group-hover:text-amber-600 transition-colors mb-2 line-clamp-2">
                   {post.title}
                 </h3>
-                <p className="text-zinc-500 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
-                <div className="flex items-center text-xs text-zinc-600 gap-3">
+                <p className="text-muted text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                <div className="flex items-center text-xs text-muted gap-3">
                   <span>{post.readTime}</span>
                   <span>•</span>
                   <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
@@ -133,18 +133,18 @@ export default async function BlogCategoryPage({ params, searchParams }: { param
               {currentPage > 1 && (
                 <Link
                   href={buildPageLink(currentPage - 1)}
-                  className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                  className="px-4 py-2 rounded-full border border-default text-secondary hover:border-emerald-500/60 transition"
                 >
                   ← Prev
                 </Link>
               )}
-              <span className="text-sm text-zinc-500">
+              <span className="text-sm text-muted">
                 Page {currentPage} of {totalPages}
               </span>
               {currentPage < totalPages && (
                 <Link
                   href={buildPageLink(currentPage + 1)}
-                  className="px-4 py-2 rounded-full border border-zinc-800 text-zinc-300 hover:border-emerald-500/60 transition"
+                  className="px-4 py-2 rounded-full border border-default text-secondary hover:border-emerald-500/60 transition"
                 >
                   Next →
                 </Link>

@@ -5,15 +5,15 @@ export const metadata = {
 
 export default function CancelledPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-page text-primary">
       <div className="max-w-2xl mx-auto px-6 py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">Checkout cancelled</h1>
-        <p className="text-zinc-400 mb-8">
+        <p className="text-secondary mb-8">
           No problem—your order wasn’t completed. You can return to your reading and try again anytime.
         </p>
         <a
           href="/"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-zinc-800 text-zinc-300 hover:border-amber-500/40 hover:text-amber-400 transition"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-default text-secondary hover:border-amber-500/40 hover:text-amber-600 transition"
         >
           Back to home
         </a>

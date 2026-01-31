@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface DropdownItem {
   href: string;
@@ -59,15 +60,17 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800 py-3' : 'bg-transparent py-5'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${isScrolled
+        ? 'bg-elevated/95 backdrop-blur-sm border-b border-default py-3'
+        : 'bg-transparent py-5'
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 border border-amber-500/30 flex items-center justify-center text-xl shadow-lg shadow-amber-500/10 group-hover:scale-110 transition-transform">
-            ✦
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-lg bg-amber-500 text-black flex items-center justify-center text-lg font-bold">
+            S
           </div>
-          <span className="text-xl font-bold tracking-tighter bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+          <span className="text-lg font-bold text-primary">
             Spirit Numeral
           </span>
         </Link>
@@ -83,7 +86,7 @@ export default function Navbar() {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <button
-                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-zinc-400 hover:text-amber-500 transition-colors"
+                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-secondary hover:text-amber-600 transition-colors"
                 >
                   {item.label}
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform ${openDropdown === item.label ? 'rotate-180' : ''}`}>
@@ -92,20 +95,19 @@ export default function Navbar() {
                 </button>
 
                 {/* Dropdown Menu */}
-                <div className={`absolute top-full left-0 mt-2 w-64 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/50 transition-all ${openDropdown === item.label ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
-                  }`}>
+                <div className={`absolute top-full left-0 mt-2 w-56 rounded-xl bg-card border border-default shadow-lg transition-all ${openDropdown === item.label ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-1'}`}>
                   <div className="p-2">
                     {item.dropdown.map((dropItem) => (
                       <Link
                         key={dropItem.href}
                         href={dropItem.href}
-                        className="block px-4 py-3 rounded-xl hover:bg-zinc-800 transition-colors group/item"
+                        className="block px-3 py-2.5 rounded-lg hover:bg-elevated transition-colors"
                       >
-                        <div className="font-medium text-white text-sm group-hover/item:text-amber-400 transition-colors">
+                        <div className="font-medium text-primary text-sm group-hover/item:text-amber-600">
                           {dropItem.label}
                         </div>
                         {dropItem.description && (
-                          <div className="text-xs text-zinc-500 mt-0.5">{dropItem.description}</div>
+                          <div className="text-xs text-muted mt-0.5">{dropItem.description}</div>
                         )}
                       </Link>
                     ))}
@@ -116,16 +118,19 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href!}
-                className={`px-4 py-2 text-sm font-medium transition-colors hover:text-amber-500 ${pathname === item.href ? 'text-amber-500' : 'text-zinc-400'
-                  }`}
+                className={`px-4 py-2 text-sm font-medium transition-colors hover:text-amber-600 ${pathname === item.href ? 'text-amber-600' : 'text-secondary'}`}
               >
                 {item.label}
               </Link>
             )
           ))}
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
           <Link
             href="/calculator"
-            className="ml-2 bg-amber-500 text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/10"
+            className="ml-2 btn-primary px-5 py-2 rounded-lg text-sm font-bold transition-colors"
           >
             Calculate Now
           </Link>
@@ -133,8 +138,9 @@ export default function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-zinc-100"
+          className="md:hidden text-primary p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
@@ -146,12 +152,12 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-zinc-950 border-b border-zinc-800 max-h-[80vh] overflow-y-auto">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-card border-b border-default max-h-[80vh] overflow-y-auto">
           <div className="p-6 space-y-6">
             {navItems.map((item) => (
               item.dropdown ? (
                 <div key={item.label} className="space-y-2">
-                  <div className="text-xs font-bold uppercase tracking-wider text-zinc-600 mb-3">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">
                     {item.label}
                   </div>
                   {item.dropdown.map((dropItem) => (
@@ -159,11 +165,11 @@ export default function Navbar() {
                       key={dropItem.href}
                       href={dropItem.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block pl-3 border-l-2 border-zinc-800 hover:border-amber-500 transition-colors"
+                      className="block pl-3 border-l-2 border-default hover:border-amber-500 transition-colors"
                     >
-                      <div className="font-medium text-white text-base">{dropItem.label}</div>
+                      <div className="font-medium text-primary text-base">{dropItem.label}</div>
                       {dropItem.description && (
-                        <div className="text-xs text-zinc-500 mt-0.5">{dropItem.description}</div>
+                        <div className="text-xs text-muted mt-0.5">{dropItem.description}</div>
                       )}
                     </Link>
                   ))}
@@ -173,20 +179,23 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href!}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block text-lg font-medium ${pathname === item.href ? 'text-amber-500' : 'text-zinc-300'
-                    }`}
+                  className={`block text-lg font-medium ${pathname === item.href ? 'text-amber-600' : 'text-primary'}`}
                 >
                   {item.label}
                 </Link>
               )
             ))}
-            <Link
-              href="/calculator"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full bg-amber-500 text-black py-4 rounded-xl text-center font-bold text-lg"
-            >
-              Calculate Your Life Path
-            </Link>
+
+            <div className="flex items-center gap-3 pt-4">
+              <ThemeToggle />
+              <Link
+                href="/calculator"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 block btn-primary py-4 rounded-lg text-center font-bold"
+              >
+                Calculate Your Life Path
+              </Link>
+            </div>
           </div>
         </div>
       )}

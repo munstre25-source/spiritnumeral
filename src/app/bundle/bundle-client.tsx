@@ -50,45 +50,45 @@ export default function BundleClient() {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-page text-primary">
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
           <h1 className="text-4xl font-bold">Numerology Bundle</h1>
-          <p className="text-zinc-400 mt-3">
+          <p className="text-secondary mt-3">
             Get all three reports in one purchase: Personal Blueprint, Relationship, and Wealth & Abundance.
           </p>
         </div>
 
-        <form onSubmit={handleCheckout} className="bg-zinc-900/50 border border-zinc-800 rounded-3xl p-6 space-y-4">
+        <form onSubmit={handleCheckout} className="bg-card border border-default rounded-3xl p-6 space-y-4">
           <div>
-            <label className="text-sm text-zinc-400">Email</label>
+            <label className="text-sm text-secondary">Email</label>
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               required
-              className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-amber-500"
+              className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 outline-none focus:border-amber-500"
               placeholder="you@email.com"
             />
           </div>
           <div>
-            <label className="text-sm text-zinc-400">Your primary number</label>
+            <label className="text-sm text-secondary">Your primary number</label>
             <input
               value={primary}
               onChange={(e) => setPrimary(e.target.value)}
               type="number"
               required
-              className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-amber-500"
+              className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 outline-none focus:border-amber-500"
               placeholder="e.g. 11"
             />
           </div>
           <div>
-            <label className="text-sm text-zinc-400">Partner number (optional)</label>
+            <label className="text-sm text-secondary">Partner number (optional)</label>
             <input
               value={secondary}
               onChange={(e) => setSecondary(e.target.value)}
               type="number"
-              className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-amber-500"
+              className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 outline-none focus:border-amber-500"
               placeholder="e.g. 22"
             />
           </div>
@@ -102,7 +102,7 @@ export default function BundleClient() {
           >
             {loading ? 'Redirecting…' : 'Get the Bundle'}
           </button>
-          <p className="text-xs text-zinc-500 text-center">One‑time payment. Delivered to your email.</p>
+          <p className="text-xs text-muted text-center">One‑time payment. Delivered to your email.</p>
         </form>
       </div>
     </main>

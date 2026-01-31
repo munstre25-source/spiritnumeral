@@ -57,37 +57,39 @@ export function getAllLifePathSlugs(): string[] {
 }
 
 /**
- * Generate SEO-friendly title for an angel number
+ * Generate SEO-friendly title for an angel number (GSC-optimized for CTR)
+ * Queries: "X meaning", "angel number X meaning", "meaning in love", "twin flame", "money"
  */
 export function generateAngelNumberTitle(number: number, modifier?: string): string {
   const base = `Angel Number ${number} Meaning`;
 
   if (modifier === 'warning') {
-    return `Is Angel Number ${number} a Warning? Meaning for Love & Career`;
+    return `Is ${number} a Warning? Angel Number Meaning for Love & Career`;
   }
   if (modifier === 'twin-flame') {
-    return `Angel Number ${number} Twin Flame Meaning`;
+    return `${number} Twin Flame Meaning: Angel Number Guide`;
   }
   if (modifier === 'why-seeing') {
-    return `Why Do I Keep Seeing ${number}? Meaning Explained`;
+    return `Why Am I Seeing ${number}? Meaning & What To Do`;
   }
 
-  return `${base}: Love & Career Insights`;
+  return `${base}: Love, Career & Twin Flame`;
 }
 
 /**
- * Generate SEO-friendly description for an angel number
+ * Generate SEO-friendly description for an angel number (GSC-optimized for CTR)
+ * Desktop position ~15, mobile ~8.6; stronger snippets help both.
  */
 export function generateAngelNumberDescription(number: number, data: any, modifier?: string): string {
   if (modifier === 'warning') {
-    return `Is angel number ${number} a warning sign? Discover the meaning and what it says about love, career, and your next steps.`;
+    return `Is angel number ${number} a warning? Find out the meaning for love, career, and what to do next.`;
   }
   if (modifier === 'twin-flame') {
-    return `What does angel number ${number} mean for twin flames? Learn about reunion signs and your connection.`;
+    return `What does ${number} mean for twin flames? Reunion signs, connection, and spiritual meaning.`;
   }
   if (modifier === 'why-seeing') {
-    return `Why do you keep seeing ${number}? Discover the message and what it means for your life path and relationships.`;
+    return `Why does ${number} keep appearing? Get the meaning and what to do next. Love, career & spiritual guidance.`;
   }
 
-  return `Discover the meaning of angel number ${number}. ${data?.meaning || ''} Learn how it affects love, career, and twin flame energy.`;
+  return `Angel number ${number} meaning: love, career & twin flame. ${(data?.meaning || '').slice(0, 100)}`;
 }

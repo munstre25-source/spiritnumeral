@@ -195,10 +195,10 @@ export function AngelNumberQuiz() {
     if (showResult) {
         return (
             <div className="max-w-2xl mx-auto">
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-amber-950/30 via-zinc-900 to-indigo-950/30 border border-amber-500/20">
+                <div className="p-8 rounded-3xl bg-card border border-default border border-amber-500/20">
                     <div className="text-center mb-8">
-                        <div className="text-sm uppercase tracking-widest text-amber-400 mb-2">Your Numbers</div>
-                        <h2 className="text-3xl font-bold text-white mb-4">
+                        <div className="text-sm uppercase tracking-widest text-amber-600 mb-2">Your Numbers</div>
+                        <h2 className="text-3xl font-bold text-primary mb-4">
                             The Universe is Speaking Through These Numbers
                         </h2>
                     </div>
@@ -213,27 +213,27 @@ export function AngelNumberQuiz() {
                             >
                                 <div className={`w-24 h-24 rounded-2xl flex items-center justify-center text-3xl font-bold transition-all group-hover:scale-105 ${i === 0
                                         ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/30'
-                                        : 'bg-zinc-800 text-amber-400 border border-zinc-700'
+                                        : 'bg-elevated text-amber-600 border border-default'
                                     }`}>
                                     {num}
                                 </div>
-                                <div className="text-center mt-2 text-xs text-zinc-500">
+                                <div className="text-center mt-2 text-xs text-muted">
                                     {i === 0 ? 'Primary' : 'Secondary'}
                                 </div>
                             </Link>
                         ))}
                     </div>
 
-                    <p className="text-zinc-400 text-center mb-8">
-                        Based on your answers, <span className="text-amber-400 font-semibold">{suggestedNumbers[0]}</span> is
+                    <p className="text-secondary text-center mb-8">
+                        Based on your answers, <span className="text-amber-600 font-semibold">{suggestedNumbers[0]}</span> is
                         your primary angel number right now. This number carries an important message for your current life situation.
                     </p>
 
                     {/* Email Capture */}
                     {!emailSubmitted ? (
-                        <div className="p-6 rounded-2xl bg-zinc-800/50 border border-zinc-700 space-y-3">
-                            <h3 className="text-lg font-semibold text-white">Get Your Detailed Reading</h3>
-                            <p className="text-zinc-400 text-sm">
+                        <div className="p-6 rounded-2xl bg-elevated/50 border border-default space-y-3">
+                            <h3 className="text-lg font-semibold text-primary">Get Your Detailed Reading</h3>
+                            <p className="text-secondary text-sm">
                                 Enter your email to receive a personalized interpretation of your angel numbers.
                             </p>
                             <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
@@ -242,7 +242,7 @@ export function AngelNumberQuiz() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="your@email.com"
-                                    className="flex-1 bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500"
+                                    className="flex-1 bg-card border border-default text-primary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500"
                                     required
                                 />
                                 <button
@@ -254,9 +254,9 @@ export function AngelNumberQuiz() {
                             </form>
                         </div>
                     ) : (
-                        <div className="p-6 rounded-2xl bg-green-900/20 border border-green-500/30 text-center">
-                            <div className="text-green-400 font-semibold">Check your inbox!</div>
-                            <p className="text-zinc-400 text-sm mt-1">Your personalized reading is on its way.</p>
+                        <div className="p-6 rounded-2xl bg-card border border-default text-center">
+                            <div className="text-primary font-semibold">Check your inbox!</div>
+                            <p className="text-secondary text-sm mt-1">Your personalized reading is on its way.</p>
                         </div>
                     )}
 
@@ -266,18 +266,18 @@ export function AngelNumberQuiz() {
                             placeholder="Your name (optional)"
                             value={name}
                             onChange={(e) => setName(e.target.value.slice(0, 40))}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                         />
                         <input
                             placeholder="Biggest challenge (optional, 80 chars)"
                             value={challenge}
                             onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                         />
                         <select
                             value={focus}
                             onChange={(e) => setFocus(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60 col-span-1 sm:col-span-1"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60 col-span-1 sm:col-span-1"
                         >
                             <option value="">Focus area (required)</option>
                             <option value="love">Love</option>
@@ -289,7 +289,7 @@ export function AngelNumberQuiz() {
                         <select
                             value={feeling}
                             onChange={(e) => setFeeling(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                         >
                             <option value="">How do you feel? (required)</option>
                             <option value="calm">Calm</option>
@@ -301,7 +301,7 @@ export function AngelNumberQuiz() {
                         <select
                             value={timeHorizon}
                             onChange={(e) => setTimeHorizon(e.target.value as any)}
-                            className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
                         >
                             <option value="">Time horizon (required)</option>
                             <option value="7d">Next 7 days</option>
@@ -317,32 +317,32 @@ export function AngelNumberQuiz() {
                         <button
                             onClick={startBlueprintCheckout}
                             disabled={loadingCheckout || !canCheckout}
-                            className="py-4 bg-gradient-to-r from-indigo-500 to-amber-500 text-black font-bold rounded-xl hover:from-indigo-400 hover:to-amber-400 transition-colors disabled:opacity-60"
+                            className="py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors disabled:opacity-60"
                         >
                             {loadingCheckout ? 'Creating your blueprint…' : 'Get My Blueprint ($17)'}
                         </button>
                         <button
                             onClick={restartQuiz}
-                            className="py-4 bg-zinc-800 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-700 transition-colors"
+                            className="py-4 bg-elevated border border-default text-secondary font-medium rounded-xl hover:bg-elevated transition-colors"
                         >
                             Take Quiz Again
                         </button>
                     </div>
-                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400 mt-2">
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary mt-2">
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             Focus-specific guidance
                         </div>
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             7/30/90-day plan
                         </div>
-                        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
                             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                             Challenge-based affirmation
                         </div>
                     </div>
-                    <p className="text-[11px] text-zinc-500 text-center mt-1">One-time $17 · Instant PDF · No login</p>
+                    <p className="text-[11px] text-muted text-center mt-1">One-time $17 · Instant PDF · No login</p>
                     {checkoutError && <p className="text-red-400 text-sm mt-2">{checkoutError}</p>}
                 </div>
             </div>
@@ -356,11 +356,11 @@ export function AngelNumberQuiz() {
         <div className="max-w-2xl mx-auto">
             {/* Progress Bar */}
             <div className="mb-8">
-                <div className="flex justify-between text-sm text-zinc-500 mb-2">
+                <div className="flex justify-between text-sm text-muted mb-2">
                     <span>Question {currentQuestion + 1} of {QUIZ_QUESTIONS.length}</span>
                     <span>{Math.round(progress)}%</span>
                 </div>
-                <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-elevated rounded-full overflow-hidden">
                     <div
                         className="h-full bg-amber-500 transition-all duration-500"
                         style={{ width: `${progress}%` }}
@@ -369,8 +369,8 @@ export function AngelNumberQuiz() {
             </div>
 
             {/* Question */}
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+            <div className="p-8 rounded-3xl bg-card border border-default">
+                <h2 className="text-2xl md:text-3xl font-bold text-primary mb-8">
                     {question.question}
                 </h2>
 
@@ -379,7 +379,7 @@ export function AngelNumberQuiz() {
                         <button
                             key={index}
                             onClick={() => handleAnswer(index)}
-                            className="w-full p-4 rounded-xl bg-zinc-800/50 border border-zinc-700 text-left text-zinc-300 hover:border-amber-500/50 hover:bg-zinc-800 transition-all"
+                            className="w-full p-4 rounded-xl bg-elevated/50 border border-default text-left text-secondary hover:border-amber-500/50 hover:bg-elevated transition-all"
                         >
                             {option.text}
                         </button>

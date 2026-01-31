@@ -102,16 +102,16 @@ export function NamePaidCTA() {
 
   return (
     <div ref={impressionRef} className="space-y-4">
-      <div className="grid sm:grid-cols-3 gap-2 text-xs text-zinc-400">
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+      <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-amber-500"></span>
           Expression + Soul Urge + Personality
         </div>
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-amber-500"></span>
           Focus-specific guidance
         </div>
-        <div className="flex items-center gap-2 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2">
+        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
           <span className="w-2 h-2 rounded-full bg-amber-500"></span>
           7/30/90 day action plan
         </div>
@@ -122,18 +122,18 @@ export function NamePaidCTA() {
           placeholder="Your full name (required)"
           value={fullName}
           onChange={(e) => setFullName(e.target.value.slice(0, 80))}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
         />
         <input
           placeholder="Biggest challenge (optional, 80 chars)"
           value={challenge}
           onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
         />
         <select
           value={focus}
           onChange={(e) => setFocus(e.target.value as Focus)}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
         >
           <option value="">Focus area (required)</option>
           <option value="love">Love</option>
@@ -145,7 +145,7 @@ export function NamePaidCTA() {
         <select
           value={feeling}
           onChange={(e) => setFeeling(e.target.value as Feeling)}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
         >
           <option value="">How do you feel? (required)</option>
           <option value="calm">Calm</option>
@@ -157,7 +157,7 @@ export function NamePaidCTA() {
         <select
           value={timeHorizon}
           onChange={(e) => setTimeHorizon(e.target.value as Horizon)}
-          className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60 sm:col-span-2"
+          className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60 sm:col-span-2"
         >
           <option value="">Time horizon (required)</option>
           <option value="7d">Next 7 days</option>
@@ -167,10 +167,10 @@ export function NamePaidCTA() {
       </div>
 
       {computed && (
-        <div className="flex flex-wrap gap-2 text-xs text-zinc-400">
-          <span className="px-3 py-1 rounded-full bg-zinc-800">Expression: {computed.expression}</span>
-          <span className="px-3 py-1 rounded-full bg-zinc-800">Soul Urge: {computed.soulUrge}</span>
-          <span className="px-3 py-1 rounded-full bg-zinc-800">Personality: {computed.personality}</span>
+        <div className="flex flex-wrap gap-2 text-xs text-secondary">
+          <span className="px-3 py-1 rounded-full bg-elevated">Expression: {computed.expression}</span>
+          <span className="px-3 py-1 rounded-full bg-elevated">Soul Urge: {computed.soulUrge}</span>
+          <span className="px-3 py-1 rounded-full bg-elevated">Personality: {computed.personality}</span>
         </div>
       )}
 
@@ -181,14 +181,14 @@ export function NamePaidCTA() {
         title={!canCheckout ? 'Add your name and required fields to unlock' : 'Proceed to checkout'}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-        <div className="bg-zinc-950 text-amber-500 py-4 rounded-xl font-bold text-lg text-center transition-all group-hover:bg-transparent group-hover:text-black">
+        <div className="bg-page text-amber-500 py-4 rounded-xl font-bold text-lg text-center transition-all group-hover:bg-transparent group-hover:text-black">
           {loading ? 'Preparing your PDF…' : 'Get Your Name Blueprint ($17)'}
         </div>
       </button>
-      <p className="text-center text-zinc-500 text-sm">
+      <p className="text-center text-muted text-sm">
         Required: full name, focus, feeling, and time horizon. We build your PDF from your name numbers.
       </p>
-      <div className="text-center text-[11px] text-zinc-500">One-time $17 · Instant PDF · No login</div>
+      <div className="text-center text-[11px] text-muted">One-time $17 · Instant PDF · No login</div>
       {error && <p className="text-center text-red-400 text-sm">{error}</p>}
     </div>
   );

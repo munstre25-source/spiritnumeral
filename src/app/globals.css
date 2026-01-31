@@ -3,211 +3,82 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-zinc-950 text-zinc-100;
-    font-family: var(--font-inter), system-ui, sans-serif;
+  /* Theme: default = dark */
+  :root {
+    --color-bg-primary: 9 9 11;
+    --color-bg-secondary: 24 24 27;
+    --color-bg-tertiary: 39 39 42;
+    --color-bg-card: 24 24 27;
+    --color-text-primary: 244 244 245;
+    --color-text-secondary: 212 212 216;
+    --color-text-muted: 113 113 122;
+    --color-border: 63 63 70;
+    --color-accent: 245 158 11;
+    --color-accent-hover: 251 191 36;
+    --scrollbar-track: 9 9 11;
+    --scrollbar-thumb: 39 39 42;
   }
-  
-  /* Premium headings with Playfair Display */
+
+  /* Light theme – applied when .light on html */
+  :root.light {
+    --color-bg-primary: 250 250 250;
+    --color-bg-secondary: 255 255 255;
+    --color-bg-tertiary: 245 245 245;
+    --color-bg-card: 255 255 255;
+    --color-text-primary: 23 23 23;
+    --color-text-secondary: 64 64 64;
+    --color-text-muted: 115 115 115;
+    --color-border: 229 229 229;
+    --color-accent: 217 119 6;
+    --color-accent-hover: 180 83 9;
+    --scrollbar-track: 245 245 245;
+    --scrollbar-thumb: 212 212 212;
+  }
+
+  body {
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    font-family: var(--font-inter), system-ui, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
   h1, h2, h3 {
     font-family: var(--font-playfair), Georgia, serif;
+    color: rgb(var(--color-text-primary));
   }
 }
 
+/* Semantic theme-aware utilities – use these for automatic light/dark */
 @layer components {
-  /* Animated shimmer effect for CTAs */
-  .shimmer {
-    position: relative;
-    overflow: hidden;
+  .bg-page { background-color: rgb(var(--color-bg-primary)); }
+  .bg-card { background-color: rgb(var(--color-bg-card)); }
+  .bg-elevated { background-color: rgb(var(--color-bg-secondary)); }
+  .text-primary { color: rgb(var(--color-text-primary)); }
+  .text-secondary { color: rgb(var(--color-text-secondary)); }
+  .text-muted { color: rgb(var(--color-text-muted)); }
+  .border-default { border-color: rgb(var(--color-border)); }
+  .bg-divider { background-color: rgb(var(--color-border)); }
+  .btn-primary {
+    background-color: rgb(var(--color-accent));
+    color: #000;
   }
-  
-  .shimmer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transform: translateX(-100%);
-    animation: shimmer 2s infinite;
-  }
-  
-  /* Fade in animation for scroll */
-  .fade-in-section {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
-  
-  /* Staggered fade in */
-  .fade-in-section:nth-child(1) { animation-delay: 0.1s; }
-  .fade-in-section:nth-child(2) { animation-delay: 0.2s; }
-  .fade-in-section:nth-child(3) { animation-delay: 0.3s; }
-  .fade-in-section:nth-child(4) { animation-delay: 0.4s; }
-  .fade-in-section:nth-child(5) { animation-delay: 0.5s; }
-  
-  /* Glowing text effect */
-  .glow-text {
-    text-shadow: 0 0 20px rgba(245, 158, 11, 0.3),
-                 0 0 40px rgba(245, 158, 11, 0.2),
-                 0 0 60px rgba(245, 158, 11, 0.1);
-  }
-  
-  /* Premium card hover effect */
-  .card-hover {
-    @apply transition-all duration-300;
-  }
-  
-  .card-hover:hover {
-    @apply border-amber-500/50;
-    box-shadow: 0 0 30px rgba(245, 158, 11, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
-  }
-  
-  /* Mystical border glow */
-  .mystical-border {
-    position: relative;
-  }
-  
-  .mystical-border::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(245, 158, 11, 0.3),
-      transparent 50%,
-      rgba(139, 92, 246, 0.3)
-    );
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: -1;
-  }
-  
-  .mystical-border:hover::before {
-    opacity: 1;
-  }
-  
-  /* Number pulsing effect */
-  .number-pulse {
-    animation: numberPulse 3s ease-in-out infinite;
+  .btn-primary:hover {
+    background-color: rgb(var(--color-accent-hover));
   }
 }
 
-@layer utilities {
-  /* Animation delays */
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
-  
-  /* Slow pulse animation */
-  .animate-pulse-slow {
-    animation: pulseSlow 8s ease-in-out infinite;
-  }
-  
-  /* Gradient text utility */
-  .gradient-text-gold {
-    @apply bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent;
-  }
-  
-  /* Floating animation */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-}
-
-/* Keyframe animations */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulseSlow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.1); }
-}
-
-@keyframes numberPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Star field background */
-.stars {
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.3), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.3), transparent),
-    radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 230px 80px, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 300px 150px, rgba(255,255,255,0.15), transparent),
-    radial-gradient(1px 1px at 370px 60px, rgba(255,255,255,0.3), transparent),
-    radial-gradient(2px 2px at 450px 200px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 520px 90px, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 600px 250px, rgba(255,255,255,0.15), transparent),
-    radial-gradient(1px 1px at 680px 130px, rgba(255,255,255,0.3), transparent),
-    radial-gradient(2px 2px at 760px 300px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 850px 170px, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 930px 350px, rgba(255,255,255,0.15), transparent),
-    radial-gradient(1px 1px at 100px 400px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(2px 2px at 200px 500px, rgba(255,255,255,0.15), transparent),
-    radial-gradient(1px 1px at 350px 450px, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 500px 550px, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 650px 480px, rgba(255,255,255,0.15), transparent),
-    radial-gradient(2px 2px at 800px 520px, rgba(255,255,255,0.25), transparent);
-  background-size: 1000px 600px;
-  animation: twinkle 5s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.5; }
-}
-
-/* Smooth scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-zinc-950;
-}
-
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background-color: rgb(var(--scrollbar-track)); }
 ::-webkit-scrollbar-thumb {
-  @apply bg-zinc-800 rounded-full;
+  background-color: rgb(var(--scrollbar-thumb));
+  border-radius: 9999px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-zinc-700;
-}
-
-/* Selection styling */
-::selection {
-  @apply bg-amber-500/30 text-amber-100;
-}
-
-/* Focus states for accessibility */
 :focus-visible {
-  @apply outline-2 outline-amber-500 outline-offset-2;
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: rgba(245, 158, 11, 0.25);
 }

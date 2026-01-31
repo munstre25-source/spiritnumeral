@@ -83,56 +83,56 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
         <StructuredData id="contact-structured-data" data={structuredData} />
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-6xl font-bold mb-8 text-primary font-bold">
           Connect With Us
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <p className="text-zinc-400 text-lg mb-8">
+            <p className="text-secondary text-lg mb-8">
               The universe has a way of bringing people together. Whether you have a question about a specific number, want to share your experience, or have business inquiries, we're here to listen.
             </p>
             
             <div className="space-y-6">
-              <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+              <div className="p-6 rounded-2xl bg-card border border-default">
                 <h3 className="text-amber-500 font-bold mb-2">Email Us</h3>
-                <p className="text-zinc-300">spiritnumeral@proton.me</p>
+                <p className="text-secondary">spiritnumeral@proton.me</p>
               </div>
               
-              <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+              <div className="p-6 rounded-2xl bg-card border border-default">
                 <h3 className="text-amber-500 font-bold mb-2">Response Time</h3>
-                <p className="text-zinc-300">We typically respond within 24-48 spiritual hours.</p>
+                <p className="text-secondary">We typically respond within 24-48 spiritual hours.</p>
               </div>
             </div>
           </div>
           
           <form className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-2">Your Name</label>
+              <label className="block text-sm font-medium text-secondary mb-2">Your Name</label>
               <input 
                 type="text" 
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-card border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500 transition-colors"
                 placeholder="Name"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-2">Email Address</label>
+              <label className="block text-sm font-medium text-secondary mb-2">Email Address</label>
               <input 
                 type="email" 
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-card border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500 transition-colors"
                 placeholder="email@example.com"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-2">Message</label>
+              <label className="block text-sm font-medium text-secondary mb-2">Message</label>
               <textarea 
                 rows={5}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-zinc-100 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-card border border-default rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-amber-500 transition-colors"
                 placeholder="How can we help you on your path?"
               ></textarea>
             </div>
@@ -146,13 +146,13 @@ export default function ContactPage() {
           </form>
         </div>
 
-        <div className="mt-16 p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800">
-          <h2 className="text-2xl font-bold mb-6 text-amber-300">Frequently Asked Questions</h2>
+        <div className="mt-16 p-8 rounded-3xl bg-card border border-default">
+          <h2 className="text-2xl font-bold mb-6 text-amber-600">Frequently Asked Questions</h2>
           <dl className="space-y-6">
             {faqItems.map((item) => (
-              <div key={item.question} className="border-b border-zinc-800 pb-6 last:border-b-0 last:pb-0">
-                <dt className="text-lg font-semibold text-zinc-100">{item.question}</dt>
-                <dd className="text-zinc-300 leading-relaxed mt-2">{item.answer}</dd>
+              <div key={item.question} className="border-b border-default pb-6 last:border-b-0 last:pb-0">
+                <dt className="text-lg font-semibold text-primary">{item.question}</dt>
+                <dd className="text-secondary leading-relaxed mt-2">{item.answer}</dd>
               </div>
             ))}
           </dl>

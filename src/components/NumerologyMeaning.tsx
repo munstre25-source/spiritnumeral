@@ -44,7 +44,7 @@ export function NumerologyMeaning({
   if (advice) blocks.push({ title: 'What To Do Next', body: advice });
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 md:pt-40 px-6 pb-20">
+    <main className="min-h-screen bg-page text-primary pt-32 md:pt-40 px-6 pb-20">
       {faqs && faqs.length > 0 && (
         <script
           type="application/ld+json"
@@ -53,27 +53,27 @@ export function NumerologyMeaning({
       )}
       <div className="max-w-3xl mx-auto space-y-10">
         <header className="text-center space-y-4">
-          <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium">
+          <div className="inline-block px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm font-medium">
             Numerology Insight
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-amber-100 to-amber-500 bg-clip-text text-transparent tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tight">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-zinc-400 text-lg md:text-xl">{subtitle}</p>
+            <p className="text-secondary text-lg md:text-xl">{subtitle}</p>
           )}
         </header>
 
-        <section className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-          <p className="text-zinc-300 leading-relaxed text-base md:text-lg">{meaning}</p>
+        <section className="p-8 rounded-3xl bg-card border border-default">
+          <p className="text-secondary leading-relaxed text-base md:text-lg">{meaning}</p>
         </section>
 
         {(strengths?.length || challenges?.length) && (
           <section className="grid md:grid-cols-2 gap-6">
             {strengths?.length ? (
-              <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                <h2 className="text-amber-400 font-semibold mb-4">Strengths</h2>
-                <ul className="text-zinc-300 space-y-2 text-sm md:text-base">
+              <div className="p-6 rounded-2xl bg-card border border-default">
+                <h2 className="text-amber-600 font-semibold mb-4">Strengths</h2>
+                <ul className="text-secondary space-y-2 text-sm md:text-base">
                   {strengths.map((item) => (
                     <li key={item}>• {item}</li>
                   ))}
@@ -81,9 +81,9 @@ export function NumerologyMeaning({
               </div>
             ) : null}
             {challenges?.length ? (
-              <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                <h2 className="text-amber-400 font-semibold mb-4">Challenges</h2>
-                <ul className="text-zinc-300 space-y-2 text-sm md:text-base">
+              <div className="p-6 rounded-2xl bg-card border border-default">
+                <h2 className="text-amber-600 font-semibold mb-4">Challenges</h2>
+                <ul className="text-secondary space-y-2 text-sm md:text-base">
                   {challenges.map((item) => (
                     <li key={item}>• {item}</li>
                   ))}
@@ -96,9 +96,9 @@ export function NumerologyMeaning({
         {blocks.length > 0 && (
           <section className="grid md:grid-cols-2 gap-6">
             {blocks.map((block) => (
-              <div key={block.title} className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                <h2 className="text-amber-400 font-semibold mb-3">{block.title}</h2>
-                <p className="text-zinc-300 leading-relaxed text-sm md:text-base">{block.body}</p>
+              <div key={block.title} className="p-6 rounded-2xl bg-card border border-default">
+                <h2 className="text-amber-600 font-semibold mb-3">{block.title}</h2>
+                <p className="text-secondary leading-relaxed text-sm md:text-base">{block.body}</p>
               </div>
             ))}
           </section>
@@ -107,14 +107,14 @@ export function NumerologyMeaning({
         {faqs && faqs.length > 0 && <FAQ faqs={faqs} />}
 
         {relatedLinks && relatedLinks.length > 0 && (
-          <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
-            <h2 className="text-lg font-semibold text-white mb-4">Explore Related Insights</h2>
+          <section className="p-6 rounded-3xl bg-card border border-default">
+            <h2 className="text-lg font-semibold text-primary mb-4">Explore Related Insights</h2>
             <div className="flex flex-wrap gap-2">
               {relatedLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-amber-400 text-sm hover:border-amber-500/60 transition"
+                  className="px-4 py-2 rounded-full bg-card border border-default text-amber-600 text-sm hover:border-amber-500/60 transition"
                 >
                   {link.label}
                 </a>
@@ -124,7 +124,7 @@ export function NumerologyMeaning({
         )}
 
         {footer && (
-          <section className="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800">
+          <section className="p-6 rounded-3xl bg-card border border-default">
             {footer}
           </section>
         )}

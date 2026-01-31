@@ -28,8 +28,8 @@ export default function FAQ({ faqs, title = "Frequently Asked Questions" }: FAQP
   }
 
   return (
-    <section className="mt-12 p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-      <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
+    <section className="mt-12 p-8 rounded-3xl bg-card border border-default">
+      <h2 className="text-3xl font-bold mb-8 text-center text-primary font-bold">
         {title}
       </h2>
       
@@ -37,14 +37,14 @@ export default function FAQ({ faqs, title = "Frequently Asked Questions" }: FAQP
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="border border-zinc-800 rounded-xl overflow-hidden transition-all hover:border-amber-500/30"
+            className="border border-default rounded-xl overflow-hidden transition-all hover:border-amber-500/30"
           >
             <button
               onClick={() => toggle(index)}
-              className="w-full px-6 py-4 text-left flex items-center justify-between bg-zinc-900/30 hover:bg-zinc-900/50 transition-colors"
+              className="w-full px-6 py-4 text-left flex items-center justify-between bg-elevated hover:bg-card transition-colors"
               aria-expanded={openIndex === index}
             >
-              <span className="font-semibold text-zinc-100 pr-4">{faq.question}</span>
+              <span className="font-semibold text-primary pr-4">{faq.question}</span>
               <svg
                 className={`w-5 h-5 text-amber-500 flex-shrink-0 transition-transform ${
                   openIndex === index ? 'rotate-180' : ''
@@ -63,8 +63,8 @@ export default function FAQ({ faqs, title = "Frequently Asked Questions" }: FAQP
             </button>
             
             {openIndex === index && (
-              <div className="px-6 py-4 bg-zinc-900/20 border-t border-zinc-800">
-                <p className="text-zinc-300 leading-relaxed">{faq.answer}</p>
+              <div className="px-6 py-4 bg-elevated border-t border-default">
+                <p className="text-secondary leading-relaxed">{faq.answer}</p>
               </div>
             )}
           </div>

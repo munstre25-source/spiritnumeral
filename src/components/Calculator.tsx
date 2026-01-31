@@ -3,10 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-/**
- * Numerology Calculator Component
- * Calculates Life Path number from birthdate and redirects to personalized page
- */
 export default function NumerologyCalculator() {
   const [birthdate, setBirthdate] = useState('');
   const [name, setName] = useState('');
@@ -14,85 +10,68 @@ export default function NumerologyCalculator() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  /**
-   * Calculate Life Path number from birthdate
-   * Life Path = sum of all digits in birthdate, reduced to single digit (except master numbers 11, 22, 33)
-   */
   function calculateLifePath(dateString: string): number {
-    // Remove dashes and slashes
     const cleaned = dateString.replace(/[-\/]/g, '');
-
-    // Sum all digits
     let sum = 0;
     for (const digit of cleaned) {
       sum += parseInt(digit, 10);
     }
-
-    // Reduce to single digit, but preserve master numbers
     while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
       sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
-
     return sum;
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-
     if (!birthdate) {
       setError('Please enter your birthdate');
       return;
     }
-
-    // Validate date format
     const dateRegex = /^\d{4}[-\/]\d{2}[-\/]\d{2}$|^\d{2}[-\/]\d{2}[-\/]\d{4}$/;
     if (!dateRegex.test(birthdate)) {
       setError('Please enter a valid date (MM/DD/YYYY or YYYY-MM-DD)');
       return;
     }
-
     try {
       const calculatedPath = calculateLifePath(birthdate);
       setLifePath(calculatedPath);
-
-      // Redirect to life path page after a brief moment
       setTimeout(() => {
         router.push(`/meaning/life-path/life-path-${calculatedPath}`);
-      }, 1500);
-    } catch (err) {
+      }, 1200);
+    } catch {
       setError('Error calculating your life path. Please try again.');
     }
   }
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 md:p-8 rounded-3xl bg-gradient-to-br from-indigo-950/40 via-zinc-900/50 to-zinc-900 border border-indigo-500/20 shadow-2xl">
-      <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center bg-gradient-to-r from-amber-200 to-yellow-500 bg-clip-text text-transparent">
-        Discover Your Life Path Number
+    <div className="w-full">
+      <h2 className="text-xl font-serif font-bold text-primary mb-2">
+        Life Path Calculator
       </h2>
-
-      <p className="text-sm md:text-base text-zinc-400 text-center mb-8">
-        Enter your birthdate to reveal your numerological life path and unlock your personalized predictions.
+      <p className="text-sm text-secondary mb-6">
+        Enter your birthdate to get your life path number and personalized reading.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
-            Your Name (Optional)
+          <label htmlFor="name" className="block text-sm font-medium text-primary mb-1">
+            Name (optional)
           </label>
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all text-base"
+            placeholder="Your name"
+            className="w-full px-4 py-3 rounded-lg bg-elevated border border-default text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-amber-500/50"
           />
         </div>
 
         <div>
-          <label htmlFor="birthdate" className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
-            Birthdate <span className="text-amber-500">*</span>
+          <label htmlFor="birthdate" className="block text-sm font-medium text-primary mb-1">
+            Birth date <span className="text-amber-600">*</span>
           </label>
           <input
             type="date"
@@ -100,40 +79,35 @@ export default function NumerologyCalculator() {
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
             required
-            className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-100 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all text-base"
+            className="w-full px-4 py-3 rounded-lg bg-elevated border border-default text-primary focus:outline-none focus:ring-2 focus:ring-amber-500/50"
           />
-          <p className="text-[10px] text-zinc-500 mt-2 italic px-1">We respect your privacy. Your data is used only for calculation.</p>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm animate-pulse">
+          <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 text-sm">
             {error}
           </div>
         )}
 
         {lifePath && (
-          <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-center animate-in fade-in zoom-in duration-300">
-            <p className="text-amber-400 font-semibold mb-2">Your Life Path Number is:</p>
-            <p className="text-5xl font-black text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">{lifePath}</p>
-            <p className="text-xs text-zinc-400 mt-3 flex items-center justify-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
-              Generating your personalized reading...
-            </p>
-            <p className="mt-3 text-amber-300 text-sm">Save this number and grab your personalized PDF below.</p>
+          <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-center">
+            <p className="text-sm font-medium text-primary">Your Life Path Number</p>
+            <p className="text-3xl font-bold text-amber-600 mt-1">{lifePath}</p>
+            <p className="text-xs text-secondary mt-2">Taking you to your reading...</p>
           </div>
         )}
 
         <button
           type="submit"
           disabled={!!lifePath}
-          className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-zinc-950 py-4 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-yellow-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] active:scale-[0.98]"
+          className="w-full btn-primary py-4 rounded-lg font-bold text-base disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {lifePath ? 'Calculating...' : 'Calculate My Life Path'}
         </button>
       </form>
 
-      <p className="text-[11px] text-zinc-500 text-center mt-8 leading-relaxed">
-        Numerology is a tool for self-discovery. Use these insights to guide your personal and spiritual development.
+      <p className="text-xs text-muted text-center mt-6">
+        Your data is used only for this calculation. We don’t store it.
       </p>
     </div>
   );

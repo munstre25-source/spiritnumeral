@@ -28,7 +28,7 @@ export function InternalLinks({ number, currentPage }: InternalLinksProps) {
 
   return (
     <section className="py-8">
-      <h2 className="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+      <h2 className="text-xl font-bold text-amber-600 mb-4 flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-amber-500"></span>
         Explore More About Angel Number {num}
       </h2>
@@ -37,9 +37,9 @@ export function InternalLinks({ number, currentPage }: InternalLinksProps) {
           <Link
             key={link.href}
             href={link.href}
-            className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 hover:bg-zinc-900 transition-all text-center group"
+            className="p-4 rounded-xl bg-card border border-default hover:border-amber-500/40 hover:bg-card transition-all text-center group"
           >
-            <span className="text-zinc-300 group-hover:text-amber-400 text-sm font-medium transition-colors">
+            <span className="text-secondary group-hover:text-amber-600 text-sm font-medium transition-colors">
               {link.label}
             </span>
           </Link>
@@ -68,13 +68,13 @@ export function NavigationLinks({ className = '' }: NavigationLinksProps) {
     <section className={`py-8 ${className}`}>
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-bold text-amber-400 mb-3">Quick Navigation</h3>
+          <h3 className="text-lg font-bold text-amber-600 mb-3">Quick Navigation</h3>
           <div className="flex flex-wrap gap-2">
             {mainPages.map((page) => (
               <Link
                 key={page.href}
                 href={page.href}
-                className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+                className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
               >
                 {page.label}
               </Link>
@@ -82,13 +82,13 @@ export function NavigationLinks({ className = '' }: NavigationLinksProps) {
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-bold text-amber-400 mb-3">Popular Angel Numbers</h3>
+          <h3 className="text-lg font-bold text-amber-600 mb-3">Popular Angel Numbers</h3>
           <div className="flex flex-wrap gap-2">
             {popularNumbers.map((num) => (
               <Link
                 key={num}
                 href={`/meaning/angel-number/${num}`}
-                className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+                className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
               >
                 {num}
               </Link>
@@ -117,13 +117,13 @@ export function RelatedNumbers({ currentNumber, count = 6 }: RelatedNumbersProps
 
   return (
     <section className="py-6">
-      <h3 className="text-lg font-bold text-amber-400 mb-3">Related Angel Numbers</h3>
+      <h3 className="text-lg font-bold text-amber-600 mb-3">Related Angel Numbers</h3>
       <div className="flex flex-wrap gap-2">
         {related.slice(0, count).map((num) => (
           <Link
             key={num}
             href={`/meaning/angel-number/${num}`}
-            className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+            className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
           >
             Angel Number {num}
           </Link>
@@ -152,13 +152,13 @@ export function ContextualLinks({ currentNumber }: ContextualLinksProps) {
 
   return (
     <section className="py-6">
-      <h3 className="text-lg font-bold text-amber-400 mb-3">Next Steps</h3>
+      <h3 className="text-lg font-bold text-amber-600 mb-3">Next Steps</h3>
       <div className="flex flex-wrap gap-2 mb-4">
         {nums.map((num) => (
           <Link
             key={num}
             href={`/meaning/angel-number/${num}`}
-            className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+            className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
           >
             Angel Number {num}
           </Link>
@@ -169,7 +169,7 @@ export function ContextualLinks({ currentNumber }: ContextualLinksProps) {
           <Link
             key={link.href}
             href={link.href}
-            className="px-4 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/40 text-zinc-300 hover:text-amber-400 text-sm transition-all"
+            className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
           >
             {link.label}
           </Link>

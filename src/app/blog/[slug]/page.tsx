@@ -249,19 +249,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             if (line.startsWith('## ')) {
                 const heading = line.replace('## ', '').trim();
                 if (heading.toLowerCase() === 'soft cta') return null;
-                return <h2 key={i} className="text-2xl font-bold text-white mt-8 mb-4">{heading}</h2>;
+                return <h2 key={i} className="text-2xl font-bold text-primary mt-8 mb-4">{heading}</h2>;
             }
-            if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-semibold text-amber-400 mt-6 mb-3">{line.replace('### ', '')}</h3>;
+            if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-semibold text-amber-600 mt-6 mb-3">{line.replace('### ', '')}</h3>;
             if (line.startsWith('- **')) {
                 const match = line.match(/- \*\*(.+?)\*\*:?\s*(.*)/);
-                if (match) return <li key={i} className="text-zinc-300 ml-4 mb-2"><strong className="text-white">{match[1]}</strong>{match[2] ? `: ${match[2]}` : ''}</li>;
+                if (match) return <li key={i} className="text-secondary ml-4 mb-2"><strong className="text-primary">{match[1]}</strong>{match[2] ? `: ${match[2]}` : ''}</li>;
             }
-            if (line.startsWith('- ')) return <li key={i} className="text-zinc-300 ml-4 mb-2">{line.replace('- ', '')}</li>;
-            if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="text-white font-semibold mb-4">{line.replace(/\*\*/g, '')}</p>;
-            if (line.match(/^\d+\./)) return <li key={i} className="text-zinc-300 ml-4 mb-2 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
+            if (line.startsWith('- ')) return <li key={i} className="text-secondary ml-4 mb-2">{line.replace('- ', '')}</li>;
+            if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="text-primary font-semibold mb-4">{line.replace(/\*\*/g, '')}</p>;
+            if (line.match(/^\d+\./)) return <li key={i} className="text-secondary ml-4 mb-2 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
             if (line.startsWith('|')) return null; // Skip table lines (handled separately)
             if (line.trim() === '') return <br key={i} />;
-            return <p key={i} className="text-zinc-400 leading-relaxed mb-4">{line}</p>;
+            return <p key={i} className="text-secondary leading-relaxed mb-4">{line}</p>;
         }).filter(Boolean);
     };
 
@@ -278,32 +278,32 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             )}
 
-            <main className="min-h-screen pt-32 pb-20 px-6">
+            <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
                 <article className="max-w-3xl mx-auto">
                     {/* Header */}
                     <header className="mb-12">
                         <div className="flex items-center gap-3 mb-6">
-                            <Link href="/blog" className="text-zinc-500 hover:text-zinc-300 text-sm">← Back to Blog</Link>
+                            <Link href="/blog" className="text-muted hover:text-secondary text-sm">← Back to Blog</Link>
                         </div>
                         <div className="flex items-center gap-3 mb-4">
-                            <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-medium">{post.category}</span>
-                            <span className="text-zinc-500 text-sm">{post.readTime}</span>
+                            <span className="px-3 py-1 rounded-full bg-amber-500/20 text-primary text-sm font-medium">{post.category}</span>
+                            <span className="text-muted text-sm">{post.readTime}</span>
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">{post.title}</h1>
-                        <p className="text-lg text-zinc-400 mb-4">{post.excerpt}</p>
-                        <div className="flex items-center gap-4 text-sm text-zinc-500">
+                        <h1 className="text-3xl md:text-5xl font-bold text-primary mb-6 leading-tight">{post.title}</h1>
+                        <p className="text-lg text-secondary mb-4">{post.excerpt}</p>
+                        <div className="flex items-center gap-4 text-sm text-muted">
                             <span>Published {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                     </header>
 
                     {/* Related Numbers */}
                     {post.relatedNumbers && post.relatedNumbers.length > 0 && (
-                        <div className="mb-8 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-                            <span className="text-zinc-500 text-sm">Related numbers: </span>
+                        <div className="mb-8 p-4 rounded-xl bg-card border border-default">
+                            <span className="text-muted text-sm">Related numbers: </span>
                             <div className="inline-flex flex-wrap gap-2 mt-1">
                                 {post.relatedNumbers.map(num => (
                                     <Link key={num} href={num >= 100 ? `/meaning/angel-number/${num}` : `/meaning/life-path/life-path-${num}`}
-                                        className="px-2 py-1 rounded bg-amber-500/10 text-amber-400 text-sm hover:bg-amber-500/20 transition-colors">
+                                        className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 text-sm hover:bg-amber-500/20 transition-colors">
                                         {num}
                                     </Link>
                                 ))}
@@ -312,10 +312,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     )}
 
                     {/* Inline CTA */}
-                    <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-amber-950/30 to-zinc-900 border border-amber-500/20">
+                    <div className="mb-8 p-6 rounded-2xl bg-card border border-default">
                         <div className="text-center">
-                            <p className="text-white font-semibold mb-2">🔮 Discover Your Personal Numbers</p>
-                            <p className="text-zinc-400 text-sm mb-4">Calculate your life path and see how it connects to this article</p>
+                            <p className="text-primary font-semibold mb-2">🔮 Discover Your Personal Numbers</p>
+                            <p className="text-secondary text-sm mb-4">Calculate your life path and see how it connects to this article</p>
                             <Link href="/calculator" className="inline-block px-6 py-2 rounded-full bg-amber-500 text-black font-bold hover:bg-amber-400 transition-colors">
                                 Free Calculator →
                             </Link>
@@ -323,7 +323,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
 
                     {/* Content */}
-                    <div className="prose prose-invert max-w-none">
+                    <div className="prose max-w-none text-primary">
                         {formatContent(post.content)}
                     </div>
 
@@ -334,17 +334,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     )}
 
                     {tools.length > 0 && (
-                        <section className="mt-10 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                            <h3 className="text-xl font-bold text-white mb-4">Related Tools</h3>
+                        <section className="mt-10 p-6 rounded-2xl bg-card border border-default">
+                            <h3 className="text-xl font-bold text-primary mb-4">Related Tools</h3>
                             <div className="grid md:grid-cols-3 gap-4">
                                 {tools.map((tool) => (
                                     <Link
                                         key={tool.href}
                                         href={tool.href}
-                                        className="p-4 rounded-xl bg-zinc-950/60 border border-zinc-800 hover:border-amber-500/50 transition"
+                                        className="p-4 rounded-xl bg-page/60 border border-default hover:border-amber-500/50 transition"
                                     >
-                                        <div className="text-amber-400 font-semibold mb-1">{tool.title}</div>
-                                        <div className="text-zinc-400 text-sm">{tool.description}</div>
+                                        <div className="text-amber-600 font-semibold mb-1">{tool.title}</div>
+                                        <div className="text-secondary text-sm">{tool.description}</div>
                                     </Link>
                                 ))}
                             </div>
@@ -353,9 +353,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     {/* Bottom CTA */}
                     <section className="mt-12 space-y-6">
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-zinc-900 border border-indigo-500/20 text-center">
-                            <h3 className="text-xl font-bold text-white mb-2">Ready to Go Deeper?</h3>
-                            <p className="text-zinc-400 mb-4">Get your complete numerology profile with personalized insights</p>
+                        <div className="p-6 rounded-2xl bg-card border border-default text-center">
+                            <h3 className="text-xl font-bold text-primary mb-2">Ready to Go Deeper?</h3>
+                            <p className="text-secondary mb-4">Get your complete numerology profile with personalized insights</p>
                             <div className="max-w-sm mx-auto">
                                 <MeaningPaidCTA />
                             </div>
@@ -365,13 +365,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     {/* Related Posts */}
                     {relatedPosts.length > 0 && (
                         <section className="mt-16">
-                            <h2 className="text-2xl font-bold text-white mb-6">Related Articles</h2>
+                            <h2 className="text-2xl font-bold text-primary mb-6">Related Articles</h2>
                             <div className="grid gap-4">
                                 {relatedPosts.map(related => (
                                     <Link key={related.slug} href={`/blog/${related.slug}`}
-                                        className="group p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/50 transition-all">
-                                        <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors">{related.title}</h3>
-                                        <p className="text-zinc-500 text-sm mt-1 line-clamp-1">{related.excerpt}</p>
+                                        className="group p-4 rounded-xl bg-card border border-default hover:border-amber-500/50 transition-all">
+                                        <h3 className="font-semibold text-primary group-hover:text-amber-600 transition-colors">{related.title}</h3>
+                                        <p className="text-muted text-sm mt-1 line-clamp-1">{related.excerpt}</p>
                                     </Link>
                                 ))}
                             </div>

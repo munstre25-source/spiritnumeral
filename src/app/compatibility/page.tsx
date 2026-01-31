@@ -49,16 +49,16 @@ export default function CompatibilityPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
-            <main className="min-h-screen pt-32 pb-20 px-6">
+            <main className="min-h-screen bg-page text-primary pt-32 pb-20 px-6">
                 <div className="max-w-4xl mx-auto">
                     <header className="text-center mb-12">
-                        <div className="inline-block px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+                        <div className="inline-block px-4 py-1.5 rounded-full bg-elevated border border-default text-muted text-sm font-medium mb-6">
                             Love Compatibility
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-rose-100 to-rose-400 bg-clip-text text-transparent tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-6xl font-bold text-primary font-bold tracking-tighter mb-4">
                             Are Your Numbers Compatible?
                         </h1>
-                        <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+                        <p className="text-secondary text-lg max-w-2xl mx-auto">
                             Discover the numerological compatibility between you and your partner based on your life path numbers.
                         </p>
                     </header>
@@ -70,35 +70,35 @@ export default function CompatibilityPage() {
 
                     {/* FAQ Section */}
                     <section className="mt-20 max-w-2xl mx-auto">
-                        <h2 className="text-2xl font-bold text-white mb-8 text-center">
+                        <h2 className="text-2xl font-bold text-primary mb-8 text-center">
                             Understanding Compatibility
                         </h2>
                         <div className="space-y-6">
-                            <div className="p-6 rounded-xl bg-zinc-900/50 border border-zinc-800">
-                                <h3 className="text-lg font-semibold text-zinc-200 mb-2">
+                            <div className="p-6 rounded-xl bg-card border border-default">
+                                <h3 className="text-lg font-semibold text-secondary mb-2">
                                     How does numerology compatibility work?
                                 </h3>
-                                <p className="text-zinc-400">
+                                <p className="text-secondary">
                                     Numerology compatibility compares life path numbers, calculated from birth dates.
                                     Each number has specific traits, and certain combinations naturally harmonize
                                     while others require more understanding and effort.
                                 </p>
                             </div>
-                            <div className="p-6 rounded-xl bg-zinc-900/50 border border-zinc-800">
-                                <h3 className="text-lg font-semibold text-zinc-200 mb-2">
+                            <div className="p-6 rounded-xl bg-card border border-default">
+                                <h3 className="text-lg font-semibold text-secondary mb-2">
                                     What is a good compatibility score?
                                 </h3>
-                                <p className="text-zinc-400">
+                                <p className="text-secondary">
                                     Scores above 85% indicate excellent natural compatibility. 70-84% is good with
                                     some differences to navigate. 55-69% is moderate, requiring effort. Below 55%
                                     is challenging but growth-oriented.
                                 </p>
                             </div>
-                            <div className="p-6 rounded-xl bg-zinc-900/50 border border-zinc-800">
-                                <h3 className="text-lg font-semibold text-zinc-200 mb-2">
+                            <div className="p-6 rounded-xl bg-card border border-default">
+                                <h3 className="text-lg font-semibold text-secondary mb-2">
                                     Can incompatible numbers have successful relationships?
                                 </h3>
-                                <p className="text-zinc-400">
+                                <p className="text-secondary">
                                     Absolutely. Numerology compatibility shows natural tendencies, not fate.
                                     Many successful relationships exist between "incompatible" numbers through
                                     understanding, communication, and mutual respect.

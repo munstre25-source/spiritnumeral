@@ -62,34 +62,34 @@ export default function OrderStatusClient() {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-page text-primary">
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold">Order Status & PDF Resend</h1>
-          <p className="text-zinc-400 mt-3">
+          <p className="text-secondary mt-3">
             Enter the email you used at checkout. If you have an order ID, include it for faster lookup.
           </p>
         </div>
 
-        <form onSubmit={handleLookup} className="bg-zinc-900/50 border border-zinc-800 rounded-3xl p-6 space-y-4">
+        <form onSubmit={handleLookup} className="bg-card border border-default rounded-3xl p-6 space-y-4">
           <div>
-            <label className="text-sm text-zinc-400">Email</label>
+            <label className="text-sm text-secondary">Email</label>
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               required
-              className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-amber-500"
+              className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 outline-none focus:border-amber-500"
               placeholder="you@email.com"
             />
           </div>
           <div>
-            <label className="text-sm text-zinc-400">Order ID (optional)</label>
+            <label className="text-sm text-secondary">Order ID (optional)</label>
             <input
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
               type="text"
-              className="mt-2 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-amber-500"
+              className="mt-2 w-full bg-page border border-default rounded-xl px-4 py-3 outline-none focus:border-amber-500"
               placeholder="Order ID from your receipt"
             />
           </div>
@@ -110,27 +110,27 @@ export default function OrderStatusClient() {
         )}
 
         {status && (
-          <div className="mt-6 p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800 space-y-3">
+          <div className="mt-6 p-6 rounded-3xl bg-card border border-default space-y-3">
             <div className="flex items-center justify-between">
-              <p className="text-zinc-400">Product</p>
-              <p className="font-semibold text-white capitalize">{status.product}</p>
+              <p className="text-secondary">Product</p>
+              <p className="font-semibold text-primary capitalize">{status.product}</p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="text-zinc-400">Status</p>
-              <p className="font-semibold text-white capitalize">{status.status}</p>
+              <p className="text-secondary">Status</p>
+              <p className="font-semibold text-primary capitalize">{status.status}</p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="text-zinc-400">Order ID</p>
-              <p className="font-semibold text-white">{status.order_id}</p>
+              <p className="text-secondary">Order ID</p>
+              <p className="font-semibold text-primary">{status.order_id}</p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="text-zinc-400">Created</p>
-              <p className="font-semibold text-white">{new Date(status.created_at).toLocaleString()}</p>
+              <p className="text-secondary">Created</p>
+              <p className="font-semibold text-primary">{new Date(status.created_at).toLocaleString()}</p>
             </div>
             <button
               onClick={handleResend}
               disabled={loading}
-              className="mt-4 w-full py-3 rounded-xl border border-amber-500/40 text-amber-400 font-semibold hover:bg-amber-500/10 transition disabled:opacity-60"
+              className="mt-4 w-full py-3 rounded-xl border border-amber-500/40 text-amber-600 font-semibold hover:bg-amber-500/10 transition disabled:opacity-60"
             >
               {loading ? 'Sending…' : 'Resend My PDF'}
             </button>

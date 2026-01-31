@@ -70,11 +70,11 @@ export function EmailCapture() {
 
     return (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-            <div className="relative max-w-md w-full bg-zinc-900 rounded-3xl p-8 border border-zinc-800 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+            <div className="relative max-w-md w-full bg-card rounded-3xl p-8 border border-default shadow-2xl animate-in fade-in zoom-in-95 duration-300">
                 {/* Close button */}
                 <button
                     onClick={() => setIsOpen(false)}
-                    className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="absolute top-4 right-4 text-muted hover:text-secondary transition-colors"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M18 6 6 18" /><path d="m6 6 12 12" />
@@ -91,14 +91,14 @@ export function EmailCapture() {
                 {/* Content */}
                 <div className="text-center">
                     {offer.badge && (
-                        <div className="inline-flex items-center px-3 py-1 text-[11px] uppercase tracking-[0.2em] rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 mb-3">
+                        <div className="inline-flex items-center px-3 py-1 text-[11px] uppercase tracking-[0.2em] rounded-full bg-amber-500/15 text-amber-600 border border-amber-500/30 mb-3">
                             {offer.badge}
                         </div>
                     )}
-                    <h3 className="text-2xl font-bold text-white mb-2">
+                    <h3 className="text-2xl font-bold text-primary mb-2">
                         {offer.title}
                     </h3>
-                    <p className="text-zinc-400 mb-6">
+                    <p className="text-secondary mb-6">
                         {offer.body}
                     </p>
                 </div>
@@ -113,7 +113,7 @@ export function EmailCapture() {
                 </Link>
 
                 {/* Trust signals */}
-                <p className="text-zinc-600 text-xs text-center mt-4">
+                <p className="text-muted text-xs text-center mt-4">
                     One-time purchase · Instant PDF · No login
                 </p>
             </div>
@@ -155,9 +155,9 @@ export function NewsletterSignup({ className = '' }: { className?: string }) {
     }
 
     return (
-        <div className={`p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 ${className}`}>
-            <h4 className="text-lg font-bold text-white mb-2">Stay Connected</h4>
-            <p className="text-zinc-400 text-sm mb-4">
+        <div className={`p-6 rounded-2xl bg-card border border-default ${className}`}>
+            <h4 className="text-lg font-bold text-primary mb-2">Stay Connected</h4>
+            <p className="text-secondary text-sm mb-4">
                 Weekly angel number insights & spiritual guidance.
             </p>
             <form onSubmit={handleSubmit} className="flex gap-2">
@@ -167,7 +167,7 @@ export function NewsletterSignup({ className = '' }: { className?: string }) {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email..."
                     required
-                    className="flex-1 bg-zinc-800 border border-zinc-700 text-white px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-500"
+                    className="flex-1 bg-elevated border border-default text-primary px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-500"
                 />
                 <button
                     type="submit"

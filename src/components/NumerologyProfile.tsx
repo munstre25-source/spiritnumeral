@@ -104,16 +104,16 @@ export function NumerologyProfile() {
     return (
         <div className="space-y-8">
             {/* Life Path Section */}
-            <section className="p-6 md:p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+            <section className="p-6 md:p-8 rounded-2xl bg-card border border-default">
                 <div className="flex items-start justify-between mb-6">
                     <div>
-                        <h2 className="text-xl font-bold text-white mb-1">Your Life Path</h2>
-                        <p className="text-zinc-500 text-sm">Your core numerology number based on birthday</p>
+                        <h2 className="text-xl font-bold text-primary mb-1">Your Life Path</h2>
+                        <p className="text-muted text-sm">Your core numerology number based on birthday</p>
                     </div>
                     {profile.lifePath && !isEditing && (
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="text-zinc-500 hover:text-zinc-300 text-sm"
+                            className="text-muted hover:text-secondary text-sm"
                         >
                             Edit
                         </button>
@@ -127,18 +127,18 @@ export function NumerologyProfile() {
                             className="group"
                         >
                             <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 flex items-center justify-center group-hover:border-amber-500/60 transition-colors">
-                                <span className="text-4xl font-bold text-amber-400">{profile.lifePath}</span>
+                                <span className="text-4xl font-bold text-amber-600">{profile.lifePath}</span>
                             </div>
                         </Link>
                         <div>
-                            <p className="text-zinc-400 text-sm mb-2">
+                            <p className="text-secondary text-sm mb-2">
                                 Life Path {profile.lifePath === 11 || profile.lifePath === 22 || profile.lifePath === 33
                                     ? '(Master Number)'
                                     : ''}
                             </p>
                             <Link
                                 href={`/meaning/life-path/life-path-${profile.lifePath}`}
-                                className="text-amber-400 hover:text-amber-300 text-sm font-medium"
+                                className="text-amber-600 hover:text-amber-600 text-sm font-medium"
                             >
                                 View full meaning →
                             </Link>
@@ -147,12 +147,12 @@ export function NumerologyProfile() {
                 ) : (
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-zinc-400 text-sm mb-2">Enter your birthday</label>
+                            <label className="block text-secondary text-sm mb-2">Enter your birthday</label>
                             <input
                                 type="date"
                                 value={birthday}
                                 onChange={(e) => setBirthday(e.target.value)}
-                                className="w-full max-w-xs bg-zinc-800 border border-zinc-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500"
+                                className="w-full max-w-xs bg-elevated border border-default text-primary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500"
                             />
                         </div>
                         <div className="flex gap-3">
@@ -166,7 +166,7 @@ export function NumerologyProfile() {
                             {isEditing && (
                                 <button
                                     onClick={() => setIsEditing(false)}
-                                    className="px-6 py-2 text-zinc-400 hover:text-zinc-300"
+                                    className="px-6 py-2 text-secondary hover:text-secondary"
                                 >
                                     Cancel
                                 </button>
@@ -178,15 +178,15 @@ export function NumerologyProfile() {
 
             {/* Saved Numbers */}
             {savedNumbers.length > 0 && (
-                <section className="p-6 md:p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                    <h2 className="text-xl font-bold text-white mb-1">Saved Numbers</h2>
-                    <p className="text-zinc-500 text-sm mb-6">Numbers you've marked as meaningful</p>
+                <section className="p-6 md:p-8 rounded-2xl bg-card border border-default">
+                    <h2 className="text-xl font-bold text-primary mb-1">Saved Numbers</h2>
+                    <p className="text-muted text-sm mb-6">Numbers you've marked as meaningful</p>
                     <div className="flex flex-wrap gap-2">
                         {savedNumbers.map(num => (
                             <Link
                                 key={num}
                                 href={`/meaning/angel-number/${num}`}
-                                className="px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-amber-400 font-medium hover:border-amber-500/50 transition-colors"
+                                className="px-4 py-2 rounded-lg bg-elevated border border-default text-amber-600 font-medium hover:border-amber-500/50 transition-colors"
                             >
                                 {num}
                             </Link>
@@ -197,15 +197,15 @@ export function NumerologyProfile() {
 
             {/* Recently Viewed */}
             {getRecentViews().length > 0 && (
-                <section className="p-6 md:p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                    <h2 className="text-xl font-bold text-white mb-1">Recently Viewed</h2>
-                    <p className="text-zinc-500 text-sm mb-6">Your recent spiritual journey</p>
+                <section className="p-6 md:p-8 rounded-2xl bg-card border border-default">
+                    <h2 className="text-xl font-bold text-primary mb-1">Recently Viewed</h2>
+                    <p className="text-muted text-sm mb-6">Your recent spiritual journey</p>
                     <div className="flex flex-wrap gap-2">
                         {getRecentViews().map((num, i) => (
                             <Link
                                 key={`${num}-${i}`}
                                 href={`/meaning/angel-number/${num}`}
-                                className="px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-zinc-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors"
+                                className="px-4 py-2 rounded-lg bg-elevated/50 border border-default/50 text-secondary hover:text-amber-600 hover:border-amber-500/50 transition-colors"
                             >
                                 {num}
                             </Link>
@@ -216,18 +216,18 @@ export function NumerologyProfile() {
 
             {/* Most Viewed */}
             {getMostViewed().length > 0 && (
-                <section className="p-6 md:p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-                    <h2 className="text-xl font-bold text-white mb-1">Your Patterns</h2>
-                    <p className="text-zinc-500 text-sm mb-6">Numbers that appear most in your journey</p>
+                <section className="p-6 md:p-8 rounded-2xl bg-card border border-default">
+                    <h2 className="text-xl font-bold text-primary mb-1">Your Patterns</h2>
+                    <p className="text-muted text-sm mb-6">Numbers that appear most in your journey</p>
                     <div className="flex flex-wrap gap-3">
                         {getMostViewed().map((num, i) => (
                             <Link
                                 key={num}
                                 href={`/meaning/angel-number/${num}`}
-                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:border-amber-500/50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-elevated/50 border border-default/50 hover:border-amber-500/50 transition-colors"
                             >
-                                <span className="text-amber-400 font-bold">{num}</span>
-                                <span className="text-zinc-600 text-xs">#{i + 1}</span>
+                                <span className="text-amber-600 font-bold">{num}</span>
+                                <span className="text-muted text-xs">#{i + 1}</span>
                             </Link>
                         ))}
                     </div>
@@ -236,22 +236,22 @@ export function NumerologyProfile() {
 
             {/* Journey Stats */}
             <section className="grid grid-cols-3 gap-4">
-                <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                    <div className="text-2xl font-bold text-amber-400">{savedNumbers.length}</div>
-                    <div className="text-zinc-500 text-xs uppercase tracking-wider mt-1">Saved</div>
+                <div className="p-4 rounded-xl bg-card border border-default text-center">
+                    <div className="text-2xl font-bold text-amber-600">{savedNumbers.length}</div>
+                    <div className="text-muted text-xs uppercase tracking-wider mt-1">Saved</div>
                 </div>
-                <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                    <div className="text-2xl font-bold text-amber-400">{viewHistory.length}</div>
-                    <div className="text-zinc-500 text-xs uppercase tracking-wider mt-1">Explored</div>
+                <div className="p-4 rounded-xl bg-card border border-default text-center">
+                    <div className="text-2xl font-bold text-amber-600">{viewHistory.length}</div>
+                    <div className="text-muted text-xs uppercase tracking-wider mt-1">Explored</div>
                 </div>
-                <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 text-center">
-                    <div className="text-2xl font-bold text-amber-400">
+                <div className="p-4 rounded-xl bg-card border border-default text-center">
+                    <div className="text-2xl font-bold text-amber-600">
                         {profile.createdAt
                             ? Math.floor((Date.now() - profile.createdAt) / (1000 * 60 * 60 * 24)) + 1
                             : 0
                         }
                     </div>
-                    <div className="text-zinc-500 text-xs uppercase tracking-wider mt-1">Days</div>
+                    <div className="text-muted text-xs uppercase tracking-wider mt-1">Days</div>
                 </div>
             </section>
         </div>
@@ -272,14 +272,14 @@ export function ProfileWidget() {
         return (
             <Link
                 href="/profile"
-                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/30 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-default hover:border-amber-500/30 transition-colors"
             >
-                <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-500">
+                <div className="w-10 h-10 rounded-lg bg-elevated flex items-center justify-center text-muted">
                     ?
                 </div>
                 <div>
-                    <div className="text-sm font-medium text-zinc-300">Create Profile</div>
-                    <div className="text-xs text-zinc-500">Discover your path</div>
+                    <div className="text-sm font-medium text-secondary">Create Profile</div>
+                    <div className="text-xs text-muted">Discover your path</div>
                 </div>
             </Link>
         );
@@ -288,14 +288,14 @@ export function ProfileWidget() {
     return (
         <Link
             href="/profile"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-amber-500/30 transition-colors"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-default hover:border-amber-500/30 transition-colors"
         >
-            <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+            <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-600 font-bold">
                 {profile.lifePath}
             </div>
             <div>
-                <div className="text-sm font-medium text-zinc-300">Life Path {profile.lifePath}</div>
-                <div className="text-xs text-zinc-500">{savedCount} saved</div>
+                <div className="text-sm font-medium text-secondary">Life Path {profile.lifePath}</div>
+                <div className="text-xs text-muted">{savedCount} saved</div>
             </div>
         </Link>
     );
