@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { QuickReportUpsell } from '@/components/QuickReportUpsell';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 

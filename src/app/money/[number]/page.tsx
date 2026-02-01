@@ -1,7 +1,6 @@
 import { getPSEODataAsync } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
 import { QuickReportUpsell } from '@/components/QuickReportUpsell';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
