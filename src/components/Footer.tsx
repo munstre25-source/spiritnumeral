@@ -53,9 +53,12 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2.5">
               <Logo size={32} />
-              <span className="font-bold text-primary">Spirit Numeral</span>
+              <span className="flex flex-col items-start leading-tight">
+                <span className="text-base font-bold text-primary tracking-tight">Spirit</span>
+                <span className="text-sm font-semibold text-primary/80 tracking-tight">Numeral</span>
+              </span>
             </Link>
             <p className="text-muted text-sm mt-3 max-w-xs">
               Numerology and angel number meanings for your spiritual path.
