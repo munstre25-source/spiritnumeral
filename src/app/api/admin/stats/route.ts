@@ -8,12 +8,21 @@ function unauthorized() {
   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 }
 
-function inferProduct(path?: string | null) {
-  if (!path) return 'unknown';
+/** Only these 5 offers are tracked in admin: 3 PsychicOz + 2 PDFs */
+const TRACKED_PRODUCTS = ['quick_report', 'blueprint', 'psychic_love', 'psychic_career', 'psychic_tarot'] as const;
+const PDF_PRODUCTS = ['quick_report', 'blueprint'] as const;
+const PSYCHIC_PRODUCTS = ['psychic_love', 'psychic_career', 'psychic_tarot'] as const;
+
+function inferProduct(path?: string | null): string {
+  if (!path) return 'quick_report';
   const p = path.toLowerCase();
   if (p.includes('/quick-report')) return 'quick_report';
   if (p.includes('/quiz')) return 'blueprint';
   return 'quick_report';
+}
+
+function isTrackedProduct(product: string): product is (typeof TRACKED_PRODUCTS)[number] {
+  return TRACKED_PRODUCTS.includes(product as any);
 }
 
 export async function GET(req: NextRequest) {
@@ -85,7 +94,9 @@ export async function GET(req: NextRequest) {
   };
 
   (events || []).forEach((e: any) => {
-    const product = e.product || inferProduct(e.path);
+    const rawProduct = e.product || inferProduct(e.path);
+    const product = isTrackedProduct(rawProduct) ? rawProduct : inferProduct(e.path);
+    if (!TRACKED_PRODUCTS.includes(product as any)) return;
     if (!funnels[product]) funnels[product] = { impressions: 0, clicks: 0, checkouts: 0, orders: 0, pdfSent: 0, pdfFailed: 0 };
     const day = bucketKey(e.created_at);
     if (!daily[day]) daily[day] = { pageViews: 0, ctaClicks: 0, orders: 0 };
@@ -164,6 +175,7 @@ export async function GET(req: NextRequest) {
   });
 
   (reports || []).forEach((r: any) => {
+    if (!PDF_PRODUCTS.includes(r.product as any)) return;
     if (!productBreakdown[r.product]) productBreakdown[r.product] = { count: 0, revenueCents: 0 };
     productBreakdown[r.product].count += 1;
     if (r.status === 'delivered') {
@@ -177,8 +189,9 @@ export async function GET(req: NextRequest) {
       const [path, product] = key.split('|');
       return { path, product, count };
     })
+    .filter((row) => isTrackedProduct(row.product))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 10);
+    .slice(0, 20);
 
   const dailySeries = Object.entries(daily)
     .map(([date, v]) => ({ date, ...v }))
@@ -223,12 +236,15 @@ export async function GET(req: NextRequest) {
     .map(([country, count]) => ({ country, count }))
     .sort((a, b) => b.count - a.count);
 
-  const offerCtr = Object.entries(funnels).map(([product, f]) => ({
-    product,
-    impressions: f.impressions,
-    clicks: f.clicks,
-    ctr: f.impressions ? Number(((f.clicks / f.impressions) * 100).toFixed(1)) : 0,
-  }));
+  const offerCtr = TRACKED_PRODUCTS.map((product) => {
+    const f = funnels[product] || { impressions: 0, clicks: 0, checkouts: 0, orders: 0, pdfSent: 0, pdfFailed: 0 };
+    return {
+      product,
+      impressions: f.impressions,
+      clicks: f.clicks,
+      ctr: f.impressions ? Number(((f.clicks / f.impressions) * 100).toFixed(1)) : 0,
+    };
+  });
 
   const avgPagesPerSession = totals.uniqueSessions ? Number((totals.pageViews / totals.uniqueSessions).toFixed(2)) : 0;
 
@@ -330,9 +346,9 @@ export async function GET(req: NextRequest) {
       fixList: fixList.slice(0, 10),
       internalLinks: internalLinkSuggestions.slice(0, 20),
     },
-    quickReport: {
+    pdfs: {
       offers: offerCtr
-        .filter((row) => row.product === 'quick_report')
+        .filter((row) => PDF_PRODUCTS.includes(row.product as any))
         .map((row) => ({
           product: row.product,
           impressions: row.impressions,
@@ -344,9 +360,27 @@ export async function GET(req: NextRequest) {
           const [path, product] = key.split('|');
           return { path, product, count };
         })
-        .filter((row) => row.product === 'quick_report')
+        .filter((row) => PDF_PRODUCTS.includes(row.product as any))
         .sort((a, b) => b.count - a.count)
-        .slice(0, 10),
+        .slice(0, 15),
+    },
+    psychic: {
+      offers: offerCtr
+        .filter((row) => PSYCHIC_PRODUCTS.includes(row.product as any))
+        .map((row) => ({
+          product: row.product,
+          impressions: row.impressions,
+          clicks: row.clicks,
+          ctr: row.ctr,
+        })),
+      topPages: Object.entries(topCtas)
+        .map(([key, count]) => {
+          const [path, product] = key.split('|');
+          return { path, product, count };
+        })
+        .filter((row) => PSYCHIC_PRODUCTS.includes(row.product as any))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 15),
     },
     bucket,
   });

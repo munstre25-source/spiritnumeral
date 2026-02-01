@@ -34,7 +34,11 @@ type Stats = {
     fixList: { path: string; score: number; reasons: string[]; views: number; ctr: number }[];
     internalLinks: { path: string; suggested: string[] }[];
   };
-  quickReport: {
+  pdfs: {
+    offers: { product: string; impressions: number; clicks: number; ctr: number }[];
+    topPages: { path: string; product: string; count: number }[];
+  };
+  psychic: {
     offers: { product: string; impressions: number; clicks: number; ctr: number }[];
     topPages: { path: string; product: string; count: number }[];
   };
@@ -117,14 +121,20 @@ export default function AdminDashboard() {
   }, [rangeUnit, rangeValue]);
 
   const totals = stats?.totals;
-  const OFFER_KEYS = ['quick_report', 'blueprint'] as const;
+  const PDF_OFFERS = ['quick_report', 'blueprint'] as const;
+  const PSYCHIC_OFFERS = ['psychic_love', 'psychic_career', 'psychic_tarot'] as const;
+  const ALL_OFFERS = [...PDF_OFFERS, ...PSYCHIC_OFFERS] as const;
+
   const labelForProduct = (product: string) => {
     if (product === 'quick_report') return 'Quick Report ($7)';
     if (product === 'blueprint') return 'Blueprint ($17)';
-    return 'Unknown';
+    if (product === 'psychic_love') return 'Psychic (Love)';
+    if (product === 'psychic_career') return 'Psychic (Career)';
+    if (product === 'psychic_tarot') return 'Psychic (Tarot)';
+    return product || 'Unknown';
   };
 
-  const funnelsWithDefaults = OFFER_KEYS.reduce<Record<string, { impressions: number; clicks: number; checkouts: number; orders: number; pdfSent: number; pdfFailed: number }>>(
+  const funnelsWithDefaults = PDF_OFFERS.reduce<Record<string, { impressions: number; clicks: number; checkouts: number; orders: number; pdfSent: number; pdfFailed: number }>>(
     (acc, key) => {
       acc[key] = stats?.funnels?.[key] || { impressions: 0, clicks: 0, checkouts: 0, orders: 0, pdfSent: 0, pdfFailed: 0 };
       return acc;
@@ -132,7 +142,7 @@ export default function AdminDashboard() {
     {}
   );
 
-  const breakdownWithDefaults = OFFER_KEYS.reduce<Record<string, { count: number; revenueCents: number }>>(
+  const breakdownWithDefaults = PDF_OFFERS.reduce<Record<string, { count: number; revenueCents: number }>>(
     (acc, key) => {
       acc[key] = stats?.productBreakdown?.[key] || { count: 0, revenueCents: 0 };
       return acc;
@@ -140,7 +150,7 @@ export default function AdminDashboard() {
     {}
   );
 
-  const offerCtrWithDefaults = OFFER_KEYS.map((key) => {
+  const offerCtrWithDefaults = ALL_OFFERS.map((key) => {
     const row = stats?.offerCtr?.find((r) => r.product === key);
     return row || { product: key, impressions: 0, clicks: 0, ctr: 0 };
   });
@@ -192,18 +202,19 @@ export default function AdminDashboard() {
             </div>
 
             <div className="sticky top-2 z-20 bg-page/80 backdrop-blur border border-default rounded-2xl px-3 py-2 overflow-x-auto">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted flex-wrap">
                 <a href="#overview" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Overview</a>
-                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Offers</a>
+                <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Offers (5)</a>
                 <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">CTR</a>
+                <a href="#psychic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Psychic (3)</a>
+                <a href="#pdfs" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">PDFs (2)</a>
                 <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Funnel</a>
-                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">CTA</a>
+                <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Top CTAs</a>
                 <a href="#pages" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Pages</a>
                 <a href="#traffic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Traffic</a>
                 <a href="#seo" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">SEO</a>
                 <a href="#seo-fix" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">SEO Fixes</a>
-                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Internal Links</a>
-                <a href="#quick-report" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Quick Report</a>
+                <a href="#links" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Links</a>
                 <a href="#reports" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Reports</a>
               </div>
             </div>
@@ -267,23 +278,37 @@ export default function AdminDashboard() {
               ))}
             </div>
 
-            {/* Product Breakdown */}
+            {/* All 5 offers summary */}
             <div id="offers" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
-              <h3 className="font-semibold mb-4">Offer Performance (Selected Range)</h3>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {Object.entries(breakdownWithDefaults).map(([product, data]) => (
-                  <div key={product} className="bg-page/60 border border-default rounded-2xl p-4">
-                    <p className="text-secondary text-sm">{labelForProduct(product)}</p>
-                    <p className="text-white font-bold text-lg">{data.count} reports</p>
-                    <p className="text-amber-600 text-sm">${(data.revenueCents / 100).toFixed(2)} revenue</p>
-                  </div>
-                ))}
+              <h3 className="font-semibold mb-2">Tracked Offers (5)</h3>
+              <p className="text-muted text-sm mb-4">3 PsychicOz (love, career, tarot) + 2 PDFs (Quick Report $7, Blueprint $17)</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {ALL_OFFERS.map((product) => {
+                  const isPdf = PDF_OFFERS.includes(product);
+                  const breakdown = isPdf ? breakdownWithDefaults[product] : null;
+                  const ctrRow = offerCtrWithDefaults.find((r) => r.product === product);
+                  return (
+                    <div key={product} className="bg-page/60 border border-default rounded-2xl p-4">
+                      <p className="text-secondary text-sm font-medium">{labelForProduct(product)}</p>
+                      {isPdf && breakdown && (
+                        <>
+                          <p className="text-white font-bold">{breakdown.count} orders</p>
+                          <p className="text-amber-600 text-sm">${(breakdown.revenueCents / 100).toFixed(2)} revenue</p>
+                        </>
+                      )}
+                      {!isPdf && ctrRow && (
+                        <p className="text-white font-bold">{ctrRow.clicks} clicks</p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
             <div id="ctr" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
               <div className="p-6 border-b border-default">
-                <h3 className="font-semibold">Offer CTR (Impressions → Clicks)</h3>
+                <h3 className="font-semibold">Offer CTR (all 5: Psychic + PDFs)</h3>
+                <p className="text-muted text-sm mt-1">Impressions → Clicks for each offer</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
@@ -309,10 +334,83 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Funnel */}
+            {/* Psychic (3) */}
+            <div id="psychic" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-2">PsychicOz (3 offers)</h3>
+              <p className="text-muted text-sm mb-4">Clicks on band, sticky bar, footer, and scroll popup. Conversion is on affiliate side.</p>
+              <div className="grid lg:grid-cols-2 gap-6">
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Offer CTR</h4>
+                  <div className="space-y-3">
+                    {(!stats.psychic?.offers || stats.psychic.offers.length === 0) && (
+                      <p className="text-muted text-sm">No psychic clicks yet.</p>
+                    )}
+                    {stats.psychic?.offers?.map((row) => (
+                      <div key={row.product} className="flex items-center justify-between text-sm">
+                        <span className="text-secondary">{labelForProduct(row.product)}</span>
+                        <span className="text-zinc-200 font-semibold">{row.impressions} / {row.clicks} · {row.ctr}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Top Psychic Pages</h4>
+                  <div className="space-y-3">
+                    {(!stats.psychic?.topPages || stats.psychic.topPages.length === 0) && (
+                      <p className="text-muted text-sm">No psychic page clicks yet.</p>
+                    )}
+                    {stats.psychic?.topPages?.map((row, i) => (
+                      <div key={`${row.path}-${i}`} className="flex items-center justify-between text-sm">
+                        <span className="text-secondary font-mono truncate max-w-[200px]">{row.path}</span>
+                        <span className="text-zinc-200 font-semibold shrink-0">{labelForProduct(row.product)} · {row.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PDFs (2): performance + funnel + recent */}
+            <div id="pdfs" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-2">PDFs (Quick Report $7 + Blueprint $17)</h3>
+              <p className="text-muted text-sm mb-4">Exit-intent and footer links. Funnel: click → checkout → order → PDF.</p>
+              <div className="grid lg:grid-cols-2 gap-6">
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">PDF CTR</h4>
+                  <div className="space-y-3">
+                    {(!stats.pdfs?.offers || stats.pdfs.offers.length === 0) && (
+                      <p className="text-muted text-sm">No PDF clicks yet.</p>
+                    )}
+                    {stats.pdfs?.offers?.map((row) => (
+                      <div key={row.product} className="flex items-center justify-between text-sm">
+                        <span className="text-secondary">{labelForProduct(row.product)}</span>
+                        <span className="text-zinc-200 font-semibold">{row.impressions} / {row.clicks} · {row.ctr}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Top PDF Pages</h4>
+                  <div className="space-y-3">
+                    {(!stats.pdfs?.topPages || stats.pdfs.topPages.length === 0) && (
+                      <p className="text-muted text-sm">No PDF page clicks yet.</p>
+                    )}
+                    {stats.pdfs?.topPages?.map((row, i) => (
+                      <div key={`${row.path}-${i}`} className="flex items-center justify-between text-sm">
+                        <span className="text-secondary font-mono truncate max-w-[200px]">{row.path}</span>
+                        <span className="text-zinc-200 font-semibold shrink-0">{labelForProduct(row.product)} · {row.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Funnel (PDF only) */}
             <div id="funnel" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
               <div className="p-6 border-b border-default">
-                <h3 className="font-semibold">Offer Funnel (Click → Checkout → Order → PDF)</h3>
+                <h3 className="font-semibold">PDF Funnel (Click → Checkout → Order → PDF)</h3>
+                <p className="text-muted text-sm mt-1">Psychic conversion is tracked on affiliate side.</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
@@ -349,10 +447,11 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Top CTA Pages */}
+            {/* Top CTA Pages (all 5 offers) */}
             <div id="cta" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
               <div className="p-6 border-b border-default">
-                <h3 className="font-semibold">Top CTA Clicks</h3>
+                <h3 className="font-semibold">Top CTA Clicks (by path × offer)</h3>
+                <p className="text-muted text-sm mt-1">Which pages drive clicks for each of the 5 offers</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
@@ -364,7 +463,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                    {stats.topCtas.map((row, i) => (
+                    {(stats.topCtas || []).filter((row) => ALL_OFFERS.includes(row.product as any)).map((row, i) => (
                       <tr key={i} className="hover:bg-elevated/30 transition-colors">
                         <td className="px-6 py-4 text-secondary font-mono text-sm">{row.path}</td>
                         <td className="px-6 py-4 text-secondary">{labelForProduct(row.product)}</td>
@@ -581,41 +680,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div id="quick-report" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
-              <h3 className="font-semibold mb-6">Quick Report ($7) Performance</h3>
-              <div className="grid lg:grid-cols-2 gap-6">
-                <div className="bg-page/60 border border-default rounded-2xl p-4">
-                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Offer CTR</h4>
-                  <div className="space-y-3">
-                    {stats.quickReport.offers.length === 0 && (
-                      <p className="text-muted text-sm">No Quick Report clicks yet.</p>
-                    )}
-                    {stats.quickReport.offers.map((row) => (
-                      <div key={row.product} className="flex items-center justify-between text-sm">
-                        <span className="text-secondary">{labelForProduct(row.product)}</span>
-                        <span className="text-zinc-200 font-semibold">{row.impressions} / {row.clicks} · {row.ctr}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="bg-page/60 border border-default rounded-2xl p-4">
-                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Top Quick Report Pages</h4>
-                  <div className="space-y-3">
-                    {stats.quickReport.topPages.length === 0 && (
-                      <p className="text-muted text-sm">No Quick Report page clicks yet.</p>
-                    )}
-                    {stats.quickReport.topPages.map((row, i) => (
-                      <div key={`${row.path}-${i}`} className="flex items-center justify-between text-sm">
-                        <span className="text-secondary font-mono">{row.path}</span>
-                        <span className="text-zinc-200 font-semibold">{row.count}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Reports */}
+            {/* Recent Reports (PDFs only) */}
             <div id="reports" className="bg-elevated border border-default rounded-3xl overflow-hidden scroll-mt-24">
               <div className="p-6 border-b border-default">
                 <h3 className="font-semibold">Recent Reports</h3>
@@ -632,7 +697,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                    {stats.recentReports.map((row, i) => (
+                    {(stats.recentReports || []).filter((row) => PDF_OFFERS.includes(row.product as any)).map((row, i) => (
                       <tr key={i} className="hover:bg-elevated/30 transition-colors">
                         <td className="px-6 py-4 text-secondary font-mono text-sm">{new Date(row.created_at).toLocaleString()}</td>
                         <td className="px-6 py-4 text-secondary">{labelForProduct(row.product)}</td>
