@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import dataset from '@/lib/data/spirituality-dataset.json';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const metadata: Metadata = {
   title: 'Life Path Meanings | Spirit Numeral',
@@ -145,7 +144,7 @@ export default function LifePathIndexPage() {
       </section>
 
       <section className="max-w-5xl mx-auto mt-10">
-        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+        <QuickReportUpsell />
       </section>
     </main>
   );

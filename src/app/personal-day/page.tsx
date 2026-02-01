@@ -1,7 +1,6 @@
 import PersonalTimingCalculator from '@/components/PersonalTimingCalculator';
 import { TimingPaidCTA } from '@/components/TimingPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -45,7 +44,7 @@ export default function PersonalDayPage() {
         <PersonalTimingCalculator />
         <section className="p-6 rounded-3xl bg-card border border-default">
           <TimingPaidCTA />
-          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+          <QuickReportUpsell />
         </section>
         <FAQ faqs={faqs} title="Personal Day Questions" />
       </div>

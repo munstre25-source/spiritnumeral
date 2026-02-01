@@ -3,13 +3,13 @@ import { createCheckout, CheckoutMetadata } from '@/lib/lemonsqueezy';
 import { logEvent } from '@/lib/analytics/server';
 
 export async function POST(req: NextRequest) {
-  let product: 'blueprint' | 'relationship' | 'wealth' | 'bundle' | undefined;
+  let product: 'quick_report' | 'blueprint' | undefined;
   try {
     const body = await req.json();
     product = body.product;
     const { metadata, successUrl, cancelUrl } = body;
 
-    if (product !== 'blueprint' && product !== 'relationship' && product !== 'wealth' && product !== 'bundle') {
+    if (product !== 'quick_report' && product !== 'blueprint') {
       return NextResponse.json({ error: 'Invalid product' }, { status: 400 });
     }
 

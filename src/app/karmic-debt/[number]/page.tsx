@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 const NUMBERS = [13, 14, 16, 19];
 
@@ -57,7 +56,7 @@ export default async function KarmicDebtNumberPage({ params }: { params: Promise
       footer={(
         <div className="space-y-6">
           <LifecyclePaidCTA type="karmic_debt" number={num} />
-          <AffiliatePromo offer={OFFERS.affiliate_genius_song} context="Grounding & Clarity" />
+          <QuickReportUpsell prefillNumber={parseInt(number)} />
         </div>
       )}
     />

@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { trackEvent, getSessionId } from '@/lib/analytics/client';
-import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
+import { useState } from 'react';
 import Link from 'next/link';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 interface ComparisonData {
     number: number;
@@ -45,8 +43,6 @@ function getQuickMeaning(num: number): string {
 }
 
 export function NumberComparison() {
-    const pathname = usePathname();
-    const impressionRef = useCtaImpression({ product: 'relationship', path: pathname || undefined, label: 'Compare Relationship PDF' });
     const [number1, setNumber1] = useState('');
     const [number2, setNumber2] = useState('');
     const [comparison, setComparison] = useState<{
@@ -55,22 +51,6 @@ export function NumberComparison() {
         compatibility: number;
         insight: string;
     } | null>(null);
-    const [loadingCheckout, setLoadingCheckout] = useState(false);
-    const [checkoutError, setCheckoutError] = useState<string | null>(null);
-    const [name, setName] = useState('');
-    const [focus, setFocus] = useState<'love' | 'career' | 'spiritual' | 'money' | 'healing' | ''>('');
-    const [feeling, setFeeling] = useState<'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken' | ''>('');
-    const [timeHorizon, setTimeHorizon] = useState<'7d' | '30d' | '90d' | ''>('');
-    const [relationshipStatus, setRelationshipStatus] = useState<'single' | 'dating' | 'committed' | 'situationship' | 'separated' | ''>('');
-    const [challenge, setChallenge] = useState('');
-    const paymentsReady = true; // enable CTA
-
-    const canCheckout = Boolean(
-        comparison &&
-        focus &&
-        timeHorizon &&
-        relationshipStatus
-    );
 
     const handleCompare = () => {
         const n1 = parseInt(number1);
@@ -121,48 +101,6 @@ export function NumberComparison() {
             compatibility: Math.min(98, compatibility),
             insight: insights[Math.floor(Math.random() * insights.length)],
         });
-    };
-
-    const startCheckout = async () => {
-        if (!canCheckout) {
-            setCheckoutError('Add focus, time horizon, and relationship status to personalize your report.');
-            return;
-        }
-        if (!comparison) return;
-        setLoadingCheckout(true);
-        setCheckoutError(null);
-        try {
-            trackEvent('cta_click', {
-                product: 'relationship',
-                path: window.location.pathname,
-                metadata: { label: 'Compare Relationship PDF', numbers: [comparison.num1.number, comparison.num2.number] },
-            });
-            const res = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'x-session-id': getSessionId() || '' },
-                body: JSON.stringify({
-                    product: 'relationship',
-                    metadata: {
-                        numbers: [comparison.num1.number, comparison.num2.number],
-                        compatibility: { score: comparison.compatibility, description: comparison.insight },
-                        name: name || undefined,
-                        focus: (focus as any) || undefined,
-                        feeling: (feeling as any) || undefined,
-                        timeHorizon: (timeHorizon as any) || undefined,
-                        relationshipStatus: (relationshipStatus as any) || undefined,
-                        challenge: challenge ? challenge.slice(0, 80) : undefined,
-                    },
-                }),
-            });
-            const json = await res.json();
-            if (!res.ok || !json.url) {
-                throw new Error(json.error || 'Checkout failed');
-            }
-            window.location.href = json.url;
-        } catch (err: any) {
-            setCheckoutError(err.message || 'Could not start checkout');
-            setLoadingCheckout(false);
-        }
     };
 
     return (
@@ -286,102 +224,9 @@ export function NumberComparison() {
                             {' '}{comparison.num1.meaning.toLowerCase()} with {comparison.num2.meaning.toLowerCase()}.
                             Pay attention to when each number appears—the sequence matters.
                         </p>
-                        {/* Personalization fields */}
-                        <div className="grid md:grid-cols-2 gap-3 mt-4">
-                            <input
-                                placeholder="Your name (optional)"
-                                value={name}
-                                onChange={(e) => setName(e.target.value.slice(0, 40))}
-                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                            />
-                            <input
-                                placeholder="Biggest challenge (optional, 80 chars)"
-                                value={challenge}
-                                onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                            />
-                            <select
-                                value={focus}
-                                onChange={(e) => setFocus(e.target.value as any)}
-                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                            >
-                                <option value="">Focus area (optional)</option>
-                                <option value="love">Love</option>
-                                <option value="career">Career</option>
-                                <option value="spiritual">Spiritual Growth</option>
-                                <option value="money">Money</option>
-                                <option value="healing">Healing</option>
-                            </select>
-                            <select
-                                value={feeling}
-                                onChange={(e) => setFeeling(e.target.value as any)}
-                                className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                            >
-                                <option value="">How do you feel? (optional)</option>
-                                <option value="calm">Calm</option>
-                                <option value="stuck">Stuck</option>
-                                <option value="anxious">Anxious</option>
-                                <option value="excited">Excited</option>
-                                <option value="heartbroken">Heartbroken</option>
-                            </select>
-                            <select
-                        value={relationshipStatus}
-                        onChange={(e) => setRelationshipStatus(e.target.value as any)}
-                        className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                    >
-                        <option value="">Relationship status (required)</option>
-                        <option value="single">Single</option>
-                        <option value="dating">Dating</option>
-                        <option value="committed">Committed</option>
-                        <option value="situationship">Situationship</option>
-                        <option value="separated">Separated</option>
-                            </select>
-                            <select
-                        value={timeHorizon}
-                        onChange={(e) => setTimeHorizon(e.target.value as any)}
-                        className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/60"
-                    >
-                        <option value="">Time horizon (required)</option>
-                        <option value="7d">Next 7 days</option>
-                        <option value="30d">Next 30 days</option>
-                        <option value="90d">Next 90 days</option>
-                    </select>
+                        <div className="mt-6">
+                            <QuickReportUpsell prefillNumber={comparison.num1.number} />
                         </div>
-
-                        {/* Value props */}
-                        <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary mt-4">
-                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                                Emotional dynamics
-                            </div>
-                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                                Timing cycles (7/30/90d)
-                            </div>
-                            <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                                Challenge-based steps
-                            </div>
-                        </div>
-
-                        <div ref={impressionRef} className="mt-4 flex flex-col sm:flex-row gap-3">
-                            <button
-                                onClick={startCheckout}
-                                disabled={loadingCheckout || !canCheckout || !paymentsReady}
-                                className="flex-1 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold rounded-xl hover:from-amber-400 hover:to-yellow-400 transition-all disabled:opacity-60"
-                            >
-                                {loadingCheckout
-                                    ? 'Creating your report…'
-                                    : 'Get Full Relationship PDF ($29)'}
-                            </button>
-                            <p className="text-xs text-muted sm:w-48">
-                                Personalised emotional dynamics, timing cycles, and what to do next.
-                            </p>
-                        </div>
-                        <p className="text-[11px] text-muted mt-2">One-time $29 · Instant PDF · No login</p>
-                        {checkoutError && (
-                            <p className="text-red-400 text-sm mt-2">{checkoutError}</p>
-                        )}
                     </div>
                 </div>
             )}

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -50,7 +49,7 @@ export default function MaturityIndexPage() {
         </div>
         <section className="p-6 rounded-3xl bg-card border border-default">
           <LifecyclePaidCTA type="maturity" />
-          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+          <QuickReportUpsell />
         </section>
         <FAQ faqs={faqs} title="Maturity Number Questions" />
       </div>

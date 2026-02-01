@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 const LEMON_API_BASE = 'https://api.lemonsqueezy.com/v1';
 
-type ProductType = 'blueprint' | 'relationship' | 'wealth' | 'bundle';
+type ProductType = 'quick_report' | 'blueprint';
 
 export interface CheckoutMetadata {
   numbers?: number[];
@@ -40,15 +40,11 @@ export interface CheckoutMetadata {
 }
 
 function getVariantId(product: ProductType) {
+  const quickReport = process.env.LEMON_VARIANT_QUICK_REPORT;
   const blueprint = process.env.LEMON_VARIANT_BLUEPRINT;
-  const relationship = process.env.LEMON_VARIANT_RELATIONSHIP;
-  const wealth = process.env.LEMON_VARIANT_WEALTH;
-  const bundle = process.env.LEMON_VARIANT_BUNDLE;
 
+  if (product === 'quick_report' && quickReport) return quickReport;
   if (product === 'blueprint' && blueprint) return blueprint;
-  if (product === 'relationship' && relationship) return relationship;
-  if (product === 'wealth' && wealth) return wealth;
-  if (product === 'bundle' && bundle) return bundle;
   throw new Error('Missing Lemon Squeezy variant environment variables.');
 }
 

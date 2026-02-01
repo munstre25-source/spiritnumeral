@@ -11,13 +11,9 @@ function unauthorized() {
 function inferProduct(path?: string | null) {
   if (!path) return 'unknown';
   const p = path.toLowerCase();
-  if (p.includes('/bundle')) return 'bundle';
-  if (p.includes('/money')) return 'wealth';
-  if (p.includes('/compare') || p.includes('/compatibility')) return 'relationship';
-  if (p.includes('/twin-flame') || p.includes('/soulmate') || p.includes('/breakup') || p.includes('/angel-number-love')) {
-    return 'relationship';
-  }
-  return 'blueprint';
+  if (p.includes('/quick-report')) return 'quick_report';
+  if (p.includes('/quiz')) return 'blueprint';
+  return 'quick_report';
 }
 
 export async function GET(req: NextRequest) {
@@ -334,9 +330,9 @@ export async function GET(req: NextRequest) {
       fixList: fixList.slice(0, 10),
       internalLinks: internalLinkSuggestions.slice(0, 20),
     },
-    affiliate: {
+    quickReport: {
       offers: offerCtr
-        .filter((row) => row.product.startsWith('affiliate_'))
+        .filter((row) => row.product === 'quick_report')
         .map((row) => ({
           product: row.product,
           impressions: row.impressions,
@@ -348,7 +344,7 @@ export async function GET(req: NextRequest) {
           const [path, product] = key.split('|');
           return { path, product, count };
         })
-        .filter((row) => row.product.startsWith('affiliate_'))
+        .filter((row) => row.product === 'quick_report')
         .sort((a, b) => b.count - a.count)
         .slice(0, 10),
     },

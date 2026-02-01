@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { trackEvent, getSessionId } from '@/lib/analytics/client';
 import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 
-type Product = 'blueprint' | 'relationship';
+type Product = 'blueprint';
 
 interface PaidCTAProps {
   product: Product;
@@ -29,12 +29,8 @@ export function PaidCTA({
 }: PaidCTAProps) {
   const pathname = usePathname();
   const impressionRef = useCtaImpression({ product, path: pathname || undefined, label: label || undefined });
-  const defaultLabel =
-    product === 'relationship' ? 'Get Relationship Report ($29)' : 'Get Personal Blueprint ($17)';
-  const defaultSub =
-    product === 'relationship'
-      ? 'Emotional dynamics, timing cycles, and next steps for your connection.'
-      : 'Personalized numerology blueprint based on your key numbers.';
+  const defaultLabel = 'Get Personal Blueprint ($17)';
+  const defaultSub = 'Personalized numerology blueprint based on your key numbers.';
 
   const handleClick = async () => {
     try {

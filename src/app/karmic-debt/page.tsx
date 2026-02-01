@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
@@ -51,7 +51,7 @@ export default function KarmicDebtIndexPage() {
         <section className="p-6 rounded-3xl bg-card border border-default">
           <LifecyclePaidCTA type="karmic_debt" />
         </section>
-        <AffiliatePromo offer={OFFERS.affiliate_genius_song} context="Grounding & Clarity" />
+        <QuickReportUpsell />
         <FAQ faqs={faqs} title="Karmic Debt Questions" />
       </div>
     </main>

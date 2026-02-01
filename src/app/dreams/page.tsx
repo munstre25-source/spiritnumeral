@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -107,7 +106,7 @@ export default function DreamsIndexPage() {
 
       <section className="max-w-4xl mx-auto text-center">
         <MeaningPaidCTA />
-        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Lunar Insight" />
+        <QuickReportUpsell />
       </section>
       <section className="max-w-4xl mx-auto mt-16">
         <FAQ faqs={faqs} title="Dream Number Questions" />

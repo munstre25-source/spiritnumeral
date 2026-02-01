@@ -7,8 +7,7 @@ import { ViewTracker } from '@/components/ViewTracker';
 import { AudioReaderCompact } from '@/components/AudioReader';
 import { PrintReading } from '@/components/PrintReading';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -216,7 +215,7 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
             </div>
             {isLifePath && (
               <div className="max-w-2xl mx-auto mt-6">
-                <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+                <QuickReportUpsell prefillNumber={isNaN(Number(slug)) ? undefined : Number(slug)} />
               </div>
             )}
             <p className="text-center text-muted text-sm mt-6 px-4">

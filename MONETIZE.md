@@ -2,11 +2,11 @@
 
 ## What was implemented
 
-- **Paid products (2 SKUs)**
-  - Personal Blueprint PDF — `$17`
-  - Relationship Report PDF — `$29`
+- **Paid products (only two)**
+  - Quick Number Report PDF — `$7` (one number, one page; low-friction entry)
+  - Personal Blueprint PDF — `$17` (full quiz, focus/feeling/time horizon)
 - **Checkout creation API**: `src/app/api/checkout/route.ts`
-  - Accepts `product` (`blueprint` | `relationship`) + metadata.
+  - Accepts `product` (`quick_report` | `blueprint`) + metadata.
   - Creates a Lemon Squeezy checkout and returns the hosted URL.
 - **Webhook processor**: `src/app/api/lemonsqueezy/webhook/route.ts`
   - Verifies signature.
@@ -47,10 +47,8 @@
 ## Environment variables (must set in production)
 - `LEMONSQUEEZY_API_KEY`
 - `LEMONSQUEEZY_STORE_ID`
+- `LEMON_VARIANT_QUICK_REPORT` (Quick Number Report — $7)
 - `LEMON_VARIANT_BLUEPRINT`
-- `LEMON_VARIANT_RELATIONSHIP`
-- `LEMON_VARIANT_WEALTH`
-- `LEMON_VARIANT_BUNDLE` (optional, for bundle checkout)
 - `LEMONSQUEEZY_SIGNING_SECRET`
 - `RESEND_API_KEY`
 - `RESEND_FROM` (e.g., reports@spiritnumeral.com)

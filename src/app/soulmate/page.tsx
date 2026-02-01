@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { RelationshipPaidCTA } from '@/components/RelationshipPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -106,11 +105,7 @@ export default function SoulmateIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <RelationshipPaidCTA
-          label="Get Your Soulmate PDF ($29)"
-          sublabel="Personalized relationship guidance based on your number and current connection."
-        />
-        <AffiliatePromo offer={OFFERS.affiliate_soulmate_story} context="Soulmate Sketch" />
+        <QuickReportUpsell />
       </section>
       <section className="max-w-4xl mx-auto mt-16">
         <FAQ faqs={faqs} title="Soulmate Number Questions" />

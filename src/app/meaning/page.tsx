@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import dataset from '@/lib/data/spirituality-dataset.json';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const metadata: Metadata = {
   title: 'Number Meanings Hub | Spirit Numeral',
@@ -246,7 +245,7 @@ export default function MeaningHubPage() {
       </section>
 
       <section className="max-w-4xl mx-auto mt-14">
-        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+        <QuickReportUpsell />
       </section>
     </main>
   );

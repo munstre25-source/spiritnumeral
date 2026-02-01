@@ -1,8 +1,7 @@
 import { getPSEODataAsync, generateAngelNumberTitle, generateAngelNumberDescription } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
@@ -152,7 +151,7 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
 
           <footer className="pt-8 pb-16 space-y-6">
             <MeaningPaidCTA number={parseInt(number)} />
-            <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Lunar Insight" />
+            <QuickReportUpsell prefillNumber={parseInt(number)} />
             <a
               href={`/meaning/angel-number/${number}`}
               className="block text-center text-amber-500 hover:text-amber-600 transition-colors"

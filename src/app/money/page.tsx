@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { MoneyPaidCTA } from '@/components/MoneyPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -106,8 +105,8 @@ export default function MoneyIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto text-center">
-        <MoneyPaidCTA />
-        <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+        <QuickReportUpsell />
+        <QuickReportUpsell />
       </section>
 
       <section className="max-w-4xl mx-auto mt-16">

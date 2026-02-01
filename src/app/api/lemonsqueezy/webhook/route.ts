@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     }
   });
   const inputs = Object.fromEntries(parsedEntries) as Record<string, any>;
-  const product = (inputs.product || 'blueprint') as 'blueprint' | 'relationship' | 'wealth' | 'bundle';
+  const product = (inputs.product || 'blueprint') as 'quick_report' | 'blueprint';
 
   if (!email) {
     console.error('Lemon webhook missing email');
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       lifecycle: inputs.lifecycle,
     };
 
-    const targets = product === 'bundle' ? (['blueprint', 'relationship', 'wealth'] as const) : ([product] as const);
+    const targets = product === 'quick_report' ? (['quick_report'] as const) : (['blueprint'] as const);
     const generationStart = Date.now();
     const attachments = [];
     for (const target of targets) {
@@ -96,13 +96,7 @@ export async function POST(req: NextRequest) {
 
     // Email delivery
     const subject =
-      product === 'bundle'
-        ? 'Your Numerology Bundle (3 Reports)'
-        : product === 'relationship'
-          ? 'Your Relationship Numerology Report'
-          : product === 'wealth'
-            ? 'Your Wealth & Abundance Numerology Report'
-            : 'Your Personal Numerology Blueprint';
+      product === 'quick_report' ? 'Your Quick Number Report' : 'Your Personal Numerology Blueprint';
     try {
       await sendReportEmail(
         email,

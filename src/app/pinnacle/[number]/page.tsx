@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -57,7 +56,7 @@ export default async function PinnacleNumberPage({ params }: { params: Promise<{
       footer={
         <>
           <LifecyclePaidCTA type="pinnacle" number={num} />
-          <AffiliatePromo offer={OFFERS.affiliate_numerologist} context="Prosperity VSL" />
+          <QuickReportUpsell prefillNumber={parseInt(number)} />
         </>
       }
     />

@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const metadata: Metadata = {
     title: 'Which Celebrities Share Your Life Path? Famous Numerology',
@@ -263,7 +262,7 @@ export default function CelebrityNumerologyPage() {
                     </section>
 
                     <section className="mt-10 max-w-2xl mx-auto">
-                        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+                        <QuickReportUpsell />
                     </section>
                 </div>
             </main>

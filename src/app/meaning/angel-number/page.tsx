@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const revalidate = 86400;
 
@@ -142,7 +141,7 @@ export default async function AngelNumberIndexPage() {
       </section>
 
       <section className="max-w-4xl mx-auto mt-10">
-        <AffiliatePromo offer={OFFERS.affiliate_moon_reading} context="Personalized Astrology" />
+        <QuickReportUpsell />
       </section>
     </main>
   );

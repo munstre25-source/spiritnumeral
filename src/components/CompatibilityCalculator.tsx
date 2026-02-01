@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { trackEvent, getSessionId } from '@/lib/analytics/client';
-import { useCtaImpression } from '@/lib/analytics/useCtaImpression';
 import Link from 'next/link';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 // Calculate life path from birthday
 function calculateLifePath(birthday: string): number {
@@ -131,8 +129,6 @@ function getCompatibility(num1: number, num2: number): { score: number; descript
 }
 
 export function CompatibilityCalculator() {
-    const pathname = usePathname();
-    const impressionRef = useCtaImpression({ product: 'relationship', path: pathname || undefined, label: 'Compatibility Relationship PDF' });
     const [birthday1, setBirthday1] = useState('');
     const [birthday2, setBirthday2] = useState('');
     const [result, setResult] = useState<{
@@ -141,22 +137,6 @@ export function CompatibilityCalculator() {
         score: number;
         description: string;
     } | null>(null);
-    const [loadingCheckout, setLoadingCheckout] = useState(false);
-    const [checkoutError, setCheckoutError] = useState<string | null>(null);
-    const [name, setName] = useState('');
-    const [focus, setFocus] = useState<'love' | 'career' | 'spiritual' | 'money' | 'healing' | ''>('');
-    const [feeling, setFeeling] = useState<'calm' | 'stuck' | 'anxious' | 'excited' | 'heartbroken' | ''>('');
-    const [timeHorizon, setTimeHorizon] = useState<'7d' | '30d' | '90d' | ''>('');
-    const [relationshipStatus, setRelationshipStatus] = useState<'single' | 'dating' | 'committed' | 'situationship' | 'separated' | ''>('');
-    const [challenge, setChallenge] = useState('');
-    const paymentsReady = true; // enable CTA
-
-    const canCheckout = Boolean(
-        result &&
-        focus &&
-        timeHorizon &&
-        relationshipStatus
-    );
 
     const handleCalculate = () => {
         if (!birthday1 || !birthday2) return;
@@ -166,47 +146,6 @@ export function CompatibilityCalculator() {
         const { score, description } = getCompatibility(path1, path2);
 
         setResult({ path1, path2, score, description });
-    };
-
-    const startCheckout = async () => {
-        if (!canCheckout) {
-            setCheckoutError('Add focus, time horizon, and relationship status to personalize your report.');
-            return;
-        }
-        if (!result) return;
-        setLoadingCheckout(true);
-        setCheckoutError(null);
-        try {
-            trackEvent('cta_click', {
-                product: 'relationship',
-                path: window.location.pathname,
-                metadata: { label: 'Compatibility Relationship PDF', numbers: [result.path1, result.path2] },
-            });
-            const res = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'x-session-id': getSessionId() || '' },
-                body: JSON.stringify({
-                    product: 'relationship',
-                    metadata: {
-                        numbers: [result.path1, result.path2],
-                        birthdays: [birthday1, birthday2],
-                        compatibility: { score: result.score, description: result.description },
-                        name: name || undefined,
-                        focus: (focus as any) || undefined,
-                        feeling: (feeling as any) || undefined,
-                        timeHorizon: (timeHorizon as any) || undefined,
-                        relationshipStatus: (relationshipStatus as any) || undefined,
-                        challenge: challenge ? challenge.slice(0, 80) : undefined,
-                    },
-                }),
-            });
-            const json = await res.json();
-            if (!res.ok || !json.url) throw new Error(json.error || 'Checkout failed');
-            window.location.href = json.url;
-        } catch (error: any) {
-            setCheckoutError(error.message || 'Could not start checkout');
-            setLoadingCheckout(false);
-        }
     };
 
     const getScoreColor = (score: number) => {
@@ -293,102 +232,9 @@ export function CompatibilityCalculator() {
                         {result.description}
                     </p>
 
-                    {/* Personalization */}
-                    <div className="grid md:grid-cols-2 gap-3 mb-4">
-                        <input
-                            placeholder="Your name (optional)"
-                            value={name}
-                            onChange={(e) => setName(e.target.value.slice(0, 40))}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        />
-                        <input
-                            placeholder="Biggest challenge (optional, 80 chars)"
-                            value={challenge}
-                            onChange={(e) => setChallenge(e.target.value.slice(0, 80))}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        />
-                        <select
-                            value={focus}
-                            onChange={(e) => setFocus(e.target.value as any)}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        >
-                            <option value="">Focus area (optional)</option>
-                            <option value="love">Love</option>
-                            <option value="career">Career</option>
-                            <option value="spiritual">Spiritual Growth</option>
-                            <option value="money">Money</option>
-                            <option value="healing">Healing</option>
-                        </select>
-                        <select
-                            value={feeling}
-                            onChange={(e) => setFeeling(e.target.value as any)}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        >
-                            <option value="">How do you feel? (optional)</option>
-                            <option value="calm">Calm</option>
-                            <option value="stuck">Stuck</option>
-                            <option value="anxious">Anxious</option>
-                            <option value="excited">Excited</option>
-                            <option value="heartbroken">Heartbroken</option>
-                        </select>
-                        <select
-                            value={relationshipStatus}
-                            onChange={(e) => setRelationshipStatus(e.target.value as any)}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        >
-                            <option value="">Relationship status (required)</option>
-                            <option value="single">Single</option>
-                            <option value="dating">Dating</option>
-                            <option value="committed">Committed</option>
-                            <option value="situationship">Situationship</option>
-                            <option value="separated">Separated</option>
-                        </select>
-                        <select
-                            value={timeHorizon}
-                            onChange={(e) => setTimeHorizon(e.target.value as any)}
-                            className="w-full bg-card border border-default text-secondary px-4 py-3 rounded-xl focus:outline-none focus:border-amber-500/50"
-                        >
-                            <option value="">Time horizon (required)</option>
-                            <option value="7d">Next 7 days</option>
-                            <option value="30d">Next 30 days</option>
-                            <option value="90d">Next 90 days</option>
-                        </select>
+                    <div className="mb-6">
+                        <QuickReportUpsell prefillNumber={result.path1} />
                     </div>
-
-                    {/* Value props */}
-                    <div className="grid sm:grid-cols-3 gap-2 text-xs text-secondary mb-4">
-                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                            Emotional dynamics
-                        </div>
-                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                            Timing cycles (7/30/90d)
-                        </div>
-                        <div className="flex items-center gap-2 bg-card border border-default rounded-xl px-3 py-2">
-                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                            Challenge-based steps
-                        </div>
-                    </div>
-
-                    <div ref={impressionRef} className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
-                        <button
-                            onClick={startCheckout}
-                            disabled={loadingCheckout || !canCheckout || !paymentsReady}
-                            className="px-6 py-3 btn-primary font-bold rounded-xl transition-all disabled:opacity-60"
-                        >
-                            {!paymentsReady
-                                ? 'Paid PDFs coming soon'
-                                : loadingCheckout
-                                    ? 'Preparing your PDF…'
-                                    : 'Get Relationship Report ($29)'}
-                        </button>
-                        <p className="text-xs text-muted sm:w-48 text-left sm:text-center">
-                            Full emotional dynamics, timing cycles, and guidance tailored to your birthdays.
-                        </p>
-                    </div>
-                    <p className="text-[11px] text-muted text-center mb-2">One-time $29 · Instant PDF · No login</p>
-                    {checkoutError && <p className="text-red-400 text-sm text-center">{checkoutError}</p>}
 
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Link

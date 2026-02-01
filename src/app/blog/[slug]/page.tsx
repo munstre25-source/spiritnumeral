@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
 import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { AffiliatePromo } from '@/components/AffiliatePromo';
-import { OFFERS } from '@/lib/offers';
+import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 const MAX_STATIC_BLOG_POSTS = 2000;
 
@@ -43,44 +42,6 @@ const resolvePostBySlug = (slug: string): { post: BlogPost; resolvedSlug: string
         }
     }
 
-    return null;
-};
-
-const resolveAffiliateForCategory = (category: string) => {
-    const normalized = category.toLowerCase();
-    if (normalized.includes('love') || normalized.includes('twin flame')) {
-        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
-    }
-    if (normalized.includes('breakup')) {
-        return { offer: OFFERS.affiliate_ex_back, context: 'Reconciliation Support' };
-    }
-    if (normalized.includes('money') || normalized.includes('career') || normalized.includes('personal year') || normalized.includes('personal month') || normalized.includes('personal day') || normalized.includes('manifestation')) {
-        return { offer: OFFERS.affiliate_numerologist, context: 'Prosperity VSL' };
-    }
-    if (normalized.includes('challenges') || normalized.includes('warning')) {
-        return { offer: OFFERS.affiliate_genius_song, context: 'Grounding & Clarity' };
-    }
-    if (normalized.includes('dream') || normalized.includes('angel') || normalized.includes('why-am-i-seeing') || normalized.includes('why am i seeing') || normalized.includes('biblical') || normalized.includes('pregnancy') || normalized.includes('celebrity')) {
-        return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
-    }
-    if (
-        normalized.includes('life path') ||
-        normalized.includes('name numerology') ||
-        normalized.includes('destiny') ||
-        normalized.includes('soul urge') ||
-        normalized.includes('personality') ||
-        normalized.includes('birthday') ||
-        normalized.includes('maturity') ||
-        normalized.includes('pinnacles')
-    ) {
-        return { offer: OFFERS.affiliate_moon_reading, context: 'Lunar Insight' };
-    }
-    if (normalized.includes('compatibility')) {
-        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
-    }
-    if (normalized.includes('soulmate')) {
-        return { offer: OFFERS.affiliate_soulmate_story, context: 'Soulmate Sketch' };
-    }
     return null;
 };
 
@@ -267,7 +228,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     // Get related posts
     const relatedPosts = BLOG_POSTS.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3);
-    const affiliatePromo = resolveAffiliateForCategory(post.category);
     const tools = resolveToolsForCategory(post.category);
 
     return (
@@ -327,11 +287,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         {formatContent(post.content)}
                     </div>
 
-                    {affiliatePromo && (
-                        <section className="mt-10">
-                            <AffiliatePromo offer={affiliatePromo.offer} context={affiliatePromo.context} />
-                        </section>
-                    )}
+                    <section className="mt-10">
+                        <QuickReportUpsell prefillNumber={post.relatedNumbers?.[0]} />
+                    </section>
 
                     {tools.length > 0 && (
                         <section className="mt-10 p-6 rounded-2xl bg-card border border-default">
