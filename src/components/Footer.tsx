@@ -23,6 +23,7 @@ export default function Footer() {
         { name: 'Soulmate', href: '/soulmate' },
         { name: 'Breakup', href: '/breakup' },
         { name: 'Dreams', href: '/dreams' },
+        { name: 'Psychic Readings', href: '/psychic-readings' },
       ],
     },
     {

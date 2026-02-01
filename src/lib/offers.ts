@@ -75,7 +75,15 @@ const psychicRouteMap: { pattern: RegExp; offer: PsychicOfferId }[] = [
   { pattern: /^\/compatibility(\/|$)/, offer: 'psychic_love' },
   { pattern: /^\/compare(\/|$)/, offer: 'psychic_love' },
   { pattern: /^\/breakup(\/|$)/, offer: 'psychic_love' },
+  { pattern: /^\/psychic-readings\/love(\/|$)/, offer: 'psychic_love' },
   // Career / money: career and abundance pages
+  { pattern: /^\/psychic-readings\/career(\/|$)/, offer: 'psychic_career' },
+  // Guides: general tarot/psychic (specific paths before hub)
+  { pattern: /^\/psychic-readings\/when-to-get(\/|$)/, offer: 'psychic_tarot' },
+  { pattern: /^\/psychic-readings\/angel-numbers-readings(\/|$)/, offer: 'psychic_tarot' },
+  { pattern: /^\/psychic-readings\/questions-to-ask(\/|$)/, offer: 'psychic_tarot' },
+  { pattern: /^\/psychic-readings\/reading-vs-calculator(\/|$)/, offer: 'psychic_tarot' },
+  { pattern: /^\/psychic-readings(\/|$)/, offer: 'psychic_tarot' },
   { pattern: /^\/money(\/|$)/, offer: 'psychic_career' },
   { pattern: /^\/manifestation\//, offer: 'psychic_career' },
   { pattern: /^\/angel-number-career\//, offer: 'psychic_career' },
@@ -105,6 +113,7 @@ const EMOTIONAL_PATH_PATTERNS: RegExp[] = [
   /^\/breakup(\/|$)/,
   /^\/meaning\/angel-number\/\d+/,  // single angel number page
   /^\/$/,  // home: angel-number focused
+  /^\/psychic-readings\/love(\/|$)/,  // love landing: emotional CTA
 ];
 
 export function isEmotionalPath(pathname: string): boolean {

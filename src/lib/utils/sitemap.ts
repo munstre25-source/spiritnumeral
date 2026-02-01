@@ -40,6 +40,15 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     '/contact',
     '/privacy',
     '/terms',
+    '/psychic-readings',
+    '/psychic-readings/love',
+    '/psychic-readings/career',
+    '/psychic-readings/when-to-get',
+    '/psychic-readings/angel-numbers-readings',
+    '/psychic-readings/questions-to-ask',
+    '/psychic-readings/reading-vs-calculator',
+    '/house-number',
+    '/karmic-lesson',
   ].forEach((path) => {
     urls.push(`${baseUrl}${path}`);
   });
@@ -159,6 +168,14 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
 
   const karmicDebtNumbers = [13, 14, 16, 19];
   karmicDebtNumbers.forEach((num) => urls.push(`${baseUrl}/karmic-debt/${num}`));
+
+  // House number pages (1-9, 11, 22, 33)
+  const houseNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
+  houseNumbers.forEach((num) => urls.push(`${baseUrl}/house-number/${num}`));
+
+  // Karmic lesson pages (1-9)
+  const karmicLessonNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  karmicLessonNumbers.forEach((num) => urls.push(`${baseUrl}/karmic-lesson/${num}`));
 
   return { urls, generatedAt: now };
 }
