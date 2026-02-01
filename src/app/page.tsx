@@ -2,6 +2,8 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
+import { TestimonialsSection } from '@/components/TestimonialsSection';
+import { HomeHeroPsychicCTA } from '@/components/HomeHeroPsychicCTA';
 
 const HomepageSearch = dynamic(() => import('@/components/HomepageSearch').then((m) => ({ default: m.HomepageSearch })), {
   loading: () => <div className="h-12 max-w-xl mx-auto bg-card border border-default rounded-full animate-pulse" />
@@ -124,12 +126,7 @@ export default function HomePage() {
           <p className="text-lg text-secondary mb-6 max-w-2xl mx-auto">
             Discover the exact number influencing your love, career, and spiritual growth — based on your birth date.
           </p>
-          <Link
-            href="/calculator"
-            className="inline-block btn-primary px-8 py-4 rounded-lg font-bold text-lg transition-colors mb-10"
-          >
-            Calculate My Life Path
-          </Link>
+          <HomeHeroPsychicCTA />
 
           {/* Category tabs – GSC query themes (meaning, love, twin flame, money, career, soulmate) */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -268,6 +265,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Reviews / social proof – pre-sell */}
+      <TestimonialsSection />
 
       {/* FAQ – conversion & trust */}
       <section className="max-w-2xl mx-auto px-6 pb-16">

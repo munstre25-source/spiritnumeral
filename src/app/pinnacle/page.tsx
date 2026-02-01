@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata = {
@@ -47,10 +46,12 @@ export default function PinnacleIndexPage() {
             </Link>
           ))}
         </div>
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <LifecyclePaidCTA type="pinnacle" />
-          <QuickReportUpsell />
-        </section>
+        <div className="mt-8">
+          <PsychicPromo
+            contextualLine="For clarity on your next step and timing, a short psychic reading can offer guidance."
+            label="Psychic After Content"
+          />
+        </div>
         <FAQ faqs={faqs} title="Pinnacle Number Questions" />
       </div>
     </main>

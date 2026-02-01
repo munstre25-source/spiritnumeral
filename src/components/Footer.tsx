@@ -36,12 +36,16 @@ export default function Footer() {
       title: 'Company',
       links: [
         { name: 'About', href: '/about' },
+        { name: 'Press Kit', href: '/press' },
+        { name: 'Reviews', href: '/reviews' },
         { name: 'Contact', href: '/contact' },
         { name: 'Privacy', href: '/privacy' },
         { name: 'Terms', href: '/terms' },
       ],
     },
   ];
+
+  const psychicOzLink = 'https://psychicoz.com?a_aid=697f030692a07';
 
   return (
     <footer className="bg-elevated border-t border-default pt-12 pb-8">
@@ -82,9 +86,11 @@ export default function Footer() {
           <p className="text-muted text-xs">
             © {currentYear} Spirit Numeral. For entertainment and self-reflection only.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <Link href="/privacy" className="text-muted text-xs hover:text-primary">Privacy</Link>
             <Link href="/terms" className="text-muted text-xs hover:text-primary">Terms</Link>
+            <Link href="/quick-report" className="text-muted text-xs hover:text-primary">Quick Report ($7)</Link>
+            <a href={psychicOzLink} target="_blank" rel="noopener noreferrer sponsored" className="text-muted text-xs hover:text-amber-500 transition-colors">Psychic readings</a>
           </div>
         </div>
       </div>

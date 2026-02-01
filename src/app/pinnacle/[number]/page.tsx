@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -53,12 +52,7 @@ export default async function PinnacleNumberPage({ params }: { params: Promise<{
         { href: '/challenge', label: 'Challenge Numbers' },
         { href: '/maturity-number', label: 'Maturity Numbers' },
       ]}
-      footer={
-        <>
-          <LifecyclePaidCTA type="pinnacle" number={num} />
-          <QuickReportUpsell prefillNumber={parseInt(number)} />
-        </>
-      }
+      footer={<PsychicPromo contextualLine="For clarity on your next step and timing, a short psychic reading can offer guidance." label="Psychic After Content" />}
     />
   );
 }

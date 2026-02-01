@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ReadingProgress, ScrollToTop, MobileBottomNav } from '@/components/UXEnhancements';
-import { EmailCapture } from '@/components/EmailCapture';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
+import { ExitIntentPdf } from '@/components/ExitIntentPdf';
 
 type RootShellProps = {
   children: React.ReactNode;
@@ -24,9 +24,9 @@ export default function RootShell({ children }: RootShellProps) {
         {children}
       </div>
       {!isAdmin && <Footer />}
+      {!isAdmin && <ExitIntentPdf />}
       {!isAdmin && <ScrollToTop />}
       {!isAdmin && <MobileBottomNav />}
-      {!isAdmin && <EmailCapture />}
     </div>
   );
 }

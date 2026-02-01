@@ -1,7 +1,7 @@
 import { getPSEODataAsync } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -159,6 +159,13 @@ export default async function MoneyMeaningPage({ params }: { params: Promise<{ n
                         </div>
                     </section>
 
+                    <div className="mt-8">
+                        <PsychicPromo
+                            contextualLine="For clarity on your career and money path, a short psychic reading can offer guidance."
+                            label="Psychic After Content"
+                        />
+                    </div>
+
                     <FAQ faqs={faqs} title="Money & Finance Questions" />
 
                     <InternalLinks number={number} currentPage="money" />
@@ -168,8 +175,6 @@ export default async function MoneyMeaningPage({ params }: { params: Promise<{ n
                     <NavigationLinks />
 
                     <footer className="pt-8 pb-16 space-y-6">
-                        <QuickReportUpsell prefillNumber={parseInt(number)} />
-                        <QuickReportUpsell prefillNumber={parseInt(number)} />
                         <a
                             href={`/meaning/angel-number/${number}`}
                             className="block text-center text-amber-500 hover:text-amber-600 transition-colors"

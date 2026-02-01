@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 export const revalidate = 86400;
 
@@ -126,6 +126,10 @@ export default async function AngelNumberIndexPage() {
         ))}
       </section>
 
+      <div className="max-w-4xl mx-auto mb-16">
+        <PsychicPromo label="Psychic After Content" />
+      </div>
+
       <section className="max-w-4xl mx-auto">
         <div className="p-8 md:p-12 rounded-3xl bg-card border border-default">
           <h2 className="text-3xl font-bold mb-8 text-amber-600 text-center">Frequently Asked Questions</h2>
@@ -140,9 +144,6 @@ export default async function AngelNumberIndexPage() {
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto mt-10">
-        <QuickReportUpsell />
-      </section>
     </main>
   );
 }

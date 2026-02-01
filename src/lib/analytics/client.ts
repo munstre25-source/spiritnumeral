@@ -23,6 +23,18 @@ export function getSessionFirstSeen() {
   return firstSeen;
 }
 
+/** Session-stable A/B variant for emotional-page CTA: 'control' (Try 3 free minutes) vs 'reveal' (Reveal my number). */
+export function getCtaVariant(): 'control' | 'reveal' {
+  if (typeof window === 'undefined') return 'control';
+  const key = 'psychic_cta_ab';
+  let v = sessionStorage.getItem(key);
+  if (!v) {
+    v = Math.random() < 0.5 ? 'reveal' : 'control';
+    sessionStorage.setItem(key, v);
+  }
+  return v as 'control' | 'reveal';
+}
+
 export function isTrackingDisabled() {
   if (typeof window === 'undefined') return true;
   const optOut = localStorage.getItem('analytics_opt_out') === 'true';

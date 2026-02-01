@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 function reduceNumber(value: number) {
   let sum = value;
@@ -67,29 +68,37 @@ export default function PersonalTimingCalculator() {
       </div>
 
       {results && (
-        <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Personal Year</div>
-            <div className="text-3xl font-bold text-amber-600">{results.personalYear}</div>
-            <Link href={`/personal-year/${results.personalYear}`} className="text-xs text-amber-600 mt-2 inline-block">
+        <>
+          <div className="mt-6 grid md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Personal Year</div>
+              <div className="text-3xl font-bold text-amber-600">{results.personalYear}</div>
+<Link href={`/personal-year/${results.personalYear}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
-          </div>
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Personal Month</div>
-            <div className="text-3xl font-bold text-amber-600">{results.personalMonth}</div>
-            <Link href={`/personal-month/${results.personalMonth}`} className="text-xs text-amber-600 mt-2 inline-block">
+            </div>
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Personal Month</div>
+              <div className="text-3xl font-bold text-amber-600">{results.personalMonth}</div>
+<Link href={`/personal-month/${results.personalMonth}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
-          </div>
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Personal Day</div>
-            <div className="text-3xl font-bold text-amber-600">{results.personalDay}</div>
-            <Link href={`/personal-day/${results.personalDay}`} className="text-xs text-amber-600 mt-2 inline-block">
+            </div>
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Personal Day</div>
+              <div className="text-3xl font-bold text-amber-600">{results.personalDay}</div>
+<Link href={`/personal-day/${results.personalDay}`} className="text-xs text-amber-600 mt-2 inline-block">
               View meaning →
             </Link>
+            </div>
           </div>
-        </div>
+          <div className="mt-6">
+            <PsychicPromo
+              contextualLine="For clarity on your next step and timing, a short psychic reading can offer guidance."
+              label="Psychic After Results"
+            />
+          </div>
+        </>
       )}
     </section>
   );

@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 const NUMBERS = [13, 14, 16, 19];
 
@@ -53,12 +52,7 @@ export default async function KarmicDebtNumberPage({ params }: { params: Promise
         { href: '/challenge', label: 'Challenge Numbers' },
         { href: '/pinnacle', label: 'Pinnacle Numbers' },
       ]}
-      footer={(
-        <div className="space-y-6">
-          <LifecyclePaidCTA type="karmic_debt" number={num} />
-          <QuickReportUpsell prefillNumber={parseInt(number)} />
-        </div>
-      )}
+      footer={null}
     />
   );
 }

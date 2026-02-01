@@ -1,7 +1,7 @@
 import { getPSEODataAsync } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
-import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -170,6 +170,13 @@ export default async function CareerMeaningPage({ params }: { params: Promise<{ 
             </p>
           </section>
 
+          <div className="mt-8">
+            <PsychicPromo
+              contextualLine="For clarity on your career and money path, a short psychic reading can offer guidance."
+              label="Psychic After Content"
+            />
+          </div>
+
           <FAQ faqs={faqs} title="Career & Finance Questions" />
 
           <InternalLinks number={number} currentPage="career" />
@@ -179,7 +186,6 @@ export default async function CareerMeaningPage({ params }: { params: Promise<{ 
           <NavigationLinks />
 
           <footer className="pt-8 pb-16 space-y-6">
-            <MeaningPaidCTA number={parseInt(number)} />
             <a
               href={`/meaning/angel-number/${number}`}
               className="block text-center text-amber-500 hover:text-amber-600 transition-colors"

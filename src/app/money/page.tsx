@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = {
@@ -103,10 +103,12 @@ export default function MoneyIndexPage() {
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto text-center">
-        <QuickReportUpsell />
-        <QuickReportUpsell />
-      </section>
+      <div className="max-w-4xl mx-auto mb-16">
+        <PsychicPromo
+          contextualLine="For clarity on your career and money path, a short psychic reading can offer guidance."
+          label="Psychic After Content"
+        />
+      </div>
 
       <section className="max-w-4xl mx-auto mt-16">
         <FAQ faqs={faqs} title="Money Angel Number Questions" />

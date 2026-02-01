@@ -15,6 +15,8 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     '/compatibility',
     '/compare',
     '/quiz',
+    '/quick-report',
+    '/reviews',
     '/celebrity-numerology',
     '/profile',
     '/blog',

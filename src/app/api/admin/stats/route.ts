@@ -68,6 +68,8 @@ export async function GET(req: NextRequest) {
   const topCtas: Record<string, number> = {};
   const pageViewsByPath: Record<string, number> = {};
   const ctaClicksByPath: Record<string, number> = {};
+  const ctaClicksByVariant: Record<string, number> = {};
+  const ctaClicksByLabel: Record<string, number> = {};
   const referrers: Record<string, number> = {};
   const devices: Record<string, number> = {};
   const browsers: Record<string, number> = {};
@@ -139,6 +141,14 @@ export async function GET(req: NextRequest) {
       topCtas[key] = (topCtas[key] || 0) + 1;
       if (e.path) {
         ctaClicksByPath[e.path] = (ctaClicksByPath[e.path] || 0) + 1;
+      }
+      const variant = metadata.ctaVariant;
+      if (typeof variant === 'string') {
+        ctaClicksByVariant[variant] = (ctaClicksByVariant[variant] || 0) + 1;
+      }
+      const label = metadata.label;
+      if (typeof label === 'string') {
+        ctaClicksByLabel[label] = (ctaClicksByLabel[label] || 0) + 1;
       }
     }
     if (e.event_type === 'checkout_start') {
@@ -381,6 +391,14 @@ export async function GET(req: NextRequest) {
         .filter((row) => PSYCHIC_PRODUCTS.includes(row.product as any))
         .sort((a, b) => b.count - a.count)
         .slice(0, 15),
+    },
+    abCta: {
+      byVariant: Object.entries(ctaClicksByVariant)
+        .map(([variant, count]) => ({ variant, count }))
+        .sort((a, b) => b.count - a.count),
+      byLabel: Object.entries(ctaClicksByLabel)
+        .map(([label, count]) => ({ label, count }))
+        .sort((a, b) => b.count - a.count),
     },
     bucket,
   });

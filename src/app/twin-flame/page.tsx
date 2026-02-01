@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = {
@@ -103,10 +103,13 @@ export default function TwinFlameIndexPage() {
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto text-center">
-        <QuickReportUpsell />
-        <QuickReportUpsell />
-      </section>
+      <div className="max-w-4xl mx-auto mb-16">
+        <PsychicPromo
+          contextualLine="If you're at a relationship crossroads, a trusted psychic reading can give clarity."
+          label="Psychic After Content"
+        />
+      </div>
+
       <section className="max-w-4xl mx-auto mt-16">
         <FAQ faqs={faqs} title="Twin Flame Questions" />
       </section>

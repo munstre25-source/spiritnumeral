@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 
 const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -52,7 +51,7 @@ export default async function ChallengeNumberPage({ params }: { params: Promise<
         { href: '/pinnacle', label: 'Pinnacle Numbers' },
         { href: '/maturity-number', label: 'Maturity Numbers' },
       ]}
-      footer={<LifecyclePaidCTA type="challenge" number={num} />}
+      footer={null}
     />
   );
 }

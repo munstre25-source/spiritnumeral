@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 // Calculate life path from birthday
 function calculateLifePath(birthday: string): number {
@@ -232,10 +232,6 @@ export function CompatibilityCalculator() {
                         {result.description}
                     </p>
 
-                    <div className="mb-6">
-                        <QuickReportUpsell prefillNumber={result.path1} />
-                    </div>
-
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Link
                             href={`/meaning/life-path/life-path-${result.path1}`}
@@ -249,6 +245,12 @@ export function CompatibilityCalculator() {
                         >
                             Life Path {result.path2} Meaning
                         </Link>
+                    </div>
+                    <div className="mt-6">
+                        <PsychicPromo
+                            contextualLine="If you're curious about your relationship path, a short psychic reading can add clarity."
+                            label="Psychic After Results"
+                        />
                     </div>
                 </div>
             )}

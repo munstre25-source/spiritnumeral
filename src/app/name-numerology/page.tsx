@@ -1,8 +1,6 @@
 import NameNumerologyCalculator from '@/components/NameNumerologyCalculator';
-import { NamePaidCTA } from '@/components/NamePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const metadata = {
   title: 'Name Numerology Calculator • Spirit Numeral',
@@ -42,10 +40,6 @@ export default function NameNumerologyPage() {
           </p>
         </header>
         <NameNumerologyCalculator />
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <NamePaidCTA />
-        </section>
-        <QuickReportUpsell />
         <FAQ faqs={faqs} title="Name Numerology Questions" />
       </div>
     </main>

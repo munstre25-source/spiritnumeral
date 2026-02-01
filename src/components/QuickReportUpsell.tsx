@@ -29,18 +29,6 @@ export function QuickReportUpsell({ prefillNumber }: { prefillNumber?: number })
       >
         {OFFERS.quick_report.cta}
       </Link>
-      <div className="pt-3 border-t border-default">
-        <p className="text-sm text-secondary mb-2">Want the full picture?</p>
-        <Link
-          href="/quiz"
-          onClick={() =>
-            trackEvent('cta_click', { product: 'blueprint', metadata: { label: 'Blueprint Upsell from Quick Report' } })
-          }
-          className="inline-flex items-center justify-center rounded-xl bg-amber-500/15 border border-amber-500/40 px-4 py-2 text-sm font-semibold text-amber-600 hover:bg-amber-500/25 transition"
-        >
-          Get full Blueprint — $17 →
-        </Link>
-      </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import dataset from '@/lib/data/spirituality-dataset.json';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 export const metadata: Metadata = {
   title: 'Life Path Meanings | Spirit Numeral',
@@ -143,9 +142,6 @@ export default function LifePathIndexPage() {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto mt-10">
-        <QuickReportUpsell />
-      </section>
     </main>
   );
 }

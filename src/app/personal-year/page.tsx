@@ -1,6 +1,4 @@
 import PersonalTimingCalculator from '@/components/PersonalTimingCalculator';
-import { TimingPaidCTA } from '@/components/TimingPaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
 
@@ -42,10 +40,6 @@ export default function PersonalYearPage() {
           </p>
         </header>
         <PersonalTimingCalculator />
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <TimingPaidCTA />
-          <QuickReportUpsell />
-        </section>
         <FAQ faqs={faqs} title="Personal Year Questions" />
       </div>
     </main>

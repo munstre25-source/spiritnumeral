@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 const LETTER_MAP: Record<string, number> = {
   A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7, H: 8, I: 9,
@@ -58,29 +59,37 @@ export default function NameNumerologyCalculator() {
       </div>
 
       {results && (
-        <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Expression</div>
-            <div className="text-3xl font-bold text-amber-600">{results.expression}</div>
-            <Link href={`/name-numerology/expression/${results.expression}`} className="text-xs text-amber-600 mt-2 inline-block">
-              View meaning →
-            </Link>
+        <>
+          <div className="mt-6 grid md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Expression</div>
+              <div className="text-3xl font-bold text-amber-600">{results.expression}</div>
+              <Link href={`/name-numerology/expression/${results.expression}`} className="text-xs text-amber-600 mt-2 inline-block">
+                View meaning →
+              </Link>
+            </div>
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Soul Urge</div>
+              <div className="text-3xl font-bold text-amber-600">{results.soulUrge}</div>
+              <Link href={`/name-numerology/soul-urge/${results.soulUrge}`} className="text-xs text-amber-600 mt-2 inline-block">
+                View meaning →
+              </Link>
+            </div>
+            <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
+              <div className="text-xs text-muted mb-2">Personality</div>
+              <div className="text-3xl font-bold text-amber-600">{results.personality}</div>
+              <Link href={`/name-numerology/personality/${results.personality}`} className="text-xs text-amber-600 mt-2 inline-block">
+                View meaning →
+              </Link>
+            </div>
           </div>
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Soul Urge</div>
-            <div className="text-3xl font-bold text-amber-600">{results.soulUrge}</div>
-            <Link href={`/name-numerology/soul-urge/${results.soulUrge}`} className="text-xs text-amber-600 mt-2 inline-block">
-              View meaning →
-            </Link>
+          <div className="mt-6">
+            <PsychicPromo
+              contextualLine="For clarity on your career and life direction, a short psychic reading can offer guidance."
+              label="Psychic After Results"
+            />
           </div>
-          <div className="p-4 rounded-2xl bg-page/70 border border-default text-center">
-            <div className="text-xs text-muted mb-2">Personality</div>
-            <div className="text-3xl font-bold text-amber-600">{results.personality}</div>
-            <Link href={`/name-numerology/personality/${results.personality}`} className="text-xs text-amber-600 mt-2 inline-block">
-              View meaning →
-            </Link>
-          </div>
-        </div>
+        </>
       )}
     </section>
   );

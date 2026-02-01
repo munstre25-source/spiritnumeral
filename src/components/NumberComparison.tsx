@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 interface ComparisonData {
     number: number;
@@ -224,9 +224,13 @@ export function NumberComparison() {
                             {' '}{comparison.num1.meaning.toLowerCase()} with {comparison.num2.meaning.toLowerCase()}.
                             Pay attention to when each number appears—the sequence matters.
                         </p>
-                        <div className="mt-6">
-                            <QuickReportUpsell prefillNumber={comparison.num1.number} />
-                        </div>
+                    </div>
+
+                    <div className="mt-6">
+                        <PsychicPromo
+                            contextualLine="If you're curious about your relationship path, a short psychic reading can add clarity."
+                            label="Psychic After Results"
+                        />
                     </div>
                 </div>
             )}

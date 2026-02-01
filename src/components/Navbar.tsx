@@ -32,10 +32,10 @@ export default function Navbar() {
   }, []);
 
   const navItems: NavItem[] = [
-    { href: '/calculator', label: 'Calculator' },
     {
       label: 'Tools & Resources',
       dropdown: [
+        { href: '/calculator', label: 'Life Path Calculator', description: 'Get your life path number' },
         { href: '/quiz', label: 'Number Quiz', description: 'Discover your angel number' },
         { href: '/compare', label: 'Compare Numbers', description: 'See how numbers relate' },
         { href: '/compatibility', label: 'Compatibility', description: 'Check your love match' },
@@ -125,13 +125,6 @@ export default function Navbar() {
 
           {/* Theme Toggle */}
           <ThemeToggle />
-
-          <Link
-            href="/calculator"
-            className="ml-2 btn-primary px-5 py-2 rounded-lg text-sm font-bold transition-colors"
-          >
-            Calculate Now
-          </Link>
         </div>
 
         {/* Mobile: theme toggle + menu button (always visible in header) */}
@@ -186,16 +179,6 @@ export default function Navbar() {
                 </Link>
               )
             ))}
-
-            <div className="pt-4">
-              <Link
-                href="/calculator"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full btn-primary py-4 rounded-lg text-center font-bold"
-              >
-                Calculate Your Life Path
-              </Link>
-            </div>
           </div>
         </div>
       )}

@@ -1,13 +1,12 @@
 import { getPSEODataAsync, getAllPSEOSlugs } from '@/lib/utils/pseo';
 import { generateAllSchemas, generateDefaultFAQs } from '@/lib/utils/schema';
 import FAQ from '@/components/FAQ';
+import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers, ContextualLinks } from '@/components/InternalLinks';
 import { Breadcrumbs, QuickActions, RecommendedNumbers } from '@/components/UXEnhancements';
 import { ViewTracker } from '@/components/ViewTracker';
 import { AudioReaderCompact } from '@/components/AudioReader';
 import { PrintReading } from '@/components/PrintReading';
-import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -196,6 +195,10 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
             )}
           </section>
 
+          <div className="mt-8">
+            <PsychicPromo label="Psychic After Content" />
+          </div>
+
           <FAQ faqs={faqs} />
 
           {!isLifePath && (
@@ -210,14 +213,6 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
           <NavigationLinks />
 
           <footer className="pt-8 pb-16">
-            <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-card border border-default">
-              <MeaningPaidCTA number={isLifePath ? data.path : data.number} />
-            </div>
-            {isLifePath && (
-              <div className="max-w-2xl mx-auto mt-6">
-                <QuickReportUpsell prefillNumber={isNaN(Number(slug)) ? undefined : Number(slug)} />
-              </div>
-            )}
             <p className="text-center text-muted text-sm mt-6 px-4">
               Trusted by seekers on their spiritual journey.
             </p>

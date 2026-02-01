@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
 
 export const metadata: Metadata = {
   title: 'Pregnancy & Fertility Angel Numbers | Family Guidance',
@@ -79,9 +78,6 @@ export default function PregnancyIndexPage() {
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto text-center">
-        <MeaningPaidCTA />
-      </section>
     </main>
   );
 }

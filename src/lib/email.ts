@@ -8,6 +8,7 @@ import {
 const resendApiKey = process.env.RESEND_API_KEY;
 const resendFrom = process.env.RESEND_FROM || 'reports@spiritnumeral.com';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const psychicOzLink = 'https://psychicoz.com?a_aid=697f030692a07';
 
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
@@ -20,12 +21,13 @@ export async function sendReportEmail(
   if (!resend) throw new Error('Missing RESEND_API_KEY');
 
   const files = attachments && attachments.length ? attachments : undefined;
+  const textWithFooter = `${text}\n\nWant a deeper reading? Try 3 free minutes with a psychic: ${psychicOzLink}\n\n— Spirit Numeral\n${siteUrl}`;
 
   await resend.emails.send({
     from: resendFrom,
     to,
     subject,
-    text,
+    text: textWithFooter,
     attachments: files,
   });
 }
@@ -70,6 +72,8 @@ export async function sendDailyNumberEmail(
   }
   textLines.push(
     ``,
+    `Want a deeper reading? Try 3 free minutes with a psychic: ${psychicOzLink}`,
+    ``,
     `— Spirit Numeral`,
     siteUrl,
   );
@@ -85,7 +89,8 @@ export async function sendDailyNumberEmail(
   <a href="${angelLink}">Explore its meaning →</a></p>
   ${personalDayNumber != null ? `<p><strong>Your personal day number today: ${personalDayNumber}</strong><br>
   <a href="${personalDayLink}">What it means for you →</a></p>` : ''}
-  <p style="margin-top: 32px; color: #666; font-size: 14px;">— Spirit Numeral<br><a href="${siteUrl}">${siteUrl}</a></p>
+  <p style="margin-top: 24px; color: #666; font-size: 13px;">Want a deeper reading? <a href="${psychicOzLink}">Try 3 free minutes with a psychic →</a></p>
+  <p style="margin-top: 16px; color: #666; font-size: 14px;">— Spirit Numeral<br><a href="${siteUrl}">${siteUrl}</a></p>
 </body>
 </html>
   `.trim();

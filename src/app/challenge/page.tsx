@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 
 export const metadata = {
   title: 'Challenge Numbers • Spirit Numeral',
@@ -22,9 +21,6 @@ export default function ChallengeIndexPage() {
             </Link>
           ))}
         </div>
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <LifecyclePaidCTA type="challenge" />
-        </section>
       </div>
     </main>
   );

@@ -1,8 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getNameNumberMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
-import { NamePaidCTA } from '@/components/NamePaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 
 const VALID_TYPES = new Set(['expression', 'soul-urge', 'personality']);
 const TYPE_MAP: Record<string, 'expression' | 'soul_urge' | 'personality'> = {
@@ -73,12 +71,7 @@ export default async function NameNumberPage({ params }: { params: Promise<{ typ
         { href: `/name-numerology/soul-urge/${num}`, label: `Soul Urge ${num}` },
         { href: `/name-numerology/personality/${num}`, label: `Personality ${num}` },
       ]}
-      footer={(
-        <div className="space-y-6">
-          <NamePaidCTA />
-          <QuickReportUpsell prefillNumber={parseInt(number)} />
-        </div>
-      )}
+      footer={null}
     />
   );
 }

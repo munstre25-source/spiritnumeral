@@ -1,9 +1,6 @@
 import Link from 'next/link';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
-
 export const metadata = {
   title: 'Birthday Numbers • Spirit Numeral',
   description: 'Discover the meaning of your birthday number.',
@@ -47,10 +44,6 @@ export default function BirthdayIndexPage() {
             </Link>
           ))}
         </div>
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <LifecyclePaidCTA type="birthday" />
-        </section>
-        <QuickReportUpsell />
         <FAQ faqs={faqs} title="Birthday Number Questions" />
       </div>
     </main>

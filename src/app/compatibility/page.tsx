@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { CompatibilityCalculator } from '@/components/CompatibilityCalculator';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 export const metadata: Metadata = {
     title: 'Numerology Compatibility Calculator - Life Path Love Match',
@@ -63,8 +63,12 @@ export default function CompatibilityPage() {
                     </header>
 
                     <CompatibilityCalculator />
-                    <div className="mt-8">
-                        <QuickReportUpsell />
+
+                    <div className="mt-10">
+                        <PsychicPromo
+                            contextualLine="If you're curious about your relationship path, a short psychic reading can add clarity."
+                            label="Psychic After Content"
+                        />
                     </div>
 
                     {/* FAQ Section */}

@@ -42,8 +42,144 @@ type Stats = {
     offers: { product: string; impressions: number; clicks: number; ctr: number }[];
     topPages: { path: string; product: string; count: number }[];
   };
+  abCta?: {
+    byVariant: { variant: string; count: number }[];
+    byLabel: { label: string; count: number }[];
+  };
   bucket: string;
 };
+
+type AbExperiment = {
+  id: string;
+  key: string;
+  name: string;
+  variants: { id: string; copy: string }[];
+  control_id: string;
+  enabled: boolean;
+  updated_at: string;
+};
+
+function AbPsychicCtaForm({
+  experiment,
+  adminKey,
+  onSave,
+  saving,
+  setSaving,
+  error,
+  setError,
+}: {
+  experiment: AbExperiment;
+  adminKey: string;
+  onSave: () => void;
+  saving: boolean;
+  setSaving: (v: boolean) => void;
+  error: string;
+  setError: (v: string) => void;
+}) {
+  const [variants, setVariants] = useState<{ id: string; copy: string }[]>(experiment.variants || []);
+  const [controlId, setControlId] = useState(experiment.control_id);
+  const [enabled, setEnabled] = useState(experiment.enabled);
+
+  useEffect(() => {
+    setVariants(experiment.variants || []);
+    setControlId(experiment.control_id);
+    setEnabled(experiment.enabled);
+  }, [experiment.variants, experiment.control_id, experiment.enabled]);
+
+  const addVariant = () => {
+    const id = `variant_${Date.now()}`;
+    setVariants((v) => [...v, { id, copy: 'New CTA →' }]);
+  };
+  const removeVariant = (id: string) => {
+    setVariants((v) => v.filter((x) => x.id !== id));
+    if (controlId === id) setControlId(variants[0]?.id || 'control');
+  };
+  const updateVariant = (id: string, field: 'id' | 'copy', value: string) => {
+    setVariants((v) => v.map((x) => (x.id === id ? { ...x, [field]: value } : x)));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setError('');
+    try {
+      const res = await fetch('/api/admin/ab', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        body: JSON.stringify({ key: 'psychic_cta', variants, control_id: controlId, enabled }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || res.statusText);
+      }
+      onSave();
+    } catch (e: any) {
+      setError(e.message || 'Save failed');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="border border-default rounded-2xl p-4 bg-card">
+      <h4 className="text-sm font-semibold text-primary mb-3">Edit: {experiment.name}</h4>
+      <p className="text-muted text-xs mb-4">These variants are shown on emotional pages (home, love, twin flame, angel numbers). Control is the default; others are A/B options.</p>
+      <div className="space-y-3 mb-4">
+        {variants.map((v) => (
+          <div key={v.id} className="flex gap-2 items-center flex-wrap">
+            <input
+              type="text"
+              value={v.id}
+              onChange={(e) => updateVariant(v.id, 'id', e.target.value)}
+              className="w-28 bg-page border border-default rounded-lg px-2 py-1.5 text-sm font-mono"
+              placeholder="id"
+            />
+            <input
+              type="text"
+              value={v.copy}
+              onChange={(e) => updateVariant(v.id, 'copy', e.target.value)}
+              className="flex-1 min-w-[180px] bg-page border border-default rounded-lg px-2 py-1.5 text-sm"
+              placeholder="Button copy"
+            />
+            <label className="flex items-center gap-1 text-xs text-muted">
+              <input
+                type="radio"
+                name="control"
+                checked={controlId === v.id}
+                onChange={() => setControlId(v.id)}
+              />
+              Control
+            </label>
+            <button
+              type="button"
+              onClick={() => removeVariant(v.id)}
+              className="text-red-400 hover:text-red-300 text-xs"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={addVariant} className="text-sm text-amber-600 hover:text-amber-500">
+          + Add variant
+        </button>
+      </div>
+      <div className="flex items-center gap-4 mb-4">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
+          Experiment enabled
+        </label>
+      </div>
+      {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={saving || variants.length === 0}
+        className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black text-sm font-semibold px-4 py-2 rounded-lg"
+      >
+        {saving ? 'Saving…' : 'Save CTA variants'}
+      </button>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [adminKey, setAdminKey] = useState('');
@@ -52,6 +188,9 @@ export default function AdminDashboard() {
   const [error, setError] = useState('');
   const [rangeUnit, setRangeUnit] = useState<'hours' | 'days' | 'weeks' | 'months'>('days');
   const [rangeValue, setRangeValue] = useState(30);
+  const [abExperiments, setAbExperiments] = useState<AbExperiment[] | null>(null);
+  const [abSaving, setAbSaving] = useState(false);
+  const [abError, setAbError] = useState('');
 
   const rangeOptions: Record<'hours' | 'days' | 'weeks' | 'months', number[]> = {
     hours: [1, 6, 12, 24, 48, 72],
@@ -101,6 +240,22 @@ export default function AdminDashboard() {
       fetchStats(saved);
     }
   }, []);
+
+  const fetchAbExperiments = async (key: string) => {
+    try {
+      const res = await fetch('/api/admin/ab', { headers: { 'x-admin-key': key } });
+      if (res.ok) {
+        const data = await res.json();
+        setAbExperiments(data);
+      }
+    } catch {
+      setAbExperiments(null);
+    }
+  };
+
+  useEffect(() => {
+    if (adminKey) fetchAbExperiments(adminKey);
+  }, [adminKey]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -207,6 +362,7 @@ export default function AdminDashboard() {
                 <a href="#offers" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Offers (5)</a>
                 <a href="#ctr" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">CTR</a>
                 <a href="#psychic" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Psychic (3)</a>
+                <a href="#ab" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">A/B Tests</a>
                 <a href="#pdfs" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">PDFs (2)</a>
                 <a href="#funnel" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Funnel</a>
                 <a href="#cta" className="px-3 py-2 rounded-lg hover:text-amber-600 hover:bg-elevated transition-colors">Top CTAs</a>
@@ -368,6 +524,49 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* A/B Tests: CTA variants + edit */}
+            <div id="ab" className="bg-elevated border border-default rounded-3xl p-6 scroll-mt-24">
+              <h3 className="font-semibold mb-2">A/B Tests — CTA Variants</h3>
+              <p className="text-muted text-sm mb-4">Clicks by variant and placement. Edit CTA copy below; changes apply to emotional pages (home, love, twin flame, angel numbers).</p>
+              <div className="grid lg:grid-cols-2 gap-6 mb-8">
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Clicks by variant</h4>
+                  {(!stats?.abCta?.byVariant || stats.abCta.byVariant.length === 0) && (
+                    <p className="text-muted text-sm">No variant data yet. Clicks on emotional pages send ctaVariant.</p>
+                  )}
+                  {stats?.abCta?.byVariant?.map((row) => (
+                    <div key={row.variant} className="flex justify-between text-sm py-1">
+                      <span className="text-secondary font-mono">{row.variant}</span>
+                      <span className="font-semibold text-primary">{row.count}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-page/60 border border-default rounded-2xl p-4">
+                  <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Clicks by placement (label)</h4>
+                  {(!stats?.abCta?.byLabel || stats.abCta.byLabel.length === 0) && (
+                    <p className="text-muted text-sm">No label data yet.</p>
+                  )}
+                  {stats?.abCta?.byLabel?.map((row) => (
+                    <div key={row.label} className="flex justify-between text-sm py-1">
+                      <span className="text-secondary">{row.label}</span>
+                      <span className="font-semibold text-primary">{row.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {abExperiments?.find((e) => e.key === 'psychic_cta') && (
+                <AbPsychicCtaForm
+                  experiment={abExperiments.find((e) => e.key === 'psychic_cta')!}
+                  adminKey={adminKey}
+                  onSave={() => fetchAbExperiments(adminKey)}
+                  saving={abSaving}
+                  setSaving={setAbSaving}
+                  error={abError}
+                  setError={setAbError}
+                />
+              )}
             </div>
 
             {/* PDFs (2): performance + funnel + recent */}

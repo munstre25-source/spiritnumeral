@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 export const metadata: Metadata = {
     title: 'Which Celebrities Share Your Life Path? Famous Numerology',
@@ -242,28 +241,22 @@ export default function CelebrityNumerologyPage() {
                         ))}
                     </div>
 
-                    {/* CTA Section */}
-                    <section className="mt-16 max-w-2xl mx-auto text-center">
-                        <h2 className="text-2xl font-bold text-primary mb-4">What's Your Life Path?</h2>
-                        <p className="text-secondary mb-6">
-                            Calculate your life path number and discover which celebrities share your numerological destiny.
-                        </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Link
-                                    href="/calculator"
-                                    className="px-8 py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors"
-                                >
-                                    Calculate Your Number
-                                </Link>
-                            <div className="flex-1 min-w-[240px]">
-                                <MeaningPaidCTA />
-                            </div>
-                            </div>
+                    <div className="mt-16 max-w-2xl mx-auto">
+                        <PsychicPromo
+                            contextualLine="For clarity on your career and life direction, a short psychic reading can offer guidance."
+                            label="Psychic After Content"
+                        />
+                    </div>
+                    <section className="mt-10 max-w-2xl mx-auto text-center">
+                        <p className="text-muted text-sm mb-4">Or calculate your life path and see which celebrities share your number.</p>
+                        <Link
+                            href="/calculator"
+                            className="text-amber-600 hover:text-amber-500 text-sm font-medium"
+                        >
+                            Life Path Calculator →
+                        </Link>
                     </section>
 
-                    <section className="mt-10 max-w-2xl mx-auto">
-                        <QuickReportUpsell />
-                    </section>
                 </div>
             </main>
         </>

@@ -1,8 +1,6 @@
 import Link from 'next/link';
-import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
 import { OFFERS } from '@/lib/offers';
 
 export const metadata = {
@@ -48,10 +46,6 @@ export default function KarmicDebtIndexPage() {
             </Link>
           ))}
         </div>
-        <section className="p-6 rounded-3xl bg-card border border-default">
-          <LifecyclePaidCTA type="karmic_debt" />
-        </section>
-        <QuickReportUpsell />
         <FAQ faqs={faqs} title="Karmic Debt Questions" />
       </div>
     </main>

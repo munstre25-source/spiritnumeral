@@ -2,8 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
-import { MeaningPaidCTA } from '@/components/MeaningPaidCTA';
-import { QuickReportUpsell } from '@/components/QuickReportUpsell';
+import { PsychicPromo } from '@/components/PsychicPromo';
 
 const MAX_STATIC_BLOG_POSTS = 2000;
 
@@ -51,7 +50,7 @@ const resolveToolsForCategory = (category: string) => {
         return [
             { title: 'Compare Numbers', href: '/compare', description: 'See how two numbers blend in relationships.' },
             { title: 'Compatibility Calculator', href: '/compatibility', description: 'Check love compatibility by life path.' },
-            { title: 'Relationship Quiz', href: '/quiz', description: 'Get a personalized relationship blueprint.' },
+            { title: 'Angel Number Quiz', href: '/quiz', description: 'Discover your primary angel number.' },
         ];
     }
     if (normalized.includes('money') || normalized.includes('career') || normalized.includes('manifestation')) {
@@ -78,7 +77,7 @@ const resolveToolsForCategory = (category: string) => {
     return [
         { title: 'Life Path Calculator', href: '/calculator', description: 'Start with your core numerology number.' },
         { title: 'Angel Number Library', href: '/meaning/angel-number', description: 'Find meanings for any number.' },
-        { title: 'Quiz Reading', href: '/quiz', description: 'Get a personalized blueprint.' },
+        { title: 'Angel Number Quiz', href: '/quiz', description: 'Discover your primary angel number.' },
     ];
 };
 
@@ -226,6 +225,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         }).filter(Boolean);
     };
 
+    // Split by ## for mid-article CTA (after 2nd section on long posts)
+    const contentParts = post.content.split(/\n(?=## )/);
+    const hasMidArticleCta = contentParts.length >= 3;
+
     // Get related posts
     const relatedPosts = BLOG_POSTS.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3);
     const tools = resolveToolsForCategory(post.category);
@@ -271,25 +274,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </div>
                     )}
 
-                    {/* Inline CTA */}
-                    <div className="mb-8 p-6 rounded-2xl bg-card border border-default">
-                        <div className="text-center">
-                            <p className="text-primary font-semibold mb-2">🔮 Discover Your Personal Numbers</p>
-                            <p className="text-secondary text-sm mb-4">Calculate your life path and see how it connects to this article</p>
-                            <Link href="/calculator" className="inline-block px-6 py-2 rounded-full bg-amber-500 text-black font-bold hover:bg-amber-400 transition-colors">
-                                Free Calculator →
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Content */}
+                    {/* Content: on long posts, CTA after 2nd section (emotional placement) */}
                     <div className="prose max-w-none text-primary">
-                        {formatContent(post.content)}
+                        {hasMidArticleCta ? (
+                            <>
+                                {formatContent(contentParts[0])}
+                                {formatContent(contentParts[1])}
+                                {formatContent(contentParts[2])}
+                                <div className="my-10">
+                                    <PsychicPromo label="Psychic Mid-Article" />
+                                </div>
+                                {contentParts.slice(3).map((part, i) => (
+                                    <div key={i}>{formatContent(part)}</div>
+                                ))}
+                            </>
+                        ) : (
+                            formatContent(post.content)
+                        )}
                     </div>
 
-                    <section className="mt-10">
-                        <QuickReportUpsell prefillNumber={post.relatedNumbers?.[0]} />
-                    </section>
+                    <div className="mt-10">
+                        <PsychicPromo label="Psychic After Content" />
+                    </div>
 
                     {tools.length > 0 && (
                         <section className="mt-10 p-6 rounded-2xl bg-card border border-default">
@@ -308,17 +314,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             </div>
                         </section>
                     )}
-
-                    {/* Bottom CTA */}
-                    <section className="mt-12 space-y-6">
-                        <div className="p-6 rounded-2xl bg-card border border-default text-center">
-                            <h3 className="text-xl font-bold text-primary mb-2">Ready to Go Deeper?</h3>
-                            <p className="text-secondary mb-4">Get your complete numerology profile with personalized insights</p>
-                            <div className="max-w-sm mx-auto">
-                                <MeaningPaidCTA />
-                            </div>
-                        </div>
-                    </section>
 
                     {/* Related Posts */}
                     {relatedPosts.length > 0 && (
