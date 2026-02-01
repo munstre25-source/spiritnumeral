@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import RootShell from '@/components/RootShell'
@@ -52,6 +51,11 @@ export default function RootLayout({
     <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1694972681105314"
+          crossOrigin="anonymous"
+        />
+        <script
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem('theme');if(t!=='dark')document.documentElement.classList.add('light');})();`,
           }}
@@ -66,11 +70,6 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-page text-primary flex flex-col min-h-screen font-sans">
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1694972681105314"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
         <RootShell>
           {children}
         </RootShell>
