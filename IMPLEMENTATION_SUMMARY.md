@@ -24,7 +24,7 @@
   - Name input (optional)
   - Auto-redirect to personalized life path page
   - Beautiful UI mtching site aesthetic
-  - Error handling and validation
+  - Error handlings and validation
 
 ### 4. ✅ Additional Page Templates
 Created 3 new intent-based URL patterns:
