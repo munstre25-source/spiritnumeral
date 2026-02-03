@@ -22,7 +22,7 @@
 - **Features**:
   - Life Path number calculation from birthdate
   - Name input (optional)
-  - Auto-redire to personalized life path page
+  - Auto-redirect to personalized life path page
   - Beautiful UI matching site aesthetic
   - Error handling and validation
 
