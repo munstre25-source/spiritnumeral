@@ -51,6 +51,11 @@ export default function RootLayout({
     <html lang="en" className={`scroll-smooth ${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="zXcsELRY5U2UqLnQv55g4w"
+          async
+        />
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1694972681105314"
           crossOrigin="anonymous"
