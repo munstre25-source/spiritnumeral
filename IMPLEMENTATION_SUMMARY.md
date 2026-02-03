@@ -23,7 +23,7 @@
   - Life Path number calculation from birthdate
   - Name input (optional)
   - Auto-redirect to personalized life path page
-  - Beautiful UI matching site aesthetic
+  - Beautiful UI mtching site aesthetic
   - Error handling and validation
 
 ### 4. ✅ Additional Page Templates
