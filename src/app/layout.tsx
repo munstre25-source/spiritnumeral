@@ -66,6 +66,7 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1694972681105314"
           crossOrigin="anonymous"
         />
+        <meta name="google-adsense-account" content="ca-pub-1694972681105314" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem('theme');if(t!=='dark')document.documentElement.classList.add('light');})();`,
