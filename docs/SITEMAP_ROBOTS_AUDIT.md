@@ -5,6 +5,25 @@
 
 ---
 
+## GSC “0 Discovered URLs” (Feb 2026)
+
+**Symptom:** Google Search Console shows the sitemap index (`https://spiritnumeral.com/sitemap.xml`) as **Success** but **0 Discovered URLs** and **0 Indexed URLs**.
+
+**Root cause:** The sitemap index was returning **zero `<sitemap>` entries**. That happens when `totalChunks === 0`, i.e. when `getAllSitemapUrls()` was treated as returning an empty list. In practice this was caused by:
+
+1. **Static optimization** — Next.js can pre-render Route Handlers at build time when they don’t use dynamic APIs. If the sitemap was cached at build (or on an early request), the cached response could be an index with no child sitemaps, so GSC reported 0 discovered URLs.
+2. **Empty index** — When `urls.length === 0`, `totalChunks = Math.ceil(0 / 25000) = 0`, so the index XML had no `<sitemap>` elements. GSC counts “discovered URLs” from that index; with no entries it stays 0.
+
+**Fixes applied:**
+
+- **`export const dynamic = 'force-dynamic'`** in both `src/app/sitemap.xml/route.ts` and `src/app/sitemap/[id]/route.ts` so the sitemap is always generated at **request time**, never cached empty at build.
+- **Index always has ≥1 entry:** `totalChunks = Math.max(1, Math.ceil(urls.length / CHUNK_SIZE))` so the index always lists at least one child sitemap (`/sitemap/0.xml`).
+- **Chunk 0 fallback when URL list is empty:** If `getAllSitemapUrls()` ever returns no URLs, `/sitemap/0.xml` now returns a minimal `<urlset>` with the homepage so GSC still discovers at least one URL instead of 404.
+
+**What to do after deploy:** Resubmit `https://spiritnumeral.com/sitemap.xml` in GSC and allow a few days for recrawl. You should see discovered URLs increase (one per child sitemap in the index, then URLs from each child).
+
+---
+
 ## Summary
 
 - **robots.txt** is in good shape: correct Sitemap URL, sensible disallows. A few optional tweaks below.
