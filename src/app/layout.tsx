@@ -15,7 +15,7 @@ const inter = Inter({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com'
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com').replace(/\/+$/, '')
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -40,6 +40,12 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
+  openGraph: {
+    siteName: 'Spirit Numeral',
+    type: 'website',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Spirit Numeral - Angel Number Meanings' }],
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export default function RootLayout({

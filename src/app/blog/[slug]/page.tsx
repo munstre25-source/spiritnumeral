@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 const MAX_STATIC_BLOG_POSTS = 2000;
 
@@ -152,8 +153,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         redirect(`/blog/${resolved.resolvedSlug}`);
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-    const articleUrl = `${baseUrl}/blog/${slug}`;
+    const baseUrl = getSiteBaseUrl();
+    const articleUrl = ensureAbsoluteUrl(baseUrl, `/blog/${resolved?.resolvedSlug ?? slug}`);
 
     // Article schema for rich results
     const articleSchema = {

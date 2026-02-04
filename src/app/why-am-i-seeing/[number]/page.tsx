@@ -4,6 +4,7 @@ import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -59,15 +60,15 @@ export default async function WhyAmISeeingPage({ params }: { params: Promise<{ n
       answer: `Many people report seeing angel number ${number} during times of spiritual growth and life transitions. You're not alone in this experience.`
     }
   ];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/why-am-i-seeing/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `Why am I seeing ${number}?`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `Why am I seeing ${number}?`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Why Do I Keep Seeing ${number}? Meaning & Message`,
     description: data.why_seeing || data.meaning || `Discover why angel number ${number} keeps appearing and what it means for you.`,

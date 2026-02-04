@@ -5,6 +5,7 @@ import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -60,15 +61,15 @@ export default async function TwinFlamePage({ params }: { params: Promise<{ numb
       answer: `During twin flame separation, ${number} often appears as a message of hope, healing, and the importance of inner work before reunion.`
     }
   ];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/twin-flame/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `${number} Twin Flame Meaning`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `${number} Twin Flame Meaning`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Angel Number ${number} Twin Flame Meaning`,
     description: data.twin_flame || data.meaning || `Discover what angel number ${number} means for your twin flame connection.`,

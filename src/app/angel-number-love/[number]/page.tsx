@@ -6,6 +6,7 @@ import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -66,15 +67,15 @@ export default async function LoveMeaningPage({ params }: { params: Promise<{ nu
     }
   ];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/angel-number-love/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `${number} Love Meaning`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `${number} Love Meaning`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Angel Number ${number} Love Meaning`,
     description: data.love || `Discover what angel number ${number} means for love and relationships.`,

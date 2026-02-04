@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getSiteBaseUrl } from '@/lib/utils/url';
 
 export const runtime = 'nodejs';
 /** Force request-time generation so the index is never cached empty at build (fixes GSC 0 discovered URLs). */
@@ -16,7 +17,7 @@ export async function GET() {
   const totalChunks = Math.max(1, Math.ceil(urls.length / CHUNK_SIZE));
 
   const indexEntries = Array.from({ length: totalChunks }, (_, i) => {
-    return `<sitemap><loc>${xmlEscape(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com'}/sitemap/${i}.xml`)}</loc></sitemap>`;
+    return `<sitemap><loc>${xmlEscape(`${getSiteBaseUrl()}/sitemap/${i}.xml`)}</loc></sitemap>`;
   }).join('');
 
   const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">${indexEntries}</sitemapindex>`;

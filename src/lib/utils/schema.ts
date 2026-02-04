@@ -3,8 +3,9 @@
  * Generates FAQ and Article schema for better Google search visibility
  */
 
-const DEFAULT_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+import { getSiteBaseUrl } from './url';
+
+const DEFAULT_SITE_URL = getSiteBaseUrl();
 
 interface FAQItem {
   question: string;

@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BLOG_POSTS, BLOG_CATEGORIES, getBlogPostsByCategory } from '@/lib/blog-data';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
+const baseUrl = getSiteBaseUrl();
 const PAGE_SIZE = 24;
 
 const slugifyCategory = (value: string) =>
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${category} Blog | Spirit Numeral`,
     description: `Explore ${category.toLowerCase()} numerology insights, guides, and interpretations.`,
-    alternates: { canonical: `${baseUrl}/blog/category/${slug}` },
+    alternates: { canonical: ensureAbsoluteUrl(baseUrl, `/blog/category/${slug}`) },
     openGraph: {
       title: `${category} Blog | Spirit Numeral`,
       description: `Explore ${category.toLowerCase()} numerology insights, guides, and interpretations.`,

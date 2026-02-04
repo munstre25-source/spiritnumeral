@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getSiteBaseUrl } from '@/lib/utils/url';
 
 export const runtime = 'nodejs';
 /** Force request-time generation so chunk sitemaps are never cached empty at build. */
@@ -23,7 +24,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   const end = start + CHUNK_SIZE;
   const slice = urls.slice(start, end);
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const baseUrl = getSiteBaseUrl();
   const urlsToEmit = slice.length > 0 ? slice : (idx === 0 ? [baseUrl + '/'] : []);
   if (urlsToEmit.length === 0) {
     return new NextResponse(null, { status: 404 });

@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { generateFAQSchema } from '@/lib/utils/schema';
 import { CopyBlock } from '@/components/CopyBlock';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const siteUrl = getSiteBaseUrl();
 
 export const metadata = {
   title: 'Press Kit | Spirit Numeral',
@@ -43,18 +44,18 @@ export default function PressKitPage() {
     url: siteUrl,
     description: BOILERPLATE_ONE_LINER,
     email: 'spiritnumeral@proton.me',
-    logo: `${siteUrl}/logo.svg`,
+    logo: ensureAbsoluteUrl(siteUrl, '/logo.svg'),
   };
 
   const suggestedLinks = [
-    { href: '/', label: 'Homepage', url: siteUrl },
-    { href: '/quiz', label: 'Angel Number Quiz', url: `${siteUrl}/quiz` },
-    { href: '/compare', label: 'Compare Numbers', url: `${siteUrl}/compare` },
-    { href: '/calculator', label: 'Life Path Calculator', url: `${siteUrl}/calculator` },
-    { href: '/meaning/angel-number', label: 'Angel Number Library', url: `${siteUrl}/meaning/angel-number` },
-    { href: '/meaning/life-path', label: 'Life Path Meanings', url: `${siteUrl}/meaning/life-path` },
-    { href: '/compatibility', label: 'Compatibility', url: `${siteUrl}/compatibility` },
-    { href: '/blog', label: 'Blog', url: `${siteUrl}/blog` },
+    { href: '/', label: 'Homepage', url: ensureAbsoluteUrl(siteUrl, '/') },
+    { href: '/quiz', label: 'Angel Number Quiz', url: ensureAbsoluteUrl(siteUrl, '/quiz') },
+    { href: '/compare', label: 'Compare Numbers', url: ensureAbsoluteUrl(siteUrl, '/compare') },
+    { href: '/calculator', label: 'Life Path Calculator', url: ensureAbsoluteUrl(siteUrl, '/calculator') },
+    { href: '/meaning/angel-number', label: 'Angel Number Library', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+    { href: '/meaning/life-path', label: 'Life Path Meanings', url: ensureAbsoluteUrl(siteUrl, '/meaning/life-path') },
+    { href: '/compatibility', label: 'Compatibility', url: ensureAbsoluteUrl(siteUrl, '/compatibility') },
+    { href: '/blog', label: 'Blog', url: ensureAbsoluteUrl(siteUrl, '/blog') },
   ];
 
   const compactKeywords = [
@@ -199,7 +200,7 @@ export default function PressKitPage() {
               rel="noopener noreferrer"
               className="rounded-2xl border border-default bg-page/60 px-4 py-4 text-sm text-secondary hover:border-amber-500/60 transition flex items-center gap-3"
             >
-              <img src="/favicon.svg" alt="" className="w-10 h-10" width={40} height={40} />
+              <img src="/favicon.svg" alt="Spirit Numeral icon" className="w-10 h-10" width={40} height={40} />
               <span>Icon / Favicon (SVG)</span>
             </a>
             <a

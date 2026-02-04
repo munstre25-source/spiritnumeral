@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageUrl = `${siteUrl}/privacy`;
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
+
+const siteUrl = getSiteBaseUrl();
+const pageUrl = ensureAbsoluteUrl(siteUrl, '/privacy');
 const pageTitle = 'Privacy Policy - Spirit Numeral';
 const pageDescription = 'Learn how Spirit Numeral protects your data and privacy.';
 

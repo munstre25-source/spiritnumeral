@@ -5,6 +5,7 @@ import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -65,15 +66,15 @@ export default async function ManifestationPage({ params }: { params: Promise<{ 
     }
   ];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/manifestation/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `${number} Manifestation`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `${number} Manifestation`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Angel Number ${number} Manifestation`,
     description: `Learn how to manifest with angel number ${number}.`,

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageUrl = `${siteUrl}/about`;
+const siteUrl = getSiteBaseUrl();
+const pageUrl = ensureAbsoluteUrl(siteUrl, '/about');
 const pageTitle = 'About Spirit Numeral - Our Mission & Expertise';
 const pageDescription = 'Learn about the experts behind Spirit Numeral and our mission to provide accurate, spiritual guidance through numerology.';
 

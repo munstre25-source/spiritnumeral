@@ -1,6 +1,6 @@
-const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from './url';
 
-export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
+export function getAllSitemapUrls(baseUrl = getSiteBaseUrl()) {
   const urls: string[] = [];
   const now = new Date().toISOString();
 
@@ -50,7 +50,7 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     '/house-number',
     '/karmic-lesson',
   ].forEach((path) => {
-    urls.push(`${baseUrl}${path}`);
+    urls.push(ensureAbsoluteUrl(baseUrl, path));
   });
 
   // Blog posts
@@ -80,7 +80,7 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     'numerology-career-guidance',
     'numerology-health-wellness',
   ];
-  blogSlugs.forEach((slug) => urls.push(`${baseUrl}/blog/${slug}`));
+  blogSlugs.forEach((slug) => urls.push(ensureAbsoluteUrl(baseUrl, `/blog/${slug}`)));
 
   // Blog category pages
   const blogCategories = [
@@ -112,28 +112,28 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
     'why-am-i-seeing',
     'biblical-meaning',
   ];
-  blogCategories.forEach((slug) => urls.push(`${baseUrl}/blog/category/${slug}`));
+  blogCategories.forEach((slug) => urls.push(ensureAbsoluteUrl(baseUrl, `/blog/category/${slug}`)));
 
   // Life path pages (1-9)
   for (let i = 1; i <= 9; i += 1) {
-    urls.push(`${baseUrl}/meaning/life-path/life-path-${i}`);
+    urls.push(ensureAbsoluteUrl(baseUrl, `/meaning/life-path/life-path-${i}`));
   }
 
   // Angel numbers 0-9999 with variants
   for (let number = 0; number <= 9999; number += 1) {
-    urls.push(`${baseUrl}/meaning/angel-number/${number}`);
-    urls.push(`${baseUrl}/why-am-i-seeing/${number}`);
-    urls.push(`${baseUrl}/warning/${number}`);
-    urls.push(`${baseUrl}/twin-flame/${number}`);
-    urls.push(`${baseUrl}/angel-number-love/${number}`);
-    urls.push(`${baseUrl}/angel-number-career/${number}`);
-    urls.push(`${baseUrl}/manifestation/${number}`);
-    urls.push(`${baseUrl}/biblical-meaning/${number}`);
-    urls.push(`${baseUrl}/money/${number}`);
-    urls.push(`${baseUrl}/soulmate/${number}`);
-    urls.push(`${baseUrl}/pregnancy/${number}`);
-    urls.push(`${baseUrl}/breakup/${number}`);
-    urls.push(`${baseUrl}/dreams/${number}`);
+    urls.push(ensureAbsoluteUrl(baseUrl, `/meaning/angel-number/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/why-am-i-seeing/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/warning/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/twin-flame/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/angel-number-love/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/angel-number-career/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/manifestation/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/biblical-meaning/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/money/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/soulmate/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/pregnancy/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/breakup/${number}`));
+    urls.push(ensureAbsoluteUrl(baseUrl, `/dreams/${number}`));
   }
 
   // Name numerology numbers
@@ -141,7 +141,7 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
   const nameTypes = ['expression', 'soul-urge', 'personality'];
   nameTypes.forEach((type) => {
     nameNumbers.forEach((num) => {
-      urls.push(`${baseUrl}/name-numerology/${type}/${num}`);
+      urls.push(ensureAbsoluteUrl(baseUrl, `/name-numerology/${type}/${num}`));
     });
   });
 
@@ -149,33 +149,33 @@ export function getAllSitemapUrls(baseUrl = DEFAULT_SITE_URL) {
   const timingNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   ['personal-year', 'personal-month', 'personal-day'].forEach((path) => {
     timingNumbers.forEach((num) => {
-      urls.push(`${baseUrl}/${path}/${num}`);
+      urls.push(ensureAbsoluteUrl(baseUrl, `/${path}/${num}`));
     });
   });
 
   // Lifecycle numbers
   const pinnacleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  pinnacleNumbers.forEach((num) => urls.push(`${baseUrl}/pinnacle/${num}`));
+  pinnacleNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/pinnacle/${num}`)));
 
   const challengeNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-  challengeNumbers.forEach((num) => urls.push(`${baseUrl}/challenge/${num}`));
+  challengeNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/challenge/${num}`)));
 
   const maturityNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  maturityNumbers.forEach((num) => urls.push(`${baseUrl}/maturity-number/${num}`));
+  maturityNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/maturity-number/${num}`)));
 
   const birthdayNumbers = Array.from({ length: 31 }, (_, i) => i + 1);
-  birthdayNumbers.forEach((num) => urls.push(`${baseUrl}/birthday-number/${num}`));
+  birthdayNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/birthday-number/${num}`)));
 
   const karmicDebtNumbers = [13, 14, 16, 19];
-  karmicDebtNumbers.forEach((num) => urls.push(`${baseUrl}/karmic-debt/${num}`));
+  karmicDebtNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/karmic-debt/${num}`)));
 
   // House number pages (1-9, 11, 22, 33)
   const houseNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
-  houseNumbers.forEach((num) => urls.push(`${baseUrl}/house-number/${num}`));
+  houseNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/house-number/${num}`)));
 
   // Karmic lesson pages (1-9)
   const karmicLessonNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  karmicLessonNumbers.forEach((num) => urls.push(`${baseUrl}/karmic-lesson/${num}`));
+  karmicLessonNumbers.forEach((num) => urls.push(ensureAbsoluteUrl(baseUrl, `/karmic-lesson/${num}`)));
 
   return { urls, generatedAt: now };
 }

@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageUrl = `${siteUrl}/contact`;
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
+
+const siteUrl = getSiteBaseUrl();
+const pageUrl = ensureAbsoluteUrl(siteUrl, '/contact');
 const pageTitle = 'Contact Spirit Numeral - Connect with Our Spiritual Experts';
 const pageDescription = 'Have a question about an angel number or your life path? Contact the Spirit Numeral team for guidance.';
 

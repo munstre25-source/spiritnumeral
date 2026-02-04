@@ -4,6 +4,7 @@ import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -87,15 +88,15 @@ export default async function BiblicalMeaningPage({ params }: { params: Promise<
     }
   ];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/biblical-meaning/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `${number} Biblical Meaning`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `${number} Biblical Meaning`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Angel Number ${number} Biblical Meaning`,
     description: `Discover the biblical significance of ${number}.`,

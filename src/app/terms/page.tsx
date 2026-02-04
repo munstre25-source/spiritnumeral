@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageUrl = `${siteUrl}/terms`;
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
+
+const siteUrl = getSiteBaseUrl();
+const pageUrl = ensureAbsoluteUrl(siteUrl, '/terms');
 const pageTitle = 'Terms of Service - Spirit Numeral';
 const pageDescription = 'The terms and conditions for using Spirit Numeral services.';
 

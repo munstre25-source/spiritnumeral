@@ -70,7 +70,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <img src="/favicon.svg" alt="" className="w-9 h-9 rounded-lg flex-shrink-0" width="36" height="36" />
+          <img src="/favicon.svg" alt="Spirit Numeral" className="w-9 h-9 rounded-lg flex-shrink-0" width="36" height="36" />
           <span className="flex flex-col items-start leading-tight">
             <span className="text-base md:text-lg font-bold text-primary tracking-tight">Spirit</span>
             <span className="text-sm md:text-base font-semibold text-primary/80 tracking-tight">Numeral</span>

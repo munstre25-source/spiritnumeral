@@ -9,6 +9,7 @@ import { AudioReaderCompact } from '@/components/AudioReader';
 import { PrintReading } from '@/components/PrintReading';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -32,12 +33,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     ? `Discover ${subject} meaning: personality, love, career. ${(data.traits || '').slice(0, 120)}`
     : `Angel number ${data.number} meaning: love, career, twin flame. ${(data.meaning || '').slice(0, 100)}`;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/meaning/${category}/${slug}`;
   const breadcrumbTrail = [
     { name: 'Home', url: siteUrl },
-    { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: `${siteUrl}/meaning/${category}` },
-    { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: `${siteUrl}${pagePath}` },
+    { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, `/meaning/${category}`) },
+    { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
   ];
 
   return {
@@ -47,9 +48,10 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       title,
       description,
       type: 'article',
+      url: ensureAbsoluteUrl(siteUrl, pagePath),
     },
     alternates: {
-      canonical: `${siteUrl}${pagePath}`,
+      canonical: ensureAbsoluteUrl(siteUrl, pagePath),
     },
   };
 }
@@ -89,15 +91,15 @@ export default async function PSEOPage({ params }: { params: Promise<{ category:
       }
     ]
     : generateDefaultFAQs(data);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/meaning/${category}/${slug}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: `${siteUrl}/meaning/${category}` },
-      { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: `${siteUrl}${pagePath}` },
+      { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, `/meaning/${category}`) },
+      { name: isLifePath ? (data.title || `Life Path ${data.path}`) : `Angel Number ${data.number}`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: isLifePath
       ? `${subject} Meaning: Personality, Love & Career Insights`

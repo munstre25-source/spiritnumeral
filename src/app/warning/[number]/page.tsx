@@ -4,6 +4,7 @@ import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
@@ -63,15 +64,15 @@ export default async function IsWarningPage({ params }: { params: Promise<{ numb
       answer: `Angel number ${number} is always a positive message. Your angels only send loving, supportive guidance through these numbers.`
     }
   ];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+  const siteUrl = getSiteBaseUrl();
   const pagePath = `/warning/${number}`;
   const schemas = generateAllSchemas(data, {
     baseUrl: siteUrl,
     path: pagePath,
     breadcrumbTrail: [
       { name: 'Home', url: siteUrl },
-      { name: 'Angel Numbers', url: `${siteUrl}/meaning/angel-number` },
-      { name: `${number} Warning Meaning`, url: `${siteUrl}${pagePath}` },
+      { name: 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
+      { name: `${number} Warning Meaning`, url: ensureAbsoluteUrl(siteUrl, pagePath) },
     ],
     title: `Is Angel Number ${number} a Warning? Meaning`,
     description: data.misconception || data.meaning || `Understand what angel number ${number} means and why it is not a warning.`,

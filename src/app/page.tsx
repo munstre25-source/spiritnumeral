@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { HomeHeroPsychicCTA } from '@/components/HomeHeroPsychicCTA';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 const HomepageSearch = dynamic(() => import('@/components/HomepageSearch').then((m) => ({ default: m.HomepageSearch })), {
   loading: () => <div className="h-12 max-w-xl mx-auto bg-card border border-default rounded-full animate-pulse" />
@@ -57,10 +58,10 @@ const TOOLS = [
   { title: 'Numerology Blog', description: 'Expert guides and insights for your spiritual journey', href: '/blog', icon: '📖' },
 ] as const;
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const siteUrl = getSiteBaseUrl();
 const pageTitle = 'Angel Number & Life Path Meanings: Love, Career, Twin Flame';
 const pageDescription = 'Discover your life path number and angel number meanings. Love, career, twin flame — free calculator and guides.';
-const homepageUrl = siteUrl;
+const homepageUrl = ensureAbsoluteUrl(siteUrl, '/');
 
 export const metadata: Metadata = {
   title: pageTitle,

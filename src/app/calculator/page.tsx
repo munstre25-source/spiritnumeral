@@ -3,8 +3,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Script from 'next/script';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
-const pageUrl = `${siteUrl}/calculator`;
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
+
+const siteUrl = getSiteBaseUrl();
+const pageUrl = ensureAbsoluteUrl(siteUrl, '/calculator');
 const pageTitle = 'Free Numerology Calculator - Discover Your Life Path Number';
 const pageDescription = 'Calculate your numerology life path number for free. Enter your birthdate to discover your spiritual path and unlock your personalized predictions.';
 

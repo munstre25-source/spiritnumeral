@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { BLOG_POSTS, BLOG_CATEGORIES, getBlogPostsByCategory } from '@/lib/blog-data';
+import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://spiritnumeral.com';
+const baseUrl = getSiteBaseUrl();
 const PAGE_SIZE = 24;
 
 const slugifyCategory = (value: string) =>
@@ -45,12 +46,12 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
         '@type': 'Blog',
         name: 'Spirit Numeral Numerology Blog',
         description: 'Expert guides on angel numbers, life path numbers, numerology compatibility, manifestation, and spiritual guidance.',
-        url: `${baseUrl}/blog`,
+        url: ensureAbsoluteUrl(baseUrl, '/blog'),
         blogPost: BLOG_POSTS.slice(0, 20).map((post) => ({
             '@type': 'BlogPosting',
             headline: post.title,
             description: post.excerpt,
-            url: `${baseUrl}/blog/${post.slug}`,
+            url: ensureAbsoluteUrl(baseUrl, `/blog/${post.slug}`),
             datePublished: post.date,
             author: {
                 '@type': 'Organization',
@@ -63,8 +64,8 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-            { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: ensureAbsoluteUrl(baseUrl, '/') },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: ensureAbsoluteUrl(baseUrl, '/blog') },
         ],
     };
 
@@ -73,7 +74,7 @@ export default function BlogPage({ searchParams }: { searchParams?: { category?:
         '@type': 'CollectionPage',
         name: 'Numerology Blog - Spirit Numeral',
         description: 'Expert articles about angel numbers, life path numbers, and spiritual numerology.',
-        url: `${baseUrl}/blog`,
+        url: ensureAbsoluteUrl(baseUrl, '/blog'),
     };
 
     return (
