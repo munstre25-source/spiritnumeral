@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ReadingProgress, ScrollToTop, MobileBottomNav } from '@/components/UXEnhancements';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
-import { ExitIntentPdf } from '@/components/ExitIntentPdf';
 import AdSense from '@/components/AdSense';
 
 type RootShellProps = {
@@ -30,7 +29,6 @@ export default function RootShell({ children }: RootShellProps) {
         </section>
       )}
       {!isAdmin && <Footer />}
-      {!isAdmin && <ExitIntentPdf />}
       {!isAdmin && <ScrollToTop />}
       {!isAdmin && <MobileBottomNav />}
     </div>
