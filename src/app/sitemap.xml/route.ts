@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getAllSitemapUrls, getSitemapChunkSize } from '@/lib/utils/sitemap';
 import { getSiteBaseUrl } from '@/lib/utils/url';
 
 export const runtime = 'nodejs';
 /** Force request-time generation so the index is never cached empty at build (fixes GSC 0 discovered URLs). */
 export const dynamic = 'force-dynamic';
-
-const CHUNK_SIZE = 25000;
 
 function xmlEscape(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -14,7 +12,8 @@ function xmlEscape(value: string) {
 
 export async function GET() {
   const { urls } = getAllSitemapUrls();
-  const totalChunks = Math.max(1, Math.ceil(urls.length / CHUNK_SIZE));
+  const chunkSize = getSitemapChunkSize();
+  const totalChunks = Math.max(1, Math.ceil(urls.length / chunkSize));
 
   const indexEntries = Array.from({ length: totalChunks }, (_, i) => {
     return `<sitemap><loc>${xmlEscape(`${getSiteBaseUrl()}/sitemap/${i}.xml`)}</loc></sitemap>`;

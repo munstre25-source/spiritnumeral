@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getAllSitemapUrls, getSitemapChunkSize } from '@/lib/utils/sitemap';
 import { getSiteBaseUrl } from '@/lib/utils/url';
 
 export const runtime = 'nodejs';
 /** Force request-time generation so chunk sitemaps are never cached empty at build. */
 export const dynamic = 'force-dynamic';
-
-const CHUNK_SIZE = 25000;
 
 function xmlEscape(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -20,8 +18,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   }
 
   const { urls, generatedAt } = getAllSitemapUrls();
-  const start = idx * CHUNK_SIZE;
-  const end = start + CHUNK_SIZE;
+  const chunkSize = getSitemapChunkSize();
+  const start = idx * chunkSize;
+  const end = start + chunkSize;
   const slice = urls.slice(start, end);
 
   const baseUrl = getSiteBaseUrl();

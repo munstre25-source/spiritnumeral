@@ -64,6 +64,7 @@ node generate-dataset.js
 ```bash
 # .env.local
 NEXT_PUBLIC_SITE_URL=https://spiritnumeral.com
+SITEMAP_CHUNK_SIZE=5000
 NEXT_PUBLIC_CLICKBANK_AFFILIATE_ID=your_affiliate_id
 # For daily number emails (cron + Resend)
 RESEND_API_KEY=re_xxx
@@ -93,6 +94,10 @@ Update `src/lib/utils/clickbank.ts` with your ClickBank affiliate ID:
 ### Site URL
 
 Set `NEXT_PUBLIC_SITE_URL` in your environment variables for proper sitemap generation and schema markup.
+
+### Sitemap Chunk Size
+
+Set `SITEMAP_CHUNK_SIZE` to control how many URLs are emitted per sitemap chunk (default `5000`, max `50000`).
 
 ## URL Patterns
 
