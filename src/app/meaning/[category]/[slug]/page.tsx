@@ -9,12 +9,20 @@ import { AudioReaderCompact } from '@/components/AudioReader';
 import { PrintReading } from '@/components/PrintReading';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
+import { getStaticParamsForRoute } from '@/lib/seo/static-params';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  return getAllPSEOSlugs();
+  const lifePathParams = getAllPSEOSlugs();
+  const meaningParams = getStaticParamsForRoute('meaning').map(({ number }) => ({
+    category: 'angel-number',
+    slug: number,
+  }));
+
+  return [...lifePathParams, ...meaningParams];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
@@ -35,6 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
   const siteUrl = getSiteBaseUrl();
   const pagePath = `/meaning/${category}/${slug}`;
+  const indexingPolicy = getIndexingPolicy(pagePath);
   const breadcrumbTrail = [
     { name: 'Home', url: siteUrl },
     { name: isLifePath ? 'Life Paths' : 'Angel Numbers', url: ensureAbsoluteUrl(siteUrl, `/meaning/${category}`) },
@@ -51,8 +60,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       url: ensureAbsoluteUrl(siteUrl, pagePath),
     },
     alternates: {
-      canonical: ensureAbsoluteUrl(siteUrl, pagePath),
+      canonical: ensureAbsoluteUrl(siteUrl, indexingPolicy.canonicalPath),
     },
+    robots: indexingPolicy.robots,
   };
 }
 

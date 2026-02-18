@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run seo:sitemap:build && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seo:sitemap:build": "node scripts/seo/build-sitemap-manifest.mjs",
+    "seo:sitemap:check": "node scripts/seo/check-sitemap-manifest.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

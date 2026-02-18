@@ -55,7 +55,6 @@ export default function PressKitPage() {
     { href: '/meaning/angel-number', label: 'Angel Number Library', url: ensureAbsoluteUrl(siteUrl, '/meaning/angel-number') },
     { href: '/meaning/life-path', label: 'Life Path Meanings', url: ensureAbsoluteUrl(siteUrl, '/meaning/life-path') },
     { href: '/compatibility', label: 'Compatibility', url: ensureAbsoluteUrl(siteUrl, '/compatibility') },
-    { href: '/blog', label: 'Blog', url: ensureAbsoluteUrl(siteUrl, '/blog') },
   ];
 
   const compactKeywords = [

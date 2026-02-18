@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getSitemapManifest, getSitemapRouteCounts, getSitemapTierCounts } from '@/lib/seo/sitemap-manifest';
 import { BLOG_POSTS } from '@/lib/blog-data';
 import { parseBrowser, parseDeviceType, safeReferrerDomain } from '@/lib/analytics/userAgent';
 
@@ -259,6 +260,9 @@ export async function GET(req: NextRequest) {
   const avgPagesPerSession = totals.uniqueSessions ? Number((totals.pageViews / totals.uniqueSessions).toFixed(2)) : 0;
 
   const { urls } = getAllSitemapUrls();
+  const manifest = getSitemapManifest();
+  const manifestRouteCounts = getSitemapRouteCounts();
+  const manifestTierCounts = getSitemapTierCounts();
   const sectionCounts: Record<string, number> = {};
   urls.forEach((url) => {
     const path = new URL(url).pathname;
@@ -345,6 +349,9 @@ export async function GET(req: NextRequest) {
       totalUrls: urls.length,
       avgPagesPerSession,
       sectionCounts,
+      manifestRouteCounts,
+      manifestTierCounts,
+      manifestGeneratedAt: manifest.generatedAt,
       seenPages: Object.keys(pageViewsByPath).length,
       coveragePct: urls.length ? Number(((Object.keys(pageViewsByPath).length / urls.length) * 100).toFixed(2)) : 0,
     },

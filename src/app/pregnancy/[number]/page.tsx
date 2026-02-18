@@ -2,11 +2,17 @@ import { getPSEODataAsync } from '@/lib/utils/pseo';
 import { generateAllSchemas } from '@/lib/utils/schema';
 import FAQ from '@/components/FAQ';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
+import { getStaticParamsForRoute } from '@/lib/seo/static-params';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
+
+export async function generateStaticParams() {
+    return getStaticParamsForRoute('pregnancy');
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
     const { number } = await params;
@@ -18,6 +24,9 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
 
     const title = `Angel Number ${number} Pregnancy Meaning: Fertility & New Life in 2026`;
     const description = `What does angel number ${number} mean for pregnancy? Discover the fertility meaning, conception guidance, and family blessings from your angels.`;
+    const siteUrl = getSiteBaseUrl();
+    const pagePath = `/pregnancy/${number}`;
+    const indexingPolicy = getIndexingPolicy(pagePath);
 
     return {
         title,
@@ -26,7 +35,12 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
             title,
             description,
             type: 'article',
+            url: ensureAbsoluteUrl(siteUrl, pagePath),
         },
+        alternates: {
+            canonical: ensureAbsoluteUrl(siteUrl, indexingPolicy.canonicalPath),
+        },
+        robots: indexingPolicy.robots,
     };
 }
 

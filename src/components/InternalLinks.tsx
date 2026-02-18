@@ -1,9 +1,13 @@
 import Link from 'next/link';
+import { getAllowlistedNumbersForRoute, isPathInSitemapAllowlist } from '@/lib/seo/sitemap-manifest';
 
 interface InternalLinksProps {
   number: string | number;
   currentPage: 'meaning' | 'twin-flame' | 'warning' | 'why-seeing' | 'love' | 'career' | 'manifestation' | 'biblical' | 'money' | 'soulmate' | 'pregnancy' | 'breakup' | 'dreams';
 }
+
+const MAX_VARIANT_LINKS = 6;
+const MAX_RELATED_LINKS = 4;
 
 export function InternalLinks({ number, currentPage }: InternalLinksProps) {
   const num = number.toString();
@@ -24,7 +28,11 @@ export function InternalLinks({ number, currentPage }: InternalLinksProps) {
     { href: `/dreams/${num}`, label: `${num} Dreams`, page: 'dreams' },
   ];
 
-  const filteredLinks = links.filter(link => link.page !== currentPage);
+  const filteredLinks = links
+    .filter((link) => link.page !== currentPage && isPathInSitemapAllowlist(link.href))
+    .slice(0, MAX_VARIANT_LINKS);
+
+  if (filteredLinks.length === 0) return null;
 
   return (
     <section className="py-8">
@@ -32,7 +40,7 @@ export function InternalLinks({ number, currentPage }: InternalLinksProps) {
         <span className="w-2 h-2 rounded-full bg-amber-500"></span>
         Explore More About Angel Number {num}
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {filteredLinks.map((link) => (
           <Link
             key={link.href}
@@ -62,7 +70,8 @@ export function NavigationLinks({ className = '' }: NavigationLinksProps) {
     { href: '/about', label: 'About' },
   ];
 
-  const popularNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999, 1111];
+  const popularNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999, 1111]
+    .filter((num) => isPathInSitemapAllowlist(`/meaning/angel-number/${num}`));
 
   return (
     <section className={`py-8 ${className}`}>
@@ -81,20 +90,22 @@ export function NavigationLinks({ className = '' }: NavigationLinksProps) {
             ))}
           </div>
         </div>
-        <div>
-          <h3 className="text-lg font-bold text-amber-600 mb-3">Popular Angel Numbers</h3>
-          <div className="flex flex-wrap gap-2">
-            {popularNumbers.map((num) => (
-              <Link
-                key={num}
-                href={`/meaning/angel-number/${num}`}
-                className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
-              >
-                {num}
-              </Link>
-            ))}
+        {popularNumbers.length > 0 && (
+          <div>
+            <h3 className="text-lg font-bold text-amber-600 mb-3">Popular Angel Numbers</h3>
+            <div className="flex flex-wrap gap-2">
+              {popularNumbers.map((num) => (
+                <Link
+                  key={num}
+                  href={`/meaning/angel-number/${num}`}
+                  className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
+                >
+                  {num}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
@@ -105,21 +116,32 @@ interface RelatedNumbersProps {
   count?: number;
 }
 
-export function RelatedNumbers({ currentNumber, count = 6 }: RelatedNumbersProps) {
-  const related: number[] = [];
+export function RelatedNumbers({ currentNumber, count = MAX_RELATED_LINKS }: RelatedNumbersProps) {
+  const safeCount = Math.min(count, MAX_RELATED_LINKS);
+  const nearby = [
+    currentNumber - 2,
+    currentNumber - 1,
+    currentNumber + 1,
+    currentNumber + 2,
+    currentNumber - 5,
+    currentNumber + 5,
+  ]
+    .filter((num) => num >= 0 && num <= 9999 && num !== currentNumber)
+    .filter((num) => isPathInSitemapAllowlist(`/meaning/angel-number/${num}`));
 
-  const nearbyStart = Math.max(0, currentNumber - 3);
-  for (let i = nearbyStart; i <= Math.min(9999, nearbyStart + count - 1); i++) {
-    if (i !== currentNumber) {
-      related.push(i);
-    }
-  }
+  const fallback = getAllowlistedNumbersForRoute('meaning')
+    .filter((num) => num !== currentNumber)
+    .sort((a, b) => Math.abs(a - currentNumber) - Math.abs(b - currentNumber) || a - b);
+
+  const related = Array.from(new Set([...nearby, ...fallback])).slice(0, safeCount);
+
+  if (related.length === 0) return null;
 
   return (
     <section className="py-6">
       <h3 className="text-lg font-bold text-amber-600 mb-3">Related Angel Numbers</h3>
       <div className="flex flex-wrap gap-2">
-        {related.slice(0, count).map((num) => (
+        {related.map((num) => (
           <Link
             key={num}
             href={`/meaning/angel-number/${num}`}
@@ -138,7 +160,10 @@ interface ContextualLinksProps {
 }
 
 export function ContextualLinks({ currentNumber }: ContextualLinksProps) {
-  const nums = [currentNumber, currentNumber - 1, currentNumber + 1].filter((n) => n >= 0 && n <= 9999);
+  const nums = [currentNumber, currentNumber - 1, currentNumber + 1]
+    .filter((n) => n >= 0 && n <= 9999)
+    .filter((n) => isPathInSitemapAllowlist(`/meaning/angel-number/${n}`));
+
   const links = [
     { href: '/name-numerology', label: 'Name Numerology Calculator' },
     { href: '/personal-year', label: 'Personal Year Calculator' },
@@ -153,17 +178,19 @@ export function ContextualLinks({ currentNumber }: ContextualLinksProps) {
   return (
     <section className="py-6">
       <h3 className="text-lg font-bold text-amber-600 mb-3">Next Steps</h3>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {nums.map((num) => (
-          <Link
-            key={num}
-            href={`/meaning/angel-number/${num}`}
-            className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
-          >
-            Angel Number {num}
-          </Link>
-        ))}
-      </div>
+      {nums.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {nums.map((num) => (
+            <Link
+              key={num}
+              href={`/meaning/angel-number/${num}`}
+              className="px-4 py-2 rounded-lg bg-card border border-default hover:border-amber-500/40 text-secondary hover:text-amber-600 text-sm transition-all"
+            >
+              Angel Number {num}
+            </Link>
+          ))}
+        </div>
+      )}
       <div className="flex flex-wrap gap-2">
         {links.map((link) => (
           <Link

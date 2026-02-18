@@ -162,13 +162,13 @@ export default function MeaningHubPage() {
                     Why I&apos;m seeing {item.number}
                   </Link>
                   <Link
-                    href={`/is-${item.number}-a-warning/${item.number}`}
+                    href={`/warning/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-default text-secondary text-sm hover:border-amber-500/60 transition"
                   >
                     Is {item.number} a warning?
                   </Link>
                   <Link
-                    href={`/${item.number}-twin-flame/${item.number}`}
+                    href={`/twin-flame/${item.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-default text-secondary text-sm hover:border-amber-500/60 transition"
                   >
                     {item.number} twin flame
@@ -225,13 +225,13 @@ export default function MeaningHubPage() {
                     Why I&apos;m seeing {item?.number}
                   </Link>
                   <Link
-                    href={`/is-${item?.number}-a-warning/${item?.number}`}
+                    href={`/warning/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-default text-secondary text-sm hover:border-amber-500/60 transition"
                   >
                     Is {item?.number} a warning?
                   </Link>
                   <Link
-                    href={`/${item?.number}-twin-flame/${item?.number}`}
+                    href={`/twin-flame/${item?.number}`}
                     className="inline-flex items-center gap-1 px-3 py-2 rounded-xl border border-default text-secondary text-sm hover:border-amber-500/60 transition"
                   >
                     {item?.number} twin flame

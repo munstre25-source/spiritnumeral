@@ -3,11 +3,17 @@ import { generateAllSchemas } from '@/lib/utils/schema';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
+import { getStaticParamsForRoute } from '@/lib/seo/static-params';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
+
+export async function generateStaticParams() {
+    return getStaticParamsForRoute('dreams');
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
     const { number } = await params;
@@ -19,6 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
 
     const title = `Angel Number ${number} in Dreams: Dream Meaning & Interpretation`;
     const description = `Seeing ${number} in your dreams? Discover the spiritual dream meaning, subconscious messages, and what your angels are telling you.`;
+    const siteUrl = getSiteBaseUrl();
+    const pagePath = `/dreams/${number}`;
+    const indexingPolicy = getIndexingPolicy(pagePath);
 
     return {
         title,
@@ -27,7 +36,12 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
             title,
             description,
             type: 'article',
+            url: ensureAbsoluteUrl(siteUrl, pagePath),
         },
+        alternates: {
+            canonical: ensureAbsoluteUrl(siteUrl, indexingPolicy.canonicalPath),
+        },
+        robots: indexingPolicy.robots,
     };
 }
 

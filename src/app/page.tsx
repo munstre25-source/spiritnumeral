@@ -55,7 +55,6 @@ const TOOLS = [
   { title: 'Compare Numbers', description: 'See how two angel numbers relate and their combined message', href: '/compare', icon: '✨' },
   { title: 'Number Quiz', description: 'Discover which angel number is trying to reach you', href: '/quiz', icon: '⭐' },
   { title: 'Famous Life Paths', description: 'See which celebrities share your life path number', href: '/celebrity-numerology', icon: '★' },
-  { title: 'Numerology Blog', description: 'Expert guides and insights for your spiritual journey', href: '/blog', icon: '📖' },
 ] as const;
 
 const siteUrl = getSiteBaseUrl();
@@ -190,7 +189,7 @@ export default function HomePage() {
         <DailyNumberSignup variant="block" />
       </section>
 
-      {/* Tools & Resources – Compare, Quiz, Famous Life Paths, Blog (GSC: celebrity, quiz, meaning) */}
+      {/* Tools & Resources – Compare, Quiz, Famous Life Paths */}
       <section className="max-w-5xl mx-auto px-6 py-12">
         <h2 className="text-2xl font-serif font-bold text-primary text-center mb-2">
           Numerology Tools &amp; Resources
@@ -198,7 +197,7 @@ export default function HomePage() {
         <p className="text-secondary text-center text-sm mb-8">
           Explore our interactive tools and content to deepen your spiritual journey
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {TOOLS.map((tool) => (
             <Link
               key={tool.href}

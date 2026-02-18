@@ -3,6 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import {
+    getNextAllowlistedMeaningNumber,
+    getPreviousAllowlistedMeaningNumber,
+    getRecommendedAllowlistedMeaningNumbers,
+    isAllowlistedPath,
+} from '@/lib/seo/allowlist-client';
 
 // Reading Progress Bar - shows scroll progress on content pages
 export function ReadingProgress() {
@@ -126,8 +132,8 @@ export function QuickActions({
         }
     };
 
-    const prevNumber = number > 0 ? number - 1 : null;
-    const nextNumber = number < 2222 ? number + 1 : null;
+    const prevNumber = getPreviousAllowlistedMeaningNumber(number);
+    const nextNumber = getNextAllowlistedMeaningNumber(number);
 
     return (
         <div className="flex items-center justify-between py-4 border-y border-default">
@@ -231,48 +237,13 @@ export function RecommendedNumbers({
     currentNumber: number;
     category?: string;
 }) {
-    // Generate related numbers based on patterns
-    const getRecommendations = (): number[] => {
-        const recommendations: Set<number> = new Set();
-
-        // Same digits (if applicable)
-        const digits = currentNumber.toString().split('');
-        if (digits.length >= 2) {
-            const firstDigit = digits[0];
-            // Triple digit versions
-            const triple = parseInt(firstDigit.repeat(3));
-            if (triple >= 0 && triple <= 2222 && triple !== currentNumber) {
-                recommendations.add(triple);
-            }
-        }
-
-        // Mirror numbers
-        const reversed = parseInt(currentNumber.toString().split('').reverse().join(''));
-        if (reversed >= 0 && reversed <= 2222 && reversed !== currentNumber) {
-            recommendations.add(reversed);
-        }
-
-        // Popular related numbers
-        const popular = [111, 222, 333, 444, 555, 666, 777, 888, 999, 1111, 1212, 2222];
-        popular.forEach(num => {
-            if (num !== currentNumber && recommendations.size < 6) {
-                recommendations.add(num);
-            }
-        });
-
-        // Nearby numbers
-        [-10, -5, 5, 10].forEach(offset => {
-            const num = currentNumber + offset;
-            if (num >= 0 && num <= 2222 && num !== currentNumber && recommendations.size < 8) {
-                recommendations.add(num);
-            }
-        });
-
-        return Array.from(recommendations).slice(0, 6);
-    };
-
-    const recommendations = getRecommendations();
+    const recommendations = getRecommendedAllowlistedMeaningNumbers(currentNumber, 6);
     const basePath = category === 'meaning' ? '/meaning/angel-number' : `/${category}`;
+    const allowlistedRecommendations = recommendations.filter((num) => isAllowlistedPath(`${basePath}/${num}`));
+
+    if (allowlistedRecommendations.length === 0) {
+        return null;
+    }
 
     return (
         <section className="py-8 border-t border-default">
@@ -281,7 +252,7 @@ export function RecommendedNumbers({
                 Numbers You Might Like
             </h3>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-                {recommendations.map((num) => (
+                {allowlistedRecommendations.map((num) => (
                     <Link
                         key={num}
                         href={`${basePath}/${num}`}

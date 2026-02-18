@@ -4,11 +4,17 @@ import { OFFERS } from '@/lib/offers';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
+import { getStaticParamsForRoute } from '@/lib/seo/static-params';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
+
+export async function generateStaticParams() {
+  return getStaticParamsForRoute('love');
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
   const { number } = await params;
@@ -20,6 +26,9 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
 
   const title = `${number} Love Meaning: Angel Number for Relationships`;
   const description = `What does ${number} mean for love? Angel number meaning for relationships and romance.`;
+  const siteUrl = getSiteBaseUrl();
+  const pagePath = `/angel-number-love/${number}`;
+  const indexingPolicy = getIndexingPolicy(pagePath);
 
   return {
     title,
@@ -28,7 +37,12 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
       title,
       description,
       type: 'article',
+      url: ensureAbsoluteUrl(siteUrl, pagePath),
     },
+    alternates: {
+      canonical: ensureAbsoluteUrl(siteUrl, indexingPolicy.canonicalPath),
+    },
+    robots: indexingPolicy.robots,
   };
 }
 

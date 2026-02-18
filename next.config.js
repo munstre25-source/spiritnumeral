@@ -29,6 +29,12 @@ const nextConfig = {
         destination: '/twin-flame/:num',
         permanent: true,
       },
+      // Legacy warning URL redirect
+      {
+        source: '/is-:prefix(\\d+)-a-warning/:num(\\d+)',
+        destination: '/warning/:num',
+        permanent: true,
+      },
     ];
   },
 }

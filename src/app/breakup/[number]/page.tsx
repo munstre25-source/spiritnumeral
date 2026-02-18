@@ -3,11 +3,17 @@ import { generateAllSchemas } from '@/lib/utils/schema';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { InternalLinks, NavigationLinks, RelatedNumbers } from '@/components/InternalLinks';
+import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
+import { getStaticParamsForRoute } from '@/lib/seo/static-params';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 export const revalidate = 86400;
+
+export async function generateStaticParams() {
+    return getStaticParamsForRoute('breakup');
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
     const { number } = await params;
@@ -19,6 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
 
     const title = `Angel Number ${number} Breakup Meaning: Healing & Moving On in 2026`;
     const description = `Seeing ${number} after a breakup? Discover the healing meaning, guidance for moving on, and how your angels support you through heartbreak.`;
+    const siteUrl = getSiteBaseUrl();
+    const pagePath = `/breakup/${number}`;
+    const indexingPolicy = getIndexingPolicy(pagePath);
 
     return {
         title,
@@ -27,7 +36,12 @@ export async function generateMetadata({ params }: { params: Promise<{ number: s
             title,
             description,
             type: 'article',
+            url: ensureAbsoluteUrl(siteUrl, pagePath),
         },
+        alternates: {
+            canonical: ensureAbsoluteUrl(siteUrl, indexingPolicy.canonicalPath),
+        },
+        robots: indexingPolicy.robots,
     };
 }
 

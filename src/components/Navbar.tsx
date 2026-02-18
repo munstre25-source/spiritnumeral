@@ -43,7 +43,6 @@ export default function Navbar() {
         { href: '/personal-year', label: 'Personal Year', description: 'Your timing cycle' },
         { href: '/celebrity-numerology', label: 'Celebrity Life Paths', description: 'Famous numerology' },
         { href: '/psychic-readings', label: 'Psychic Readings', description: 'Love, career & numerology' },
-        { href: '/blog', label: 'Blog', description: 'Spiritual insights' },
       ],
     },
     {

@@ -5,10 +5,11 @@ import { BLOG_POSTS, getBlogPost, BlogPost } from '@/lib/blog-data';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-const MAX_STATIC_BLOG_POSTS = 2000;
+const MAX_STATIC_BLOG_POSTS = Number.parseInt(process.env.BLOG_STATIC_PRERENDER_COUNT || '0', 10);
 
 export async function generateStaticParams() {
-    return BLOG_POSTS.slice(0, MAX_STATIC_BLOG_POSTS).map(post => ({ slug: post.slug }));
+    const safeCount = Number.isFinite(MAX_STATIC_BLOG_POSTS) ? Math.max(0, MAX_STATIC_BLOG_POSTS) : 0;
+    return BLOG_POSTS.slice(0, safeCount).map(post => ({ slug: post.slug }));
 }
 
 const LEGACY_SLUG_ALIASES: Record<string, string> = {
