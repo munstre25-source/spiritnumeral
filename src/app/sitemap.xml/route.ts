@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getAllSitemapUrls, getSitemapChunkSize } from '@/lib/utils/sitemap';
-import { getSiteBaseUrl } from '@/lib/utils/url';
+import { getAllSitemapUrls } from '@/lib/utils/sitemap';
 
 export const runtime = 'nodejs';
-/** Force request-time generation so the index is never cached empty at build (fixes GSC 0 discovered URLs). */
+/** Force request-time generation so the sitemap always reflects current manifest data. */
 export const dynamic = 'force-dynamic';
 
 function xmlEscape(value: string) {
@@ -11,15 +10,11 @@ function xmlEscape(value: string) {
 }
 
 export async function GET() {
-  const { urls } = getAllSitemapUrls();
-  const chunkSize = getSitemapChunkSize();
-  const totalChunks = Math.max(1, Math.ceil(urls.length / chunkSize));
-
-  const indexEntries = Array.from({ length: totalChunks }, (_, i) => {
-    return `<sitemap><loc>${xmlEscape(`${getSiteBaseUrl()}/sitemap/${i}.xml`)}</loc></sitemap>`;
-  }).join('');
-
-  const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">${indexEntries}</sitemapindex>`;
+  const { urls, generatedAt } = getAllSitemapUrls();
+  const urlEntries = urls
+    .map((loc) => `<url><loc>${xmlEscape(loc)}</loc><lastmod>${generatedAt}</lastmod></url>`)
+    .join('');
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urlEntries}</urlset>`;
 
   return new NextResponse(xml, {
     headers: {
