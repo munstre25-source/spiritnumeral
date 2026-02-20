@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getNameNumberMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 const VALID_TYPES = new Set(['expression', 'soul-urge', 'personality']);
 const TYPE_MAP: Record<string, 'expression' | 'soul_urge' | 'personality'> = {
@@ -17,6 +19,15 @@ export async function generateStaticParams() {
     NUMBERS.forEach((num) => params.push({ type, number: String(num) }));
   });
   return params;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ type: string; number: string }>;
+}): Promise<Metadata> {
+  const { type, number } = await params;
+  return withIndexingPolicy(`/name-numerology/${type}/${number}`);
 }
 
 export default async function NameNumberPage({ params }: { params: Promise<{ type: string; number: string }> }) {

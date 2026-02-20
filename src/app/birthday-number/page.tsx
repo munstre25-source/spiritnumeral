@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-export const metadata = {
+import { withCanonicalPath } from '@/lib/seo/metadata';
+
+export const metadata = withCanonicalPath('/birthday-number', {
   title: 'Birthday Numbers • Spirit Numeral',
   description: 'Discover the meaning of your birthday number.',
-};
+});
 
 export default function BirthdayIndexPage() {
   const faqs = [

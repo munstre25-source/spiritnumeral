@@ -9,12 +9,13 @@ const ROOT_DIR = path.resolve(__dirname, '../..');
 const SPIRITNU_DIR = path.join(ROOT_DIR, 'spiritnu');
 const OUTPUT_PATH = path.join(ROOT_DIR, 'data', 'seo', 'sitemap-manifest.json');
 
-const TARGET_COUNT = Number.parseInt(process.env.SITEMAP_TARGET_COUNT || '4000', 10);
 const MIN_COUNT = Number.parseInt(process.env.SITEMAP_MIN_COUNT || '3500', 10);
 const TOP_NON_INDEXED_COUNT = Number.parseInt(process.env.SITEMAP_TOP_COUNT || '2000', 10);
-const INCLUDE_BLOG = /^(1|true|yes|on)$/i.test(process.env.SITEMAP_INCLUDE_BLOG || 'false');
+const FULL_MODE = parseBoolean(process.env.SITEMAP_FULL_MODE, true);
+const INCLUDE_BLOG = parseBoolean(process.env.SITEMAP_INCLUDE_BLOG, false);
+const STATIC_PRERENDER_COUNT = Number.parseInt(process.env.SITEMAP_STATIC_PRERENDER_COUNT || '4000', 10);
+const NON_FULL_TARGET_COUNT = Number.parseInt(process.env.SITEMAP_TARGET_COUNT || '4000', 10);
 const MAX_NUMBER = 9999;
-const PER_NUMBER_VARIANT_CAP = 3;
 
 const ROUTE_WEIGHTS = {
   core_static: 120,
@@ -31,23 +32,6 @@ const ROUTE_WEIGHTS = {
   biblical: 18,
   pregnancy: 16,
   breakup: 16,
-};
-
-const ROUTE_CAPS = {
-  core_static: 350,
-  meaning: 1850,
-  why: 550,
-  warning: 375,
-  twin_flame: 260,
-  love: 250,
-  career: 190,
-  manifestation: 190,
-  biblical: 130,
-  money: 210,
-  soulmate: 170,
-  pregnancy: 105,
-  breakup: 105,
-  dreams: 165,
 };
 
 const NUMBER_ROUTES = [
@@ -113,6 +97,14 @@ const CORE_STATIC_PATHS = [
 
 const POPULAR_NUMBERS = new Set([11, 22, 33, 111, 222, 333, 444, 555, 666, 777, 888, 999, 1111, 1212, 2222]);
 
+function parseBoolean(value, defaultValue) {
+  if (typeof value === 'undefined') return defaultValue;
+  const normalized = String(value).toLowerCase().trim();
+  if (['1', 'true', 'yes', 'on'].includes(normalized)) return true;
+  if (['0', 'false', 'no', 'off'].includes(normalized)) return false;
+  return defaultValue;
+}
+
 function parseCsvLine(line) {
   const cells = [];
   let current = '';
@@ -175,36 +167,18 @@ function normalizePath(raw) {
   return pathname;
 }
 
-function inferRoute(pathname) {
-  for (const { routeKey, regex } of NUMBER_ROUTES) {
-    const match = pathname.match(regex);
-    if (match) {
-      const number = Number.parseInt(match[1], 10);
-      if (Number.isFinite(number) && number >= 0 && number <= MAX_NUMBER) {
-        return { routeKey, number };
-      }
-      return null;
-    }
-  }
-
-  if (CORE_STATIC_SET.has(pathname)) {
-    return { routeKey: 'core_static' };
-  }
-
-  return null;
+function parsePercentage(value) {
+  if (!value) return 0;
+  const n = Number.parseFloat(String(value).replace('%', ''));
+  if (!Number.isFinite(n)) return 0;
+  return n;
 }
 
-function isBlockedPath(pathname) {
-  if (!pathname) return true;
-  if (!INCLUDE_BLOG && pathname.startsWith('/blog')) return true;
-
-  const blockedPrefixes = ['/api', '/admin', '/_next'];
-  if (blockedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
-    return true;
-  }
-
-  const blockedExact = new Set(['/profile', '/order-status', '/thank-you', '/cancelled']);
-  return blockedExact.has(pathname);
+function parseNumber(value) {
+  if (value === undefined || value === null || value === '') return 0;
+  const n = Number.parseFloat(String(value).replace(/,/g, ''));
+  if (!Number.isFinite(n)) return 0;
+  return n;
 }
 
 function findLatestFile(matchDirPrefix, fileName) {
@@ -222,20 +196,6 @@ function findLatestFile(matchDirPrefix, fileName) {
     .sort((a, b) => b.mtimeMs - a.mtimeMs);
 
   return candidates[0]?.path || null;
-}
-
-function parsePercentage(value) {
-  if (!value) return 0;
-  const n = Number.parseFloat(String(value).replace('%', ''));
-  if (!Number.isFinite(n)) return 0;
-  return n;
-}
-
-function parseNumber(value) {
-  if (value === undefined || value === null || value === '') return 0;
-  const n = Number.parseFloat(String(value).replace(/,/g, ''));
-  if (!Number.isFinite(n)) return 0;
-  return n;
 }
 
 const CORE_STATIC_SET = new Set(CORE_STATIC_PATHS);
@@ -260,6 +220,38 @@ for (let i = 1; i <= 9; i += 1) {
 [13, 14, 16, 19].forEach((num) => CORE_STATIC_SET.add(`/karmic-debt/${num}`));
 for (let num = 1; num <= 31; num += 1) CORE_STATIC_SET.add(`/birthday-number/${num}`);
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33].forEach((num) => CORE_STATIC_SET.add(`/house-number/${num}`));
+
+function inferRoute(pathname) {
+  for (const { routeKey, regex } of NUMBER_ROUTES) {
+    const match = pathname.match(regex);
+    if (!match) continue;
+
+    const number = Number.parseInt(match[1], 10);
+    if (Number.isFinite(number) && number >= 0 && number <= MAX_NUMBER) {
+      return { routeKey, number };
+    }
+    return null;
+  }
+
+  if (CORE_STATIC_SET.has(pathname)) {
+    return { routeKey: 'core_static' };
+  }
+
+  return null;
+}
+
+function isBlockedPath(pathname) {
+  if (!pathname) return true;
+  if (!INCLUDE_BLOG && pathname.startsWith('/blog')) return true;
+
+  const blockedPrefixes = ['/api', '/admin', '/_next'];
+  if (blockedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
+    return true;
+  }
+
+  const blockedExact = new Set(['/profile', '/order-status', '/thank-you', '/cancelled']);
+  return blockedExact.has(pathname);
+}
 
 const metricByPath = new Map();
 const indexedPathSet = new Set();
@@ -339,8 +331,7 @@ function upsertCandidate(pathname, routeKey, number) {
     return;
   }
 
-  const existing = candidateMap.get(pathname);
-  if (existing) return;
+  if (candidateMap.has(pathname)) return;
 
   candidateMap.set(pathname, {
     path: pathname,
@@ -411,84 +402,19 @@ for (const candidate of candidateMap.values()) {
 
 const sortedCandidates = Array.from(candidateMap.values()).sort((a, b) => b.score - a.score || a.path.localeCompare(b.path));
 
-const selected = [];
-const selectedPathSet = new Set();
-const routeCounts = {};
-const variantCountsByNumber = new Map();
-
-function selectCandidate(candidate, forced = false) {
-  if (selectedPathSet.has(candidate.path)) return false;
-
-  if (!forced) {
-    if (selected.length >= TARGET_COUNT) {
-      bumpReason('excluded_over_target');
-      return false;
-    }
-
-    const cap = ROUTE_CAPS[candidate.routeKey] || TARGET_COUNT;
-    const currentRouteCount = routeCounts[candidate.routeKey] || 0;
-    if (currentRouteCount >= cap) {
-      bumpReason('excluded_route_cap');
-      return false;
-    }
-
-    if (typeof candidate.number === 'number' && candidate.routeKey !== 'meaning' && candidate.routeKey !== 'core_static') {
-      const currentVariantCount = variantCountsByNumber.get(candidate.number) || 0;
-      if (currentVariantCount >= PER_NUMBER_VARIANT_CAP) {
-        bumpReason('excluded_per_number_variant_cap');
-        return false;
-      }
-    }
-  }
-
-  selected.push(candidate);
-  selectedPathSet.add(candidate.path);
-  routeCounts[candidate.routeKey] = (routeCounts[candidate.routeKey] || 0) + 1;
-
-  if (typeof candidate.number === 'number' && candidate.routeKey !== 'meaning' && candidate.routeKey !== 'core_static') {
-    variantCountsByNumber.set(candidate.number, (variantCountsByNumber.get(candidate.number) || 0) + 1);
-  }
-
-  return true;
-}
-
-for (const candidate of sortedCandidates) {
-  if (!candidate.indexed && candidate.routeKey !== 'core_static') continue;
-  selectCandidate(candidate, true);
-}
-
-for (const candidate of sortedCandidates) {
-  if (selected.length >= TARGET_COUNT) break;
-  selectCandidate(candidate, false);
-}
-
-if (selected.length < TARGET_COUNT) {
-  for (const candidate of sortedCandidates) {
-    if (selected.length >= TARGET_COUNT) break;
-    if (selectedPathSet.has(candidate.path)) continue;
-
-    if (typeof candidate.number === 'number' && candidate.routeKey !== 'meaning' && candidate.routeKey !== 'core_static') {
-      const currentVariantCount = variantCountsByNumber.get(candidate.number) || 0;
-      if (currentVariantCount >= PER_NUMBER_VARIANT_CAP) {
-        bumpReason('excluded_fill_per_number_variant_cap');
-        continue;
-      }
-    }
-
-    selectCandidate(candidate, true);
-  }
-}
+const selected = FULL_MODE
+  ? sortedCandidates
+  : sortedCandidates.slice(0, Math.max(1, NON_FULL_TARGET_COUNT));
 
 if (selected.length < MIN_COUNT) {
   throw new Error(`Selected ${selected.length} URLs, which is below SITEMAP_MIN_COUNT=${MIN_COUNT}`);
 }
 
-const orderedSelected = selected
-  .sort((a, b) => b.score - a.score || a.path.localeCompare(b.path))
-  .slice(0, TARGET_COUNT);
+const staticPrerenderCount = Math.max(0, Math.min(STATIC_PRERENDER_COUNT, selected.length));
+const staticPrerenderSet = new Set(selected.slice(0, staticPrerenderCount).map((candidate) => candidate.path));
 
 let nonIndexedCount = 0;
-const entries = orderedSelected.map((candidate) => {
+const entries = selected.map((candidate) => {
   let tier;
   if (candidate.indexed) {
     tier = 'indexed';
@@ -509,7 +435,7 @@ const entries = orderedSelected.map((candidate) => {
     impressions: Number(candidate.impressions.toFixed(2)),
     indexed: candidate.indexed,
     includeInSitemap: true,
-    includeInStaticPrerender: true,
+    includeInStaticPrerender: staticPrerenderSet.has(candidate.path),
   };
 });
 
@@ -523,9 +449,11 @@ const routeCountsSummary = entries.reduce((acc, entry) => {
   return acc;
 }, {});
 
+const targetCount = FULL_MODE ? entries.length : Math.max(1, NON_FULL_TARGET_COUNT);
+
 const output = {
   generatedAt: new Date().toISOString(),
-  targetCount: TARGET_COUNT,
+  targetCount,
   minCount: MIN_COUNT,
   selectedCount: entries.length,
   sourceFiles: {
@@ -533,15 +461,17 @@ const output = {
     indexedCoverageCsv: indexedCsvPath ? path.relative(ROOT_DIR, indexedCsvPath) : null,
   },
   settings: {
+    fullMode: FULL_MODE,
     includeBlog: INCLUDE_BLOG,
     maxNumber: MAX_NUMBER,
-    perNumberVariantCap: PER_NUMBER_VARIANT_CAP,
+    staticPrerenderCount,
   },
   summary: {
     tierCounts,
     routeCounts: routeCountsSummary,
     excludedReasonCounts,
     indexedIncluded: entries.filter((entry) => entry.indexed).length,
+    staticPrerenderIncluded: entries.filter((entry) => entry.includeInStaticPrerender).length,
   },
   entries,
 };
@@ -551,6 +481,7 @@ fs.writeFileSync(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
 
 console.log('Wrote sitemap manifest:', path.relative(ROOT_DIR, OUTPUT_PATH));
 console.log('Selected URLs:', entries.length);
+console.log('Static prerender URLs:', staticPrerenderCount);
 console.log('Tier counts:', tierCounts);
 console.log('Route counts:', routeCountsSummary);
 console.log('Excluded reasons:', excludedReasonCounts);

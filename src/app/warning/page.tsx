@@ -2,11 +2,12 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/warning', {
   title: 'Angel Number Warnings | Signs, Alerts, and Guidance',
   description: 'Understand angel number warning signs and what they mean for your life path. Explore alert numbers and take the next right step.',
-};
+});
 
 const featuredNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999];
 

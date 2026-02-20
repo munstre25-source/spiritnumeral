@@ -2,11 +2,12 @@ import Link from 'next/link';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/pinnacle', {
   title: 'Pinnacle Numbers • Spirit Numeral',
   description: 'Learn your pinnacle numbers and long-term life phases.',
-};
+});
 
 export default function PinnacleIndexPage() {
   const faqs = [

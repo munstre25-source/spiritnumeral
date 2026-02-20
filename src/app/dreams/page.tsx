@@ -3,11 +3,12 @@ import { Metadata } from 'next';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/dreams', {
   title: 'Angel Numbers in Dreams | Meanings and Messages',
   description: 'Decode angel numbers that appear in your dreams. Learn what these signs mean and how to apply the message in waking life.',
-};
+});
 
 const featuredNumbers = [111, 222, 333, 444, 555, 666, 777, 888, 999];
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllSitemapUrls } from '@/lib/utils/sitemap';
+import { getSitemapIndexData } from '@/lib/utils/sitemap';
 
 export const runtime = 'nodejs';
 /** Force request-time generation so the sitemap always reflects current manifest data. */
@@ -10,11 +10,11 @@ function xmlEscape(value: string) {
 }
 
 export async function GET() {
-  const { urls, generatedAt } = getAllSitemapUrls();
-  const urlEntries = urls
-    .map((loc) => `<url><loc>${xmlEscape(loc)}</loc><lastmod>${generatedAt}</lastmod></url>`)
+  const { chunks, generatedAt } = getSitemapIndexData();
+  const sitemapEntries = chunks
+    .map((chunk) => `<sitemap><loc>${xmlEscape(chunk.loc)}</loc><lastmod>${generatedAt}</lastmod></sitemap>`)
     .join('');
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urlEntries}</urlset>`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${sitemapEntries}</sitemapindex>`;
 
   return new NextResponse(xml, {
     headers: {

@@ -1,11 +1,12 @@
 import PersonalTimingCalculator from '@/components/PersonalTimingCalculator';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/personal-year', {
   title: 'Personal Year Number Calculator • Spirit Numeral',
   description: 'Calculate your personal year number and discover its meaning.',
-};
+});
 
 export default function PersonalYearPage() {
   const faqs = [

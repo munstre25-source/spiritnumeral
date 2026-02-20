@@ -3,11 +3,12 @@ import { Metadata } from 'next';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/money', {
   title: 'Money Angel Numbers | Abundance and Prosperity Signs',
   description: 'Explore angel numbers for money, abundance, and career growth. Discover the message behind the numbers you keep seeing.',
-};
+});
 
 const featuredNumbers = [1, 8, 11, 22, 44, 88, 111, 222, 444, 555, 777, 888];
 

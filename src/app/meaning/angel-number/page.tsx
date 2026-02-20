@@ -1,19 +1,20 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { supabaseAdmin, AngelNumber } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
 export const revalidate = 86400;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/meaning/angel-number', {
   title: 'Angel Number Meanings: Love, Career & Twin Flame (0-9999)',
   description: 'Look up any angel number meaning. Love, career, twin flame, and spiritual guidance. Free meanings for 0-9999.',
   openGraph: {
     title: 'Angel Number Meanings: Love, Career & Twin Flame',
     description: 'Look up any angel number meaning. Love, career, twin flame. Free meanings.',
   },
-};
+});
 
 const faqs = [
   {
@@ -31,39 +32,37 @@ const faqs = [
 ];
 
 export default async function AngelNumberIndexPage() {
-  // Fetch all angel numbers in batches (Supabase default limit is 1000)
-  const { data: batch1, error: error1 } = await supabaseAdmin
-    .from('angel_numbers')
-    .select('number, meaning')
-    .order('number', { ascending: true })
-    .range(0, 999);
+  // Fetch complete 0..9999 inventory in non-overlapping 1k batches.
+  const ranges = Array.from({ length: 10 }, (_, index) => [index * 1000, index * 1000 + 999] as const);
+  const batchResults = await Promise.all(
+    ranges.map(([start, end]) =>
+      supabaseAdmin
+        .from('angel_numbers')
+        .select('number, meaning')
+        .order('number', { ascending: true })
+        .range(start, end),
+    ),
+  );
 
-  const { data: batch2, error: error2 } = await supabaseAdmin
-    .from('angel_numbers')
-    .select('number, meaning')
-    .order('number', { ascending: true })
-    .range(1000, 2499);
-
-  const { data: batch3, error: error3 } = await supabaseAdmin
-    .from('angel_numbers')
-    .select('number, meaning')
-    .order('number', { ascending: true })
-    .range(2000, 2499);
-
-  const angelNumbers = [...(batch1 || []), ...(batch2 || []), ...(batch3 || [])];
-  const error = error1 || error2 || error3;
+  const error = batchResults.find((result) => result.error)?.error || null;
+  const angelNumbers = batchResults.flatMap((result) => result.data || []);
+  const uniqueAngelNumbers = Array.from(
+    new Map(angelNumbers.map((item) => [item.number, item] as const)).values(),
+  ).sort((a, b) => a.number - b.number);
 
   if (error) {
     console.error('Error fetching angel numbers:', error);
   }
 
   // Group by hundreds
-  const groups: { [key: string]: typeof angelNumbers } = {};
-  angelNumbers?.forEach((item) => {
+  const groups: { [key: string]: typeof uniqueAngelNumbers } = {};
+  uniqueAngelNumbers.forEach((item) => {
     const groupKey = `${Math.floor(item.number / 100)}00s`;
     if (!groups[groupKey]) groups[groupKey] = [];
     groups[groupKey].push(item);
   });
+
+  const decodedCount = uniqueAngelNumbers.length.toLocaleString();
 
   const faqStructuredData = {
     '@context': 'https://schema.org',
@@ -93,7 +92,7 @@ export default async function AngelNumberIndexPage() {
           Explore All Angel Numbers
         </h1>
         <p className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed font-light">
-          We have decoded {angelNumbers?.length || '889+'} angel numbers. Find the hidden meaning behind the sequences appearing in your life.
+          We have decoded {decodedCount} angel numbers. Find the hidden meaning behind the sequences appearing in your life.
         </p>
 
         <div className="pt-4">

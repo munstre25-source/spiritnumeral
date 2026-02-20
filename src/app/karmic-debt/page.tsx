@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
-import { OFFERS } from '@/lib/offers';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/karmic-debt', {
   title: 'Karmic Debt Numbers • Spirit Numeral',
   description: 'Understand karmic debt numbers 13, 14, 16, and 19.',
-};
+});
 
 export default function KarmicDebtIndexPage() {
   const faqs = [

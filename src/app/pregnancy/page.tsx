@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/pregnancy', {
   title: 'Pregnancy & Fertility Angel Numbers | Family Guidance',
   description: 'Explore angel numbers connected to pregnancy, fertility, and family. Discover messages of support, timing, and nurturing energy.',
-};
+});
 
 const featuredNumbers = [3, 33, 111, 222, 333, 444, 555, 666, 777];
 

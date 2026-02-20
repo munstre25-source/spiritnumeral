@@ -1,12 +1,19 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 const NUMBERS = [13, 14, 16, 19];
 
 export async function generateStaticParams() {
   return NUMBERS.map((number) => ({ number: String(number) }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+  const { number } = await params;
+  return withIndexingPolicy(`/karmic-debt/${number}`);
 }
 
 export default async function KarmicDebtNumberPage({ params }: { params: Promise<{ number: string }> }) {

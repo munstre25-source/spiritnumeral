@@ -2,11 +2,12 @@ import Link from 'next/link';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/maturity-number', {
   title: 'Maturity Numbers • Spirit Numeral',
   description: 'Explore your maturity number and later-life direction.',
-};
+});
 
 export default function MaturityIndexPage() {
   const faqs = [

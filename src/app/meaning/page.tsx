@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import dataset from '@/lib/data/spirituality-dataset.json';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/meaning', {
   title: 'Number Meanings Hub | Spirit Numeral',
   description:
     'Jump to any angel number or life path meaning. See top searched numbers, popular picks, and shortcuts to detailed meanings, why-you-keep-seeing pages, and twin flame insights.',
-};
+});
 
 // GSC data: high impressions, 0 or low CTR. Surface these first to capture demand (Queries.csv by impressions).
 const gscTopQueries = [665, 183, 579, 2015, 1321, 774, 480, 901, 913, 1404];

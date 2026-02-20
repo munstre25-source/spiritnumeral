@@ -1,11 +1,12 @@
 import NameNumerologyCalculator from '@/components/NameNumerologyCalculator';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/name-numerology', {
   title: 'Name Numerology Calculator • Spirit Numeral',
   description: 'Calculate your Expression, Soul Urge, and Personality numbers from your name.',
-};
+});
 
 export default function NameNumerologyPage() {
   const faqs = [

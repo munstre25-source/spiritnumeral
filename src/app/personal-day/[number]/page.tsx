@@ -1,12 +1,19 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getTimingCycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export async function generateStaticParams() {
   return NUMBERS.map((number) => ({ number: String(number) }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+  const { number } = await params;
+  return withIndexingPolicy(`/personal-day/${number}`);
 }
 
 export default async function PersonalDayNumberPage({ params }: { params: Promise<{ number: string }> }) {

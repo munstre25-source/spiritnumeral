@@ -3,12 +3,12 @@ import { Metadata } from 'next';
 import { generateFAQSchema } from '@/lib/utils/schema';
 import { HOUSE_NUMBER_LIST } from '@/lib/data/house-numbers';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/house-number', {
   title: 'House Number Numerology: What Your Address Means',
   description: 'Discover the meaning of your house number in numerology. Calculate your home\'s vibration (1–9, 11, 22, 33) and how it affects love, career, and energy.',
-  alternates: { canonical: '/house-number' },
-};
+});
 
 const faqs = [
   {

@@ -9,5 +9,4 @@ Sitemap: https://spiritnumeral.com/sitemap.xml
 
 # Block admin/internal paths (if any)
 Disallow: /api/
-Disallow: /_next/
 Disallow: /admin/

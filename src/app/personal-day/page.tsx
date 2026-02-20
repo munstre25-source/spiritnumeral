@@ -1,11 +1,12 @@
 import PersonalTimingCalculator from '@/components/PersonalTimingCalculator';
 import FAQ from '@/components/FAQ';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata = {
+export const metadata = withCanonicalPath('/personal-day', {
   title: 'Personal Day Number Calculator • Spirit Numeral',
   description: 'Calculate your personal day number and discover its meaning.',
-};
+});
 
 export default function PersonalDayPage() {
   const faqs = [

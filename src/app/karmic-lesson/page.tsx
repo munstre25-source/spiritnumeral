@@ -3,12 +3,12 @@ import { Metadata } from 'next';
 import { generateFAQSchema } from '@/lib/utils/schema';
 import { KARMIC_LESSON_LIST } from '@/lib/data/karmic-lessons';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/karmic-lesson', {
   title: 'Karmic Lesson Numbers 1–9 | What\'s Missing From Your Name',
   description: 'Karmic lesson numbers show which numbers (1–9) are missing from your birth name and what you\'re here to develop. Find your lessons and grow.',
-  alternates: { canonical: '/karmic-lesson' },
-};
+});
 
 const faqs = [
   {

@@ -1,11 +1,18 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 export async function generateStaticParams() {
   return NUMBERS.map((number) => ({ number: String(number) }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+  const { number } = await params;
+  return withIndexingPolicy(`/challenge/${number}`);
 }
 
 export default async function ChallengeNumberPage({ params }: { params: Promise<{ number: string }> }) {

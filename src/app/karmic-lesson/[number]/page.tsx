@@ -1,21 +1,25 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getKarmicLessonMeaning, KARMIC_LESSON_LIST } from '@/lib/data/karmic-lessons';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 export async function generateStaticParams() {
   return KARMIC_LESSON_LIST.map((n) => ({ number: String(n) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ number: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
   const { number } = await params;
   const num = parseInt(number, 10);
   const data = getKarmicLessonMeaning(num);
-  if (!data) return { title: 'Karmic Lesson | Spirit Numeral' };
-  return {
+  if (!data) {
+    return withIndexingPolicy(`/karmic-lesson/${number}`, { title: 'Karmic Lesson | Spirit Numeral' });
+  }
+  return withIndexingPolicy(`/karmic-lesson/${num}`, {
     title: `Karmic Lesson ${num} Meaning | What to Develop`,
     description: data.meaning.slice(0, 155),
-  };
+  });
 }
 
 export default async function KarmicLessonNumberPage({ params }: { params: Promise<{ number: string }> }) {

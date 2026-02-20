@@ -3,11 +3,12 @@ import { Metadata } from 'next';
 import FAQ from '@/components/FAQ';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { generateFAQSchema } from '@/lib/utils/schema';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/twin-flame', {
   title: 'Twin Flame Angel Numbers | Signs, Stages, and Meaning',
   description: 'Explore twin flame angel numbers and what they reveal about connection, separation, and reunion. Find the number you keep seeing and get guidance.',
-};
+});
 
 const featuredNumbers = [111, 222, 333, 444, 555, 777, 888, 999];
 

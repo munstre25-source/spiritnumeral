@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "seo:sitemap:build": "node scripts/seo/build-sitemap-manifest.mjs",
-    "seo:sitemap:check": "node scripts/seo/check-sitemap-manifest.mjs"
+    "seo:sitemap:check": "node scripts/seo/check-sitemap-manifest.mjs",
+    "seo:sitemap:verify": "node scripts/seo/verify-sitemap-indexability.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/reviews', {
   title: 'Spirit Numeral Reviews — Quick Number Report & Personal Blueprint',
   description:
     'An honest review of Spirit Numeral’s numerology reports: Quick Number Report ($7) and Personal Blueprint ($17). What you get, who it’s for, and how it compares.',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     description:
       'An honest review of Spirit Numeral’s numerology reports. What you get, who it’s for, and how it compares.',
   },
-};
+});
 
 const PSYCHIC_OZ_LINK = 'https://psychicoz.com?a_aid=697f030692a07';
 

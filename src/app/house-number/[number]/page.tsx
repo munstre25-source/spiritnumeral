@@ -1,25 +1,29 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { getHouseNumberMeaning, HOUSE_NUMBER_LIST } from '@/lib/data/house-numbers';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { PsychicPromo } from '@/components/PsychicPromo';
+import { withIndexingPolicy } from '@/lib/seo/metadata';
 
 export async function generateStaticParams() {
   return HOUSE_NUMBER_LIST.map((n) => ({ number: String(n) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ number: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
   const { number } = await params;
   const num = parseInt(number, 10);
   const data = getHouseNumberMeaning(num);
-  if (!data) return { title: 'House Number | Spirit Numeral' };
-  return {
+  if (!data) {
+    return withIndexingPolicy(`/house-number/${number}`, { title: 'House Number | Spirit Numeral' });
+  }
+  return withIndexingPolicy(`/house-number/${num}`, {
     title: `House Number ${num} Meaning | Numerology`,
     description: data.meaning.slice(0, 155),
-  };
+  });
 }
 
-export default function HouseNumberPage({ params }: { params: Promise<{ number: string }> }) {
-  const { number } = params;
+export default async function HouseNumberPage({ params }: { params: Promise<{ number: string }> }) {
+  const { number } = await params;
   const num = parseInt(number, 10);
   const data = getHouseNumberMeaning(num);
   if (!data) return notFound();

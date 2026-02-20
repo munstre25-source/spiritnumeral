@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import dataset from '@/lib/data/spirituality-dataset.json';
+import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonicalPath('/meaning/life-path', {
   title: 'Life Path Meanings | Spirit Numeral',
   description: 'Explore Life Path numbers 1-9 with meanings for love, career, and year-ahead outlooks. Find your number and dive deeper into your spiritual blueprint.',
-};
+});
 
 const lifePaths = dataset.life_paths;
 const faqs = [
