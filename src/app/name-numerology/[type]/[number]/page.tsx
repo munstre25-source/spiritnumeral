@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getNameNumberMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { withIndexingPolicy } from '@/lib/seo/metadata';
+import { isPathStaticAllowlisted } from '@/lib/seo/static-params';
 
 const VALID_TYPES = new Set(['expression', 'soul-urge', 'personality']);
 const TYPE_MAP: Record<string, 'expression' | 'soul_urge' | 'personality'> = {
@@ -12,11 +13,15 @@ const TYPE_MAP: Record<string, 'expression' | 'soul_urge' | 'personality'> = {
 };
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const params: { type: string; number: string }[] = [];
   ['expression', 'soul-urge', 'personality'].forEach((type) => {
-    NUMBERS.forEach((num) => params.push({ type, number: String(num) }));
+    NUMBERS.forEach((num) => {
+      if (!isPathStaticAllowlisted(`/name-numerology/${type}/${num}`)) return;
+      params.push({ type, number: String(num) });
+    });
   });
   return params;
 }

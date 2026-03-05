@@ -10,13 +10,16 @@ import { PrintReading } from '@/components/PrintReading';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getIndexingPolicy } from '@/lib/seo/indexing-policy';
-import { getStaticParamsForRoute } from '@/lib/seo/static-params';
+import { getStaticParamsForRoute, isPathStaticAllowlisted } from '@/lib/seo/static-params';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-export const revalidate = 86400;
+export const dynamicParams = false;
+export const revalidate = false;
 
 export async function generateStaticParams() {
-  const lifePathParams = getAllPSEOSlugs();
+  const lifePathParams = getAllPSEOSlugs().filter(({ category, slug }) =>
+    isPathStaticAllowlisted(`/meaning/${category}/${slug}`)
+  );
   const meaningParams = getStaticParamsForRoute('meaning').map(({ number }) => ({
     category: 'angel-number',
     slug: number,

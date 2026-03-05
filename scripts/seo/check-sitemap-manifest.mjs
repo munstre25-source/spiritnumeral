@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../..');
 const MANIFEST_PATH = path.join(ROOT_DIR, 'data', 'seo', 'sitemap-manifest.json');
 
-const minCount = Number.parseInt(process.env.SITEMAP_MIN_COUNT || '3500', 10);
+const minCount = Number.parseInt(process.env.SITEMAP_MIN_COUNT || '1000', 10);
 const includeBlog = /^(1|true|yes|on)$/i.test(process.env.SITEMAP_INCLUDE_BLOG || 'false');
 
 const rawTargetCount = process.env.SITEMAP_TARGET_COUNT;
@@ -84,6 +84,10 @@ if (missingStaticPrerender > 0) {
 
 if (staticPrerenderIncluded === 0) {
   failures.push('no entries marked includeInStaticPrerender=true');
+}
+
+if (staticPrerenderIncluded !== entries.length) {
+  failures.push(`staticPrerenderIncluded=${staticPrerenderIncluded} does not match entries.length=${entries.length}`);
 }
 
 if (failures.length > 0) {

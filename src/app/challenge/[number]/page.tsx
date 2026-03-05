@@ -3,11 +3,15 @@ import type { Metadata } from 'next';
 import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { withIndexingPolicy } from '@/lib/seo/metadata';
+import { isPathStaticAllowlisted } from '@/lib/seo/static-params';
 
 const NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return NUMBERS.map((number) => ({ number: String(number) }));
+  return NUMBERS
+    .filter((number) => isPathStaticAllowlisted(`/challenge/${number}`))
+    .map((number) => ({ number: String(number) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {

@@ -4,9 +4,14 @@ import { getKarmicLessonMeaning, KARMIC_LESSON_LIST } from '@/lib/data/karmic-le
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { withIndexingPolicy } from '@/lib/seo/metadata';
+import { isPathStaticAllowlisted } from '@/lib/seo/static-params';
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return KARMIC_LESSON_LIST.map((n) => ({ number: String(n) }));
+  return KARMIC_LESSON_LIST
+    .filter((number) => isPathStaticAllowlisted(`/karmic-lesson/${number}`))
+    .map((number) => ({ number: String(number) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {

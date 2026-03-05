@@ -9,12 +9,12 @@ const ROOT_DIR = path.resolve(__dirname, '../..');
 const SPIRITNU_DIR = path.join(ROOT_DIR, 'spiritnu');
 const OUTPUT_PATH = path.join(ROOT_DIR, 'data', 'seo', 'sitemap-manifest.json');
 
-const MIN_COUNT = Number.parseInt(process.env.SITEMAP_MIN_COUNT || '3500', 10);
-const TOP_NON_INDEXED_COUNT = Number.parseInt(process.env.SITEMAP_TOP_COUNT || '2000', 10);
-const FULL_MODE = parseBoolean(process.env.SITEMAP_FULL_MODE, true);
+const MIN_COUNT = Math.max(1000, Number.parseInt(process.env.SITEMAP_MIN_COUNT || '1000', 10));
+const TOP_NON_INDEXED_COUNT = Number.parseInt(process.env.SITEMAP_TOP_COUNT || '1000', 10);
+const FULL_MODE = parseBoolean(process.env.SITEMAP_FULL_MODE, false);
 const INCLUDE_BLOG = parseBoolean(process.env.SITEMAP_INCLUDE_BLOG, false);
-const STATIC_PRERENDER_COUNT = Number.parseInt(process.env.SITEMAP_STATIC_PRERENDER_COUNT || '4000', 10);
-const NON_FULL_TARGET_COUNT = Number.parseInt(process.env.SITEMAP_TARGET_COUNT || '4000', 10);
+const STATIC_PRERENDER_COUNT = Math.min(1000, Number.parseInt(process.env.SITEMAP_STATIC_PRERENDER_COUNT || '1000', 10));
+const NON_FULL_TARGET_COUNT = Math.min(1000, Number.parseInt(process.env.SITEMAP_TARGET_COUNT || '1000', 10));
 const MAX_NUMBER = 9999;
 
 const ROUTE_WEIGHTS = {
@@ -402,9 +402,46 @@ for (const candidate of candidateMap.values()) {
 
 const sortedCandidates = Array.from(candidateMap.values()).sort((a, b) => b.score - a.score || a.path.localeCompare(b.path));
 
-const selected = FULL_MODE
-  ? sortedCandidates
-  : sortedCandidates.slice(0, Math.max(1, NON_FULL_TARGET_COUNT));
+const targetCount = FULL_MODE ? sortedCandidates.length : Math.max(1, NON_FULL_TARGET_COUNT);
+const requiredCoreStatic = CORE_STATIC_PATHS
+  .filter((pathKey) => INCLUDE_BLOG || !pathKey.startsWith('/blog'))
+  .map((pathKey) => candidateMap.get(pathKey))
+  .filter(Boolean);
+
+const selectedMap = new Map();
+
+function addCandidates(list, limit = Number.POSITIVE_INFINITY) {
+  for (const candidate of list) {
+    if (selectedMap.size >= targetCount) break;
+    if (selectedMap.has(candidate.path)) continue;
+    selectedMap.set(candidate.path, candidate);
+    if (selectedMap.size >= limit) break;
+  }
+}
+
+addCandidates(requiredCoreStatic);
+
+const remainingAfterCore = Math.max(0, targetCount - selectedMap.size);
+const desiredMeaning = Math.min(850, remainingAfterCore);
+const meaningCandidates = sortedCandidates.filter((candidate) => candidate.routeKey === 'meaning' && !selectedMap.has(candidate.path));
+addCandidates(meaningCandidates, selectedMap.size + desiredMeaning);
+
+const supportCandidates = sortedCandidates.filter((candidate) => candidate.routeKey !== 'meaning' && !selectedMap.has(candidate.path));
+addCandidates(supportCandidates);
+
+if (selectedMap.size < targetCount) {
+  const fallbackMeaning = sortedCandidates.filter((candidate) => candidate.routeKey === 'meaning' && !selectedMap.has(candidate.path));
+  addCandidates(fallbackMeaning);
+}
+
+if (selectedMap.size < targetCount) {
+  const fallbackAny = sortedCandidates.filter((candidate) => !selectedMap.has(candidate.path));
+  addCandidates(fallbackAny);
+}
+
+const selected = Array.from(selectedMap.values())
+  .sort((a, b) => b.score - a.score || a.path.localeCompare(b.path))
+  .slice(0, targetCount);
 
 if (selected.length < MIN_COUNT) {
   throw new Error(`Selected ${selected.length} URLs, which is below SITEMAP_MIN_COUNT=${MIN_COUNT}`);
@@ -448,8 +485,6 @@ const routeCountsSummary = entries.reduce((acc, entry) => {
   acc[entry.routeKey] = (acc[entry.routeKey] || 0) + 1;
   return acc;
 }, {});
-
-const targetCount = FULL_MODE ? entries.length : Math.max(1, NON_FULL_TARGET_COUNT);
 
 const output = {
   generatedAt: new Date().toISOString(),

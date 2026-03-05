@@ -4,9 +4,14 @@ import { getHouseNumberMeaning, HOUSE_NUMBER_LIST } from '@/lib/data/house-numbe
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { withIndexingPolicy } from '@/lib/seo/metadata';
+import { isPathStaticAllowlisted } from '@/lib/seo/static-params';
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return HOUSE_NUMBER_LIST.map((n) => ({ number: String(n) }));
+  return HOUSE_NUMBER_LIST
+    .filter((number) => isPathStaticAllowlisted(`/house-number/${number}`))
+    .map((number) => ({ number: String(number) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {

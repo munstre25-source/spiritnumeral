@@ -4,11 +4,15 @@ import { getLifecycleMeaning } from '@/lib/supabase';
 import { NumerologyMeaning } from '@/components/NumerologyMeaning';
 import { LifecyclePaidCTA } from '@/components/LifecyclePaidCTA';
 import { withIndexingPolicy } from '@/lib/seo/metadata';
+import { isPathStaticAllowlisted } from '@/lib/seo/static-params';
 
 const NUMBERS = [13, 14, 16, 19];
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return NUMBERS.map((number) => ({ number: String(number) }));
+  return NUMBERS
+    .filter((number) => isPathStaticAllowlisted(`/karmic-debt/${number}`))
+    .map((number) => ({ number: String(number) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {

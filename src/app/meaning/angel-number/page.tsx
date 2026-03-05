@@ -5,7 +5,7 @@ import AngelNumberSearch from '@/components/AngelNumberSearch';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { withCanonicalPath } from '@/lib/seo/metadata';
 
-export const revalidate = 86400;
+export const revalidate = false;
 
 export const metadata: Metadata = withCanonicalPath('/meaning/angel-number', {
   title: 'Angel Number Meanings: Love, Career & Twin Flame (0-9999)',

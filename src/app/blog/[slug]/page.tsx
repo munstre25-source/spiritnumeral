@@ -6,6 +6,7 @@ import { PsychicPromo } from '@/components/PsychicPromo';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
 const MAX_STATIC_BLOG_POSTS = Number.parseInt(process.env.BLOG_STATIC_PRERENDER_COUNT || '0', 10);
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
     const safeCount = Number.isFinite(MAX_STATIC_BLOG_POSTS) ? Math.max(0, MAX_STATIC_BLOG_POSTS) : 0;

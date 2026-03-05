@@ -9,7 +9,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ensureAbsoluteUrl, getSiteBaseUrl } from '@/lib/utils/url';
 
-export const revalidate = 86400;
+export const dynamicParams = false;
+export const revalidate = false;
 
 export async function generateStaticParams() {
     return getStaticParamsForRoute('soulmate');

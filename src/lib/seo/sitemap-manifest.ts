@@ -111,6 +111,23 @@ export function getStaticParamsForRoute(routeKey: RouteKey): Array<{ number: str
     .map((number) => ({ number: String(number) }));
 }
 
+export function getStaticParamsFromTemplate<T>(
+  toPath: (entry: RankedUrlEntry) => string | null,
+  toParams: (entry: RankedUrlEntry) => T | null
+): T[] {
+  const params: T[] = [];
+
+  for (const entry of staticEntries) {
+    const path = toPath(entry);
+    if (!path || !staticPathSet.has(path)) continue;
+
+    const param = toParams(entry);
+    if (param) params.push(param);
+  }
+
+  return params;
+}
+
 export function getAllowlistedNumbersForRoute(routeKey: RouteKey): number[] {
   const numbers = numbersByRoute.get(routeKey) || [];
   return numbers.filter((num) => {
