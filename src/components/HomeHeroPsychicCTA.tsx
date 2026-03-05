@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { resolvePsychicOffer, isEmotionalPath } from '@/lib/offers';
 import { trackEvent, getCtaVariant } from '@/lib/analytics/client';
 import { useAbConfig, getAssignedVariant } from '@/lib/ab-config';
@@ -10,9 +11,15 @@ export function HomeHeroPsychicCTA() {
   const pathname = '/';
   const isEmotional = isEmotionalPath(pathname);
   const abConfig = useAbConfig();
-  const fallback = isEmotional ? getCtaVariant() : null;
+  const [fallback, setFallback] = useState<'control' | 'reveal'>('control');
+
+  useEffect(() => {
+    if (!isEmotional) return;
+    setFallback(getCtaVariant());
+  }, [isEmotional]);
+
   const { variantId: variant, copy: ctaText } = isEmotional
-    ? getAssignedVariant(abConfig, fallback || 'control', offer.cta)
+    ? getAssignedVariant(abConfig, fallback, offer.cta)
     : { variantId: null as string | null, copy: offer.cta };
 
   return (
