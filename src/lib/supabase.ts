@@ -78,6 +78,7 @@ export interface LifecycleMeaning {
 }
 
 export async function getAngelNumber(num: number): Promise<AngelNumber | null> {
+  if (!hasSupabaseEnv) return null;
   const { data, error } = await supabaseAdmin
     .from('angel_numbers')
     .select('*')
@@ -92,6 +93,7 @@ export async function getAngelNumber(num: number): Promise<AngelNumber | null> {
 }
 
 export async function getAllAngelNumbers(): Promise<number[]> {
+  if (!hasSupabaseEnv) return [];
   const { data, error } = await supabaseAdmin
     .from('angel_numbers')
     .select('number')
@@ -105,6 +107,7 @@ export async function getAllAngelNumbers(): Promise<number[]> {
 }
 
 export async function getNameNumberMeaning(type: NameNumberMeaning['type'], number: number): Promise<NameNumberMeaning | null> {
+  if (!hasSupabaseEnv) return null;
   const { data, error } = await supabaseAdmin
     .from('name_numbers')
     .select('*')
@@ -117,6 +120,7 @@ export async function getNameNumberMeaning(type: NameNumberMeaning['type'], numb
 }
 
 export async function getTimingCycleMeaning(type: TimingCycleMeaning['type'], number: number): Promise<TimingCycleMeaning | null> {
+  if (!hasSupabaseEnv) return null;
   const { data, error } = await supabaseAdmin
     .from('timing_cycles')
     .select('*')
@@ -129,6 +133,7 @@ export async function getTimingCycleMeaning(type: TimingCycleMeaning['type'], nu
 }
 
 export async function getLifecycleMeaning(type: LifecycleMeaning['type'], number: number): Promise<LifecycleMeaning | null> {
+  if (!hasSupabaseEnv) return null;
   const { data, error } = await supabaseAdmin
     .from('lifecycle_numbers')
     .select('*')

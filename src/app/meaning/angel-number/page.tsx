@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { supabaseAdmin } from '@/lib/supabase';
+import { hasSupabaseEnv, supabaseAdmin } from '@/lib/supabase';
 import AngelNumberSearch from '@/components/AngelNumberSearch';
 import { PsychicPromo } from '@/components/PsychicPromo';
 import { withCanonicalPath } from '@/lib/seo/metadata';
@@ -32,20 +32,26 @@ const faqs = [
 ];
 
 export default async function AngelNumberIndexPage() {
-  // Fetch complete 0..9999 inventory in non-overlapping 1k batches.
-  const ranges = Array.from({ length: 10 }, (_, index) => [index * 1000, index * 1000 + 999] as const);
-  const batchResults = await Promise.all(
-    ranges.map(([start, end]) =>
-      supabaseAdmin
-        .from('angel_numbers')
-        .select('number, meaning')
-        .order('number', { ascending: true })
-        .range(start, end),
-    ),
-  );
+  const angelNumbers: Array<{ number: number; meaning: string }> = [];
+  let error: unknown = null;
 
-  const error = batchResults.find((result) => result.error)?.error || null;
-  const angelNumbers = batchResults.flatMap((result) => result.data || []);
+  if (hasSupabaseEnv) {
+    // Fetch complete 0..9999 inventory in non-overlapping 1k batches.
+    const ranges = Array.from({ length: 10 }, (_, index) => [index * 1000, index * 1000 + 999] as const);
+    const batchResults = await Promise.all(
+      ranges.map(([start, end]) =>
+        supabaseAdmin
+          .from('angel_numbers')
+          .select('number, meaning')
+          .order('number', { ascending: true })
+          .range(start, end),
+      ),
+    );
+
+    error = batchResults.find((result) => result.error)?.error || null;
+    angelNumbers.push(...batchResults.flatMap((result) => result.data || []));
+  }
+
   const uniqueAngelNumbers = Array.from(
     new Map(angelNumbers.map((item) => [item.number, item] as const)).values(),
   ).sort((a, b) => a.number - b.number);
